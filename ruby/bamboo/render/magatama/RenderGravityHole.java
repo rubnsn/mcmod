@@ -38,7 +38,7 @@ public class RenderGravityHole extends Render{
 	    float viewerPosZ = (float)this.renderManager.viewerPosZ;
 	    GL11.glDisable(GL11.GL_LIGHTING);
 	    RAND.setSeed(31100L);
-	    float f4 = 26F;
+	    float f4 = 12.5F;
 	
 	    for (int i = 0; i < 16; ++i)
 	    {
@@ -71,7 +71,7 @@ public class RenderGravityHole extends Render{
 	        float f9 = f8 + ActiveRenderInfo.objectY;
 	        float f10 = f8 + f5 + ActiveRenderInfo.objectY;
 	        float f11 = f9 / f10;
-	        f11 += (float)(posY + (double)f4);
+	        f11 += (float)(posY + f4);
 	        GL11.glTranslatef(viewerPosX, f11, viewerPosZ);
 	        GL11.glTexGeni(GL11.GL_S, GL11.GL_TEXTURE_GEN_MODE, GL11.GL_OBJECT_LINEAR);
 	        GL11.glTexGeni(GL11.GL_T, GL11.GL_TEXTURE_GEN_MODE, GL11.GL_OBJECT_LINEAR);
