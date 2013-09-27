@@ -175,6 +175,13 @@ public class BambooRecipe
         GameRegistry.addRecipe(new ItemStack(kawara_stairBID, 4, 0), "  #", " ##", "###", '#', new ItemStack(decoBID, 1, 5));
         //おぼん
         GameRegistry.addRecipe(new ItemStack(obonIID, 1, 0), "###", "# #", '#', new ItemStack(twoDirDecoBID, 4, 2));
+        //柱
+        addShapedOreRecipe(new ItemStack(thickSakuraPillarBID,4,0), "#","X","#",'#',new ItemStack(twoDirDecoBID,1,2),'X',TUDURA);
+        addShapedOreRecipe(new ItemStack(thinSakuraPillarBID,4,0), "#","X","#",'#',new ItemStack(thickSakuraPillarBID,1,0),'X',TUDURA);
+        addShapedOreRecipe(new ItemStack(thickOrcPillarBID,4,0), "#","X","#",'#',new ItemStack(Block.planks,1,0),'X',TUDURA);
+        addShapedOreRecipe(new ItemStack(thinOrcPillarBID,4,0), "#","X","#",'#',new ItemStack(thickOrcPillarBID,1,0),'X',TUDURA);
+        addShapedOreRecipe(new ItemStack(thickSprucePillarBID,4,0), "#","X","#",'#',new ItemStack(Block.wood,1,1),'X',TUDURA);
+        addShapedOreRecipe(new ItemStack(thinSprucePillarBID,4,0), "#","X","#",'#',new ItemStack(thickSprucePillarBID,1,0),'X',TUDURA);
         //鉱石辞書
         addOreDictionary();
         //粉砕レシピ
