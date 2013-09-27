@@ -93,11 +93,12 @@ public class BambooLocalize implements ResourceManagerReloadListener
             e.printStackTrace();
         }
 
-        int i;
+        int id;
+        //サブタイプ無しは一括
         for(Field field:BambooInit.class.getDeclaredFields()){
         	if(field.getName().matches(".*BID")||field.getName().matches(".*IID")){
         		try {
-					int id=(int) field.get(null);
+					id=(int) field.get(null);
 					if(Item.itemsList[id]!=null&&!Item.itemsList[id].getHasSubtypes()){
 						addName(id);
 					}
@@ -106,22 +107,23 @@ public class BambooLocalize implements ResourceManagerReloadListener
 				}
         	}
         }
+        //サブタイプありは個別
         addName(new ItemStack(bambooBlockBID, 1, 0));
         addName(new ItemStack(firecrackerIID, 0, 0));
         addName(new ItemStack(firecrackerIID, 0, 1));
         addName(new ItemStack(firecrackerIID, 0, 2));
 
-        for (i = 0; i < EnumFood.values().length; i++)
+        for (id = 0; id < EnumFood.values().length; id++)
         {
-            addName(new ItemStack(foodsIID, 1, i));
+            addName(new ItemStack(foodsIID, 1, id));
         }
 
         addName(new ItemStack(bambooSpearIID, 1, 0));
         addName(new ItemStack(bambooSpearIID, 1, 1));
 
-        for (i = 0; i < EnumSlideDoor.values().length; i++)
+        for (id = 0; id < EnumSlideDoor.values().length; id++)
         {
-            addName(new ItemStack(slideDoorsIID, 1, i));
+            addName(new ItemStack(slideDoorsIID, 1, id));
         }
 
         addName(new ItemStack(dSquareBID, 1, 0));
@@ -140,14 +142,14 @@ public class BambooLocalize implements ResourceManagerReloadListener
         addName(new ItemStack(bamboopaneBID, 1, 3));
         addName(new ItemStack(bamboopaneBID, 1, 4));
         addName(new ItemStack(bamboopaneBID, 1, 5));
-        for (i = 0; i < 18; i++)
+        for (id = 0; id < 18; id++)
         {
-            addName(new ItemStack(shavedIceIID, 1, i));
+            addName(new ItemStack(shavedIceIID, 1, id));
         }
 
-        for (i = 0; i < 10; i++)
+        for (id = 0; id < 10; id++)
         {
-            addName(new ItemStack(shavedIceIID, 1, i));
+            addName(new ItemStack(shavedIceIID, 1, id));
         }
 
         addName(new ItemStack(windmillIID, 1, 0));
@@ -168,6 +170,11 @@ public class BambooLocalize implements ResourceManagerReloadListener
         addName(new ItemStack(twoDirDecoBID, 1, 2));
         addName(new ItemStack(halfTwoDirDecoBID, 1, 0));
         addName(new ItemStack(halfTwoDirDecoBID, 1, 2));
+        addName(new ItemStack(decoCarpetBID,1,0));
+        addName(new ItemStack(decoCarpetBID,1,2));
+        addName(new ItemStack(decoCarpetBID,1,4));
+        addName(new ItemStack(decoCarpetBID,1,6));
+        addName(new ItemStack(decoCarpetBID,1,8));
     }
     private void addName(int itemId){
     	try
