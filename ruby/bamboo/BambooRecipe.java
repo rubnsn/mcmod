@@ -82,11 +82,11 @@ public class BambooRecipe
         addSlabRecipe(new ItemStack(dHalfSquareBID, 6, 8), new ItemStack(dSquareBID, 1, 8));
         addSlabRecipe(new ItemStack(dHalfSquareBID, 6, 10), new ItemStack(dSquareBID, 1, 10));
         addSlabRecipe(new ItemStack(dHalfSquareBID, 6, 12), new ItemStack(dSquareBID, 1, 12));
-        addCarpetRecipe(new ItemStack(decoCarpetBID, 1, 0), new ItemStack(dSquareBID, 1, 0));
-        addCarpetRecipe(new ItemStack(decoCarpetBID, 1, 2), new ItemStack(dSquareBID, 1, 4));
-        addCarpetRecipe(new ItemStack(decoCarpetBID, 1, 4), new ItemStack(dSquareBID, 1, 8));
-        addCarpetRecipe(new ItemStack(decoCarpetBID, 1, 6), new ItemStack(dSquareBID, 1, 10));
-        addCarpetRecipe(new ItemStack(decoCarpetBID, 1, 8), new ItemStack(dSquareBID, 1, 12));
+        addCarpetRecipe(new ItemStack(decoCarpetBID, 3, 0), new ItemStack(dSquareBID, 1, 0));
+        addCarpetRecipe(new ItemStack(decoCarpetBID, 3, 2), new ItemStack(dSquareBID, 1, 4));
+        addCarpetRecipe(new ItemStack(decoCarpetBID, 3, 4), new ItemStack(dSquareBID, 1, 8));
+        addCarpetRecipe(new ItemStack(decoCarpetBID, 3, 6), new ItemStack(dSquareBID, 1, 10));
+        addCarpetRecipe(new ItemStack(decoCarpetBID, 3, 8), new ItemStack(dSquareBID, 1, 12));
         //掛け軸
         addShapedOreRecipe(new ItemStack(kakezikuIID, 1, 0), "YYY", "X#X", "XXX", '#', TUDURA, 'Y', Item.stick, 'X', Item.paper);
         //行灯
@@ -144,6 +144,7 @@ public class BambooRecipe
         addShapedOreRecipe(new ItemStack(delude_heightBID, 6, 0),  " Y ", "#X#", " Y ", '#', TUDURA, 'X', Block.pumpkinLantern, 'Y', Block.slowSand);
         addShapedOreRecipe(new ItemStack(delude_stairBID, 8, 0), "Y  ", "YX ", "#YY", '#', TUDURA, 'X', Block.pumpkinLantern, 'Y', Block.slowSand);
         addShapedOreRecipe(new ItemStack(delude_stairBID, 8, 0), "  Y", " XY", "YY#", '#', TUDURA, 'X', Block.pumpkinLantern, 'Y', Block.slowSand);
+        addShapedOreRecipe(new ItemStack(delude_plateBID,1,0), "##", '#', new ItemStack(delude_widthBID,1,0));
         //いろり
         addShapedOreRecipe(new ItemStack(campfireBID, 1, 0), " # ", "ZXZ", "YYY", '#', TUDURA, 'Z', Block.fenceIron, 'X', Item.flintAndSteel, 'Y', new ItemStack(Item.coal, 1, 1));
         //風車水車

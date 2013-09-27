@@ -29,19 +29,13 @@ public class BlockDecoCarpet extends BlockCarpet
         int meta = (par1World.getBlockMetadata(par2, par3, par4)) + ((BambooUtil.getPlayerDir(par5EntityLivingBase) & 1) != 0 ? 0 : 1);
         par1World.setBlockMetadataWithNotify(par2, par3, par4, meta, 3);
     }
+    
     @Override
     public int damageDropped(int par1)
     {
         return par1 & 0x0E;
     }
-    /*
-    @Override
-    public void dropBlockAsItemWithChance(World world, int i, int j, int k, int l, float f, int i1)
-    {
-        if (!world.isRemote){
-            dropBlockAsItem_do(world, i, j, k, new ItemStack(this.blockID,1,l&0x0E));
-        }
-    }*/
+    
     @Override
     @SideOnly(Side.CLIENT)
     public Icon getIcon(int par1, int par2)
