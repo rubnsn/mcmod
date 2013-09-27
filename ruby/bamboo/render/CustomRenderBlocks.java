@@ -176,7 +176,7 @@ public class CustomRenderBlocks
         renderer.enableAO = false;
         par1Block.setCoreBoundsBox(renderer.blockAccess, par2, par3, par4);
         renderer.setRenderBoundsFromBlock(par1Block);
-        renderer.renderBlockWithAmbientOcclusion(par1Block, par2, par3, par4, 1F, 1F, 1F);
+        renderer.renderStandardBlockWithAmbientOcclusion(par1Block, par2, par3, par4, 1F, 1F, 1F);
     }
     private void renderBlockWithAmbientOcclusion(RenderBlocks renderer, Block par1Block, int par2, int par3, int par4, float par5, float par6, float par7, int side)
     {
@@ -1269,15 +1269,15 @@ public class CustomRenderBlocks
         icon = renderblocks.getBlockIconFromSideAndMetadata(par1BlockPane, 0, j1);
         icon1 = par1BlockPane.getIcon(0, j1);
         boolean isSideRender = par1BlockPane.isSideRender(renderblocks.blockAccess, par2, par3, par4);
-        j1 = icon.getOriginX();
-        int k1 = icon.getOriginY();
+        j1 = icon.getIconWidth();
+        int k1 = icon.getIconHeight();
         double d0 = (double)icon.getMinU();
         double d1 = (double)icon.getInterpolatedU(8.0D);
         double d2 = (double)icon.getMaxU();
         double d3 = (double)icon.getMinV();
         double d4 = (double)icon.getMaxV();
-        int l1 = icon1.getOriginX();
-        int i2 = icon1.getOriginY();
+        int l1 = icon.getIconWidth();
+        int i2 = icon.getIconHeight();
         double d5 = (double)icon1.getInterpolatedU(7.0D);
         double d6 = (double)icon1.getInterpolatedU(9.0D);
         double d7 = (double)icon1.getMinV();

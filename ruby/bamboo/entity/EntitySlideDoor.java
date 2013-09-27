@@ -41,7 +41,7 @@ public class EntitySlideDoor extends Entity
     }
 
     @Override
-    public boolean func_130002_c(EntityPlayer par1EntityPlayer)
+    public boolean interactFirst(EntityPlayer par1EntityPlayer)
     {
         if (par1EntityPlayer.isSneaking())
         {

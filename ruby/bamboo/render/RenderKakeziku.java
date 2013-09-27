@@ -31,7 +31,7 @@ public class RenderKakeziku extends Render
         GL11.glTranslatef((float)d, (float)d1 + 1, (float)d2);
         GL11.glRotatef(f, 0.0F, 1.0F, 0.0F);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        func_110777_b(entity);
+        bindEntityTexture(entity);
         EnumKakeziku enumkakeziku = entity.getArt();
         float f2 = 0.0625F;
         GL11.glScalef(f2, f2, f2);
@@ -151,7 +151,7 @@ public class RenderKakeziku extends Render
 
     private Random rand;
     @Override
-    protected ResourceLocation func_110775_a(Entity entity)
+    protected ResourceLocation getEntityTexture(Entity entity)
     {
         // TODO 自動生成されたメソッド・スタブ
         return RESOUCE;

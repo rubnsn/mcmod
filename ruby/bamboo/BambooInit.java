@@ -110,14 +110,14 @@ public class BambooInit
         {
             registerBlock(new BlockBamboo(bambooBID, getChiledName()).setUnlocalizedName("bamboo"), ItemBlock.class, false);
             registerBlock(new BlockCustomRenderSingleTexture(bambooBlockBID).setUnlocalizedName("singleTexDeco"), ItemCustomRenderSingleTexture.class, true);
-            registerBlock(new BlockKitunebi(kitunebiBID).setUnlocalizedName("kitunebi").func_111022_d("kitunebi"));
+            registerBlock(new BlockKitunebi(kitunebiBID).setUnlocalizedName("kitunebi").setTextureName("kitunebi"));
             registerBlock(new BlockJpchest(jpchestBID).setUnlocalizedName("jpChest"));
             registerBlock(new BlockDSquare(dSquareBID, false).addTexName("tatami_x", "tatami_y", "tatami_x", "tatami_y", "kaya_x", "kaya_y", "kaya_x", "kaya_y").addTexName("tatami_tan_x", "tatami_tan_y", "tatami_tan_nsx", "tatami_tan_nsy", "tatami_nsx", "tatami_nsy", "tatami_nsx", "tatami_nsy").setUnlocalizedName("dirSquare"), ItemDSquare.class, true);
             registerBlock(new BlockDSquare(dHalfSquareBID, true).addTexName("tatami_x", "tatami_y", "tatami_x", "tatami_y", "kaya_x", "kaya_y", "kaya_x", "kaya_y").addTexName("tatami_tan_x", "tatami_tan_y", "tatami_tan_nsx", "tatami_tan_nsy", "tatami_nsx", "tatami_nsy", "tatami_nsx", "tatami_nsy").setUnlocalizedName("halfDirSquare"), ItemDSquare.class, true);
             registerBlock(new BlockAndon(andonBID).setUnlocalizedName("andon"));
             registerBlock(new BlockBambooPane(bamboopaneBID, Material.ground).setUnlocalizedName("bambooPanel"), ItemBambooPane.class, true);
             registerBlock(new BlockSakuraLeaves(sakuraleavsBID).setUnlocalizedName("sakuraLeaves"), ItemSakuraPetal.class, true);
-            registerBlock(new BlockSakura(sakuraBID).setUnlocalizedName("sakura").func_111022_d("sakura"));
+            registerBlock(new BlockSakura(sakuraBID).setUnlocalizedName("sakura").setTextureName("sakura"));
             registerBlock(new BlockRooftile(rooftileBID).setUnlocalizedName("rooftile"), ItemRooftile.class, true);
             registerBlock(new BlockSpaWater(spaBID, Material.water).setUnlocalizedName("spaWater"), ItemBlock.class, false);
             registerBlock(new BlockSpaUnit(spaunitBID).setUnlocalizedName("spaUnit"));
@@ -183,10 +183,10 @@ public class BambooInit
         new ItemBambooSword(bambooSwordIID - ITEMID_OFFSET).setCreativeTab(BambooCore.tabBamboo).setUnlocalizedName("bamboosword");
         new ItemObon(obonIID - ITEMID_OFFSET).setCreativeTab(BambooCore.tabBamboo).setUnlocalizedName("obon");
         new ItemBitchuHoe(bitchuHoeIID - ITEMID_OFFSET).setUnlocalizedName("bitchuhoe").setCreativeTab(BambooCore.tabBamboo);
-        new ItemSeeds(seedRiceIID - ITEMID_OFFSET, ricePlantBID, riceFieldBID).setUnlocalizedName("seedrice").func_111206_d("seedrice").setCreativeTab(BambooCore.tabBamboo);
+        new ItemSeeds(seedRiceIID - ITEMID_OFFSET, ricePlantBID, riceFieldBID).setUnlocalizedName("seedrice").setTextureName("seedrice").setCreativeTab(BambooCore.tabBamboo);
         MinecraftForge.addGrassSeed(new ItemStack(seedRiceIID, 1, 0), 10);
-        new Item(strawIID - ITEMID_OFFSET).setUnlocalizedName("straw").func_111206_d("straw");
-        new ItemMagatama(magatamaIID - ITEMID_OFFSET).setUnlocalizedName("magatama").func_111206_d("magatama").setCreativeTab(BambooCore.tabBamboo);
+        new Item(strawIID - ITEMID_OFFSET).setUnlocalizedName("straw").setTextureName("straw");
+        new ItemMagatama(magatamaIID - ITEMID_OFFSET).setUnlocalizedName("magatama").setTextureName("magatama").setCreativeTab(BambooCore.tabBamboo);
     }
 
     public static void registerBlock(Block b)

@@ -27,7 +27,7 @@ public class RenderWaterwheel extends Render
     {
         GL11.glPushMatrix();
         GL11.glTranslatef((float)var2, (float)var4, (float)var6);
-        func_110777_b(var1);
+        bindEntityTexture(var1);
         byte dir = var1.getDir();
         dir += (dir == 1 || dir == 3 ? -1 : 1);
         GL11.glRotatef(dir * 90, 0, 1, 0);
@@ -36,7 +36,7 @@ public class RenderWaterwheel extends Render
         GL11.glPopMatrix();
     }
     @Override
-    protected ResourceLocation func_110775_a(Entity entity)
+    protected ResourceLocation getEntityTexture(Entity entity)
     {
         // TODO 自動生成されたメソッド・スタブ
         return RESOURCE;

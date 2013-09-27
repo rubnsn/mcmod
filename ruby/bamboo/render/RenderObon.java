@@ -45,7 +45,7 @@ public class RenderObon extends Render
                          float f, float f1)
     {
         GL11.glPushMatrix();
-        this.func_110776_a(res);
+        this.bindEntityTexture(entity);
         GL11.glTranslatef((float)d0, (float)d1 + 0.2F, (float)d2);
         GL11.glRotatef(180, 1.0F, 0, 0);
         model.render(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
@@ -59,11 +59,11 @@ public class RenderObon extends Render
     }
     private ResourceLocation func_110796_a(EntityItem par1EntityItem)
     {
-        return this.renderManager.renderEngine.func_130087_a(par1EntityItem.getEntityItem().getItemSpriteNumber());
+        return this.renderManager.renderEngine.getResourceLocation(par1EntityItem.getEntityItem().getItemSpriteNumber());
     }
     public void doRenderItem(EntityItem par1EntityItem, double par2, double par4, double par6, float par8, float par9)
     {
-        func_110776_a(func_110796_a(par1EntityItem));
+        this.bindTexture(func_110796_a(par1EntityItem));
         this.random.setSeed(187L);
         ItemStack itemstack = par1EntityItem.getEntityItem();
 
@@ -152,9 +152,9 @@ public class RenderObon extends Render
 
         if (par2Icon == null)
         {
-            TextureManager texturemanager = Minecraft.getMinecraft().func_110434_K();
-            ResourceLocation resourcelocation = texturemanager.func_130087_a(par1EntityItem.getEntityItem().getItemSpriteNumber());
-            par2Icon = ((TextureMap)texturemanager.func_110581_b(resourcelocation)).func_110572_b("missingno");
+            TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
+            ResourceLocation resourcelocation = texturemanager.getResourceLocation(par1EntityItem.getEntityItem().getItemSpriteNumber());
+            par2Icon = ((TextureMap)texturemanager.getTexture(resourcelocation)).registerIcon("missingno");
         }
 
         float f4 = ((Icon)par2Icon).getMinU();
@@ -192,9 +192,8 @@ public class RenderObon extends Render
     }
 
     @Override
-    protected ResourceLocation func_110775_a(Entity entity)
+    protected ResourceLocation getEntityTexture(Entity entity)
     {
-        // TODO 自動生成されたメソッド・スタブ
-        return null;
+        return res;
     }
 }

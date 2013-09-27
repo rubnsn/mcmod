@@ -24,7 +24,7 @@ public class RenderWindBell extends Render
     {
         GL11.glPushMatrix();
         GL11.glTranslatef((float)d, (float)d1, (float)d2);
-        func_110777_b(entity);
+        bindEntityTexture(entity);
         //光源処理
         int i = MathHelper.floor_double(entity.posX);
         int j = MathHelper.floor_double(entity.posY + f1 / 16F);
@@ -51,7 +51,7 @@ public class RenderWindBell extends Render
         modelwindbell.windAct(((EntityWindChime)entity).rotx, ((EntityWindChime)entity).roty, ((EntityWindChime)entity).rotz);
     }
     @Override
-    protected ResourceLocation func_110775_a(Entity entity)
+    protected ResourceLocation getEntityTexture(Entity entity)
     {
         // TODO 自動生成されたメソッド・スタブ
         return RESOURCE;

@@ -95,7 +95,7 @@ public class RenderThunderEffect extends Render{
         tessellator.draw();
 	}
 	@Override
-	protected ResourceLocation func_110775_a(Entity par1Entity)
+	protected ResourceLocation getEntityTexture(Entity par1Entity)
     {
         return this.func_110805_a(par1Entity);
     }

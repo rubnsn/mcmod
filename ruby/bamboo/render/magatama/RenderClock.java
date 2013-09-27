@@ -34,7 +34,7 @@ public class RenderClock extends Render{
 		GL11.glColor3f(1,1,1);
 		GL11.glPushMatrix();
 		GL11.glRotatef(-minute-180, 0,0, 1F);
-		this.func_110776_a(CLOCK_NEEDLE);
+		this.bindTexture(CLOCK_NEEDLE);
 		float a=0.0625F;
 		float b=-1.56F;
 		float depth=0.3F;
@@ -65,7 +65,7 @@ public class RenderClock extends Render{
 		GL11.glEnd();
 		GL11.glPopMatrix();
 		depth=0.35F;
-		this.func_110776_a(SECOND_HAND);
+		this.bindTexture(SECOND_HAND);
 		GL11.glPushMatrix();
 		GL11.glRotatef(-second-180, 0,0, 1F);
 		GL11.glScalef(1, 1, 1);
@@ -102,7 +102,7 @@ public class RenderClock extends Render{
 	}
 
 	@Override
-	protected ResourceLocation func_110775_a(Entity entity) {
+	protected ResourceLocation getEntityTexture(Entity entity) {
 		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}

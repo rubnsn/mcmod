@@ -263,7 +263,7 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer
     }
     private void render(EntityLivingBase entityLivingBase,ItemStack itemStack,int renderPass){
 	GL11.glPushMatrix();
-        TextureManager texturemanager = Minecraft.getMinecraft().func_110434_K();
+        TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
         Icon icon = entityLivingBase.getItemIcon(itemStack, renderPass);
 
         if (icon == null)
@@ -272,7 +272,7 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer
             return;
         }
 
-        texturemanager.func_110577_a(texturemanager.func_130087_a(itemStack.getItemSpriteNumber()));
+        texturemanager.bindTexture((texturemanager.getResourceLocation(itemStack.getItemSpriteNumber())));
         Tessellator tessellator = Tessellator.instance;
         float f = icon.getMinU();
         float f1 = icon.getMaxU();
@@ -287,13 +287,13 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer
         GL11.glRotatef(50.0F, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(335.0F, 0.0F, 0.0F, 1.0F);
         GL11.glTranslatef(-0.9375F, -0.0625F, 0.0F);
-        RenderManager.instance.itemRenderer.renderItemIn2D(tessellator, f1, f2, f, f3, icon.getOriginX(), icon.getOriginY(), 0.0625F);
+        RenderManager.instance.itemRenderer.renderItemIn2D(tessellator, f1, f2, f, f3, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
 
         if (itemStack.hasEffect(renderPass))
         {
             GL11.glDepthFunc(GL11.GL_EQUAL);
             GL11.glDisable(GL11.GL_LIGHTING);
-            texturemanager.func_110577_a(ENCHANTED_ITEM_GLINT);
+            texturemanager.bindTexture(ENCHANTED_ITEM_GLINT);
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
             float f7 = 0.76F;

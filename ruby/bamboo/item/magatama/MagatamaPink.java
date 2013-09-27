@@ -27,7 +27,7 @@ public class MagatamaPink implements IMagatama {
 			EntityPlayer player=(EntityPlayer)entity;
 			//player.func_110143_aJ() 現在HP
 			//player.func_110138_aP() 最大HP
-			if(player.getFoodStats().getFoodLevel()>0&&player.func_110138_aP()>player.func_110143_aJ()){
+			if(player.getFoodStats().getFoodLevel()>0&&player.getMaxHealth()>player.getHealth()){
 				if(entity.worldObj.getWorldTime()%5==0){
 					player.heal(1F);
 					player.getFoodStats().addExhaustion(10F);	

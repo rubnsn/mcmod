@@ -1,5 +1,5 @@
 *.class
-
+assets/
 # Package Files #
 *.jar
 *.war

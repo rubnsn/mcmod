@@ -64,11 +64,11 @@ public class BlockSpaUnit extends Block
         {
             if ((meta & 8) > 0)
             {
-                return Block.pistonBase.func_94496_b("piston_inner");
+                return Block.pistonBase.getPistonBaseIcon("piston_inner");
             }
             else
             {
-                return Block.pistonBase.func_94496_b("piston_top_normal");
+                return Block.pistonBase.getPistonBaseIcon("piston_top_normal");
             }
         }
         else

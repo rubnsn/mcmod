@@ -199,8 +199,8 @@ public class BambooRecipe
         GrindRegistory.addRecipe(new ItemStack(Block.sand), new ItemStack(Item.flint), Block.gravel, 7);
         GrindRegistory.addRecipe(new ItemStack(Item.dyePowder, 3, 15), new ItemStack(Item.dyePowder, 2, 15), Item.bone, 2);
         GrindRegistory.addRecipe(new ItemStack(Item.blazePowder, 2, 0), new ItemStack(Item.blazePowder, 1, 0), Item.blazeRod, 2);
-        GrindRegistory.addRecipe(new ItemStack(Item.clay, 4, 0), new ItemStack(Block.field_111039_cA, 1, GrindRegistory.WILD_CARD));
-        GrindRegistory.addRecipe(new ItemStack(Item.clay, 4, 0), new ItemStack(Block.field_111032_cD, 1, GrindRegistory.WILD_CARD));
+        GrindRegistory.addRecipe(new ItemStack(Item.clay, 4, 0), new ItemStack(Block.hardenedClay, 1, GrindRegistory.WILD_CARD));
+        GrindRegistory.addRecipe(new ItemStack(Item.clay, 4, 0), new ItemStack(Block.stainedClay, 1, GrindRegistory.WILD_CARD));
     }
 
     private void addOreDictionary()

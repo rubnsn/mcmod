@@ -39,7 +39,7 @@ public class RenderRuneEffect extends Render{
 		GL11.glRotatef(entity.prevRotationYaw, 0, 1F, 0);
 		GL11.glRotatef(entity.roll, 0, 0, 1F);
 		float ringsize=entity.getRingsize();
-		this.func_110776_a(RESOUCE);
+		this.bindTexture(RESOUCE);
 		GL11.glMatrixMode(GL11.GL_TEXTURE);
 		GL11.glLoadIdentity();
 		GL11.glScalef(ringsize*2,1F,ringsize*2);
@@ -52,7 +52,7 @@ public class RenderRuneEffect extends Render{
 
 	}
 	@Override
-	protected ResourceLocation func_110775_a(Entity entity) {
+	protected ResourceLocation getEntityTexture(Entity entity) {
 		return RESOUCE;
 	}
 

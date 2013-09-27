@@ -24,7 +24,7 @@ public class RenderKaginawa extends Render
         GL11.glScalef(0.5F, 0.5F, 0.5F);
         byte b0 = 1;
         byte b1 = 2;
-        func_110777_b(par1Entity);
+        bindEntityTexture(par1Entity);
         Tessellator tessellator = Tessellator.instance;
         float f2 = (b0 * 8 + 0) / 128.0F;
         float f3 = (b0 * 8 + 8) / 128.0F;
@@ -101,7 +101,7 @@ public class RenderKaginawa extends Render
     }
 
     @Override
-    protected ResourceLocation func_110775_a(Entity entity)
+    protected ResourceLocation getEntityTexture(Entity entity)
     {
         // TODO 自動生成されたメソッド・スタブ
         return RESOURCE;

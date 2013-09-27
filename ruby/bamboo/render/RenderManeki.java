@@ -29,7 +29,7 @@ public class RenderManeki extends TileEntitySpecialRenderer
         GL11.glPushMatrix();
         byte byte0 = (byte)(entity.getBlockMetadata());
         GL11.glTranslatef((float)d + 0.5F, (float)d1 + 0.5F, (float)d2 + 0.5F);
-        func_110628_a(RESOURCE);
+        this.bindTexture(RESOURCE);
         GL11.glRotatef((byte0 & 3) * 90.0F, 0.0F, 1.0F, 0.0F);
         //光源処理
         /*int i = MathHelper.floor_double(d);
@@ -48,7 +48,7 @@ public class RenderManeki extends TileEntitySpecialRenderer
     public void renderInv()
     {
         GL11.glPushMatrix();
-        func_110628_a(RESOURCE);
+        this.bindTexture(RESOURCE);
         GL11.glTranslatef(0, -0.25F, 0);
         GL11.glScalef(1F, 1F, 1F);
         RenderManeki.model.render(null, 0, 0, 0, 0, 0, 0.0625F);

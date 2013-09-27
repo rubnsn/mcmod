@@ -67,17 +67,17 @@ public class EntityHuton extends Entity
     {
     }
     @Override
-    public boolean func_130002_c(EntityPlayer entityplayer)
+    public boolean interactFirst(EntityPlayer entityPlayer)
     {
         if (!worldObj.isRemote)
         {
             if (this.riddenByEntity == null)
             {
-                entityplayer.mountEntity(this);
+                entityPlayer.mountEntity(this);
             }
             else
             {
-                entityplayer.mountEntity(this);
+                entityPlayer.mountEntity(this);
             }
 
             timechange = true;

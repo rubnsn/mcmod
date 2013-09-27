@@ -29,7 +29,7 @@ public class RenderWindmill extends Render
                                float var8, float var9)
     {
         GL11.glPushMatrix();
-        func_110777_b(var1);
+        bindEntityTexture(var1);
         byte dir = var1.getDir();
 
         if (dir == 0 || dir == 2)
@@ -64,7 +64,7 @@ public class RenderWindmill extends Render
         GL11.glPopMatrix();
     }
     @Override
-    protected ResourceLocation func_110775_a(Entity entity)
+    protected ResourceLocation getEntityTexture(Entity entity)
     {
         // TODO 自動生成されたメソッド・スタブ
         return textuer[((EntityWindmill)entity).getTexNum()];

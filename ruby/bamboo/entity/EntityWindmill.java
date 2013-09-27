@@ -17,7 +17,7 @@ public class EntityWindmill extends EntityMill
         super(par1World);
     }
     @Override
-    public boolean func_130002_c(EntityPlayer par1EntityPlayer)
+    public boolean interactFirst(EntityPlayer par1EntityPlayer)
     {
         ItemStack useItem = par1EntityPlayer.getCurrentEquippedItem();
 

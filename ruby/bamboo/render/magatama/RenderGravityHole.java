@@ -49,7 +49,7 @@ public class RenderGravityHole extends Render{
 	
 	        if (i == 0)
 	        {
-	            this.func_110776_a(TEX_END_SKY);
+	            this.bindTexture(TEX_END_SKY);
 	            color = 0.1F;
 	            f5 = 65.0F;
 	            scale = 0.125F;
@@ -61,7 +61,7 @@ public class RenderGravityHole extends Render{
 	
 	        if (i == 1)
 	        {
-	            this.func_110776_a(TEX_END_PORTAL);
+	            this.bindTexture(TEX_END_PORTAL);
 	            GL11.glEnable(GL11.GL_BLEND);
 	            GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
 	            scale = 0.5F;
@@ -135,7 +135,7 @@ public class RenderGravityHole extends Render{
 	}
 	
 	@Override
-	protected ResourceLocation func_110775_a(Entity entity) {
+	protected ResourceLocation getEntityTexture(Entity entity) {
 		return null;
 	}
 

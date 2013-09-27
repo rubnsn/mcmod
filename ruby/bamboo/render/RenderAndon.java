@@ -29,7 +29,7 @@ public class RenderAndon extends TileEntitySpecialRenderer
         int byte0 = entity.getBlockMetadata();
         GL11.glTranslatef((float)d + 0.5F, (float)d1, (float)d2 + 0.5F);
         //bindTextureByName("/textures/entitys/andon.png");
-        func_110628_a(RESOUCE);
+        this.bindTexture(RESOUCE);
         GL11.glRotatef((byte0 & 3) * 90.0F, 0.0F, 1.0F, 0.0F);
         //光源処理
         /*int i = MathHelper.floor_double(entity.posX);
@@ -55,7 +55,7 @@ public class RenderAndon extends TileEntitySpecialRenderer
         GL11.glPushMatrix();
         //RenderEngine renderengine = ModLoader.getMinecraftInstance().renderEngine;
         //renderengine.bindTexture("/textures/entitys/andon.png");
-        func_110628_a(RESOUCE);
+        this.bindTexture(RESOUCE);
         GL11.glTranslatef(0, -0.7F, 0);
         GL11.glScalef(1.3F, 1.3F, 1.3F);
         RenderAndon.modelAndon.renderAndon();

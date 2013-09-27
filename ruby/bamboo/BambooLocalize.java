@@ -50,21 +50,21 @@ public class BambooLocalize implements ResourceManagerReloadListener
     }
     public static void init()
     {
-        for (Field field: Minecraft.getMinecraft().func_110442_L().getClass().getDeclaredFields())
+        for (Field field: Minecraft.getMinecraft().getResourceManager().getClass().getDeclaredFields())
         {
             try
             {
                 if (field.getType() == List.class)
                 {
                     field.setAccessible(true);
-                    ((List)field.get(Minecraft.getMinecraft().func_110442_L())).add(0, instance);
-                    instance.func_110549_a(Minecraft.getMinecraft().func_110442_L());
+                    ((List)field.get(Minecraft.getMinecraft().getResourceManager())).add(0, instance);
+                    instance.onResourceManagerReload(Minecraft.getMinecraft().getResourceManager());
                 }
             }
             catch (Exception e)
             {
                 FMLLog.log(Level.WARNING, "BambooMod localize exception");
-                ((SimpleReloadableResourceManager)Minecraft.getMinecraft().func_110442_L()).func_110542_a(instance);
+                ((SimpleReloadableResourceManager)Minecraft.getMinecraft().getResourceManager()).registerReloadListener(instance);
                 return;
             }
         }
@@ -92,15 +92,17 @@ public class BambooLocalize implements ResourceManagerReloadListener
         {
             e.printStackTrace();
         }
-
-        int id;
+        //桜の花どうしようかなー、名前が似たようなの?
+        addName(sakuraleavsBID);
+        addName(itemSackIID);
+        int i;
         //サブタイプ無しは一括
         for(Field field:BambooInit.class.getDeclaredFields()){
         	if(field.getName().matches(".*BID")||field.getName().matches(".*IID")){
         		try {
-					id=(int) field.get(null);
-					if(Item.itemsList[id]!=null&&!Item.itemsList[id].getHasSubtypes()){
-						addName(id);
+					i=(Integer) field.get(null);
+					if(Item.itemsList[i]!=null&&!Item.itemsList[i].getHasSubtypes()){
+						addName(i);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -113,17 +115,17 @@ public class BambooLocalize implements ResourceManagerReloadListener
         addName(new ItemStack(firecrackerIID, 0, 1));
         addName(new ItemStack(firecrackerIID, 0, 2));
 
-        for (id = 0; id < EnumFood.values().length; id++)
+        for (i = 0; i < EnumFood.values().length; i++)
         {
-            addName(new ItemStack(foodsIID, 1, id));
+            addName(new ItemStack(foodsIID, 1, i));
         }
 
         addName(new ItemStack(bambooSpearIID, 1, 0));
         addName(new ItemStack(bambooSpearIID, 1, 1));
 
-        for (id = 0; id < EnumSlideDoor.values().length; id++)
+        for (i = 0; i < EnumSlideDoor.values().length; i++)
         {
-            addName(new ItemStack(slideDoorsIID, 1, id));
+            addName(new ItemStack(slideDoorsIID, 1, i));
         }
 
         addName(new ItemStack(dSquareBID, 1, 0));
@@ -142,16 +144,19 @@ public class BambooLocalize implements ResourceManagerReloadListener
         addName(new ItemStack(bamboopaneBID, 1, 3));
         addName(new ItemStack(bamboopaneBID, 1, 4));
         addName(new ItemStack(bamboopaneBID, 1, 5));
-        for (id = 0; id < 18; id++)
+        for (i = 0; i < 18; i++)
         {
-            addName(new ItemStack(shavedIceIID, 1, id));
+            addName(new ItemStack(shavedIceIID, 1, i));
         }
 
-        for (id = 0; id < 10; id++)
+        for (i = 0; i < 10; i++)
         {
-            addName(new ItemStack(shavedIceIID, 1, id));
+            addName(new ItemStack(shavedIceIID, 1, i));
         }
-
+        for (i = 0; i < 10; i++)
+        {
+        	addName((new ItemStack(snowBallIID,1,i)));
+        }
         addName(new ItemStack(windmillIID, 1, 0));
         addName(new ItemStack(windmillIID, 1, 1));
         addName(new ItemStack(decoBID, 1, 0));
@@ -197,10 +202,10 @@ public class BambooLocalize implements ResourceManagerReloadListener
             ModLoader.getLogger().fine(is.getItem().getUnlocalizedName() + "." + is.getItemDamage() + " translation mistake");
         }
     }
-    @Override
-    public void func_110549_a(ResourceManager resourcemanager)
-    {
-        Language lang = Minecraft.getMinecraft().func_135016_M().func_135041_c();
-        load(lang.func_135034_a());
-    }
+
+	@Override
+	public void onResourceManagerReload(ResourceManager resourcemanager) {
+		Language lang = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage();
+        load(lang.getLanguageCode());
+	}
 }

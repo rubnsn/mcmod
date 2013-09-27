@@ -23,7 +23,7 @@ public class EntityObon extends Entity
         setSize(1.0F, 0.25F);
     }
     @Override
-    public boolean func_130002_c(EntityPlayer par1EntityPlayer)
+    public boolean interactFirst(EntityPlayer par1EntityPlayer)
     {
         ItemStack is = par1EntityPlayer.getCurrentEquippedItem();
 

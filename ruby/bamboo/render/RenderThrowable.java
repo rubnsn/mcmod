@@ -23,7 +23,7 @@ public abstract class RenderThrowable extends Render
         GL11.glTranslatef((float)par2, (float)par4, (float)par6);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glScalef(0.5F, 0.5F, 0.5F);
-        func_110777_b(par1Entity);
+        bindEntityTexture(par1Entity);
         Tessellator tessellator = Tessellator.instance;
         this.func_77026_a(tessellator, this.getIcon(par1Entity));
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
@@ -50,8 +50,8 @@ public abstract class RenderThrowable extends Render
         par1Tessellator.draw();
     }
     @Override
-    protected ResourceLocation func_110775_a(Entity entity)
+    protected ResourceLocation getEntityTexture(Entity entity)
     {
-        return TextureMap.field_110576_c;
+        return TextureMap.locationItemsTexture;
     }
 }

@@ -200,7 +200,7 @@ public class TileEntitySpa extends TileEntity
     public int getOffset(int i, int j, int k)
     {
         return Math.abs((parentX - i)) + Math.abs((parentY - j)) + Math.abs((parentZ - k));
-    }
+    }/*
     @Override
     public void onInventoryChanged()
     {
@@ -209,7 +209,7 @@ public class TileEntitySpa extends TileEntity
             this.blockMetadata = this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord);
             this.worldObj.updateTileEntityChunkAndDoNothing(this.xCoord, this.yCoord, this.zCoord, this);
         }
-    }
+    }*/
     @Override
     public Packet getDescriptionPacket()
     {
@@ -220,7 +220,7 @@ public class TileEntitySpa extends TileEntity
     @Override
     public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt)
     {
-        this.readFromNBT(pkt.customParam1);
+        this.readFromNBT(pkt.data);
     }
     @Override
     public void readFromNBT(NBTTagCompound nbttagcompound)

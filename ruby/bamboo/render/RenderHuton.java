@@ -80,15 +80,15 @@ public class RenderHuton extends Render
     {
         if (b)
         {
-            this.func_110776_a(HUTON);
+            this.bindTexture(HUTON);
         }
         else
         {
-            this.func_110776_a(MAKURA);
+            this.bindTexture(MAKURA);
         }
     }
     @Override
-    protected ResourceLocation func_110775_a(Entity entity)
+    protected ResourceLocation getEntityTexture(Entity entity)
     {
         return MAKURA;
     }

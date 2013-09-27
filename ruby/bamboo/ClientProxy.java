@@ -59,11 +59,10 @@ public class ClientProxy extends CommonProxy
         {
             @Override
             public void doRender(Entity var1, double var2, double var4, double var6, float var8, float var9) {}
-            @Override
-            protected ResourceLocation func_110775_a(Entity entity)
-            {
-                return null;
-            }
+			@Override
+			protected ResourceLocation getEntityTexture(Entity entity) {
+				return null;
+			}
         });
         RenderingRegistry.registerEntityRenderingHandler(EntityWindmill.class, new RenderWindmill());
         RenderingRegistry.registerEntityRenderingHandler(EntityWaterwheel.class, new RenderWaterwheel());

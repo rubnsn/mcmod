@@ -26,7 +26,7 @@ public class RenderMillStone extends TileEntitySpecialRenderer
                                    double d2, float f)
     {
         GL11.glPushMatrix();
-        func_110628_a(RESOUCE);
+        this.bindTexture(RESOUCE);
         GL11.glTranslatef((float)d0 + 0.5F, (float)d1 + 0.5F, (float)d2 + 0.5F);
         model.render((TileEntityMillStone) tileentity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
         GL11.glPopMatrix();
@@ -35,7 +35,7 @@ public class RenderMillStone extends TileEntitySpecialRenderer
     public void renderInv()
     {
         GL11.glPushMatrix();
-        func_110628_a(RESOUCE);
+        this.bindTexture(RESOUCE);
         model.renderInv();
         GL11.glPopMatrix();
     }

@@ -85,10 +85,10 @@ public class RenderSlideDoor extends Render
             resMap.put(tex, new ResourceLocation(tex));
         }
 
-        this.func_110776_a(resMap.get(tex));
+        this.bindTexture(resMap.get(tex));
     }
     @Override
-    protected ResourceLocation func_110775_a(Entity entity)
+    protected ResourceLocation getEntityTexture(Entity entity)
     {
         return null;
     }

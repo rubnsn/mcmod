@@ -59,10 +59,10 @@ public class ItemKatana extends ItemSword
     }
 
     @Override
-    public Multimap func_111205_h()
+    public Multimap getItemAttributeModifiers()
     {
         Multimap multimap = HashMultimap.create();
-        multimap.put(SharedMonsterAttributes.field_111264_e.func_111108_a(), new AttributeModifier(field_111210_e, "Weapon modifier", 1, 0));
+        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", 1, 0));
         return multimap;
     }
 
@@ -111,7 +111,7 @@ public class ItemKatana extends ItemSword
         {
             if ((float)((EntityLivingBase)par1Entity).hurtResistantTime <= ((EntityLivingBase)par1Entity).maxHurtResistantTime)
             {
-                float entityHp = ((EntityLivingBase) par1Entity).func_110143_aJ() - dmg;
+                float entityHp = ((EntityLivingBase) par1Entity).getHealth() - dmg;
 
                 if (entityHp <= 0 && entityHp > -dmg)
                 {

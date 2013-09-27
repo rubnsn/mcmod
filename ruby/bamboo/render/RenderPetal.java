@@ -25,7 +25,7 @@ public class RenderPetal extends Render
         GL11.glPushMatrix();
         GL11.glTranslatef((float)d, (float)d1, (float)d2);
         //loadTexture(entity.getTexPath());
-        func_110777_b(entity);
+        bindEntityTexture(entity);
         /*GL11.glRotatef(180F - renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(-renderManager.playerViewX, 1.0F, 0.0F, 0.0F);*/
         GL11.glColor3f(entity.getRedColorF(), entity.getGreenColorF(), entity.getBlueColorF());
@@ -41,7 +41,7 @@ public class RenderPetal extends Render
         renderPetal((EntitySakuraPetal)entity, d, d1, d2, f, f1);
     }
     @Override
-    protected ResourceLocation func_110775_a(Entity entity)
+    protected ResourceLocation getEntityTexture(Entity entity)
     {
         if (!resMap.containsKey(((EntitySakuraPetal)entity).getTexPath()))
         {
