@@ -1,0 +1,96 @@
+package ruby.bamboo;
+
+import ruby.bamboo.entity.EntityBambooSpear;
+import ruby.bamboo.entity.EntityDirtySnowball;
+import ruby.bamboo.entity.EntityFirecracker;
+import ruby.bamboo.entity.EntityHuton;
+import ruby.bamboo.entity.EntityKaginawa;
+import ruby.bamboo.entity.EntityKakeziku;
+import ruby.bamboo.entity.EntityObon;
+import ruby.bamboo.entity.EntitySlideDoor;
+import ruby.bamboo.entity.EntityWaterwheel;
+import ruby.bamboo.entity.EntityWind;
+import ruby.bamboo.entity.EntityWindChime;
+import ruby.bamboo.entity.EntityWindmill;
+import ruby.bamboo.entity.magatama.EntityFlareEffect;
+import ruby.bamboo.entity.magatama.EntityClock;
+import ruby.bamboo.entity.magatama.EntityGravityHole;
+import ruby.bamboo.entity.magatama.EntityMagatama;
+import ruby.bamboo.tileentity.TileEntityAndon;
+import ruby.bamboo.tileentity.TileEntityCampfire;
+import ruby.bamboo.tileentity.TileEntityJPChest;
+import ruby.bamboo.tileentity.TileEntityManeki;
+import ruby.bamboo.tileentity.TileEntityMillStone;
+import ruby.bamboo.tileentity.TileEntitySpa;
+import cpw.mods.fml.common.registry.EntityRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
+
+public class CommonProxy
+{
+    private static final int kakezikuEID = 0;
+    //private static int andonEID=1;
+    private static final int slidedoorEID = 2;
+    private static final int hutonEID = 3;
+    private static final int bspearEID = 4;
+    private static final int windbellEID = 5;
+    private static final int fireCrackerEID = 6;
+    private static final int snowBallEID = 7;
+    private static final int windMillEID = 8;
+    private static final int waterMillEID = 9;
+    private static final int windEID = 10;
+    private static final int kaginawaEID = 11;
+    private static final int obonEID = 12;
+    private static final int magatamaEID = 13;
+    private static final int flareEID = 14;
+    private static final int gravityHoleEID = 15;
+    private static final int goldenClockEID = 16;
+    public void preInit()
+    {
+        //わーるどじぇねれーとはんどら
+        GeneraterHandler.init();
+        //くらふとはんどら
+        CraftingHandler.init();
+        // block & item init 分割1
+        BambooInit.init();
+        // name init 分割2
+        registerEntity(EntityKakeziku.class, "Kakeziku", kakezikuEID, 80, 10, false);
+        registerEntity(EntitySlideDoor.class, "Syouzi", slidedoorEID, 80, 1, true);
+        registerEntity(EntityHuton.class, "Huton", hutonEID, 80, 3, true);
+        registerEntity(EntityBambooSpear.class, "BSpear", bspearEID, 80, 3, true);
+        registerEntity(EntityWindChime.class, "Wind bell", windbellEID, 80, 10, false);
+        registerEntity(EntityFirecracker.class, "FileCracker", fireCrackerEID, 80, 3, true);
+        registerEntity(EntityDirtySnowball.class, "DirtySnowball", snowBallEID, 80, 3, true);
+        registerEntity(EntityWind.class, "wind", windEID,  80, 3, true);
+        registerEntity(EntityWindmill.class, "WindMill", windMillEID,  80, 10, false);
+        registerEntity(EntityWaterwheel.class, "WaterMill", waterMillEID, 80, 10, false);
+        registerEntity(EntityKaginawa.class, "Kaginawa", kaginawaEID, 80, 3, true);
+        registerEntity(EntityObon.class, "Obon", obonEID, 80, 3, false);
+        registerEntity(EntityMagatama.class, "Magatama", magatamaEID, 80, 3, true);
+        registerEntity(EntityFlareEffect.class, "FlareEffect", flareEID, 80, 3, true);
+        registerEntity(EntityGravityHole.class, "GravityHole", gravityHoleEID, 304, 3, true);
+        registerEntity(EntityClock.class, "GoldenClock", goldenClockEID, 304, 3, true);
+        GameRegistry.registerTileEntity(TileEntityJPChest.class, "JP Chest");
+        GameRegistry.registerTileEntity(TileEntitySpa.class, "Tile Spa");
+    }
+    public void registerTESTileEntity()
+    {
+        GameRegistry.registerTileEntity(TileEntityCampfire.class, "Camp fire");
+        GameRegistry.registerTileEntity(TileEntityAndon.class, "Andon");
+        GameRegistry.registerTileEntity(TileEntityMillStone.class, "MillStone");
+        GameRegistry.registerTileEntity(TileEntityManeki.class, "Maneki");
+    }
+    public void init()
+    {
+        new BambooRecipe();
+    }
+    private void registerEntity(Class entityClass, String entityName, int id, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates)
+    {
+        /*try{
+        	Class.forName("cpw.mods.fml.common.registry.EntityRegistry").getMethod("registerModEntity",Class.class,String.class,int.class,Object.class,int.class,int.class,boolean.class).invoke(null,entityClass, entityName,id,mod,trackingRange,updateFrequency,sendsVelocityUpdates);
+        }catch(Exception e){
+        	e.printStackTrace();
+        }*/
+        EntityRegistry.registerModEntity(entityClass, entityName, id, BambooCore.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
+        //EntityRegistry.instance().lookupModSpawn(entityClass,false).setCustomSpawning(ClientSpawnHandler.getInstance(), false);
+    }
+}

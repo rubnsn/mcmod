@@ -1,0 +1,310 @@
+package ruby.bamboo.entity;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+import ruby.bamboo.Config;
+import ruby.bamboo.BambooCore;
+
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumMovingObjectType;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.ChunkPosition;
+import net.minecraft.world.Explosion;
+import net.minecraft.world.World;
+
+public class EntityFirecracker  extends EntityThrowable
+{
+    float[] explodePower = {0.01F, 2.9F, 3.5F};
+    public  EntityFirecracker(World par1World)
+    {
+        super(par1World);
+        setSize(1, 1);
+    }
+
+    public  EntityFirecracker(World par1World, EntityLivingBase par2EntityLiving, int LV)
+    {
+        super(par1World, par2EntityLiving);
+        setSize(1, 1);
+        setExplodeLv((byte) LV);
+    }
+
+    public EntityFirecracker(World par1World, double par2, double par4, double par6, int LV)
+    {
+        super(par1World, par2, par4, par6);
+        this.setSize(1, 1);
+        setExplodeLv((byte) LV);
+    }
+    private void setExplodeLv(byte lv)
+    {
+        dataWatcher.updateObject(15, lv);
+    }
+    public byte getExplodeLv()
+    {
+        return dataWatcher.getIsBlank() ? 0 : dataWatcher.getWatchableObjectByte(15);
+    }
+    @Override
+    protected void onImpact(MovingObjectPosition par1MovingObjectPosition)
+    {
+        if (par1MovingObjectPosition.typeOfHit == EnumMovingObjectType.TILE || par1MovingObjectPosition.typeOfHit == EnumMovingObjectType.ENTITY)
+        {
+            if (getExplodeLv() <= BambooCore.getConf().maxExplosionLv)
+            {
+                //クライアント：常時0エフェクトのみ
+                //サーバー：0～3,0爆発なし(configのみ)1黄2緑3赤
+                float power = worldObj.isRemote ? 0 : getExplodeLv() == 0 ? 0 : explodePower[getExplodeLv() - 1];
+                createExplosion(this, posX, posY, posZ, power);
+            }
+        }
+
+        this.setDead();
+    }
+
+    private void createExplosion(EntityFirecracker entityFirecracker,
+                                 double posX, double posY, double posZ, float power)
+    {
+        Explosion explosion = new Explosion(worldObj, entityFirecracker, posX, posY, posZ, power)
+        {
+            private int field_77289_h = 16;
+            private Map field_77288_k = new HashMap();
+            private Random explosionRNG = new Random();
+            HashSet destroyedBlockPositions = new HashSet();
+            public void doExplosionA()
+            {
+                float var1 = this.explosionSize;
+                HashSet var2 = new HashSet();
+                int var3;
+                int var4;
+                int var5;
+                double var15;
+                double var17;
+                double var19;
+
+                for (var3 = 0; var3 < this.field_77289_h; ++var3)
+                {
+                    for (var4 = 0; var4 < this.field_77289_h; ++var4)
+                    {
+                        for (var5 = 0; var5 < this.field_77289_h; ++var5)
+                        {
+                            if (var3 == 0 || var3 == this.field_77289_h - 1 || var4 == 0 || var4 == this.field_77289_h - 1 || var5 == 0 || var5 == this.field_77289_h - 1)
+                            {
+                                double var6 = var3 / (this.field_77289_h - 1.0F) * 2.0F - 1.0F;
+                                double var8 = var4 / (this.field_77289_h - 1.0F) * 2.0F - 1.0F;
+                                double var10 = var5 / (this.field_77289_h - 1.0F) * 2.0F - 1.0F;
+                                double var12 = Math.sqrt(var6 * var6 + var8 * var8 + var10 * var10);
+                                var6 /= var12;
+                                var8 /= var12;
+                                var10 /= var12;
+                                float var14 = this.explosionSize * (0.7F + worldObj.rand.nextFloat() * 0.6F);
+                                var15 = this.explosionX;
+                                var17 = this.explosionY;
+                                var19 = this.explosionZ;
+
+                                for (float var21 = 0.3F; var14 > 0.0F; var14 -= var21 * 0.75F)
+                                {
+                                    int var22 = MathHelper.floor_double(var15);
+                                    int var23 = MathHelper.floor_double(var17);
+                                    int var24 = MathHelper.floor_double(var19);
+                                    int var25 = worldObj.getBlockId(var22, var23, var24);
+
+                                    if (var25 == Block.waterStill.blockID || var25 == Block.waterMoving.blockID || var25 == Block.obsidian.blockID || var25 == Block.bedrock.blockID)
+                                    {
+                                        continue;
+                                    }
+
+                                    if (var1 < 3 && var25 > 0)
+                                    {
+                                        var14 -= (Block.blocksList[var25].getExplosionResistance(this.exploder) + 0.3F) * var21;
+                                    }
+
+                                    if (!worldObj.isRemote && var14 > 0.0F)
+                                    {
+                                        var2.add(new ChunkPosition(var22, var23, var24));
+                                    }
+
+                                    var15 += var6 * var21;
+                                    var17 += var8 * var21;
+                                    var19 += var10 * var21;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                this.affectedBlockPositions.addAll(var2);
+                this.explosionSize *= 2.0F;
+                var3 = MathHelper.floor_double(this.explosionX - (double)this.explosionSize - 1.0D);
+                var4 = MathHelper.floor_double(this.explosionX + (double)this.explosionSize + 1.0D);
+                var5 = MathHelper.floor_double(this.explosionY - (double)this.explosionSize - 1.0D);
+                int var27 = MathHelper.floor_double(this.explosionY + (double)this.explosionSize + 1.0D);
+                int var7 = MathHelper.floor_double(this.explosionZ - (double)this.explosionSize - 1.0D);
+                int var28 = MathHelper.floor_double(this.explosionZ + (double)this.explosionSize + 1.0D);
+                List var9 = worldObj.getEntitiesWithinAABBExcludingEntity(this.exploder, AxisAlignedBB.getAABBPool().getAABB((double)var3, (double)var5, (double)var7, (double)var4, (double)var27, (double)var28));
+                Vec3 var29 = Vec3.fakePool.getVecFromPool(this.explosionX, this.explosionY, this.explosionZ);
+
+                for (int var11 = 0; var11 < var9.size(); ++var11)
+                {
+                    Entity var30 = (Entity)var9.get(var11);
+                    double var13 = var30.getDistance(this.explosionX, this.explosionY, this.explosionZ) / (double)this.explosionSize;
+
+                    if (var13 <= 1.0D)
+                    {
+                        var15 = var30.posX - this.explosionX;
+                        var17 = var30.posY + (double)var30.getEyeHeight() - this.explosionY;
+                        var19 = var30.posZ - this.explosionZ;
+                        double var32 = (double)MathHelper.sqrt_double(var15 * var15 + var17 * var17 + var19 * var19);
+
+                        if (var32 != 0.0D)
+                        {
+                            var15 /= var32;
+                            var17 /= var32;
+                            var19 /= var32;
+                            double var31 = (double)worldObj.getBlockDensity(var29, var30.boundingBox);
+                            double var33 = (1.0D - var13) * var31;
+                            var30.attackEntityFrom(DamageSource.setExplosionSource(this), (int)((var33 * var33 + var33) / 2.0D * 8.0D * (double)this.explosionSize + 1.0D));
+                            var30.motionX += var15 * var33;
+                            var30.motionY += var17 * var33;
+                            var30.motionZ += var19 * var33;
+
+                            if (var30 instanceof EntityPlayer)
+                            {
+                                this.field_77288_k.put((EntityPlayer)var30, Vec3.fakePool.getVecFromPool(var15 * var33, var17 * var33, var19 * var33));
+                            }
+                        }
+                    }
+                }
+
+                this.explosionSize = var1;
+            }
+            public void doExplosionB(boolean par1)
+            {
+                worldObj.playSoundEffect(this.explosionX, this.explosionY, this.explosionZ, "random.explode", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+                worldObj.spawnParticle("hugeexplosion", this.explosionX, this.explosionY, this.explosionZ, 0.0D, 0.0D, 0.0D);
+                Iterator var2 = this.affectedBlockPositions.iterator();
+                ChunkPosition var3;
+                int var4;
+                int var5;
+                int var6;
+                int var7;
+
+                while (var2.hasNext())
+                {
+                    var3 = (ChunkPosition)var2.next();
+                    var4 = var3.x;
+                    var5 = var3.y;
+                    var6 = var3.z;
+                    var7 = worldObj.getBlockId(var4, var5, var6);
+
+                    if (par1)
+                    {
+                        double var8 = (double)((float)var4 + worldObj.rand.nextFloat());
+                        double var10 = (double)((float)var5 + worldObj.rand.nextFloat());
+                        double var12 = (double)((float)var6 + worldObj.rand.nextFloat());
+                        double var14 = var8 - this.explosionX;
+                        double var16 = var10 - this.explosionY;
+                        double var18 = var12 - this.explosionZ;
+                        double var20 = (double)MathHelper.sqrt_double(var14 * var14 + var16 * var16 + var18 * var18);
+                        var14 /= var20;
+                        var16 /= var20;
+                        var18 /= var20;
+                        double var22 = 0.5D / (var20 / (double)this.explosionSize + 0.1D);
+                        var22 *= (double)(worldObj.rand.nextFloat() * worldObj.rand.nextFloat() + 0.3F);
+                        var14 *= var22;
+                        var16 *= var22;
+                        var18 *= var22;
+                        worldObj.spawnParticle("explode", (var8 + this.explosionX * 1.0D) / 2.0D, (var10 + this.explosionY * 1.0D) / 2.0D, (var12 + this.explosionZ * 1.0D) / 2.0D, var14, var16, var18);
+                        worldObj.spawnParticle("smoke", var8, var10, var12, var14, var16, var18);
+                    }
+
+                    if (var7 > 0)
+                    {
+                        if (explosionSize < 3 && explosionRNG.nextInt(1) == 0)
+                        {
+                            Block.blocksList[var7].dropBlockAsItemWithChance(worldObj, var4, var5, var6, worldObj.getBlockMetadata(var4, var5, var6), 0.3F, 0);
+                        }
+
+                        if (worldObj.setBlock(var4, var5, var6, 0, 0, 3))
+                        {
+                            worldObj.notifyBlocksOfNeighborChange(var4, var5, var6, 0);
+                        }
+
+                        Block.blocksList[var7].onBlockDestroyedByExplosion(worldObj, var4, var5, var6, this);
+                    }
+                }
+
+                if (this.isFlaming)
+                {
+                    var2 = this.affectedBlockPositions.iterator();
+
+                    while (var2.hasNext())
+                    {
+                        var3 = (ChunkPosition)var2.next();
+                        var4 = var3.x;
+                        var5 = var3.y;
+                        var6 = var3.z;
+                        var7 = worldObj.getBlockId(var4, var5, var6);
+                        int var24 = worldObj.getBlockId(var4, var5 - 1, var6);
+
+                        if (var7 == 0 && Block.opaqueCubeLookup[var24] && this.explosionRNG.nextInt(3) == 0)
+                        {
+                            worldObj.setBlock(var4, var5, var6, Block.fire.blockID, 0, 3);
+                        }
+                    }
+                }
+            }
+        };
+        explosion.isFlaming = false;
+        explosion.doExplosionA();
+        explosion.doExplosionB(true);
+    }
+    @Override
+    protected void entityInit()
+    {
+        dataWatcher.addObject(15, (byte) 0);
+    }
+    /*
+    public boolean isInRangeToRenderDist(double d)
+    {
+        double d1 = boundingBox.getAverageEdgeLength() * 4D;
+        d1 *= 64D;
+        return d < d1 * d1;
+    }
+    public void onCollideWithPlayer(EntityPlayer entityplayer)
+    {
+    }
+    public void writeEntityToNBT(NBTTagCompound nbttagcompound)
+    {
+        /*
+           nbttagcompound.setShort("xTile", (short)field_20056_b);
+           nbttagcompound.setShort("yTile", (short)field_20055_c);
+           nbttagcompound.setShort("zTile", (short)field_20054_d);
+           nbttagcompound.setByte("inTile", (byte)field_20053_e);
+           nbttagcompound.setByte("shake", (byte)field_20057_a);
+           nbttagcompound.setByte("inGround", (byte)(field_20052_f ? 1 : 0));
+    }
+
+    public void readEntityFromNBT(NBTTagCompound nbttagcompound)
+    {
+        /*
+           field_20056_b = nbttagcompound.getShort("xTile");
+           field_20055_c = nbttagcompound.getShort("yTile");
+           field_20054_d = nbttagcompound.getShort("zTile");
+           field_20053_e = nbttagcompound.getByte("inTile") & 0xff;
+           field_20057_a = nbttagcompound.getByte("shake") & 0xff;
+           field_20052_f = nbttagcompound.getByte("inGround") == 1;
+    }*/
+
+}

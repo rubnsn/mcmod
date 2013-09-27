@@ -1,0 +1,114 @@
+package ruby.bamboo;
+
+import java.io.File;
+
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.src.ModLoader;
+import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.Property;
+import cpw.mods.fml.common.Loader;
+
+public class Config
+{
+    public boolean windPushPlayer;
+    public boolean timeAccel;
+    public int maxExplosionLv;
+    public boolean returnBowl;
+    public boolean exRecipe;
+    public int deludeTexMaxReference;
+    public int deludeMaxReference;
+    public boolean magatama;
+    public Config()
+    {
+        windPushPlayer = true;
+        timeAccel = true;
+        maxExplosionLv = 3;
+        returnBowl = true;
+        exRecipe = false;
+        deludeTexMaxReference = 2;
+        deludeMaxReference = 2;
+        magatama=false;
+    }
+
+    public void serverInit()
+    {
+        File file = new File(Loader.instance().getConfigDir(), "mod_BambooServerConfig.cfg");
+        Configuration conf = new Configuration(file);
+        conf.load();
+        Property prop;
+        //風えんてて
+        prop = conf.get("BambooSettings", "WindPushPlayer",  true);
+        prop.comment = "EntityWind knock back for EntityPlayer true:false";
+        windPushPlayer = prop.getBoolean(true);
+        //ふとんかそく
+        prop = conf.get("BambooSettings", "TimeAccel",  true);
+        prop.comment = "Acceleration time by futon true:false";
+        timeAccel = prop.getBoolean(true);
+        //ばくちくれべる
+        prop = conf.get("BambooSettings", "MaxExplosionLv", 3);
+        prop.comment = "Possible level firecracker explosion 0~3";
+        maxExplosionLv = prop.getInt();
+        //exレシピ
+        prop = conf.get("BambooSettings", "ExRecipe", false);
+        prop.comment = "Extra recipes true:false";
+        exRecipe = prop.getBoolean(false);
+        //ボウルの返却
+        prop = conf.get("BambooSettings", "ReturnBowl", true);
+        prop.comment = "ReturnBowl true:false";
+        returnBowl = prop.getBoolean(true);
+        //雪を溶かさない
+        prop = conf.get("BambooSettings", "UpdateStopSnow", false);
+        prop.comment = "Not melt snow with light true:false";
+        Block.snow.setTickRandomly(!prop.getBoolean(false));
+        //氷溶かさない
+        prop = conf.get("BambooSettings", "UpdateStopIce", false);
+        prop.comment = "Not melt ice with light true:false";
+        Block.ice.setTickRandomly(!prop.getBoolean(false));
+        //テクスチャ最大参照
+        prop = conf.get("BambooSettings", "DeludeMaxTexReference", 2);
+        prop.comment = "delude texture max reference";
+        deludeTexMaxReference = prop.getInt();
+        //
+        prop = conf.get("BambooSettings", "DeludeMaxRightClickReference", 2);
+        prop.comment = "delude right click max reference";
+        deludeMaxReference = prop.getInt();
+        
+        prop = conf.get("BambooSettings", "Magatama", false);
+        prop.comment = "This item is to erode the terrain greatly";
+        magatama = prop.getBoolean(false);
+        conf.save();
+        reSetExRecipes();
+        //ModLoader.addCommand(this);
+    }
+    public void reSetExRecipes()
+    {
+        if (exRecipe)
+        {
+            ModLoader.addRecipe(new ItemStack(BambooInit.takenokoIID, 1, 0), new Object[] { "YYY", "YXY", "YYY", 'Y',
+                                Item.glowstone, 'X', Item.reed
+                                                                                          });
+            ModLoader.addRecipe(new ItemStack(BambooInit.sakuraBID, 1, 0), new Object[] { "YYY", "YXY", "YYY", 'Y',
+                                Block.netherrack, 'X', Block.sapling
+                                                                                        });
+        }
+        else
+        {
+            for (int j = 0; j < CraftingManager.getInstance().getRecipeList().size(); ++j)
+            {
+                IRecipe ir = (IRecipe) CraftingManager.getInstance().getRecipeList().get(j);
+
+                if (ir.getRecipeOutput() != null)
+                {
+                    if (ir.getRecipeOutput().itemID == BambooInit.takenokoIID || ir.getRecipeOutput().itemID == BambooInit.sakuraBID)
+                    {
+                        CraftingManager.getInstance().getRecipeList().remove(j);
+                    }
+                }
+            }
+        }
+    }
+}
