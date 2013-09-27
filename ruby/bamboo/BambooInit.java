@@ -135,12 +135,12 @@ public class BambooInit
             registerBlock(new BlockRicePlant(ricePlantBID).setUnlocalizedName("riceplant"), ItemBlock.class, false);
             registerBlock(new BlockMillStone(millStoneBID).setUnlocalizedName("millstone"));
             registerBlock(new BlockDecoCarpet(decoCarpetBID).setUnlocalizedName("decoCarpet"), ItemDecoCarpet.class, true);
-            registerBlock(new BlockPillar(thickSakuraPillarBID,getBlockInstance(twoDirDecoBID),2, 0.3F, 0.7F, 0.2F).setUnlocalizedName("ThickSakuraPillar"), ItemPillar.class, true);
-            registerBlock(new BlockPillar(thinSakuraPillarBID,getBlockInstance(twoDirDecoBID),2, 0.4F, 0.6F, 0.15F).setUnlocalizedName("ThinSakuraPillar"), ItemPillar.class, true);
-            registerBlock(new BlockPillar(thickOrcPillarBID,Block.planks,0, 0.3F, 0.7F, 0.2F).setUnlocalizedName("ThickOrcPillar"), ItemPillar.class, true);
-            registerBlock(new BlockPillar(thinOrcPillarBID,Block.planks,0, 0.4F, 0.6F, 0.15F).setUnlocalizedName("ThinOrcPillar"), ItemPillar.class, true);
-            registerBlock(new BlockPillar(thickSprucePillarBID,Block.wood,1, 0.3F, 0.7F, 0.2F).setUnlocalizedName("ThickSprucePillar"), ItemPillar.class, true);
-            registerBlock(new BlockPillar(thinSprucePillarBID,Block.wood,1, 0.4F, 0.6F, 0.15F).setUnlocalizedName("ThinSprucePillar"), ItemPillar.class, true);
+            registerBlock(new BlockPillar(thickSakuraPillarBID,getBlockInstance(twoDirDecoBID),2, 0.3F, 0.7F, 0.2F).setUnlocalizedName("thickSakuraPillar"), ItemPillar.class, true);
+            registerBlock(new BlockPillar(thinSakuraPillarBID,getBlockInstance(twoDirDecoBID),2, 0.4F, 0.6F, 0.15F).setUnlocalizedName("thinSakuraPillar"), ItemPillar.class, true);
+            registerBlock(new BlockPillar(thickOrcPillarBID,Block.planks,0, 0.3F, 0.7F, 0.2F).setUnlocalizedName("thickOrcPillar"), ItemPillar.class, true);
+            registerBlock(new BlockPillar(thinOrcPillarBID,Block.planks,0, 0.4F, 0.6F, 0.15F).setUnlocalizedName("thinOrcPillar"), ItemPillar.class, true);
+            registerBlock(new BlockPillar(thickSprucePillarBID,Block.wood,1, 0.3F, 0.7F, 0.2F).setUnlocalizedName("thickSprucePillar"), ItemPillar.class, true);
+            registerBlock(new BlockPillar(thinSprucePillarBID,Block.wood,1, 0.4F, 0.6F, 0.15F).setUnlocalizedName("thinSprucePillar"), ItemPillar.class, true);
             registerBlock(new BlockDeludePressurePlate(delude_plateBID).setUnlocalizedName("delude_plate"));
             registerBlock(new BlockManeki(manekiBID, Material.ground).setUnlocalizedName("maneki"));
         }

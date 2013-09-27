@@ -94,10 +94,19 @@ public class BambooLocalize implements ResourceManagerReloadListener
         }
 
         int i;
-        addName(getItemInstance(bambooIID)) ;
+        for(Field field:BambooInit.class.getDeclaredFields()){
+        	if(field.getName().matches(".*BID")||field.getName().matches(".*IID")){
+        		try {
+					int id=(int) field.get(null);
+					if(Item.itemsList[id]!=null&&!Item.itemsList[id].getHasSubtypes()){
+						addName(id);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+        	}
+        }
         addName(new ItemStack(bambooBlockBID, 1, 0));
-        addName(getBlockInstance(kitunebiBID));
-        addName(getItemInstance(bambooBasketIID));
         addName(new ItemStack(firecrackerIID, 0, 0));
         addName(new ItemStack(firecrackerIID, 0, 1));
         addName(new ItemStack(firecrackerIID, 0, 2));
@@ -115,7 +124,6 @@ public class BambooLocalize implements ResourceManagerReloadListener
             addName(new ItemStack(slideDoorsIID, 1, i));
         }
 
-        addName(getBlockInstance(jpchestBID));
         addName(new ItemStack(dSquareBID, 1, 0));
         addName(new ItemStack(dSquareBID, 1, 4));
         addName(new ItemStack(dSquareBID, 1, 8));
@@ -126,22 +134,12 @@ public class BambooLocalize implements ResourceManagerReloadListener
         addName(new ItemStack(dHalfSquareBID, 1, 8));
         addName(new ItemStack(dHalfSquareBID, 1, 10));
         addName(new ItemStack(dHalfSquareBID, 1, 12));
-        addName(getItemInstance(kakezikuIID));
-        addName(getBlockInstance(andonBID));
         addName(new ItemStack(bamboopaneBID, 1, 0));
         addName(new ItemStack(bamboopaneBID, 1, 1));
         addName(new ItemStack(bamboopaneBID, 1, 2));
         addName(new ItemStack(bamboopaneBID, 1, 3));
         addName(new ItemStack(bamboopaneBID, 1, 4));
         addName(new ItemStack(bamboopaneBID, 1, 5));
-        addName(getBlockInstance(sakuraleavsBID));
-        addName(getBlockInstance(sakuraBID));
-        addName(getItemInstance(hutonIID));
-        addName(getItemInstance(takenokoIID));
-        addName(getBlockInstance(rooftileBID));
-        addName(getBlockInstance(spaunitBID));
-        addName(getItemInstance(boiledEggIID));
-
         for (i = 0; i < 18; i++)
         {
             addName(new ItemStack(shavedIceIID, 1, i));
@@ -152,22 +150,8 @@ public class BambooLocalize implements ResourceManagerReloadListener
             addName(new ItemStack(shavedIceIID, 1, i));
         }
 
-        addName(getItemInstance(windChimeIID));
-        addName(getItemInstance(itemSackIID));
-        addName(getItemInstance(fanIID));
-        addName(getItemInstance(katanaIID));
-        addName(getItemInstance(bambooBowIID));
-        addName(getBlockInstance(sakuraLogBID));
-        addName(getBlockInstance(delude_widthBID));
-        addName(getBlockInstance(delude_heightBID));
-        addName(getBlockInstance(delude_stairBID));
-        addName(getBlockInstance(campfireBID));
-        addName(getItemInstance(tuduraIID));
         addName(new ItemStack(windmillIID, 1, 0));
         addName(new ItemStack(windmillIID, 1, 1));
-        addName(getItemInstance(waterWheelIID));
-        addName(getItemInstance(kaginawaIID));
-        addName(getItemInstance(bambooSwordIID));
         addName(new ItemStack(decoBID, 1, 0));
         addName(new ItemStack(decoBID, 1, 1));
         addName(new ItemStack(decoBID, 1, 2));
@@ -184,29 +168,15 @@ public class BambooLocalize implements ResourceManagerReloadListener
         addName(new ItemStack(twoDirDecoBID, 1, 2));
         addName(new ItemStack(halfTwoDirDecoBID, 1, 0));
         addName(new ItemStack(halfTwoDirDecoBID, 1, 2));
-        addName(getItemInstance(obonIID));
-        addName(getBlockInstance(kawara_stairBID));
     }
-    private void addName(Block block)
-    {
-        try
+    private void addName(int itemId){
+    	try
         {
-            LanguageRegistry.instance().addNameForObject(block, lang, prop.getProperty(block.getUnlocalizedName()));
+            LanguageRegistry.instance().addNameForObject(Item.itemsList[itemId], lang, prop.getProperty(Item.itemsList[itemId].getUnlocalizedName()));
         }
         catch (NullPointerException e)
         {
-            ModLoader.getLogger().fine(block.getUnlocalizedName() + " translation mistake");
-        }
-    }
-    private void addName(Item item)
-    {
-        try
-        {
-            LanguageRegistry.instance().addNameForObject(item, lang, prop.getProperty(item.getUnlocalizedName()));
-        }
-        catch (NullPointerException e)
-        {
-            ModLoader.getLogger().fine(item.getUnlocalizedName() + " translation mistake");
+            ModLoader.getLogger().fine(Item.itemsList[itemId].getUnlocalizedName() + " translation mistake");
         }
     }
     private void addName(ItemStack is)
