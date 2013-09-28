@@ -42,22 +42,24 @@ public class ItemMagatama extends Item{
 	}
 	public void addMagatama(int meta,IMagatama magatama){
 		magatamaMap.put(meta, magatama);
-		WeightedRandomChestContent content=new BambooChestContent(new ItemStack(this,1,meta),1,1,magatama.getReality());
-		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_DESERT_CHEST, content);
-		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_JUNGLE_CHEST, content);
-		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CORRIDOR, content);
-		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CROSSING, content);
-		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, content);
-		ChestGenHooks.addItem(ChestGenHooks.MINESHAFT_CORRIDOR, content);
-		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, content);
-		ChestGenHooks.addItem(ChestGenHooks.BONUS_CHEST, content);
+		if(BambooCore.getConf().addMagatama){
+			WeightedRandomChestContent content=new BambooChestContent(new ItemStack(this,1,meta),1,1,magatama.getReality());
+			ChestGenHooks.addItem(ChestGenHooks.PYRAMID_DESERT_CHEST, content);
+			ChestGenHooks.addItem(ChestGenHooks.PYRAMID_JUNGLE_CHEST, content);
+			ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CORRIDOR, content);
+			ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CROSSING, content);
+			ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, content);
+			ChestGenHooks.addItem(ChestGenHooks.MINESHAFT_CORRIDOR, content);
+			ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, content);
+			ChestGenHooks.addItem(ChestGenHooks.BONUS_CHEST, content);
+		}
 	}
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
 		if(!magatamaMap.containsKey(par1ItemStack.getItemDamage())){
 			return par1ItemStack;
 		}
-		if(!BambooCore.getConf().magatama||magatamaMap.get(par1ItemStack.getItemDamage()).getEffectClass()==null){
+		if(!BambooCore.getConf().useMagatama||magatamaMap.get(par1ItemStack.getItemDamage()).getEffectClass()==null){
 			return par1ItemStack;
 		}
 

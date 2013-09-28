@@ -21,7 +21,8 @@ public class Config
     public boolean exRecipe;
     public int deludeTexMaxReference;
     public int deludeMaxReference;
-    public boolean magatama;
+    public boolean addMagatama;
+    public boolean useMagatama;
     public Config()
     {
         windPushPlayer = true;
@@ -31,7 +32,7 @@ public class Config
         exRecipe = false;
         deludeTexMaxReference = 2;
         deludeMaxReference = 2;
-        magatama=false;
+        useMagatama=false;
     }
 
     public void serverInit()
@@ -72,14 +73,18 @@ public class Config
         prop = conf.get("BambooSettings", "DeludeMaxTexReference", 2);
         prop.comment = "delude texture max reference";
         deludeTexMaxReference = prop.getInt();
-        //
+        //右クリック最大参照
         prop = conf.get("BambooSettings", "DeludeMaxRightClickReference", 2);
         prop.comment = "delude right click max reference";
         deludeMaxReference = prop.getInt();
-        
-        prop = conf.get("BambooSettings", "Magatama", false);
+        //勾玉をダンジョンチェストへ生成するか
+        prop = conf.get("BambooSettings", "addMagatama", true);
+        prop.comment = "add magatama to DunsionChests";
+        addMagatama = prop.getBoolean(true);
+        //勾玉を使用できるか
+        prop = conf.get("BambooSettings", "useMagatama", false);
         prop.comment = "This item is to erode the terrain greatly";
-        magatama = prop.getBoolean(false);
+        useMagatama = prop.getBoolean(false);
         conf.save();
         reSetExRecipes();
         //ModLoader.addCommand(this);
