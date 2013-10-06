@@ -109,7 +109,7 @@ public class BambooInit
     {
         try
         {
-            registerBlock(new BlockBamboo(bambooBID, getChiledName()).setUnlocalizedName("bamboo"), ItemBlock.class, false);
+            registerBlock(new BlockBamboo(bambooBID, getTakenokoTexName()).setUnlocalizedName("bamboo"), ItemBlock.class, false);
             registerBlock(new BlockCustomRenderSingleTexture(bambooBlockBID).setUnlocalizedName("singleTexDeco"), ItemCustomRenderSingleTexture.class, true);
             registerBlock(new BlockKitunebi(kitunebiBID).setUnlocalizedName("kitunebi").setTextureName("kitunebi"));
             registerBlock(new BlockJpchest(jpchestBID).setUnlocalizedName("jpChest"));
@@ -201,10 +201,10 @@ public class BambooInit
         {
             b.setCreativeTab(BambooCore.tabBamboo);
         }
-        GameRegistry.registerBlock(b, c, b.getUnlocalizedName());
+        GameRegistry.registerBlock(b, c, b.getUnlocalizedName(),BambooCore.MODID);
     }
 
-    private String getChiledName()
+    private String getTakenokoTexName()
     {
         String chiledName = "bambooshoot";
         Calendar ci = Calendar.getInstance();
