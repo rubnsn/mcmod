@@ -33,6 +33,42 @@ public class BambooInit
     private static final int ITEMID_OFFSET = 256;
     //instance
     public static BambooInit instance = new BambooInit();
+    //blockNames
+    public static final String SINGLE_TEX_DECO="singleTexDeco";
+    public static final String BAMBOO="bamboo";
+    public static final String KITUNEBI="kitunebi";
+    public static final String JP_CHEST="jpChest";
+    public static final String DIR_SQUARE="dirSquare";
+    public static final String ANDON="andon";
+    public static final String HALF_DIR_SQUARE="halfDirSquare";
+    public static final String BAMBOO_PANEL="bambooPanel";
+    public static final String SAKURA_LEAVES="sakuraLeaves";
+    public static final String SAKURA_SAPLING="sakuraSapling";
+    public static final String KAYABUKI_ROOF="kayabukiRoof";
+    public static final String SPA_WATER="spaWater";
+    public static final String SPA_UNIT="spaUnit";
+    public static final String SAKURA_LOG="sakuraLog";
+    public static final String DELUDE_WIDTH="delude_width";
+    public static final String DELUDE_HEIGHT="delude_height";
+    public static final String DELUDE_STAIR="delude_stair";
+    public static final String IRORI="campfire";
+    public static final String DECO_SQUARE="deco";
+    public static final String HALF_DECO_SQUARE="halfDeco";
+    public static final String TWO_DIR_DECO_SQUARE="twoDirDeco";
+    public static final String HALF_TWO_DIR_DECO_SQUARE="halfTwoDirDeco";
+    public static final String KAWARA_ROOF="kawara_stair";
+    public static final String RICE_FIELD="riceField";
+    public static final String RICE_PLANT="ricePlant";
+    public static final String MILLSTONE="millStone";
+    public static final String DECO_CARPET="decoCarpet";
+    public static final String THICK_SAKURA_PILLAR="thickSakuraPillar";
+    public static final String THIN_SAKURA_PILLAR="thinSakuraPillar";
+    public static final String THICK_ORC_PILLAR="thickOrcPillar";
+    public static final String THIN_ORC_PILLAR="thinOrcPillar";
+    public static final String THICK_SPRUCE_PILLAR="thickSprucePillar";
+    public static final String THIN_SPRUCE_PILLAR="thinSprucePillar";
+    public static final String DELUDE_PLATE="delude_plate";
+    public static final String MANEKI="maneki";
     //blocks
     public static int bambooBlockBID;
     public static int bambooBID;
@@ -57,7 +93,6 @@ public class BambooInit
     public static int twoDirDecoBID;
     public static int halfTwoDirDecoBID;
     public static int kawara_stairBID;
-    public static int halfKawaraBID;
     public static int riceFieldBID;
     public static int ricePlantBID;
     public static int millStoneBID;
@@ -109,50 +144,50 @@ public class BambooInit
     {
         try
         {
-            registerBlock(new BlockBamboo(bambooBID, getTakenokoTexName()).setUnlocalizedName("bamboo"), ItemBlock.class, false);
-            registerBlock(new BlockCustomRenderSingleTexture(bambooBlockBID).setUnlocalizedName("singleTexDeco"), ItemCustomRenderSingleTexture.class, true);
-            registerBlock(new BlockKitunebi(kitunebiBID).setUnlocalizedName("kitunebi").setTextureName("kitunebi"));
-            registerBlock(new BlockJpchest(jpchestBID).setUnlocalizedName("jpChest"));
-            registerBlock(new BlockDSquare(dSquareBID, false).addTexName("tatami_x", "tatami_y", "tatami_x", "tatami_y", "kaya_x", "kaya_y", "kaya_x", "kaya_y").addTexName("tatami_tan_x", "tatami_tan_y", "tatami_tan_nsx", "tatami_tan_nsy", "tatami_nsx", "tatami_nsy", "tatami_nsx", "tatami_nsy").setUnlocalizedName("dirSquare"), ItemDSquare.class, true);
-            registerBlock(new BlockDSquare(dHalfSquareBID, true).addTexName("tatami_x", "tatami_y", "tatami_x", "tatami_y", "kaya_x", "kaya_y", "kaya_x", "kaya_y").addTexName("tatami_tan_x", "tatami_tan_y", "tatami_tan_nsx", "tatami_tan_nsy", "tatami_nsx", "tatami_nsy", "tatami_nsx", "tatami_nsy").setUnlocalizedName("halfDirSquare"), ItemDSquare.class, true);
-            registerBlock(new BlockAndon(andonBID).setUnlocalizedName("andon"));
-            registerBlock(new BlockBambooPane(bamboopaneBID, Material.ground).setUnlocalizedName("bambooPanel"), ItemBambooPane.class, true);
-            registerBlock(new BlockSakuraLeaves(sakuraleavsBID).setUnlocalizedName("sakuraLeaves"), ItemSakuraPetal.class, true);
-            registerBlock(new BlockSakura(sakuraBID).setUnlocalizedName("sakura").setTextureName("sakura"));
-            registerBlock(new BlockRooftile(rooftileBID).setUnlocalizedName("rooftile"), ItemRooftile.class, true);
-            registerBlock(new BlockSpaWater(spaBID, Material.water).setUnlocalizedName("spaWater"), ItemBlock.class, false);
-            registerBlock(new BlockSpaUnit(spaunitBID).setUnlocalizedName("spaUnit"));
-            registerBlock(new BlockSakuraLog(sakuraLogBID).setUnlocalizedName("sakuraLog"), ItemBlock.class, true);
-            registerBlock(new BlockDelude(delude_widthBID, false).setUnlocalizedName("delude_width"));
-            registerBlock(new BlockDelude(delude_heightBID, true).setUnlocalizedName("delude_height"));
-            registerBlock(new BlockDeludeStair(delude_stairBID).setUnlocalizedName("delude_stair"));
-            registerBlock(new BlockCampfire(campfireBID).setUnlocalizedName("campfire"));
-            registerBlock(new BlockDecorations(decoBID, Material.ground, false).addTexName("plaster", "namako", "check_oak", "check_pine", "check_birch", "kawara").setUnlocalizedName("deco"), ItemDecorationBlocks.class, true);
-            registerBlock(new BlockDecorations(halfDecoBID, Material.ground, true).addTexName("plaster", "namako", "check_oak", "check_pine", "check_birch", "kawara").setUnlocalizedName("halfDeco"), ItemDecorationBlocks.class, true);
-            registerBlock(new BlockTwoDirections(twoDirDecoBID, Material.wood, false).addTexName("yoroiita", "sakuraplank").setUnlocalizedName("twoDirDeco"), ItemDecorationBlocks.class, true);
-            registerBlock(new BlockTwoDirections(halfTwoDirDecoBID, Material.wood, true).addTexName("yoroiita", "sakuraplank").setUnlocalizedName("halfTwoDirDeco"), ItemDecorationBlocks.class, true);
-            registerBlock(new BlockKawaraStair(kawara_stairBID, getBlockInstance(decoBID), 5).setUnlocalizedName("kawara_stair"));
-            registerBlock(new BlockRiceField(riceFieldBID, Material.ground).setUnlocalizedName("ricefield"), ItemBlock.class, false);
-            registerBlock(new BlockRicePlant(ricePlantBID).setUnlocalizedName("riceplant"), ItemBlock.class, false);
-            registerBlock(new BlockMillStone(millStoneBID).setUnlocalizedName("millstone"));
-            registerBlock(new BlockDecoCarpet(decoCarpetBID).setUnlocalizedName("decoCarpet"), ItemDecoCarpet.class, true);
-            registerBlock(new BlockPillar(thickSakuraPillarBID,getBlockInstance(twoDirDecoBID),2, 0.3F, 0.7F, 0.2F).setUnlocalizedName("thickSakuraPillar"), ItemPillar.class, true);
-            registerBlock(new BlockPillar(thinSakuraPillarBID,getBlockInstance(twoDirDecoBID),2, 0.4F, 0.6F, 0.15F).setUnlocalizedName("thinSakuraPillar"), ItemPillar.class, true);
-            registerBlock(new BlockPillar(thickOrcPillarBID,Block.planks,0, 0.3F, 0.7F, 0.2F).setUnlocalizedName("thickOrcPillar"), ItemPillar.class, true);
-            registerBlock(new BlockPillar(thinOrcPillarBID,Block.planks,0, 0.4F, 0.6F, 0.15F).setUnlocalizedName("thinOrcPillar"), ItemPillar.class, true);
-            registerBlock(new BlockPillar(thickSprucePillarBID,Block.wood,1, 0.3F, 0.7F, 0.2F).setUnlocalizedName("thickSprucePillar"), ItemPillar.class, true);
-            registerBlock(new BlockPillar(thinSprucePillarBID,Block.wood,1, 0.4F, 0.6F, 0.15F).setUnlocalizedName("thinSprucePillar"), ItemPillar.class, true);
-            registerBlock(new BlockDeludePressurePlate(delude_plateBID).setUnlocalizedName("delude_plate"));
-            registerBlock(new BlockManeki(manekiBID, Material.ground).setUnlocalizedName("maneki"));
+            registerBlock(new BlockBamboo(bambooBID, getTakenokoTexName()).setUnlocalizedName(BAMBOO), ItemBlock.class, false);
+            registerBlock(new BlockCustomRenderSingleTexture(bambooBlockBID).setUnlocalizedName(SINGLE_TEX_DECO), ItemCustomRenderSingleTexture.class, true);
+            registerBlock(new BlockKitunebi(kitunebiBID).setUnlocalizedName(KITUNEBI).setTextureName("kitunebi"));
+            registerBlock(new BlockJpchest(jpchestBID).setUnlocalizedName(JP_CHEST));
+            registerBlock(new BlockDSquare(dSquareBID, false).addTexName("tatami_x", "tatami_y", "tatami_x", "tatami_y", "kaya_x", "kaya_y", "kaya_x", "kaya_y").addTexName("tatami_tan_x", "tatami_tan_y", "tatami_tan_nsx", "tatami_tan_nsy", "tatami_nsx", "tatami_nsy", "tatami_nsx", "tatami_nsy").setUnlocalizedName(DIR_SQUARE), ItemDSquare.class, true);
+            registerBlock(new BlockDSquare(dHalfSquareBID, true).addTexName("tatami_x", "tatami_y", "tatami_x", "tatami_y", "kaya_x", "kaya_y", "kaya_x", "kaya_y").addTexName("tatami_tan_x", "tatami_tan_y", "tatami_tan_nsx", "tatami_tan_nsy", "tatami_nsx", "tatami_nsy", "tatami_nsx", "tatami_nsy").setUnlocalizedName(HALF_DIR_SQUARE), ItemDSquare.class, true);
+            registerBlock(new BlockAndon(andonBID).setUnlocalizedName(ANDON));
+            registerBlock(new BlockBambooPane(bamboopaneBID, Material.ground).setUnlocalizedName(BAMBOO_PANEL), ItemBambooPane.class, true);
+            registerBlock(new BlockSakuraLeaves(sakuraleavsBID).setUnlocalizedName(SAKURA_LEAVES), ItemSakuraPetal.class, true);
+            registerBlock(new BlockSakura(sakuraBID).setUnlocalizedName(SAKURA_SAPLING).setTextureName("sakura"));
+            registerBlock(new BlockKayabukiRoof(rooftileBID).setUnlocalizedName(KAYABUKI_ROOF), ItemRooftile.class, true);
+            registerBlock(new BlockSpaWater(spaBID, Material.water).setUnlocalizedName(SPA_WATER), ItemBlock.class, false);
+            registerBlock(new BlockSpaUnit(spaunitBID).setUnlocalizedName(SPA_UNIT));
+            registerBlock(new BlockSakuraLog(sakuraLogBID).setUnlocalizedName(SAKURA_LOG), ItemBlock.class, true);
+            registerBlock(new BlockDelude(delude_widthBID, false).setUnlocalizedName(DELUDE_WIDTH));
+            registerBlock(new BlockDelude(delude_heightBID, true).setUnlocalizedName(DELUDE_HEIGHT));
+            registerBlock(new BlockDeludeStair(delude_stairBID).setUnlocalizedName(DELUDE_STAIR));
+            registerBlock(new BlockCampfire(campfireBID).setUnlocalizedName(IRORI));
+            registerBlock(new BlockDecorations(decoBID, Material.ground, false).addTexName("plaster", "namako", "check_oak", "check_pine", "check_birch", "kawara").setUnlocalizedName(DECO_SQUARE), ItemDecorationBlocks.class, true);
+            registerBlock(new BlockDecorations(halfDecoBID, Material.ground, true).addTexName("plaster", "namako", "check_oak", "check_pine", "check_birch", "kawara").setUnlocalizedName(HALF_DECO_SQUARE), ItemDecorationBlocks.class, true);
+            registerBlock(new BlockTwoDirections(twoDirDecoBID, Material.wood, false).addTexName("yoroiita", "sakuraplank").setUnlocalizedName(TWO_DIR_DECO_SQUARE), ItemDecorationBlocks.class, true);
+            registerBlock(new BlockTwoDirections(halfTwoDirDecoBID, Material.wood, true).addTexName("yoroiita", "sakuraplank").setUnlocalizedName(HALF_TWO_DIR_DECO_SQUARE), ItemDecorationBlocks.class, true);
+            registerBlock(new BlockKawaraStair(kawara_stairBID, getBlockInstance(DECO_SQUARE), 5).setUnlocalizedName(KAWARA_ROOF));
+            registerBlock(new BlockRiceField(riceFieldBID, Material.ground).setUnlocalizedName(RICE_FIELD), ItemBlock.class, false);
+            registerBlock(new BlockRicePlant(ricePlantBID).setUnlocalizedName(RICE_PLANT), ItemBlock.class, false);
+            registerBlock(new BlockMillStone(millStoneBID).setUnlocalizedName(MILLSTONE));
+            registerBlock(new BlockDecoCarpet(decoCarpetBID).setUnlocalizedName(DECO_CARPET), ItemDecoCarpet.class, true);
+            registerBlock(new BlockPillar(thickSakuraPillarBID,getBlockInstance(TWO_DIR_DECO_SQUARE),2, 0.3F, 0.7F, 0.2F).setUnlocalizedName(THICK_SAKURA_PILLAR), ItemPillar.class, true);
+            registerBlock(new BlockPillar(thinSakuraPillarBID,getBlockInstance(TWO_DIR_DECO_SQUARE),2, 0.4F, 0.6F, 0.15F).setUnlocalizedName(THIN_SAKURA_PILLAR), ItemPillar.class, true);
+            registerBlock(new BlockPillar(thickOrcPillarBID,Block.planks,0, 0.3F, 0.7F, 0.2F).setUnlocalizedName(THICK_ORC_PILLAR), ItemPillar.class, true);
+            registerBlock(new BlockPillar(thinOrcPillarBID,Block.planks,0, 0.4F, 0.6F, 0.15F).setUnlocalizedName(THIN_ORC_PILLAR), ItemPillar.class, true);
+            registerBlock(new BlockPillar(thickSprucePillarBID,Block.wood,1, 0.3F, 0.7F, 0.2F).setUnlocalizedName(THICK_SPRUCE_PILLAR), ItemPillar.class, true);
+            registerBlock(new BlockPillar(thinSprucePillarBID,Block.wood,1, 0.4F, 0.6F, 0.15F).setUnlocalizedName(THIN_SPRUCE_PILLAR), ItemPillar.class, true);
+            registerBlock(new BlockDeludePressurePlate(delude_plateBID).setUnlocalizedName(DELUDE_PLATE));
+            registerBlock(new BlockManeki(manekiBID, Material.ground).setUnlocalizedName(MANEKI));
         }
         catch (IllegalArgumentException e)
         {
             slotOccupiedException(e);
         }
     }
-    public static Block getBlockInstance(int blockID)
+    public static Block getBlockInstance(String blockName)
     {
-        return BambooUtil.getBlcokInstance(blockID);
+        return GameRegistry.findBlock(BambooCore.MODID, blockName);
     }
     public static Item getItemInstance(int itemID)
     {

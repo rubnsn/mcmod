@@ -117,7 +117,7 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal
 
         if (var8 > 0)
         {
-            this.dropBlockAsItem_do(world, i, j, k, new ItemStack(BambooInit.sakuraBID, var8, 0));
+            this.dropBlockAsItem_do(world, i, j, k, new ItemStack(BambooInit.getBlockInstance(BambooInit.SAKURA_SAPLING), var8, 0));
         }
 
         world.setBlock(i, j, k, 0, 0, 3);
@@ -141,7 +141,7 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal
 
         if (var8 > 0)
         {
-            this.dropBlockAsItem_do(par1World, par2, par3, par4, new ItemStack(BambooInit.sakuraBID, var8, 0));
+            this.dropBlockAsItem_do(par1World, par2, par3, par4, new ItemStack(BambooInit.getBlockInstance(BambooInit.SAKURA_SAPLING), var8, 0));
         }
     }
     @Override
@@ -159,7 +159,7 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal
 
             if (var8 > 0)
             {
-                this.dropBlockAsItem_do(world, i, j, k, new ItemStack(BambooInit.sakuraBID, var8, 0));
+                this.dropBlockAsItem_do(world, i, j, k, new ItemStack(BambooInit.getBlockInstance(BambooInit.SAKURA_SAPLING), var8, 0));
             }
         }
     }
