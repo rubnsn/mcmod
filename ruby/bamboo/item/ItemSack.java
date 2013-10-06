@@ -2,6 +2,7 @@ package ruby.bamboo.item;
 
 import java.lang.reflect.Field;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ruby.bamboo.BambooCore;
@@ -22,7 +23,6 @@ import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemSlab;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.src.ModLoader;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
@@ -332,7 +332,7 @@ public class ItemSack extends Item
                 remainingHighlightTicks.setAccessible(true);
             }
 
-            remainingHighlightTicks.setInt(ModLoader.getMinecraftInstance().ingameGUI, 40);
+            remainingHighlightTicks.setInt(FMLClientHandler.instance().getClient().ingameGUI, 40);
         }
         catch (Exception e)
         {

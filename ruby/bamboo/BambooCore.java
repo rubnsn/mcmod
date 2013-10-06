@@ -31,7 +31,6 @@ import net.minecraft.item.ItemSlab;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.NetHandler;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.src.ModLoader;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.StringTranslate;
@@ -53,6 +52,7 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLModContainer;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
@@ -84,7 +84,6 @@ import ruby.bamboo.tileentity.*;
 public class BambooCore
 {
     private final boolean DEBUGMODE = false;
-    public static boolean FORGE;
     @SidedProxy(serverSide = "ruby.bamboo.CommonProxy", clientSide = "ruby.bamboo.ClientProxy")
     public static CommonProxy proxy;
 
@@ -101,7 +100,6 @@ public class BambooCore
     @Mod.EventHandler
     public void preLoad(FMLPreInitializationEvent e)
     {
-        FORGE = ModLoader.isModLoaded("Forge");
         tabBamboo = new CreativeTabs("Bamboo")
         {
             @Override

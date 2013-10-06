@@ -10,6 +10,7 @@ import ruby.bamboo.BambooUtil;
 import ruby.bamboo.Config;
 import ruby.bamboo.BambooCore;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -21,7 +22,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.src.ModLoader;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
@@ -56,7 +56,7 @@ public class BlockDSquare extends Block
     {
         if (texArray.length % 4 != 0)
         {
-            ModLoader.throwException("BlockDSquare.addTex() is multiples of 4 only", null);
+            FMLCommonHandler.instance().raiseException(new IllegalArgumentException(),"BlockDSquare.addTex() is multiples of 4 only", true);
         }
 
         if (texNameList != null)

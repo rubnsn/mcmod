@@ -5,6 +5,7 @@ import java.util.Random;
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.CustomRenderHandler;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -13,7 +14,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.src.ModLoader;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
@@ -60,7 +60,7 @@ public class BlockKitunebi extends Block
     {
         if (world.isRemote)
         {
-            ItemStack is = ModLoader.getMinecraftInstance().thePlayer.getCurrentEquippedItem();
+            ItemStack is = FMLClientHandler.instance().getClient().thePlayer.getCurrentEquippedItem();
             isVisible = false;
 
             if (is != null)

@@ -7,10 +7,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.src.ModLoader;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Config
 {
@@ -93,10 +93,10 @@ public class Config
     {
         if (exRecipe)
         {
-            ModLoader.addRecipe(new ItemStack(BambooInit.takenokoIID, 1, 0), new Object[] { "YYY", "YXY", "YYY", 'Y',
+            GameRegistry.addRecipe(new ItemStack(BambooInit.takenokoIID, 1, 0), new Object[] { "YYY", "YXY", "YYY", 'Y',
                                 Item.glowstone, 'X', Item.reed
                                                                                           });
-            ModLoader.addRecipe(new ItemStack(BambooInit.sakuraBID, 1, 0), new Object[] { "YYY", "YXY", "YYY", 'Y',
+            GameRegistry.addRecipe(new ItemStack(BambooInit.sakuraBID, 1, 0), new Object[] { "YYY", "YXY", "YYY", 'Y',
                                 Block.netherrack, 'X', Block.sapling
                                                                                         });
         }

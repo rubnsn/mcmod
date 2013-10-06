@@ -8,7 +8,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 import ruby.bamboo.block.*;
 import ruby.bamboo.item.*;
@@ -23,7 +25,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
-import net.minecraft.src.ModLoader;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -200,8 +201,7 @@ public class BambooInit
         {
             b.setCreativeTab(BambooCore.tabBamboo);
         }
-
-        ModLoader.registerBlock(b, c);
+        GameRegistry.registerBlock(b, c, b.getUnlocalizedName());
     }
 
     private String getChiledName()
@@ -389,14 +389,14 @@ public class BambooInit
             }
             catch (Exception e)
             {
-                ModLoader.throwException("[mod_bamboo] IDShift exception", e);
+            	FMLCommonHandler.instance().raiseException(e,"[mod_bamboo] IDShift exception",true);
             }
         }
     }
 
     private void slotOccupiedException(IllegalArgumentException e)
     {
-        if (!(ModLoader.getMinecraftServerInstance() != null && ModLoader.getMinecraftServerInstance().isDedicatedServer()))
+        if (!(FMLCommonHandler.instance().getMinecraftServerInstance() != null && FMLCommonHandler.instance().getMinecraftServerInstance().isDedicatedServer()))
         {
             if (Minecraft.getMinecraft().gameSettings.language.equals("ja_JP"))
             {

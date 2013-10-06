@@ -2,6 +2,7 @@ package ruby.bamboo.block;
 
 import java.util.Random;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -19,7 +20,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
-import net.minecraft.src.ModLoader;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
@@ -327,7 +327,7 @@ public class BlockSpaWater extends BlockContainer
     {
         if (par5Random.nextInt(10) == 0 && par1World.isAirBlock(par2, par3 + 1, par4))
         {
-            ModLoader.getMinecraftInstance().effectRenderer.addEffect(new EntityWhiteSmokeFX(par1World, par2 + 0.5, par3 + 1, par4 + 0.5, 0.0D, 0.0D, 0.0D, 1F));
+        	FMLClientHandler.instance().getClient().effectRenderer.addEffect(new EntityWhiteSmokeFX(par1World, par2 + 0.5, par3 + 1, par4 + 0.5, 0.0D, 0.0D, 0.0D, 1F));
             int l = par1World.getBlockMetadata(par2, par3, par4);
 
             if (l <= 0 || l >= 8)

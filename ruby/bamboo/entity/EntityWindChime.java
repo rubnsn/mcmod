@@ -57,20 +57,6 @@ public class EntityWindChime extends Entity
         //rotz+=prevZ/6000;
         if (rand.nextInt(500) == 0)
         {
-            if (BambooCore.FORGE)
-            {
-                if (rand.nextInt(10) == 0)
-                {
-                    this.worldObj.playSoundAtEntity(this, "windchimetwo", 0.8F, 0.5F + this.rand.nextFloat());
-                }
-                else
-                {
-                    this.worldObj.playSoundAtEntity(this, "windchime", 0.8F, 0.5F + this.rand.nextFloat());
-                }
-            }
-        }
-        else if (rand.nextInt(500) == 1)
-        {
             this.worldObj.playSoundAtEntity(this, "random.orb", 0.8F, 1.5F * ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.8F));
         }
     }

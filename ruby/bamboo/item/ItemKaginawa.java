@@ -26,11 +26,6 @@ public class ItemKaginawa extends Item
     @Override
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
-        if (!BambooCore.FORGE)
-        {
-            return par1ItemStack;
-        }
-
         EntityThrowable et = new EntityKaginawa(par2World, par3EntityPlayer);
 
         if (!par2World.isRemote)

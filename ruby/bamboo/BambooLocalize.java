@@ -188,7 +188,7 @@ public class BambooLocalize implements ResourceManagerReloadListener
         }
         catch (NullPointerException e)
         {
-            ModLoader.getLogger().fine(Item.itemsList[itemId].getUnlocalizedName() + " translation mistake");
+        	FMLLog.getLogger().fine(Item.itemsList[itemId].getUnlocalizedName() + " translation mistake");
         }
     }
     private void addName(ItemStack is)
@@ -199,7 +199,7 @@ public class BambooLocalize implements ResourceManagerReloadListener
         }
         catch (NullPointerException e)
         {
-            ModLoader.getLogger().fine(is.getItem().getUnlocalizedName() + "." + is.getItemDamage() + " translation mistake");
+        	FMLLog.getLogger().fine(is.getItem().getUnlocalizedName() + "." + is.getItemDamage() + " translation mistake");
         }
     }
 
