@@ -83,7 +83,6 @@ import ruby.bamboo.tileentity.*;
             connectionHandler = NetworkHandler.class)
 public class BambooCore
 {
-    public static final String MODID="BambooMod";
     private final boolean DEBUGMODE = false;
     @SidedProxy(serverSide = "ruby.bamboo.CommonProxy", clientSide = "ruby.bamboo.ClientProxy")
     public static CommonProxy proxy;
