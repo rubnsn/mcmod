@@ -26,7 +26,7 @@ public class BlockDeludeStair extends BlockStairs implements IDelude
     private boolean isIcongrass = false;
     public BlockDeludeStair(int par1)
     {
-        super(par1, BambooInit.getBlockInstance(BambooInit.DELUDE_WIDTH), 0);
+        super(par1, Block.blocksList[BambooInit.delude_widthBID], 0);
         this.setLightOpacity(1);
     }
     @Override

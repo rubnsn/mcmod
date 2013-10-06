@@ -43,37 +43,37 @@ public class BlockDecoCarpet extends BlockCarpet
         switch (par2)
         {
             case 0:
-                return BambooInit.getBlockInstance(BambooInit.DIR_SQUARE).getIcon(par1, 0);
+                return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 0);
 
             case 1:
-                return BambooInit.getBlockInstance(BambooInit.DIR_SQUARE).getIcon(par1, 1);
+                return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 1);
 
             case 2:
-                return BambooInit.getBlockInstance(BambooInit.DIR_SQUARE).getIcon(par1, 4);
+                return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 4);
 
             case 3:
-                return BambooInit.getBlockInstance(BambooInit.DIR_SQUARE).getIcon(par1, 5);
+                return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 5);
 
             case 4:
-                return BambooInit.getBlockInstance(BambooInit.DIR_SQUARE).getIcon(par1, 8);
+                return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 8);
 
             case 5:
-                return BambooInit.getBlockInstance(BambooInit.DIR_SQUARE).getIcon(par1, 9);
+                return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 9);
 
             case 6:
-                return BambooInit.getBlockInstance(BambooInit.DIR_SQUARE).getIcon(par1, 10);
+                return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 10);
 
             case 7:
-                return BambooInit.getBlockInstance(BambooInit.DIR_SQUARE).getIcon(par1, 11);
+                return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 11);
 
             case 8:
-                return BambooInit.getBlockInstance(BambooInit.DIR_SQUARE).getIcon(par1, 12);
+                return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 12);
 
             case 9:
-                return BambooInit.getBlockInstance(BambooInit.DIR_SQUARE).getIcon(par1, 13);
+                return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 13);
 
             default:
-                return BambooInit.getBlockInstance(BambooInit.DIR_SQUARE).getIcon(par1, 0);
+                return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 0);
         }
     }
     @Override

@@ -78,9 +78,9 @@ public class Config
         prop.comment = "delude right click max reference";
         deludeMaxReference = prop.getInt();
         //勾玉をダンジョンチェストへ生成するか
-        prop = conf.get("BambooSettings", "addMagatama", false);
+        prop = conf.get("BambooSettings", "addMagatama", true);
         prop.comment = "add magatama to DunsionChests";
-        addMagatama = prop.getBoolean(false);
+        addMagatama = prop.getBoolean(true);
         //勾玉を使用できるか
         prop = conf.get("BambooSettings", "useMagatama", false);
         prop.comment = "This item is to erode the terrain greatly";
@@ -96,7 +96,7 @@ public class Config
             GameRegistry.addRecipe(new ItemStack(BambooInit.takenokoIID, 1, 0), new Object[] { "YYY", "YXY", "YYY", 'Y',
                                 Item.glowstone, 'X', Item.reed
                                                                                           });
-            GameRegistry.addRecipe(new ItemStack(BambooInit.getBlockInstance(BambooInit.SAKURA_SAPLING), 1, 0), new Object[] { "YYY", "YXY", "YYY", 'Y',
+            GameRegistry.addRecipe(new ItemStack(BambooInit.sakuraBID, 1, 0), new Object[] { "YYY", "YXY", "YYY", 'Y',
                                 Block.netherrack, 'X', Block.sapling
                                                                                         });
         }
@@ -108,7 +108,7 @@ public class Config
 
                 if (ir.getRecipeOutput() != null)
                 {
-                    if (ir.getRecipeOutput().itemID == BambooInit.takenokoIID || ir.getRecipeOutput().getUnlocalizedName() == BambooInit.SAKURA_SAPLING)
+                    if (ir.getRecipeOutput().itemID == BambooInit.takenokoIID || ir.getRecipeOutput().itemID == BambooInit.sakuraBID)
                     {
                         CraftingManager.getInstance().getRecipeList().remove(j);
                     }

@@ -22,13 +22,7 @@ public class BambooChestContent extends WeightedRandomChestContent{
 		if(random.nextFloat()<0.001){
 			return super.generateChestContent(random, newInventory);
 		}else{
-			ItemStack is;
-			if(random.nextBoolean()){
-				is=new ItemStack(BambooInit.takenokoIID,1,0);
-			}else{
-				is=new ItemStack(BambooInit.getBlockInstance(BambooInit.SAKURA_SAPLING),1,0);
-			}
-			return new ItemStack[]{is};
+			return new ItemStack[]{new ItemStack(random.nextBoolean()?BambooInit.takenokoIID:BambooInit.sakuraBID,1,0)};
 		}
     }
 }

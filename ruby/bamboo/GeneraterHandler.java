@@ -87,7 +87,7 @@ public class GeneraterHandler implements IWorldGenerator
 
                 if (world.isAirBlock(var7, var8, var9) && world.getBlockId(var7, var8 - 1, var9) == Block.grass.blockID && Block.pumpkin.canPlaceBlockAt(world, var7, var8, var9))
                 {
-                    ((BlockSakura)BambooInit.getBlockInstance(BambooInit.SAKURA_SAPLING)).growTree(world, var7, var8, var9, random, 0x0f);
+                    ((BlockSakura)Block.blocksList[BambooInit.sakuraBID]).growTree(world, var7, var8, var9, random, 0x0f);
                     return;
                 }
             }

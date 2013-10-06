@@ -92,11 +92,11 @@ public class BlockDSquare extends Block
         {
             case 10:
             case 11:
-                is = new ItemStack(isHalf ? BambooInit.getBlockInstance(BambooInit.HALF_DIR_SQUARE) : BambooInit.getBlockInstance(BambooInit.DIR_SQUARE), 1, 10);
+                is = new ItemStack(isHalf ? BambooInit.dHalfSquareBID : BambooInit.dSquareBID, 1, 10);
                 break;
 
             default:
-                is = new ItemStack(isHalf ? BambooInit.getBlockInstance(BambooInit.HALF_DIR_SQUARE) : BambooInit.getBlockInstance(BambooInit.DIR_SQUARE), 1, l & 12);
+                is = new ItemStack(isHalf ? BambooInit.dHalfSquareBID : BambooInit.dSquareBID, 1, l & 12);
         }
 
         dropBlockAsItem_do(world, i, j, k, is);
