@@ -10,11 +10,8 @@ import ruby.bamboo.entity.magatama.EntityGravityHole;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityEndPortal;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderGravityHole extends Render{
@@ -43,7 +40,7 @@ public class RenderGravityHole extends Render{
 	    for (int i = 0; i < 16; ++i)
 	    {
 	        GL11.glPushMatrix();
-	        float f5 = (float)(16 - i);
+	        float f5 = 16 - i;
 	        float scale = 0.0625F;
 	        float color = 1.0F / (f5 + 1.0F);
 	
@@ -67,7 +64,7 @@ public class RenderGravityHole extends Render{
 	            scale = 0.5F;
 	        }
 
-	        float f8 = (float)(-(posY + (double)f4));
+	        float f8 = (float)(-(posY + f4));
 	        float f9 = f8 + ActiveRenderInfo.objectY;
 	        float f10 = f8 + f5 + ActiveRenderInfo.objectY;
 	        float f11 = f9 / f10;
@@ -89,11 +86,11 @@ public class RenderGravityHole extends Render{
 	        GL11.glMatrixMode(GL11.GL_TEXTURE);
 	        GL11.glPushMatrix();
 	        GL11.glLoadIdentity();
-	        GL11.glTranslatef(0.0F, (float)(Minecraft.getSystemTime() % 700000L) / 700000.0F, 0.0F);
+	        GL11.glTranslatef(0.0F, Minecraft.getSystemTime() % 700000L / 700000.0F, 0.0F);
 	        scale=entity.getScale();
 	        GL11.glScalef(scale, scale, scale);
 	        GL11.glTranslatef(0.5F, 0.5F, 0.0F);
-	        GL11.glRotatef((float)(i * i * 4321 + i * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
+	        GL11.glRotatef((i * i * 4321 + i * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
 	        GL11.glTranslatef(-0.5F, -0.5F, 0.0F);
 	        GL11.glTranslatef(-viewerPosX, -viewerPosZ, -viewerPosY);
 	        f9 = f8 + ActiveRenderInfo.objectY;

@@ -1,12 +1,9 @@
 package ruby.bamboo.entity.magatama;
 
-import java.lang.reflect.InvocationTargetException;
-
 import ruby.bamboo.item.magatama.ItemMagatama;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;

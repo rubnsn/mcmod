@@ -1,25 +1,18 @@
 package ruby.bamboo.entity.magatama;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import java.util.TreeSet;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import ruby.bamboo.BambooUtil;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityFallingSand;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class EntityGravityHole extends Entity{
@@ -149,7 +142,7 @@ public class EntityGravityHole extends Entity{
 	private void setToAirBlock(World world,int posX,int posY,int posZ){
 		if(world.isRemote){
 			if(rand.nextFloat()<0.02){
-				EntityFallingSand entityfallingsand = new EntityFallingSand(world, (double)((float)posX + 0.5F), (double)((float)posY + 0.5F), (double)((float)posZ + 0.5F), world.getBlockId(posX,posY,posZ), world.getBlockMetadata(posX,posY,posZ));
+				EntityFallingSand entityfallingsand = new EntityFallingSand(world, posX + 0.5F, posY + 0.5F, posZ + 0.5F, world.getBlockId(posX,posY,posZ), world.getBlockMetadata(posX,posY,posZ));
 				entityfallingsand.fallTime=2;
 				entityfallingsand.shouldDropItem=false;
 				hooks.add(entityfallingsand);

@@ -8,18 +8,15 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import ruby.bamboo.BambooInit;
-import ruby.bamboo.Config;
 import ruby.bamboo.BambooCore;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class ItemBambooFood extends ItemFood
@@ -43,7 +40,6 @@ public class ItemBambooFood extends ItemFood
         super(id, 0, false);
         setMaxDamage(0);
         setHasSubtypes(true);
-        this.setCreativeTab(BambooCore.tabBamboo);
     }
 
     @Override

@@ -1,11 +1,9 @@
 package ruby.bamboo.entity;
 
-import ruby.bamboo.Config;
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.block.ICustomPetal;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;

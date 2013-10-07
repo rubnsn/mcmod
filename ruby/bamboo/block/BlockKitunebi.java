@@ -2,7 +2,6 @@ package ruby.bamboo.block;
 
 import java.util.Random;
 
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.CustomRenderHandler;
 
 import cpw.mods.fml.client.FMLClientHandler;

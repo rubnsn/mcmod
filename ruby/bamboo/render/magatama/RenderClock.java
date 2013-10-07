@@ -1,8 +1,6 @@
 package ruby.bamboo.render.magatama;
 
 import org.lwjgl.opengl.*;
-import org.lwjgl.util.glu.Cylinder;
-
 import ruby.bamboo.entity.magatama.EntityClock;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;

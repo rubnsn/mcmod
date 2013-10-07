@@ -2,10 +2,8 @@ package ruby.bamboo.item;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityWind;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -18,7 +16,6 @@ public class ItemFan extends Item
         super(par1);
         setMaxDamage(100);
         setMaxStackSize(1);
-        this.setCreativeTab(BambooCore.tabBamboo);
     }
     @Override
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)

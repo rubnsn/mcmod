@@ -1,10 +1,7 @@
 package ruby.bamboo.block;
 
 import java.util.List;
-import java.util.Random;
-
 import ruby.bamboo.BambooInit;
-import ruby.bamboo.Config;
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.CustomRenderHandler;
 
@@ -167,7 +164,7 @@ public class BlockDelude extends Block implements IDelude
 
         if (!isHeightSlab)
         {
-            var10 = (par5 != 0 && (par5 == 1 || (double)par7 <= 0.5D) ? par9 : par9 | 8);
+            var10 = (par5 != 0 && (par5 == 1 || par7 <= 0.5D) ? par9 : par9 | 8);
         }
 
         int meta = par5;

@@ -2,8 +2,6 @@ package ruby.bamboo.block;
 
 import java.util.List;
 
-import ruby.bamboo.BambooCore;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -91,7 +89,7 @@ public class BlockDecorations extends Block
     @Override
     public int onBlockPlaced(World par1World, int par2, int par3, int par4, int par5, float par6, float par7, float par8, int par9)
     {
-        return par5 != 0 && (par5 == 1 || (double)par7 <= 0.5D) ? par9 : par9 | 8;
+        return par5 != 0 && (par5 == 1 || par7 <= 0.5D) ? par9 : par9 | 8;
     }
     @Override
     public void addCollisionBoxesToList(World par1World, int par2, int par3, int par4, AxisAlignedBB par5AxisAlignedBB, List par6List, Entity par7Entity)

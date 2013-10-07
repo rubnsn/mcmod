@@ -1,6 +1,5 @@
 package ruby.bamboo.block;
 
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

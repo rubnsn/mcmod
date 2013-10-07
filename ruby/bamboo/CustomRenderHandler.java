@@ -3,7 +3,6 @@ package ruby.bamboo;
 import org.lwjgl.opengl.GL11;
 
 import ruby.bamboo.block.BlockBambooPane;
-import ruby.bamboo.block.BlockDelude;
 import ruby.bamboo.block.BlockKitunebi;
 import ruby.bamboo.block.BlockPillar;
 import ruby.bamboo.block.BlockRiceField;
@@ -16,7 +15,6 @@ import ruby.bamboo.render.RenderMillStone;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.src.ModLoader;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;

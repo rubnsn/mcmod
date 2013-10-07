@@ -1,7 +1,5 @@
 package ruby.bamboo.block;
 
-import java.util.Random;
-
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.CustomRenderHandler;
@@ -12,7 +10,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -239,7 +236,7 @@ public class BlockDeludeStair extends BlockStairs implements IDelude
     @Override
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
     {
-        return AxisAlignedBB.getAABBPool().getAABB((double)par2, (double)par3, (double)par4, (double)par2 + 1, (double)par3 + 1, (double)par4 + 1);
+        return AxisAlignedBB.getAABBPool().getAABB(par2, par3, par4, (double)par2 + 1, (double)par3 + 1, (double)par4 + 1);
     }
     @Override
     public void setIconGrass(boolean bool)

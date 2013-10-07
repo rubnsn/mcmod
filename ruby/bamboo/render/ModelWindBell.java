@@ -20,7 +20,8 @@ public class ModelWindBell extends ModelBase
         box0.setRotationPoint(0F, 9F, 0F);
     }
 
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+    @Override
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
     {
         box.render(f5);
         box0.render(f5);

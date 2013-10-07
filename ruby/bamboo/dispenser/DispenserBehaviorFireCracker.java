@@ -1,8 +1,6 @@
 package ruby.bamboo.dispenser;
 
-import ruby.bamboo.entity.EntityDirtySnowball;
 import ruby.bamboo.entity.EntityFirecracker;
-import ruby.bamboo.item.ItemDirtySnowball;
 import ruby.bamboo.item.ItemFirecracker;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.IProjectile;

@@ -3,7 +3,6 @@ package ruby.bamboo.tileentity;
 import java.util.Random;
 
 import ruby.bamboo.block.BlockCampfire;
-import net.minecraft.block.BlockFurnace;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;

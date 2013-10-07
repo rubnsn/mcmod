@@ -2,7 +2,6 @@ package ruby.bamboo.block;
 
 import java.util.List;
 
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -21,7 +20,8 @@ public class BlockTwoDirections extends BlockDecorations
     {
         super(par1, par2Material, isHalf);
     }
-    public BlockDecorations addTexName(String... name)
+    @Override
+	public BlockDecorations addTexName(String... name)
     {
         texNames = name;
         icons = new Icon[name.length * 2 & 7];

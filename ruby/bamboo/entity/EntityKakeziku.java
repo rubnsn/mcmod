@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -70,7 +67,8 @@ public class EntityKakeziku extends Entity
         dataWatcher.updateObject(18, art.title);
     }
 
-    protected void entityInit()
+    @Override
+	protected void entityInit()
     {
     }
 
@@ -173,10 +171,10 @@ public class EntityKakeziku extends Entity
         }
 
         var6 += this.dirOffset(this.art.sizeY);
-        this.setPosition((double)var5, (double)var6 - 1, (double)var7);
+        this.setPosition(var5, (double)var6 - 1, var7);
         float var9 = -0.00625F;
         this.setSize(var2, var3 - 0.1F);
-        this.boundingBox.setBounds((double)(var5 - var2 - var9), (double)(var6 - var3 - var9), (double)(var7 - var4 - var9), (double)(var5 + var2 + var9), (double)(var6 + var3 + var9), (double)(var7 + var4 + var9));
+        this.boundingBox.setBounds(var5 - var2 - var9, var6 - var3 - var9, var7 - var4 - var9, var5 + var2 + var9, var6 + var3 + var9, var7 + var4 + var9);
     }
 
     private float dirOffset(int par1)
@@ -214,25 +212,25 @@ public class EntityKakeziku extends Entity
 
             if (getDir() == 0)
             {
-                var3 = MathHelper.floor_double(this.posX - (double)(this.art.sizeX / 32.0F));
+                var3 = MathHelper.floor_double(this.posX - this.art.sizeX / 32.0F);
             }
 
             if (getDir() == 1)
             {
-                var5 = MathHelper.floor_double(this.posZ - (double)(this.art.sizeX / 32.0F));
+                var5 = MathHelper.floor_double(this.posZ - this.art.sizeX / 32.0F);
             }
 
             if (getDir() == 2)
             {
-                var3 = MathHelper.floor_double(this.posX - (double)(this.art.sizeX / 32.0F));
+                var3 = MathHelper.floor_double(this.posX - this.art.sizeX / 32.0F);
             }
 
             if (getDir() == 3)
             {
-                var5 = MathHelper.floor_double(this.posZ - (double)(this.art.sizeX / 32.0F));
+                var5 = MathHelper.floor_double(this.posZ - this.art.sizeX / 32.0F);
             }
 
-            var4 = MathHelper.floor_double(this.posY - (double)(this.art.sizeY / 32.0F)) + 1;
+            var4 = MathHelper.floor_double(this.posY - this.art.sizeY / 32.0F) + 1;
 
             for (int var6 = 0; var6 < var1; ++var6)
             {
@@ -275,7 +273,8 @@ public class EntityKakeziku extends Entity
         }
     }
 
-    public boolean canBeCollidedWith()
+    @Override
+	public boolean canBeCollidedWith()
     {
         return true;
     }

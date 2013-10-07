@@ -6,7 +6,6 @@ import java.util.Random;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.entity.EntitySakuraPetal;
 
@@ -19,7 +18,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.src.ModLoader;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
@@ -86,7 +84,8 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal
         return this.blockID;
     }
 
-    public boolean isOpaqueCube()
+    @Override
+	public boolean isOpaqueCube()
     {
         return false;
     }

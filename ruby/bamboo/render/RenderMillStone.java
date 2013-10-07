@@ -4,9 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import ruby.bamboo.tileentity.TileEntityMillStone;
 
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 

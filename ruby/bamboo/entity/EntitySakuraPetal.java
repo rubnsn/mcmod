@@ -115,9 +115,9 @@ public class EntitySakuraPetal extends Entity
         motionZ = d5;
         float var14 = (float)(Math.random() + Math.random() + 1.0D) * 0.15F;
         float var15 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
-        this.motionX = this.motionX / (double)var15 * (double)var14;
-        this.motionY = this.motionY / (double)var15;
-        this.motionZ = this.motionZ / (double)var15 * (double)var14;
+        this.motionX = this.motionX / var15 * var14;
+        this.motionY = this.motionY / var15;
+        this.motionZ = this.motionZ / var15 * var14;
 
         if (d3 == 0 && d4 == 0 && d5 == 0)
         {

@@ -7,13 +7,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.CustomRenderHandler;
-import ruby.bamboo.Config;
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.tileentity.TileEntityCampfire;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockFurnace;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -55,19 +50,19 @@ public class BlockCampfire extends BlockFurnace
     @Override
     public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random)
     {
-        float var7 = (float)par2 + 0.5F;
-        float var8 = (float)par3 + 0.2F;
-        float var9 = (float)par4 + 0.5F;
+        float var7 = par2 + 0.5F;
+        float var8 = par3 + 0.2F;
+        float var9 = par4 + 0.5F;
         float var10 = par5Random.nextFloat() * 0.4F - 0.2F;
         float var11 = par5Random.nextFloat() * 0.4F - 0.2F;
-        par1World.spawnParticle("smoke", (double)(var7 + var10), (double)var8, (double)(var9 + var11), 0.0D, 0.0D, 0.0D);
-        par1World.spawnParticle("flame", (double)(var7 + var10), (double)var8, (double)(var9 + var11), 0.0D, 0.0D, 0.0D);
+        par1World.spawnParticle("smoke", var7 + var10, var8, var9 + var11, 0.0D, 0.0D, 0.0D);
+        par1World.spawnParticle("flame", var7 + var10, var8, var9 + var11, 0.0D, 0.0D, 0.0D);
     }
     @Override
 
     public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
     {
-        int var6 = MathHelper.floor_double((double)(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        int var6 = MathHelper.floor_double(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
         par1World.setBlockMetadataWithNotify(par2, par3, par4, var6, 3);
     }
     public static void updateFurnaceBlockState(World par1World, int par2, int par3, int par4)

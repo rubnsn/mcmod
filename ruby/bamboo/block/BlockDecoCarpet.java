@@ -2,7 +2,6 @@ package ruby.bamboo.block;
 
 import java.util.List;
 
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.BambooUtil;
 import cpw.mods.fml.relauncher.Side;

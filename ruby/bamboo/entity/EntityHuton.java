@@ -1,11 +1,9 @@
 package ruby.bamboo.entity;
 
 import ruby.bamboo.BambooInit;
-import ruby.bamboo.Config;
 import ruby.bamboo.BambooCore;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;

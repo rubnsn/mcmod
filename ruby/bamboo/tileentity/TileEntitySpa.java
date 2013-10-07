@@ -3,7 +3,6 @@ package ruby.bamboo.tileentity;
 import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

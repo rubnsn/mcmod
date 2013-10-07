@@ -1,7 +1,5 @@
 package ruby.bamboo.entity;
 
-import java.util.HashMap;
-
 public enum EnumSlideDoor
 {
     HUSUMA(0, "husuma", false),

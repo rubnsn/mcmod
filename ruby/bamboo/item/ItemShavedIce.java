@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ruby.bamboo.BambooCore;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -15,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
-import net.minecraft.util.StringTranslate;
 import net.minecraft.world.World;
 
 public class ItemShavedIce extends ItemFood
@@ -43,8 +40,6 @@ public class ItemShavedIce extends ItemFood
         super(par1, 4, false);
         setHasSubtypes(true);
         setMaxDamage(0);
-        setMaxStackSize(64);
-        this.setCreativeTab(BambooCore.tabBamboo);
     }
 
     @Override

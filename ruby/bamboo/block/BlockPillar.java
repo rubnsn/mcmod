@@ -2,7 +2,6 @@ package ruby.bamboo.block;
 
 import java.util.List;
 
-import ruby.bamboo.BambooInit;
 import ruby.bamboo.CustomRenderHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -357,7 +356,8 @@ public class BlockPillar extends Block
     {
         return canStay(world, posX, posY, posZ, side);
     }
-    public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
+    @Override
+	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
     {
         if (!canStay(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4)))
         {

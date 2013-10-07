@@ -473,7 +473,8 @@ public class WorldGenBigSakura extends WorldGenerator
     /**
      * Rescales the generator settings, only used in WorldGenBigTree
      */
-    public void setScale(double par1, double par3, double par5)
+    @Override
+	public void setScale(double par1, double par3, double par5)
     {
         this.heightLimitLimit = (int)(par1 * 12.0D);
 
@@ -486,7 +487,8 @@ public class WorldGenBigSakura extends WorldGenerator
         this.leafDensity = par5;
     }
 
-    public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5)
+    @Override
+	public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5)
     {
         this.worldObj = par1World;
         long var6 = par2Random.nextLong();

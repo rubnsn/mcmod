@@ -7,12 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import ruby.bamboo.Config;
 import ruby.bamboo.BambooCore;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -82,7 +80,8 @@ public class EntityFirecracker  extends EntityThrowable
             private Map field_77288_k = new HashMap();
             private Random explosionRNG = new Random();
             HashSet destroyedBlockPositions = new HashSet();
-            public void doExplosionA()
+            @Override
+			public void doExplosionA()
             {
                 float var1 = this.explosionSize;
                 HashSet var2 = new HashSet();
@@ -146,42 +145,42 @@ public class EntityFirecracker  extends EntityThrowable
 
                 this.affectedBlockPositions.addAll(var2);
                 this.explosionSize *= 2.0F;
-                var3 = MathHelper.floor_double(this.explosionX - (double)this.explosionSize - 1.0D);
-                var4 = MathHelper.floor_double(this.explosionX + (double)this.explosionSize + 1.0D);
-                var5 = MathHelper.floor_double(this.explosionY - (double)this.explosionSize - 1.0D);
-                int var27 = MathHelper.floor_double(this.explosionY + (double)this.explosionSize + 1.0D);
-                int var7 = MathHelper.floor_double(this.explosionZ - (double)this.explosionSize - 1.0D);
-                int var28 = MathHelper.floor_double(this.explosionZ + (double)this.explosionSize + 1.0D);
-                List var9 = worldObj.getEntitiesWithinAABBExcludingEntity(this.exploder, AxisAlignedBB.getAABBPool().getAABB((double)var3, (double)var5, (double)var7, (double)var4, (double)var27, (double)var28));
+                var3 = MathHelper.floor_double(this.explosionX - this.explosionSize - 1.0D);
+                var4 = MathHelper.floor_double(this.explosionX + this.explosionSize + 1.0D);
+                var5 = MathHelper.floor_double(this.explosionY - this.explosionSize - 1.0D);
+                int var27 = MathHelper.floor_double(this.explosionY + this.explosionSize + 1.0D);
+                int var7 = MathHelper.floor_double(this.explosionZ - this.explosionSize - 1.0D);
+                int var28 = MathHelper.floor_double(this.explosionZ + this.explosionSize + 1.0D);
+                List var9 = worldObj.getEntitiesWithinAABBExcludingEntity(this.exploder, AxisAlignedBB.getAABBPool().getAABB(var3, var5, var7, var4, var27, var28));
                 Vec3 var29 = Vec3.fakePool.getVecFromPool(this.explosionX, this.explosionY, this.explosionZ);
 
                 for (int var11 = 0; var11 < var9.size(); ++var11)
                 {
                     Entity var30 = (Entity)var9.get(var11);
-                    double var13 = var30.getDistance(this.explosionX, this.explosionY, this.explosionZ) / (double)this.explosionSize;
+                    double var13 = var30.getDistance(this.explosionX, this.explosionY, this.explosionZ) / this.explosionSize;
 
                     if (var13 <= 1.0D)
                     {
                         var15 = var30.posX - this.explosionX;
-                        var17 = var30.posY + (double)var30.getEyeHeight() - this.explosionY;
+                        var17 = var30.posY + var30.getEyeHeight() - this.explosionY;
                         var19 = var30.posZ - this.explosionZ;
-                        double var32 = (double)MathHelper.sqrt_double(var15 * var15 + var17 * var17 + var19 * var19);
+                        double var32 = MathHelper.sqrt_double(var15 * var15 + var17 * var17 + var19 * var19);
 
                         if (var32 != 0.0D)
                         {
                             var15 /= var32;
                             var17 /= var32;
                             var19 /= var32;
-                            double var31 = (double)worldObj.getBlockDensity(var29, var30.boundingBox);
+                            double var31 = worldObj.getBlockDensity(var29, var30.boundingBox);
                             double var33 = (1.0D - var13) * var31;
-                            var30.attackEntityFrom(DamageSource.setExplosionSource(this), (int)((var33 * var33 + var33) / 2.0D * 8.0D * (double)this.explosionSize + 1.0D));
+                            var30.attackEntityFrom(DamageSource.setExplosionSource(this), (int)((var33 * var33 + var33) / 2.0D * 8.0D * this.explosionSize + 1.0D));
                             var30.motionX += var15 * var33;
                             var30.motionY += var17 * var33;
                             var30.motionZ += var19 * var33;
 
                             if (var30 instanceof EntityPlayer)
                             {
-                                this.field_77288_k.put((EntityPlayer)var30, Vec3.fakePool.getVecFromPool(var15 * var33, var17 * var33, var19 * var33));
+                                this.field_77288_k.put(var30, Vec3.fakePool.getVecFromPool(var15 * var33, var17 * var33, var19 * var33));
                             }
                         }
                     }
@@ -189,7 +188,8 @@ public class EntityFirecracker  extends EntityThrowable
 
                 this.explosionSize = var1;
             }
-            public void doExplosionB(boolean par1)
+            @Override
+			public void doExplosionB(boolean par1)
             {
                 worldObj.playSoundEffect(this.explosionX, this.explosionY, this.explosionZ, "random.explode", 4.0F, (1.0F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
                 worldObj.spawnParticle("hugeexplosion", this.explosionX, this.explosionY, this.explosionZ, 0.0D, 0.0D, 0.0D);
@@ -210,18 +210,18 @@ public class EntityFirecracker  extends EntityThrowable
 
                     if (par1)
                     {
-                        double var8 = (double)((float)var4 + worldObj.rand.nextFloat());
-                        double var10 = (double)((float)var5 + worldObj.rand.nextFloat());
-                        double var12 = (double)((float)var6 + worldObj.rand.nextFloat());
+                        double var8 = var4 + worldObj.rand.nextFloat();
+                        double var10 = var5 + worldObj.rand.nextFloat();
+                        double var12 = var6 + worldObj.rand.nextFloat();
                         double var14 = var8 - this.explosionX;
                         double var16 = var10 - this.explosionY;
                         double var18 = var12 - this.explosionZ;
-                        double var20 = (double)MathHelper.sqrt_double(var14 * var14 + var16 * var16 + var18 * var18);
+                        double var20 = MathHelper.sqrt_double(var14 * var14 + var16 * var16 + var18 * var18);
                         var14 /= var20;
                         var16 /= var20;
                         var18 /= var20;
-                        double var22 = 0.5D / (var20 / (double)this.explosionSize + 0.1D);
-                        var22 *= (double)(worldObj.rand.nextFloat() * worldObj.rand.nextFloat() + 0.3F);
+                        double var22 = 0.5D / (var20 / this.explosionSize + 0.1D);
+                        var22 *= worldObj.rand.nextFloat() * worldObj.rand.nextFloat() + 0.3F;
                         var14 *= var22;
                         var16 *= var22;
                         var18 *= var22;

@@ -1,14 +1,8 @@
 package ruby.bamboo.item.magatama;
 
-import java.util.Iterator;
-
 import ruby.bamboo.entity.magatama.EntityGravityHole;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.world.World;
 
 public class MagatamaPurple implements IMagatama{
 

@@ -37,7 +37,7 @@ public class EntityFWParticle extends EntityFX
     public void renderParticle(Tessellator tessellator, float f, float f1,
                                float f2, float f3, float f4, float f5)
     {
-        float f6 = ((float) particleAge + f) / (float) particleMaxAge;
+        float f6 = (particleAge + f) / particleMaxAge;
         particleScale = size * (1.0F - f6 * f6 * 0.5F);
         super.renderParticle(tessellator, f, f1, f2, f3, f4, f5);
     }

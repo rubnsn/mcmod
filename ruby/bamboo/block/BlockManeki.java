@@ -1,13 +1,5 @@
 package ruby.bamboo.block;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.CustomRenderHandler;
 import ruby.bamboo.ManekiHandler;
 import ruby.bamboo.tileentity.TileEntityManeki;
@@ -31,7 +23,7 @@ public class BlockManeki extends BlockContainer
     {
         int meta = 0;
 
-        switch (MathHelper.floor_double((double)(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3)
+        switch (MathHelper.floor_double(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 3)
         {
             case 0:
                 meta = 2;

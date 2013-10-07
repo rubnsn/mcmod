@@ -3,8 +3,6 @@ package ruby.bamboo.tileentity;
 import java.util.Random;
 
 import ruby.bamboo.block.BlockManeki;
-import net.minecraft.block.Block;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 

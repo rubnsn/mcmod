@@ -6,8 +6,6 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-import ruby.bamboo.ClientProxy;
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityWhiteSmokeFX;
 import ruby.bamboo.tileentity.TileEntitySpa;
 
@@ -16,7 +14,6 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;

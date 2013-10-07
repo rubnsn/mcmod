@@ -7,18 +7,14 @@ import java.util.Map;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityDirtySnowball;
 import ruby.bamboo.entity.EnumDirtySnowball;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemSnowball;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
-import net.minecraft.util.StringTranslate;
 import net.minecraft.world.World;
 
 public class ItemDirtySnowball extends ItemSnowball {
@@ -36,10 +32,8 @@ public class ItemDirtySnowball extends ItemSnowball {
 
 	public ItemDirtySnowball(int par1) {
 		super(par1);
-		this.maxStackSize = 64;
 		setHasSubtypes(true);
 		setMaxDamage(0);
-		this.setCreativeTab(BambooCore.tabBamboo);
 	}
 
 	public static EnumDirtySnowball getEDS(int id) {

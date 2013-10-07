@@ -1,8 +1,6 @@
 package ruby.bamboo.item.magatama;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import ruby.bamboo.entity.magatama.EntityFlareEffect;
 
 public class MagatamaRed implements IMagatama{

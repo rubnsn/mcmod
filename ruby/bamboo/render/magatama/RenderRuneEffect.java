@@ -2,10 +2,7 @@ package ruby.bamboo.render.magatama;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Cylinder;
-import org.lwjgl.util.glu.GLU;
-
 import ruby.bamboo.entity.magatama.EntityRuneEffect;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;

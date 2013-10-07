@@ -1,12 +1,9 @@
 package ruby.bamboo.dispenser;
 
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityDirtySnowball;
 import ruby.bamboo.item.ItemDirtySnowball;
-import net.minecraft.dispenser.BehaviorProjectileDispense;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.IProjectile;
-import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.world.World;
 
 public class DispenserBehaviorDirtySnowball extends BehaviorProjectileDispenseEX

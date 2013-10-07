@@ -4,7 +4,8 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityAndon extends TileEntity
 {
-    public boolean canUpdate()
+    @Override
+	public boolean canUpdate()
     {
         return false;
     }

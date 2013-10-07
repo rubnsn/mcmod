@@ -8,7 +8,6 @@ import com.google.common.base.Function;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.EntitySpawnPacket;
-import cpw.mods.fml.common.registry.EntityRegistry;
 
 public class ClientSpawnHandler  implements Function<EntitySpawnPacket, Entity>
 {

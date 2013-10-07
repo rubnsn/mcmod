@@ -2,41 +2,25 @@ package ruby.bamboo;
 
 import static ruby.bamboo.BambooInit.*;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
 import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ruby.bamboo.entity.EnumSlideDoor;
 import ruby.bamboo.item.EnumFood;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.Language;
-import net.minecraft.client.resources.LanguageManager;
-import net.minecraft.client.resources.Locale;
 import net.minecraft.client.resources.ResourceManager;
 import net.minecraft.client.resources.ResourceManagerReloadListener;
 import net.minecraft.client.resources.SimpleReloadableResourceManager;
-import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.src.ModLoader;
-import net.minecraft.util.StringTranslate;
 
 @SideOnly(Side.CLIENT)
 public class BambooLocalize implements ResourceManagerReloadListener

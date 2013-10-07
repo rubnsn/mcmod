@@ -3,18 +3,14 @@ package ruby.bamboo.gui;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ContainerFurnace;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.client.gui.inventory.GuiContainer;
 
 import org.lwjgl.opengl.GL11;
 
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 
 @SideOnly(Side.CLIENT)
@@ -26,7 +22,8 @@ public class GuiSack extends GuiContainer
         super(new ContainerSack(par1InventoryPlayer, par2ItemStack));
     }
 
-    protected void drawGuiContainerForegroundLayer(int par1, int par2)
+    @Override
+	protected void drawGuiContainerForegroundLayer(int par1, int par2)
     {
         String s = Item.itemsList[BambooInit.itemSackIID].getStatName();//this.furnaceInventory.isInvNameLocalized() ? this.furnaceInventory.getInvName() : StatCollector.translateToLocal(this.furnaceInventory.getInvName());
         this.fontRenderer.drawString(s, this.xSize / 2 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);

@@ -1,18 +1,14 @@
 package ruby.bamboo.item;
 
 import ruby.bamboo.KaginawaHandler;
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityKaginawa;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class ItemKaginawa extends Item
@@ -63,7 +59,8 @@ public class ItemKaginawa extends Item
         return false;
     }*/
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister)
     {
         this.itemIcon = Item.silk.getIconFromDamage(0);

@@ -7,11 +7,7 @@ import org.lwjgl.opengl.GL12;
 
 import ruby.bamboo.entity.EntityObon;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -23,9 +19,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.ForgeHooksClient;
 
 public class RenderObon extends Render
 {
@@ -90,9 +84,9 @@ public class RenderObon extends Render
                     Icon icon = itemstack.getItem().getIcon(itemstack, k);
                     f8 = 1.0F;
                     i = Item.itemsList[itemstack.itemID].getColorFromItemStack(itemstack, k);
-                    f5 = (float)(i >> 16 & 255) / 255.0F;
-                    f4 = (float)(i >> 8 & 255) / 255.0F;
-                    f6 = (float)(i & 255) / 255.0F;
+                    f5 = (i >> 16 & 255) / 255.0F;
+                    f4 = (i >> 8 & 255) / 255.0F;
+                    f6 = (i & 255) / 255.0F;
                     GL11.glColor4f(f5 * f8, f4 * f8, f6 * f8, 1.0F);
                     this.renderDroppedItem(par1EntityItem, icon, b0, par9, f5 * f8, f4 * f8, f6 * f8, k);
                 }
@@ -103,9 +97,9 @@ public class RenderObon extends Render
                 GL11.glTranslatef(0.0F, -0.05F, 0.0F);
                 Icon icon1 = itemstack.getIconIndex();
                 int l = Item.itemsList[itemstack.itemID].getColorFromItemStack(itemstack, 0);
-                f8 = (float)(l >> 16 & 255) / 255.0F;
-                float f9 = (float)(l >> 8 & 255) / 255.0F;
-                f5 = (float)(l & 255) / 255.0F;
+                f8 = (l >> 16 & 255) / 255.0F;
+                float f9 = (l >> 8 & 255) / 255.0F;
+                f5 = (l & 255) / 255.0F;
                 f4 = 1.0F;
                 this.renderDroppedItem(par1EntityItem, icon1, b0, par9, f8 * f4, f9 * f4, f5 * f4);
             }
@@ -157,10 +151,10 @@ public class RenderObon extends Render
             par2Icon = ((TextureMap)texturemanager.getTexture(resourcelocation)).registerIcon("missingno");
         }
 
-        float f4 = ((Icon)par2Icon).getMinU();
-        float f5 = ((Icon)par2Icon).getMaxU();
-        float f6 = ((Icon)par2Icon).getMinV();
-        float f7 = ((Icon)par2Icon).getMaxV();
+        float f4 = par2Icon.getMinU();
+        float f5 = par2Icon.getMaxU();
+        float f6 = par2Icon.getMinV();
+        float f7 = par2Icon.getMaxV();
         float f8 = 1.0F;
         float f9 = 0.5F;
         float f10 = 0.25F;
@@ -182,10 +176,10 @@ public class RenderObon extends Render
             GL11.glColor4f(par5, par6, par7, 1.0F);
             tessellator.startDrawingQuads();
             tessellator.setNormal(0.0F, 1.0F, 0.0F);
-            tessellator.addVertexWithUV((double)(0.0F - f9), (double)(0.0F - f10), 0.0D, (double)f4, (double)f7);
-            tessellator.addVertexWithUV((double)(f8 - f9), (double)(0.0F - f10), 0.0D, (double)f5, (double)f7);
-            tessellator.addVertexWithUV((double)(f8 - f9), (double)(1.0F - f10), 0.0D, (double)f5, (double)f6);
-            tessellator.addVertexWithUV((double)(0.0F - f9), (double)(1.0F - f10), 0.0D, (double)f4, (double)f6);
+            tessellator.addVertexWithUV(0.0F - f9, 0.0F - f10, 0.0D, f4, f7);
+            tessellator.addVertexWithUV(f8 - f9, 0.0F - f10, 0.0D, f5, f7);
+            tessellator.addVertexWithUV(f8 - f9, 1.0F - f10, 0.0D, f5, f6);
+            tessellator.addVertexWithUV(0.0F - f9, 1.0F - f10, 0.0D, f4, f6);
             tessellator.draw();
             GL11.glPopMatrix();
         }

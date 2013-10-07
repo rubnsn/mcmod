@@ -5,7 +5,6 @@ import java.util.List;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityBambooSpear;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -19,8 +18,6 @@ public class ItemBambooSpear extends Item
     public ItemBambooSpear(int i)
     {
         super(i);
-        maxStackSize = 64;
-        this.setCreativeTab(BambooCore.tabBamboo);
         this.setHasSubtypes(true);
     }
     @Override

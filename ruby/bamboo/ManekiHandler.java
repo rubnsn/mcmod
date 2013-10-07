@@ -9,9 +9,6 @@ import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 public class ManekiHandler
 {
     private final ArrayList<Coordinate> manekiList = new ArrayList<Coordinate>();

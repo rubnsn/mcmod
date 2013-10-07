@@ -6,11 +6,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import ruby.bamboo.BambooInit;
-import ruby.bamboo.Config;
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.tileentity.TileEntitySpa;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -64,11 +63,11 @@ public class BlockSpaUnit extends Block
         {
             if ((meta & 8) > 0)
             {
-                return Block.pistonBase.getPistonBaseIcon("piston_inner");
+                return BlockPistonBase.getPistonBaseIcon("piston_inner");
             }
             else
             {
-                return Block.pistonBase.getPistonBaseIcon("piston_top_normal");
+                return BlockPistonBase.getPistonBaseIcon("piston_top_normal");
             }
         }
         else

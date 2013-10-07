@@ -1,11 +1,9 @@
 package ruby.bamboo.block;
 
 import ruby.bamboo.BambooCore;
-import ruby.bamboo.BambooInit;
 import ruby.bamboo.CustomRenderHandler;
 import ruby.bamboo.GuiHandler;
 import ruby.bamboo.tileentity.TileEntityMillStone;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
@@ -15,7 +13,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.World;
 
 public class BlockMillStone extends BlockContainer
@@ -92,7 +89,7 @@ public class BlockMillStone extends BlockContainer
                             }
 
                             itemstack.stackSize -= k1;
-                            EntityItem entityitem = new EntityItem(par1World, (double)((float)par2 + f), (double)((float)par3 + f1), (double)((float)par4 + f2), new ItemStack(itemstack.itemID, k1, itemstack.getItemDamage()));
+                            EntityItem entityitem = new EntityItem(par1World, par2 + f, par3 + f1, par4 + f2, new ItemStack(itemstack.itemID, k1, itemstack.getItemDamage()));
 
                             if (itemstack.hasTagCompound())
                             {
@@ -100,9 +97,9 @@ public class BlockMillStone extends BlockContainer
                             }
 
                             float f3 = 0.05F;
-                            entityitem.motionX = (double)((float)par1World.rand.nextGaussian() * f3);
-                            entityitem.motionY = (double)((float)par1World.rand.nextGaussian() * f3 + 0.2F);
-                            entityitem.motionZ = (double)((float)par1World.rand.nextGaussian() * f3);
+                            entityitem.motionX = (float)par1World.rand.nextGaussian() * f3;
+                            entityitem.motionY = (float)par1World.rand.nextGaussian() * f3 + 0.2F;
+                            entityitem.motionZ = (float)par1World.rand.nextGaussian() * f3;
                             par1World.spawnEntityInWorld(entityitem);
                         }
                     }

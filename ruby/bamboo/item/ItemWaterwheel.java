@@ -2,11 +2,9 @@ package ruby.bamboo.item;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooUtil;
 import ruby.bamboo.entity.EntityWaterwheel;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,7 +17,6 @@ public class ItemWaterwheel extends Item
     public ItemWaterwheel(int par1)
     {
         super(par1);
-        setCreativeTab(BambooCore.tabBamboo);
     }
 
     @Override

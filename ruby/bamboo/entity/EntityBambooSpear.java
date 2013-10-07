@@ -3,7 +3,6 @@ package ruby.bamboo.entity;
 import java.util.Iterator;
 import java.util.List;
 
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 
 import net.minecraft.block.Block;
@@ -140,7 +139,7 @@ public class EntityBambooSpear extends EntityArrow
         {
             float var1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
             this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
-            this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(this.motionY, (double)var1) * 180.0D / Math.PI);
+            this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(this.motionY, var1) * 180.0D / Math.PI);
         }
 
         int var16 = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
@@ -178,9 +177,9 @@ public class EntityBambooSpear extends EntityArrow
             else
             {
                 this.inGround = false;
-                this.motionX *= (double)(this.rand.nextFloat() * 0.2F);
-                this.motionY *= (double)(this.rand.nextFloat() * 0.2F);
-                this.motionZ *= (double)(this.rand.nextFloat() * 0.2F);
+                this.motionX *= this.rand.nextFloat() * 0.2F;
+                this.motionY *= this.rand.nextFloat() * 0.2F;
+                this.motionZ *= this.rand.nextFloat() * 0.2F;
                 this.ticksInGround = 0;
                 this.ticksInAir = 0;
             }
@@ -212,7 +211,7 @@ public class EntityBambooSpear extends EntityArrow
                 if (var10.canBeCollidedWith() && (var10 != this.shootingEntity || this.ticksInAir >= 5))
                 {
                     var11 = 0.3F;
-                    AxisAlignedBB var12 = var10.boundingBox.expand((double)var11, (double)var11, (double)var11);
+                    AxisAlignedBB var12 = var10.boundingBox.expand(var11, var11, var11);
                     MovingObjectPosition var13 = var12.calculateIntercept(var17, var3);
 
                     if (var13 != null)
@@ -287,7 +286,7 @@ public class EntityBambooSpear extends EntityArrow
 
                                 if (var25 > 0.0F)
                                 {
-                                    var4.entityHit.addVelocity(this.motionX * (double)this.knockbackStrength * 0.6000000238418579D / (double)var25, 0.1D, this.motionZ * (double)this.knockbackStrength * 0.6000000238418579D / (double)var25);
+                                    var4.entityHit.addVelocity(this.motionX * this.knockbackStrength * 0.6000000238418579D / var25, 0.1D, this.motionZ * this.knockbackStrength * 0.6000000238418579D / var25);
                                 }
                             }
                         }
@@ -311,9 +310,9 @@ public class EntityBambooSpear extends EntityArrow
                     this.motionY = ((float)(var4.hitVec.yCoord - this.posY));
                     this.motionZ = ((float)(var4.hitVec.zCoord - this.posZ));
                     var20 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
-                    this.posX -= this.motionX / (double)var20 * 0.05000000074505806D;
-                    this.posY -= this.motionY / (double)var20 * 0.05000000074505806D;
-                    this.posZ -= this.motionZ / (double)var20 * 0.05000000074505806D;
+                    this.posX -= this.motionX / var20 * 0.05000000074505806D;
+                    this.posY -= this.motionY / var20 * 0.05000000074505806D;
+                    this.posZ -= this.motionZ / var20 * 0.05000000074505806D;
                     this.worldObj.playSoundAtEntity(this, "random.bowhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
                     this.inGround = true;
                     this.arrowShake = 7;
@@ -325,7 +324,7 @@ public class EntityBambooSpear extends EntityArrow
             {
                 for (int var21 = 0; var21 < 4; ++var21)
                 {
-                    this.worldObj.spawnParticle("crit", this.posX + this.motionX * (double)var21 / 4.0D, this.posY + this.motionY * (double)var21 / 4.0D, this.posZ + this.motionZ * (double)var21 / 4.0D, -this.motionX, -this.motionY + 0.2D, -this.motionZ);
+                    this.worldObj.spawnParticle("crit", this.posX + this.motionX * var21 / 4.0D, this.posY + this.motionY * var21 / 4.0D, this.posZ + this.motionZ * var21 / 4.0D, -this.motionX, -this.motionY + 0.2D, -this.motionZ);
                 }
             }
 
@@ -335,7 +334,7 @@ public class EntityBambooSpear extends EntityArrow
             var20 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
             this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 
-            for (this.rotationPitch = (float)(Math.atan2(this.motionY, (double)var20) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
+            for (this.rotationPitch = (float)(Math.atan2(this.motionY, var20) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
             {
                 ;
             }
@@ -365,16 +364,16 @@ public class EntityBambooSpear extends EntityArrow
                 for (int var26 = 0; var26 < 4; ++var26)
                 {
                     float var27 = 0.25F;
-                    this.worldObj.spawnParticle("bubble", this.posX - this.motionX * (double)var27, this.posY - this.motionY * (double)var27, this.posZ - this.motionZ * (double)var27, this.motionX, this.motionY, this.motionZ);
+                    this.worldObj.spawnParticle("bubble", this.posX - this.motionX * var27, this.posY - this.motionY * var27, this.posZ - this.motionZ * var27, this.motionX, this.motionY, this.motionZ);
                 }
 
                 var23 = 0.8F;
             }
 
-            this.motionX *= (double)var23;
-            this.motionY *= (double)var23;
-            this.motionZ *= (double)var23;
-            this.motionY -= (double)var11;
+            this.motionX *= var23;
+            this.motionY *= var23;
+            this.motionZ *= var23;
+            this.motionY -= var11;
             this.setPosition(this.posX, this.posY, this.posZ);
             this.doBlockCollisions();
         }

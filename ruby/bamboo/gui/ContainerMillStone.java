@@ -10,7 +10,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 
 public class ContainerMillStone extends Container
 {
@@ -76,7 +75,8 @@ public class ContainerMillStone extends Container
         this.lastProgressTime = tileEntity.getProgress();
         this.lastisGraind = tileEntity.grindTime;
     }
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void updateProgressBar(int par1, int par2)
     {
         if (par1 == 0)

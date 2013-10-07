@@ -1,7 +1,6 @@
 package ruby.bamboo.item.magatama;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class MagatamaPink implements IMagatama {

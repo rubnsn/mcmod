@@ -5,12 +5,10 @@ import com.google.common.collect.Multimap;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -48,7 +46,6 @@ public class ItemKatana extends ItemSword
         super(par1, EnumToolMaterial.IRON);
         this.setMaxDamage(150);
         weaponDamage = 1;
-        this.setCreativeTab(BambooCore.tabBamboo);
     }
 
     @Override

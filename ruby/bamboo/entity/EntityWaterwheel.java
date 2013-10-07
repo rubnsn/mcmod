@@ -1,6 +1,5 @@
 package ruby.bamboo.entity;
 
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;

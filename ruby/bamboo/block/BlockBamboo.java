@@ -4,14 +4,10 @@ import java.util.Random;
 
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.CustomRenderHandler;
-import ruby.bamboo.Config;
-import ruby.bamboo.BambooCore;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -213,7 +209,8 @@ public class BlockBamboo extends Block
         }
     }
 
-    public boolean canBlockStay(World world, int i, int j, int k)
+    @Override
+	public boolean canBlockStay(World world, int i, int j, int k)
     {
         int l = world.getBlockId(i, j - 1, k);
 

@@ -1,6 +1,5 @@
 package ruby.bamboo;
 
-import static ruby.bamboo.Config.*;
 import static ruby.bamboo.BambooInit.*;
 import cpw.mods.fml.common.registry.GameRegistry;
 import ruby.bamboo.entity.EnumSlideDoor;
@@ -8,7 +7,6 @@ import ruby.bamboo.item.EnumShavedIce;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.src.ModLoader;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;

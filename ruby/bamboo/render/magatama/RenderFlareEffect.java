@@ -9,7 +9,6 @@ import static org.lwjgl.opengl.GL11.glTranslatef;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Sphere;
 
-import ruby.bamboo.entity.EntityFirecracker;
 import ruby.bamboo.entity.magatama.EntityFlareEffect;
 
 import net.minecraft.client.renderer.entity.Render;

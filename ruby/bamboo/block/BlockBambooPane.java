@@ -1,15 +1,12 @@
 package ruby.bamboo.block;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.CustomRenderHandler;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockPane;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;

@@ -4,7 +4,6 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooUtil;
 import ruby.bamboo.entity.EntitySlideDoor;
 import ruby.bamboo.entity.EnumSlideDoor;
@@ -14,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class ItemSlideDoor extends Item
@@ -24,9 +22,7 @@ public class ItemSlideDoor extends Item
     public ItemSlideDoor(int i)
     {
         super(i);
-        maxStackSize = 64;
         this.setHasSubtypes(true);
-        this.setCreativeTab(BambooCore.tabBamboo);
     }
     @Override
     public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)

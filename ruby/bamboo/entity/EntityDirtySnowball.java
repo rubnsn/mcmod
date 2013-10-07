@@ -95,7 +95,7 @@ public class EntityDirtySnowball extends EntitySnowball
     private boolean teleportRandomly(EntityLiving targe)
     {
         double var1 = this.posX + (this.rand.nextDouble() - 0.5D) * 32.0D;
-        double var3 = this.posY + (double)(this.rand.nextInt(8) - 4);
+        double var3 = this.posY + (this.rand.nextInt(8) - 4);
         double var5 = this.posZ + (this.rand.nextDouble() - 0.5D) * 32.0D;
         return this.teleportTo(targe, var1, var3, var5);
     }
@@ -158,10 +158,10 @@ public class EntityDirtySnowball extends EntitySnowball
                 float var21 = (this.rand.nextFloat() - 0.5F) * 0.2F;
                 float var22 = (this.rand.nextFloat() - 0.5F) * 0.2F;
                 float var23 = (this.rand.nextFloat() - 0.5F) * 0.2F;
-                double var24 = var7 + (target.posX - var7) * var19 + (this.rand.nextDouble() - 0.5D) * (double)target.width * 2.0D;
-                double var26 = var9 + (target.posY - var9) * var19 + this.rand.nextDouble() * (double)target.height;
-                double var28 = var11 + (target.posZ - var11) * var19 + (this.rand.nextDouble() - 0.5D) * (double)target.width * 2.0D;
-                target.worldObj.spawnParticle("portal", var24, var26, var28, (double)var21, (double)var22, (double)var23);
+                double var24 = var7 + (target.posX - var7) * var19 + (this.rand.nextDouble() - 0.5D) * target.width * 2.0D;
+                double var26 = var9 + (target.posY - var9) * var19 + this.rand.nextDouble() * target.height;
+                double var28 = var11 + (target.posZ - var11) * var19 + (this.rand.nextDouble() - 0.5D) * target.width * 2.0D;
+                target.worldObj.spawnParticle("portal", var24, var26, var28, var21, var22, var23);
             }
 
             target.worldObj.playSoundEffect(var7, var9, var11, "mob.endermen.portal", 1.0F, 1.0F);

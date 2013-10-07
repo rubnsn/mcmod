@@ -1,8 +1,5 @@
 package ruby.bamboo;
 
-import java.util.logging.Level;
-
-import cpw.mods.fml.common.FMLLog;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -20,7 +17,7 @@ public class BambooUtil {
 
     public static byte getPlayerDir(Entity entity)
     {
-        return (byte)(MathHelper.floor_double((double)((entity.rotationYaw * 4F) / 360F) + 0.5D) & 3);
+        return (byte)(MathHelper.floor_double((entity.rotationYaw * 4F) / 360F + 0.5D) & 3);
     }
     
     public static boolean isInnerCircleCollision(int posX,int posY,int posZ,int tposX,int tposY,int tposZ,int r){

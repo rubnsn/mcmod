@@ -1,9 +1,7 @@
 package ruby.bamboo.block;
 
 import ruby.bamboo.BambooInit;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
-import net.minecraft.item.Item;
 
 public class BlockRicePlant extends BlockCrops
 {
