@@ -10,9 +10,10 @@ import net.minecraft.util.MovementInputFromOptions;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;
 
-@MCVersion(value = "1.6.2")
+@MCVersion(value = "1.6.4")
 public class ToggleSneak implements IFMLLoadingPlugin
 {
+	//-Dfml.coreMods.load=ruby.togglesneak.asm.ToggleSneak
     static File loc;
     @Override
     @Deprecated
