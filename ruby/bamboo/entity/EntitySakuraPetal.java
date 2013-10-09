@@ -6,8 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class EntitySakuraPetal extends Entity
-{
+public class EntitySakuraPetal extends Entity {
     public float rx, ry, rz;
     boolean xflg = true;
     boolean yflg = true;
@@ -21,32 +20,27 @@ public class EntitySakuraPetal extends Entity
     protected float particleGreen;
     protected float particleBlue;
     private String texPath = "textures/entitys/leaf.png";
-    public String getTexPath()
-    {
+
+    public String getTexPath() {
         return texPath;
     }
-    public EntitySakuraPetal setCustomPetal(String path)
-    {
+
+    public EntitySakuraPetal setCustomPetal(String path) {
         texPath = "textures/entitys/" + path + ".png";
         return this;
     }
-    public float getRx()
-    {
-        if (xflg)
-        {
+
+    public float getRx() {
+        if (xflg) {
             rx += rad;
 
-            if (rx > 1)
-            {
+            if (rx > 1) {
                 xflg = !xflg;
             }
-        }
-        else
-        {
+        } else {
             rx -= rad;
 
-            if (rx < -1)
-            {
+            if (rx < -1) {
                 xflg = !xflg;
             }
         }
@@ -54,23 +48,17 @@ public class EntitySakuraPetal extends Entity
         return rx;
     }
 
-    public float getRy()
-    {
-        if (yflg)
-        {
+    public float getRy() {
+        if (yflg) {
             ry += rad;
 
-            if (ry > 1)
-            {
+            if (ry > 1) {
                 yflg = !yflg;
             }
-        }
-        else
-        {
+        } else {
             ry -= rad;
 
-            if (ry < -1)
-            {
+            if (ry < -1) {
                 yflg = !yflg;
             }
         }
@@ -78,23 +66,17 @@ public class EntitySakuraPetal extends Entity
         return ry;
     }
 
-    public float getRz()
-    {
-        if (zflg)
-        {
+    public float getRz() {
+        if (zflg) {
             rz += rad;
 
-            if (rz > 1)
-            {
+            if (rz > 1) {
                 zflg = !zflg;
             }
-        }
-        else
-        {
+        } else {
             rz -= rad;
 
-            if (rz < -1)
-            {
+            if (rz < -1) {
                 zflg = !zflg;
             }
         }
@@ -102,9 +84,7 @@ public class EntitySakuraPetal extends Entity
         return rz;
     }
 
-    public EntitySakuraPetal(World world, double d, double d1, double d2,
-                             double d3, double d4, double d5, int color)
-    {
+    public EntitySakuraPetal(World world, double d, double d1, double d2, double d3, double d4, double d5, int color) {
         super(world);
         this.setSize(0.2F, 0.2F);
         this.yOffset = this.height / 2.0F;
@@ -113,14 +93,13 @@ public class EntitySakuraPetal extends Entity
         motionX = d3;
         motionY = d4;
         motionZ = d5;
-        float var14 = (float)(Math.random() + Math.random() + 1.0D) * 0.15F;
+        float var14 = (float) (Math.random() + Math.random() + 1.0D) * 0.15F;
         float var15 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
         this.motionX = this.motionX / var15 * var14;
         this.motionY = this.motionY / var15;
         this.motionZ = this.motionZ / var15 * var14;
 
-        if (d3 == 0 && d4 == 0 && d5 == 0)
-        {
+        if (d3 == 0 && d4 == 0 && d5 == 0) {
             motionX = (rand.nextFloat() - 0.5) * 0.1;
             motionY = -0.01D;
             motionZ = (rand.nextFloat() - 0.5) * 0.1;
@@ -135,56 +114,49 @@ public class EntitySakuraPetal extends Entity
         float b = (color & 0xff) / 255F;
         setRBGColorF(r, g, b);
     }
-    public void setRBGColorF(float par1, float par2, float par3)
-    {
+
+    public void setRBGColorF(float par1, float par2, float par3) {
         this.particleRed = par1;
         this.particleGreen = par2;
         this.particleBlue = par3;
     }
-    public float getRedColorF()
-    {
+
+    public float getRedColorF() {
         return this.particleRed;
     }
 
-    public float getGreenColorF()
-    {
+    public float getGreenColorF() {
         return this.particleGreen;
     }
 
-    public float getBlueColorF()
-    {
+    public float getBlueColorF() {
         return this.particleBlue;
     }
-    public void setStopFall()
-    {
+
+    public void setStopFall() {
         stopFall = true;
         particleAge = 0;
     }
-    public boolean isStopFall()
-    {
+
+    public boolean isStopFall() {
         return stopFall;
     }
+
     @Override
-    public void onUpdate()
-    {
+    public void onUpdate() {
         prevPosX = posX;
         prevPosY = posY;
         prevPosZ = posZ;
 
-        if (particleAge++ >= particleMaxAge)
-        {
+        if (particleAge++ >= particleMaxAge) {
             setDead();
         }
 
-        //particleTextureIndex = Block.blockLapis.blockIndexInTexture ;
-        if (!stopFall)
-        {
+        // particleTextureIndex = Block.blockLapis.blockIndexInTexture ;
+        if (!stopFall) {
             motionY -= 0.004D;
-        }
-        else
-        {
-            if (motionY != 0)
-            {
+        } else {
+            if (motionY != 0) {
                 motionY /= 1.2;
             }
         }
@@ -194,35 +166,27 @@ public class EntitySakuraPetal extends Entity
         motionY *= 0.9D;
         motionZ *= 0.9D;
 
-        if (Material.water == worldObj.getBlockMaterial((int)(posX + 0.5), (int)posY, (int)(posZ + 0.5)))
-        {
-            if (!isStopFall())
-            {
+        if (Material.water == worldObj.getBlockMaterial((int) (posX + 0.5), (int) posY, (int) (posZ + 0.5))) {
+            if (!isStopFall()) {
                 setStopFall();
             }
         }
 
         /*
-        if (onGround)
-        {
-            setDead();
-            motionX *= 0.69999998807907104D;
-            motionZ *= 0.69999998807907104D;
-        }*/
+         * if (onGround) { setDead(); motionX *= 0.69999998807907104D; motionZ
+         * *= 0.69999998807907104D; }
+         */
     }
 
     @Override
-    protected void entityInit()
-    {
+    protected void entityInit() {
     }
 
     @Override
-    protected void readEntityFromNBT(NBTTagCompound var1)
-    {
+    protected void readEntityFromNBT(NBTTagCompound var1) {
     }
 
     @Override
-    protected void writeEntityToNBT(NBTTagCompound var1)
-    {
+    protected void writeEntityToNBT(NBTTagCompound var1) {
     }
 }

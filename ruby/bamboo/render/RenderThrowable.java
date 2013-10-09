@@ -10,13 +10,11 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-public abstract class RenderThrowable extends Render
-{
+public abstract class RenderThrowable extends Render {
     @Override
-    public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
-    {
+    public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9) {
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)par2, (float)par4, (float)par6);
+        GL11.glTranslatef((float) par2, (float) par4, (float) par6);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glScalef(0.5F, 0.5F, 0.5F);
         bindEntityTexture(par1Entity);
@@ -25,9 +23,10 @@ public abstract class RenderThrowable extends Render
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         GL11.glPopMatrix();
     }
+
     public abstract Icon getIcon(Entity par1Entity);
-    private void func_77026_a(Tessellator par1Tessellator, Icon par2Icon)
-    {
+
+    private void func_77026_a(Tessellator par1Tessellator, Icon par2Icon) {
         float f = par2Icon.getMinU();
         float f1 = par2Icon.getMaxU();
         float f2 = par2Icon.getMinV();
@@ -45,9 +44,9 @@ public abstract class RenderThrowable extends Render
         par1Tessellator.addVertexWithUV(0.0F - f5, f4 - f6, 0.0D, f, f2);
         par1Tessellator.draw();
     }
+
     @Override
-    protected ResourceLocation getEntityTexture(Entity entity)
-    {
+    protected ResourceLocation getEntityTexture(Entity entity) {
         return TextureMap.locationItemsTexture;
     }
 }

@@ -1,15 +1,8 @@
 package ruby.bamboo.entity;
 
-public enum EnumSlideDoor
-{
-    HUSUMA(0, "husuma", false),
-    SHOZI(1, "syouzi", false),
-    GLASS(2, "glassdoor", true),
-    GGLASS(3, "gridglassdoor", true),
-    YUKI(4, "yukimi", true),
-    AMADO(5, "amado", false);
-    EnumSlideDoor(int id, String iconName, boolean isBlend)
-    {
+public enum EnumSlideDoor {
+    HUSUMA(0, "husuma", false), SHOZI(1, "syouzi", false), GLASS(2, "glassdoor", true), GGLASS(3, "gridglassdoor", true), YUKI(4, "yukimi", true), AMADO(5, "amado", false);
+    EnumSlideDoor(int id, String iconName, boolean isBlend) {
         this.id = (short) id;
         this.iconName = iconName;
         this.isBlend = isBlend;
@@ -21,20 +14,20 @@ public enum EnumSlideDoor
     private final boolean isBlend;
     private String jpName;
     private String iconName;
-    public short getId()
-    {
+
+    public short getId() {
         return id;
     }
-    public String getTex()
-    {
+
+    public String getTex() {
         return tex;
     }
-    public String getIconName()
-    {
+
+    public String getIconName() {
         return iconName;
     }
-    public boolean isBlend()
-    {
+
+    public boolean isBlend() {
         return isBlend;
     }
 }

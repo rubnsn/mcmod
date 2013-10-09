@@ -6,11 +6,9 @@ import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.world.World;
 
-public class DispenserBehaviorBambooSpear extends BehaviorProjectileDispense
-{
+public class DispenserBehaviorBambooSpear extends BehaviorProjectileDispense {
     @Override
-    protected IProjectile getProjectileEntity(World world, IPosition iposition)
-    {
+    protected IProjectile getProjectileEntity(World world, IPosition iposition) {
         // TODO 自動生成されたメソッド・スタブ
         return new EntityBambooSpear(world, iposition.getX(), iposition.getY(), iposition.getZ());
     }

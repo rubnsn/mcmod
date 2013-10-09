@@ -20,26 +20,24 @@ import ruby.bamboo.tileentity.TileEntityManeki;
 import ruby.bamboo.tileentity.TileEntityMillStone;
 
 @SideOnly(Side.CLIENT)
-public class ClientProxy extends CommonProxy
-{
+public class ClientProxy extends CommonProxy {
     @Override
-    public void preInit()
-    {
+    public void preInit() {
         super.preInit();
         CustomRenderHandler.init();
         BambooLocalize.init();
         addRenderer();
     }
+
     @Override
-    public void registerTESTileEntity()
-    {
+    public void registerTESTileEntity() {
         ClientRegistry.registerTileEntity(TileEntityCampfire.class, "Camp fire", new RenderCampfire());
         ClientRegistry.registerTileEntity(TileEntityAndon.class, "Andon", new RenderAndon());
         ClientRegistry.registerTileEntity(TileEntityMillStone.class, "MillStone", new RenderMillStone());
         ClientRegistry.registerTileEntity(TileEntityManeki.class, "MManeki", new RenderManeki());
     }
-    private void addRenderer()
-    {
+
+    private void addRenderer() {
 
         MinecraftForgeClient.registerItemRenderer(BambooInit.bambooBowIID, (IItemRenderer) BambooUtil.getItemInstance(BambooInit.bambooBowIID));
         RenderingRegistry.registerEntityRenderingHandler(EntityBambooSpear.class, new RenderBSpear());
@@ -49,14 +47,15 @@ public class ClientProxy extends CommonProxy
         RenderingRegistry.registerEntityRenderingHandler(EntityHuton.class, new RenderHuton());
         RenderingRegistry.registerEntityRenderingHandler(EntityFirecracker.class, new RenderFirecracker());
         RenderingRegistry.registerEntityRenderingHandler(EntityWindChime.class, new RenderWindBell());
-        RenderingRegistry.registerEntityRenderingHandler(EntityWind.class, new Render()
-        {
+        RenderingRegistry.registerEntityRenderingHandler(EntityWind.class, new Render() {
             @Override
-            public void doRender(Entity var1, double var2, double var4, double var6, float var8, float var9) {}
-			@Override
-			protected ResourceLocation getEntityTexture(Entity entity) {
-				return null;
-			}
+            public void doRender(Entity var1, double var2, double var4, double var6, float var8, float var9) {
+            }
+
+            @Override
+            protected ResourceLocation getEntityTexture(Entity entity) {
+                return null;
+            }
         });
         RenderingRegistry.registerEntityRenderingHandler(EntityWindmill.class, new RenderWindmill());
         RenderingRegistry.registerEntityRenderingHandler(EntityWaterwheel.class, new RenderWaterwheel());

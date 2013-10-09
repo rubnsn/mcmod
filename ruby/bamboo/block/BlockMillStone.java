@@ -15,91 +15,78 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockMillStone extends BlockContainer
-{
+public class BlockMillStone extends BlockContainer {
     private static boolean keepFurnaceInventory = false;
 
-    public BlockMillStone(int par1)
-    {
+    public BlockMillStone(int par1) {
         super(par1, Material.rock);
         setHardness(1.0F);
     }
+
     @Override
-    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
-    {
+    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
         par5EntityPlayer.openGui(BambooCore.getInstance(), GuiHandler.GUI_MILLSTONE, par1World, par2, par3, par4);
         return true;
         /*
-        if (par1World.isRemote)
-        {
-            return true;
-        }
-        else
-        {
-        	par1World.setBlockMetadataWithNotify(par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4)==0?1:0, 3);
-        	return true;
-        }*/
+         * if (par1World.isRemote) { return true; } else {
+         * par1World.setBlockMetadataWithNotify(par2, par3, par4,
+         * par1World.getBlockMetadata(par2, par3, par4)==0?1:0, 3); return true;
+         * }
+         */
     }
+
     @Override
-    public TileEntity createNewTileEntity(World world)
-    {
+    public TileEntity createNewTileEntity(World world) {
         return new TileEntityMillStone();
     }
+
     @Override
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return CustomRenderHandler.millStoneUID;
     }
-    @Override
-    public boolean isOpaqueCube()
-    {
-        return false;
-    }
-    @Override
-    public boolean renderAsNormalBlock()
-    {
-        return false;
-    }
-    @Override
-    public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
-    {
-        if (!keepFurnaceInventory)
-        {
-            TileEntityMillStone tileentity = (TileEntityMillStone)par1World.getBlockTileEntity(par2, par3, par4);
 
-            if (tileentity != null)
-            {
-                for (int j1 = 0; j1 < tileentity.getSizeInventory(); ++j1)
-                {
+    @Override
+    public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @Override
+    public boolean renderAsNormalBlock() {
+        return false;
+    }
+
+    @Override
+    public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6) {
+        if (!keepFurnaceInventory) {
+            TileEntityMillStone tileentity = (TileEntityMillStone) par1World.getBlockTileEntity(par2, par3, par4);
+
+            if (tileentity != null) {
+                for (int j1 = 0; j1 < tileentity.getSizeInventory(); ++j1) {
                     ItemStack itemstack = tileentity.getStackInSlot(j1);
 
-                    if (itemstack != null)
-                    {
+                    if (itemstack != null) {
                         float f = par1World.rand.nextFloat() * 0.8F + 0.1F;
                         float f1 = par1World.rand.nextFloat() * 0.8F + 0.1F;
                         float f2 = par1World.rand.nextFloat() * 0.8F + 0.1F;
 
-                        while (itemstack.stackSize > 0)
-                        {
+                        while (itemstack.stackSize > 0) {
                             int k1 = par1World.rand.nextInt(21) + 10;
 
-                            if (k1 > itemstack.stackSize)
-                            {
+                            if (k1 > itemstack.stackSize) {
                                 k1 = itemstack.stackSize;
                             }
 
                             itemstack.stackSize -= k1;
                             EntityItem entityitem = new EntityItem(par1World, par2 + f, par3 + f1, par4 + f2, new ItemStack(itemstack.itemID, k1, itemstack.getItemDamage()));
 
-                            if (itemstack.hasTagCompound())
-                            {
-                                entityitem.getEntityItem().setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
+                            if (itemstack.hasTagCompound()) {
+                                entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
                             }
 
                             float f3 = 0.05F;
-                            entityitem.motionX = (float)par1World.rand.nextGaussian() * f3;
-                            entityitem.motionY = (float)par1World.rand.nextGaussian() * f3 + 0.2F;
-                            entityitem.motionZ = (float)par1World.rand.nextGaussian() * f3;
+                            entityitem.motionX = (float) par1World.rand.nextGaussian() * f3;
+                            entityitem.motionY = (float) par1World.rand.nextGaussian() * f3 + 0.2F;
+                            entityitem.motionZ = (float) par1World.rand.nextGaussian() * f3;
                             par1World.spawnEntityInWorld(entityitem);
                         }
                     }
@@ -111,37 +98,32 @@ public class BlockMillStone extends BlockContainer
 
         super.breakBlock(par1World, par2, par3, par4, par5, par6);
     }
-    public static void updateBlockState(boolean grind, World worldObj, int xCoord, int yCoord, int zCoord)
-    {
+
+    public static void updateBlockState(boolean grind, World worldObj, int xCoord, int yCoord, int zCoord) {
         TileEntity tileentity = worldObj.getBlockTileEntity(xCoord, yCoord, zCoord);
         keepFurnaceInventory = true;
 
-        if (grind)
-        {
+        if (grind) {
             worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 2);
-        }
-        else
-        {
+        } else {
             worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 2);
         }
 
         keepFurnaceInventory = false;
 
-        if (tileentity != null)
-        {
+        if (tileentity != null) {
             tileentity.validate();
             worldObj.setBlockTileEntity(xCoord, yCoord, zCoord, tileentity);
         }
     }
+
     @Override
-    public boolean hasComparatorInputOverride()
-    {
+    public boolean hasComparatorInputOverride() {
         return true;
     }
 
     @Override
-    public int getComparatorInputOverride(World par1World, int par2, int par3, int par4, int par5)
-    {
-        return Container.calcRedstoneFromInventory((IInventory)par1World.getBlockTileEntity(par2, par3, par4));
+    public int getComparatorInputOverride(World par1World, int par2, int par3, int par4, int par5) {
+        return Container.calcRedstoneFromInventory((IInventory) par1World.getBlockTileEntity(par2, par3, par4));
     }
 }

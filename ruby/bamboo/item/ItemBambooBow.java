@@ -26,35 +26,31 @@ import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
-public class ItemBambooBow extends ItemBow implements IItemRenderer
-{
+public class ItemBambooBow extends ItemBow implements IItemRenderer {
     private static final ResourceLocation ENCHANTED_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
     private Icon icons[];
-    public ItemBambooBow(int par1)
-    {
+
+    public ItemBambooBow(int par1) {
         super(par1);
         this.maxStackSize = 1;
         this.setMaxDamage(300);
         icons = new Icon[3];
     }
+
     @Override
-    public void onPlayerStoppedUsing(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, int par4)
-    {
+    public void onPlayerStoppedUsing(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, int par4) {
         int chargeFrame = this.getMaxItemUseDuration(par1ItemStack) - par4;
         boolean isNoResource = par3EntityPlayer.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, par1ItemStack) > 0;
 
-        if (isNoResource || par3EntityPlayer.inventory.hasItem(BambooInit.bambooSpearIID))
-        {
+        if (isNoResource || par3EntityPlayer.inventory.hasItem(BambooInit.bambooSpearIID)) {
             float power = chargeFrame / 10.0F;
             power = (power * power + power * 2.0F) / 3.0F;
 
-            if (power < 0.1D)
-            {
+            if (power < 0.1D) {
                 return;
             }
 
-            if (power > 1.0F)
-            {
+            if (power > 1.0F) {
                 power = 1.0F;
             }
 
@@ -62,17 +58,13 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer
             int spearNum;
             int type = 0;
 
-            if (slotNum > -1)
-            {
+            if (slotNum > -1) {
                 type = par3EntityPlayer.inventory.mainInventory[slotNum].getItemDamage();
             }
 
-            if (slotNum > -1 && !isNoResource)
-            {
+            if (slotNum > -1 && !isNoResource) {
                 spearNum = par3EntityPlayer.inventory.mainInventory[slotNum].stackSize;
-            }
-            else
-            {
+            } else {
                 spearNum = 64;
             }
 
@@ -84,185 +76,162 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer
             attackCount = chargeFrame / chargeTime > limit ? limit : chargeFrame / chargeTime;
             attackCount = attackCount < spearNum ? attackCount : spearNum;
 
-            if (par3EntityPlayer.capabilities.isCreativeMode && par3EntityPlayer.capabilities.isFlying)
-            {
+            if (par3EntityPlayer.capabilities.isCreativeMode && par3EntityPlayer.capabilities.isFlying) {
                 attackCount = 12;
                 power = 1;
             }
 
-            if (!par3EntityPlayer.isSneaking())
-            {
+            if (!par3EntityPlayer.isSneaking()) {
                 ebs = new EntityBambooSpear(par2World, par3EntityPlayer, power * 2.0F);
                 ebs.setDamage(1.5);
-            }
-            else
-            {
+            } else {
                 ebs = new EntityBambooSpear(par2World, par3EntityPlayer, power * 4.0F);
                 ebs.setDamage(1 * (power > 0.8 ? power : 0.5) * 0.4);
             }
 
-            if (attackCount > 0)
-            {
+            if (attackCount > 0) {
                 ebs.setBarrage(attackCount);
             }
 
-            if (power >= 1.0F)
-            {
+            if (power >= 1.0F) {
                 ebs.setIsCritical(true);
             }
 
             int enchantPower = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, par1ItemStack);
 
-            if (enchantPower > 0)
-            {
+            if (enchantPower > 0) {
                 ebs.setDamage(ebs.getDamage() + enchantPower * 0.15D);
             }
 
             int enchantPunch = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, par1ItemStack);
 
-            if (enchantPunch > 0)
-            {
+            if (enchantPunch > 0) {
                 ebs.setKnockbackStrength(enchantPunch);
             }
 
-            if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, par1ItemStack) > 0)
-            {
+            if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, par1ItemStack) > 0) {
                 ebs.setFire(100);
             }
 
             par1ItemStack.damageItem(1, par3EntityPlayer);
             par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + power * 0.5F);
 
-            if (isNoResource)
-            {
+            if (isNoResource) {
                 ebs.canBePickedUp = 2;
                 ebs.setMaxAge(60);
                 par1ItemStack.damageItem(attackCount * 2, par3EntityPlayer);
-            }
-            else
-            {
+            } else {
                 par3EntityPlayer.inventory.mainInventory[slotNum].stackSize -= attackCount;
                 par3EntityPlayer.inventory.consumeInventoryItem(BambooInit.bambooSpearIID);
             }
 
-            if (type == 1)
-            {
+            if (type == 1) {
                 ebs.setExplode();
             }
 
-            if (!par2World.isRemote)
-            {
+            if (!par2World.isRemote) {
                 par2World.spawnEntityInWorld(ebs);
             }
         }
     }
-    private int getInventorySlotContainItem(EntityPlayer entity, int par1)
-    {
-        for (int var2 = 0; var2 < entity.inventory.mainInventory.length; ++var2)
-        {
-            if (entity.inventory.mainInventory[var2] != null && entity.inventory.mainInventory[var2].itemID == par1)
-            {
+
+    private int getInventorySlotContainItem(EntityPlayer entity, int par1) {
+        for (int var2 = 0; var2 < entity.inventory.mainInventory.length; ++var2) {
+            if (entity.inventory.mainInventory[var2] != null && entity.inventory.mainInventory[var2].itemID == par1) {
                 return var2;
             }
         }
 
         return -1;
     }
+
     @Override
-    public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
-    {
-	ArrowNockEvent event = new ArrowNockEvent(par3EntityPlayer, par1ItemStack);
+    public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+        ArrowNockEvent event = new ArrowNockEvent(par3EntityPlayer, par1ItemStack);
         MinecraftForge.EVENT_BUS.post(event);
-        if (event.isCanceled())
-        {
+        if (event.isCanceled()) {
             return event.result;
         }
-        if (par3EntityPlayer.capabilities.isCreativeMode || par3EntityPlayer.inventory.hasItem(BambooInit.bambooSpearIID) || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, par1ItemStack) > 0)
-        {
+        if (par3EntityPlayer.capabilities.isCreativeMode || par3EntityPlayer.inventory.hasItem(BambooInit.bambooSpearIID) || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, par1ItemStack) > 0) {
             par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
         }
 
         return par1ItemStack;
     }
+
     @Override
-    public int getItemEnchantability()
-    {
+    public int getItemEnchantability() {
         return 1;
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister)
-    {
+    public void registerIcons(IconRegister par1IconRegister) {
         this.itemIcon = par1IconRegister.registerIcon("bamboobow");
 
-        for (int i = 0; i < icons.length; i++)
-        {
+        for (int i = 0; i < icons.length; i++) {
             icons[i] = par1IconRegister.registerIcon("bamboobow_pull_" + i);
         }
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getItemIconForUseDuration(int par1)
-    {
+    public Icon getItemIconForUseDuration(int par1) {
         return this.icons[par1];
     }
+
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining)
-    {
-        if (usingItem != null && usingItem.getItem().itemID == BambooInit.bambooBowIID)
-        {
+    public Icon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining) {
+        if (usingItem != null && usingItem.getItem().itemID == BambooInit.bambooBowIID) {
             int k = usingItem.getMaxItemUseDuration() - useRemaining;
 
-            if (k >= 30)
-            {
+            if (k >= 30) {
                 return getItemIconForUseDuration(2);
             }
 
-            if (k >  20)
-            {
+            if (k > 20) {
                 return getItemIconForUseDuration(1);
             }
 
-            if (k >   0)
-            {
+            if (k > 0) {
                 return getItemIconForUseDuration(0);
             }
         }
 
         return getIcon(stack, renderPass);
     }
+
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-	if(type==ItemRenderType.EQUIPPED){
-	    return true;
-	}
-	return false;
+        if (type == ItemRenderType.EQUIPPED) {
+            return true;
+        }
+        return false;
     }
+
     @Override
-    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item,
-	    ItemRendererHelper helper) {
-	return false;
+    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
+        return false;
     }
+
     @Override
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-	GL11.glPushMatrix();
-	GL11.glTranslatef(0.6F,-0.6F,-0.25F);
+        GL11.glPushMatrix();
+        GL11.glTranslatef(0.6F, -0.6F, -0.25F);
         GL11.glRotatef(15.0F, 1.0F, 0.0F, 0.0F);
         GL11.glRotatef(-128.0F, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(-10.0F, 1.0F, 0.0F, 1.0F);
-        render((EntityLivingBase)data[1], item,0);
+        render((EntityLivingBase) data[1], item, 0);
         GL11.glPopMatrix();
     }
-    private void render(EntityLivingBase entityLivingBase,ItemStack itemStack,int renderPass){
-	GL11.glPushMatrix();
+
+    private void render(EntityLivingBase entityLivingBase, ItemStack itemStack, int renderPass) {
+        GL11.glPushMatrix();
         TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
         Icon icon = entityLivingBase.getItemIcon(itemStack, renderPass);
 
-        if (icon == null)
-        {
+        if (icon == null) {
             GL11.glPopMatrix();
             return;
         }
@@ -284,8 +253,7 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer
         GL11.glTranslatef(-0.9375F, -0.0625F, 0.0F);
         ItemRenderer.renderItemIn2D(tessellator, f1, f2, f, f3, icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
 
-        if (itemStack.hasEffect(renderPass))
-        {
+        if (itemStack.hasEffect(renderPass)) {
             GL11.glDepthFunc(GL11.GL_EQUAL);
             GL11.glDisable(GL11.GL_LIGHTING);
             texturemanager.bindTexture(ENCHANTED_ITEM_GLINT);

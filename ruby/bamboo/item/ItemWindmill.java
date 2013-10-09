@@ -18,75 +18,63 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class ItemWindmill extends Item
-{
+public class ItemWindmill extends Item {
     private static Icon icons[] = new Icon[2];
-    public ItemWindmill(int par1)
-    {
+
+    public ItemWindmill(int par1) {
         super(par1);
         setHasSubtypes(true);
     }
+
     @Override
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
-    {
+    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List) {
         par3List.add(new ItemStack(par1, 1, 0));
         par3List.add(new ItemStack(par1, 1, 1));
     }
+
     @Override
-    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
-    {
-        if (!par3World.isRemote)
-        {
+    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10) {
+        if (!par3World.isRemote) {
             MovingObjectPosition movingobjectposition = getMovingObjectPositionFromPlayer(par3World, par2EntityPlayer, true);
 
-            if (movingobjectposition == null)
-            {
+            if (movingobjectposition == null) {
                 return false;
             }
 
-            if (movingobjectposition.typeOfHit == EnumMovingObjectType.TILE)
-            {
+            if (movingobjectposition.typeOfHit == EnumMovingObjectType.TILE) {
                 int i = movingobjectposition.blockX;
                 int j = movingobjectposition.blockY;
                 int k = movingobjectposition.blockZ;
 
-                if (!par3World.canMineBlock(par2EntityPlayer, i, j, k))
-                {
+                if (!par3World.canMineBlock(par2EntityPlayer, i, j, k)) {
                     return false;
                 }
 
-                if (movingobjectposition.sideHit == 0)
-                {
+                if (movingobjectposition.sideHit == 0) {
                     j--;
                 }
 
-                if (movingobjectposition.sideHit == 1)
-                {
+                if (movingobjectposition.sideHit == 1) {
                     j++;
                 }
 
-                if (movingobjectposition.sideHit == 2)
-                {
+                if (movingobjectposition.sideHit == 2) {
                     k--;
                 }
 
-                if (movingobjectposition.sideHit == 3)
-                {
+                if (movingobjectposition.sideHit == 3) {
                     k++;
                 }
 
-                if (movingobjectposition.sideHit == 4)
-                {
+                if (movingobjectposition.sideHit == 4) {
                     i--;
                 }
 
-                if (movingobjectposition.sideHit == 5)
-                {
+                if (movingobjectposition.sideHit == 5) {
                     i++;
                 }
 
-                if (par3World.isAirBlock(i, j, k))
-                {
+                if (par3World.isAirBlock(i, j, k)) {
                     EntityWindmill entity = new EntityWindmill(par3World);
                     entity.setPosition(i + 0.5, j + 0.5, k + 0.5);
                     byte dir = BambooUtil.getPlayerDir(par2EntityPlayer);
@@ -100,31 +88,28 @@ public class ItemWindmill extends Item
 
         return true;
     }
+
     @Override
-    public String getUnlocalizedName(ItemStack par1ItemStack)
-    {
+    public String getUnlocalizedName(ItemStack par1ItemStack) {
         int i = par1ItemStack.getItemDamage();
 
-        if (i == 1)
-        {
+        if (i == 1) {
             return super.getUnlocalizedName() + "." + "Windmill(cloth)";
-        }
-        else
-        {
+        } else {
             return super.getUnlocalizedName() + "." + "Windmill";
         }
     }
+
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister)
-    {
+    public void registerIcons(IconRegister par1IconRegister) {
         icons[0] = par1IconRegister.registerIcon("windmill");
         icons[1] = par1IconRegister.registerIcon("windmill_cloth");
     }
+
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIconFromDamage(int par1)
-    {
+    public Icon getIconFromDamage(int par1) {
         return icons[par1];
     }
 }

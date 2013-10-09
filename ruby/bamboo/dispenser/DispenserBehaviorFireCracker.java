@@ -6,12 +6,9 @@ import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.world.World;
 
-public class DispenserBehaviorFireCracker extends BehaviorProjectileDispenseEX
-{
+public class DispenserBehaviorFireCracker extends BehaviorProjectileDispenseEX {
     @Override
-    protected IProjectile getProjectileEntity(World par1World, IPosition par2IPosition,
-            int damage)
-    {
+    protected IProjectile getProjectileEntity(World par1World, IPosition par2IPosition, int damage) {
         return new EntityFirecracker(par1World, par2IPosition.getX(), par2IPosition.getY(), par2IPosition.getZ(), ItemFirecracker.getExplodeLv(damage));
     }
 }

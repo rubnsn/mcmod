@@ -4,9 +4,8 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class ModelAndon extends ModelBase
-{
-    //variables init:
+public class ModelAndon extends ModelBase {
+    // variables init:
     public ModelRenderer box;
     public ModelRenderer box0;
     public ModelRenderer box1;
@@ -15,9 +14,8 @@ public class ModelAndon extends ModelBase
     public ModelRenderer box4;
     public ModelRenderer box5;
 
-    //constructor:
-    public ModelAndon()
-    {
+    // constructor:
+    public ModelAndon() {
         // TODO 自動生成されたコンストラクター・スタブ
         box = new ModelRenderer(this, 0, 0);
         box.addBox(-3F, 0F, -3F, 6, 10, 6);
@@ -41,13 +39,13 @@ public class ModelAndon extends ModelBase
         box5.addBox(-4F, 1F, -4F, 8, 1, 8);
         box5.setRotationPoint(0F, 13F, 0F);
     }
-    public void renderAndon()
-    {
+
+    public void renderAndon() {
         render(null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
     }
+
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-    {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         box.render(f5);
         box0.render(f5);
         box1.render(f5);
@@ -57,6 +55,6 @@ public class ModelAndon extends ModelBase
         box5.render(f5);
     }
 
-    //render:
+    // render:
 
 }

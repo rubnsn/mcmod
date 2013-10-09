@@ -17,37 +17,35 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderFlareEffect extends Render {
 
-	private static final Sphere sphere;
-	static{
-		sphere = new Sphere();
-	}
+    private static final Sphere sphere;
+    static {
+        sphere = new Sphere();
+    }
 
-	public RenderFlareEffect() {
-		//s.setTextureFlag(true);
-	}
+    public RenderFlareEffect() {
+        // s.setTextureFlag(true);
+    }
 
-	@Override
-	public void doRender(Entity entity, double d0, double d1, double d2,
-			float f, float f1) {
-		render((EntityFlareEffect) entity, d0, d1, d2);
-	}
+    @Override
+    public void doRender(Entity entity, double d0, double d1, double d2, float f, float f1) {
+        render((EntityFlareEffect) entity, d0, d1, d2);
+    }
 
-	private void render(EntityFlareEffect entity, double posX, double posY,
-			double posZ) {
-		glPushMatrix();
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-		glTranslatef((float) posX, (float) posY, (float) posZ);
-		float scale = entity.getExplodeSize();
-		glScalef(scale, scale, scale);
-		GL11.glColor4f(1F, 0.8F, 0.2F, entity.getAlpha());
-		glRotatef(90.0f, 1f, 0, 0);
-		sphere.draw(0.5f, 8, 8);
-		glPopMatrix();
-	}
+    private void render(EntityFlareEffect entity, double posX, double posY, double posZ) {
+        glPushMatrix();
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+        glTranslatef((float) posX, (float) posY, (float) posZ);
+        float scale = entity.getExplodeSize();
+        glScalef(scale, scale, scale);
+        GL11.glColor4f(1F, 0.8F, 0.2F, entity.getAlpha());
+        glRotatef(90.0f, 1f, 0, 0);
+        sphere.draw(0.5f, 8, 8);
+        glPopMatrix();
+    }
 
-	@Override
-	protected ResourceLocation getEntityTexture(Entity entity) {
-		return null;
-	}
+    @Override
+    protected ResourceLocation getEntityTexture(Entity entity) {
+        return null;
+    }
 
 }

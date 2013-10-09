@@ -15,35 +15,29 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
-public class ItemSlideDoor extends Item
-{
+public class ItemSlideDoor extends Item {
     private final static EnumSlideDoor[] doors = EnumSlideDoor.values();
     private Icon[] icons;
-    public ItemSlideDoor(int i)
-    {
+
+    public ItemSlideDoor(int i) {
         super(i);
         this.setHasSubtypes(true);
     }
+
     @Override
-    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
-    {
-        if (!par3World.isRemote)
-        {
+    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10) {
+        if (!par3World.isRemote) {
             par1ItemStack.stackSize--;
             byte dir = BambooUtil.getPlayerDir(par2EntityPlayer);
             EntitySlideDoor entity = new EntitySlideDoor(par3World).setDataDoorId((short) par1ItemStack.getItemDamage()).setDataDir(dir);
 
-            if (dir == 0 || dir == 3)
-            {
-                entity.setDataMovedir((byte) - 1);
-            }
-            else
-            {
-                entity.setDataMovedir((byte)1);
+            if (dir == 0 || dir == 3) {
+                entity.setDataMovedir((byte) -1);
+            } else {
+                entity.setDataMovedir((byte) 1);
             }
 
-            if (par2EntityPlayer.isSneaking())
-            {
+            if (par2EntityPlayer.isSneaking()) {
                 entity.setMirror(true);
             }
 
@@ -53,35 +47,33 @@ public class ItemSlideDoor extends Item
 
         return true;
     }
+
     @Override
-    public String getUnlocalizedName(ItemStack par1ItemStack)
-    {
+    public String getUnlocalizedName(ItemStack par1ItemStack) {
         return super.getUnlocalizedName() + "." + doors[par1ItemStack.getItemDamage()].toString();
     }
+
     @Override
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
-    {
-        for (EnumSlideDoor esd: doors)
-        {
+    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List) {
+        for (EnumSlideDoor esd : doors) {
             par3List.add(new ItemStack(par1, 1, esd.getId()));
         }
     }
+
     @Override
-    public Icon getIconFromDamage(int par1)
-    {
+    public Icon getIconFromDamage(int par1) {
         return icons[par1];
     }
+
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister)
-    {
+    public void registerIcons(IconRegister par1IconRegister) {
         icons = new Icon[doors.length];
 
-        for (EnumSlideDoor esd: doors)
-        {
+        for (EnumSlideDoor esd : doors) {
             icons[esd.getId()] = par1IconRegister.registerIcon(esd.getIconName().toLowerCase());
         }
 
-        //this.iconIndex = par1IconRegister.registerIcon(this.unlocalizedName);
+        // this.iconIndex = par1IconRegister.registerIcon(this.unlocalizedName);
     }
 }

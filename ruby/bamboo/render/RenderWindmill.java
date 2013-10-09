@@ -8,50 +8,38 @@ import org.lwjgl.opengl.GL11;
 
 import ruby.bamboo.entity.EntityWindmill;
 
-public class RenderWindmill extends Render
-{
+public class RenderWindmill extends Render {
     private ModelWindmill model;
     private static ResourceLocation textuer[];
-    public RenderWindmill()
-    {
+
+    public RenderWindmill() {
         model = new ModelWindmill();
         textuer = new ResourceLocation[2];
         textuer[0] = new ResourceLocation("textures/entitys/windmill.png");
         textuer[1] = new ResourceLocation("textures/entitys/windmill_cloth.png");
     }
+
     @Override
-    public void doRender(Entity var1, double var2, double var4, double var6,
-                         float var8, float var9)
-    {
+    public void doRender(Entity var1, double var2, double var4, double var6, float var8, float var9) {
         renderWindmill((EntityWindmill) var1, var2, var4, var6, var8, var9);
     }
-    public void renderWindmill(EntityWindmill var1, double var2, double var4, double var6,
-                               float var8, float var9)
-    {
+
+    public void renderWindmill(EntityWindmill var1, double var2, double var4, double var6, float var8, float var9) {
         GL11.glPushMatrix();
         bindEntityTexture(var1);
         byte dir = var1.getDir();
 
-        if (dir == 0 || dir == 2)
-        {
-            if (dir == 0)
-            {
-                GL11.glTranslatef((float)var2, (float)var4, (float)var6 - (var1.getSize() - 1) / 2F);
+        if (dir == 0 || dir == 2) {
+            if (dir == 0) {
+                GL11.glTranslatef((float) var2, (float) var4, (float) var6 - (var1.getSize() - 1) / 2F);
+            } else {
+                GL11.glTranslatef((float) var2, (float) var4, (float) var6 + (var1.getSize() - 1) / 2F);
             }
-            else
-            {
-                GL11.glTranslatef((float)var2, (float)var4, (float)var6 + (var1.getSize() - 1) / 2F);
-            }
-        }
-        else
-        {
-            if (dir == 3)
-            {
-                GL11.glTranslatef((float)var2 - (var1.getSize() - 1) / 2F, (float)var4, (float)var6);
-            }
-            else
-            {
-                GL11.glTranslatef((float)var2 + (var1.getSize() - 1) / 2F, (float)var4, (float)var6);
+        } else {
+            if (dir == 3) {
+                GL11.glTranslatef((float) var2 - (var1.getSize() - 1) / 2F, (float) var4, (float) var6);
+            } else {
+                GL11.glTranslatef((float) var2 + (var1.getSize() - 1) / 2F, (float) var4, (float) var6);
             }
         }
 
@@ -63,10 +51,10 @@ public class RenderWindmill extends Render
         model.render(var1, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
         GL11.glPopMatrix();
     }
+
     @Override
-    protected ResourceLocation getEntityTexture(Entity entity)
-    {
+    protected ResourceLocation getEntityTexture(Entity entity) {
         // TODO 自動生成されたメソッド・スタブ
-        return textuer[((EntityWindmill)entity).getTexNum()];
+        return textuer[((EntityWindmill) entity).getTexNum()];
     }
 }

@@ -21,8 +21,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class CustomRenderHandler
-{
+public class CustomRenderHandler {
     public static int kitunebiUID;
     public static int bambooUID;
     public static int bambooBlockUID;
@@ -39,15 +38,15 @@ public class CustomRenderHandler
     private static CustomRenderHandler instance = new CustomRenderHandler();
     private SimpleInvRender SimpleInvRenderInstance = new SimpleInvRender();
     private Render3DInInventory Render3DInInvInstance = new Render3DInInventory();
+
     @SideOnly(Side.CLIENT)
-    public static void init()
-    {
+    public static void init() {
         customRenders = new CustomRenderBlocks();
         bambooUID = getUIDAndRegistSimpleInvRender();
         kitunebiUID = getUIDAndRegistSimpleInvRender();
         bambooPaneUID = getUIDAndRegistSimpleInvRender();
         riceFieldUID = getUIDAndRegistSimpleInvRender();
-        //3DInv
+        // 3DInv
         andonUID = getUIDAndRegist3DRender();
         bambooBlockUID = getUIDAndRegist3DRender();
         campfireUID = getUIDAndRegist3DRender();
@@ -56,86 +55,71 @@ public class CustomRenderHandler
         deludeUID = getUIDAndRegist3DRender();
         manekiUID = getUIDAndRegist3DRender();
     }
-    private static int getUIDAndRegistSimpleInvRender()
-    {
+
+    private static int getUIDAndRegistSimpleInvRender() {
         int id = RenderingRegistry.getNextAvailableRenderId();
         RenderingRegistry.registerBlockHandler(id, instance.SimpleInvRenderInstance);
         return id;
     }
-    private static int getUIDAndRegist3DRender()
-    {
+
+    private static int getUIDAndRegist3DRender() {
         int id = RenderingRegistry.getNextAvailableRenderId();
         RenderingRegistry.registerBlockHandler(id, instance.Render3DInInvInstance);
         return id;
     }
-    private class SimpleInvRender implements ISimpleBlockRenderingHandler
-    {
+
+    private class SimpleInvRender implements ISimpleBlockRenderingHandler {
         @Override
-        public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {}
+        public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
+        }
 
         @Override
-        public boolean renderWorldBlock(IBlockAccess world, int x, int y,
-                                        int z, Block block, int modelId, RenderBlocks renderer)
-        {
+        public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
             int meta = world.getBlockMetadata(x, y, z);
 
-            if (kitunebiUID == modelId)
-            {
-                if (((BlockKitunebi)block).isVisible())
-                {
+            if (kitunebiUID == modelId) {
+                if (((BlockKitunebi) block).isVisible()) {
                     renderer.renderCrossedSquares(block, x, y, z);
                 }
 
                 return true;
             }
 
-            if (bambooUID == modelId)
-            {
-                if (meta  != 15)
-                {
+            if (bambooUID == modelId) {
+                if (meta != 15) {
                     renderer.renderBlockCrops(block, x, y, z);
-                }
-                else
-                {
+                } else {
                     renderer.renderCrossedSquares(block, x, y, z);
                 }
 
                 return true;
             }
 
-            if (bambooBlockUID == modelId)
-            {
-                if (meta == 0)
-                {
+            if (bambooBlockUID == modelId) {
+                if (meta == 0) {
                     renderer.renderBlockCrops(block, x, y, z);
-                }
-                else
-                {
+                } else {
                     renderer.renderStandardBlock(block, x, y, z);
                 }
 
                 return true;
             }
 
-            if (bambooPaneUID == modelId)
-            {
+            if (bambooPaneUID == modelId) {
                 customRenders.renderBlockBambooPane(renderer, (BlockBambooPane) block, x, y, z);
                 return true;
             }
 
-            if (riceFieldUID == modelId)
-            {
+            if (riceFieldUID == modelId) {
                 customRenders.renderBlockRiceField(renderer, (BlockRiceField) block, x, y, z);
                 return true;
             }
 
-            if (pillarUID == modelId)
-            {
-                customRenders.renderBlockPillar(renderer, (BlockPillar)block, x, y, z);
+            if (pillarUID == modelId) {
+                customRenders.renderBlockPillar(renderer, (BlockPillar) block, x, y, z);
             }
 
-            if (deludeUID == modelId)
-            {
+            if (deludeUID == modelId) {
                 customRenders.renderDelude(renderer, block, x, y, z);
             }
 
@@ -143,88 +127,65 @@ public class CustomRenderHandler
         }
 
         @Override
-        public boolean shouldRender3DInInventory()
-        {
+        public boolean shouldRender3DInInventory() {
             return false;
         }
 
         @Override
-        public int getRenderId()
-        {
+        public int getRenderId() {
             return 0;
         }
     }
-    private class Render3DInInventory extends SimpleInvRender
-    {
+
+    private class Render3DInInventory extends SimpleInvRender {
         @Override
-        public void renderInventoryBlock(Block block, int metadata, int modelID,
-                                         RenderBlocks renderer)
-        {
-            if (andonUID == modelID)
-            {
+        public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
+            if (andonUID == modelID) {
                 RenderAndon.instance.renderInv();
-            }
-            else if (bambooBlockUID == modelID)
-            {
-                if (metadata == 0)
-                {
+            } else if (bambooBlockUID == modelID) {
+                if (metadata == 0) {
                     Tessellator tessellator = Tessellator.instance;
                     tessellator.startDrawingQuads();
                     tessellator.setNormal(0.0F, 1F, 0.0F);
                     renderer.drawCrossedSquares(block, metadata, -0.5D, -0.5D, -0.5D, 1F);
                     tessellator.draw();
                 }
-            }
-            else if (campfireUID == modelID)
-            {
+            } else if (campfireUID == modelID) {
                 RenderCampfire.instance.renderInv();
-            }
-            else if (millStoneUID == modelID)
-            {
+            } else if (millStoneUID == modelID) {
                 RenderMillStone.instance.renderInv();
-            }
-            else if (pillarUID == modelID)
-            {
+            } else if (pillarUID == modelID) {
                 standardItemRender(block, renderer, metadata);
-            }
-            else if (deludeUID == modelID)
-            {
-                switch (((IDelude)block).getOriginalRenderType())
-                {
-                    case 0:
-                        standardItemRender(block, renderer, metadata);
-                        break;
+            } else if (deludeUID == modelID) {
+                switch (((IDelude) block).getOriginalRenderType()) {
+                case 0:
+                    standardItemRender(block, renderer, metadata);
+                    break;
 
-                    case 10:
-                        renderItemStair(renderer, block);
-                        break;
+                case 10:
+                    renderItemStair(renderer, block);
+                    break;
                 }
-            }
-            else if (manekiUID == modelID)
-            {
+            } else if (manekiUID == modelID) {
                 RenderManeki.instance.renderInv();
             }
         }
 
         @Override
-        public boolean shouldRender3DInInventory()
-        {
+        public boolean shouldRender3DInInventory() {
             return true;
         }
-        private void renderItemStair(RenderBlocks renderer, Block par1Block)
-        {
+
+        private void renderItemStair(RenderBlocks renderer, Block par1Block) {
             Tessellator tessellator = Tessellator.instance;
             renderer.setRenderBoundsFromBlock(par1Block);
 
-            for (int k = 0; k < 2; ++k)
-            {
-                if (k == 0)
-                {
+            for (int k = 0; k < 2; ++k) {
+                if (k == 0) {
                     renderer.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.5D);
                 }
 
-                if (k == 1)
-                {
+                if (k == 1) {
                     renderer.setRenderBounds(0.0D, 0.0D, 0.5D, 1.0D, 0.5D, 1.0D);
                 }
 
@@ -256,8 +217,8 @@ public class CustomRenderHandler
                 GL11.glTranslatef(0.5F, 0.5F, 0.5F);
             }
         }
-        private void standardItemRender(Block par1Block, RenderBlocks renderer, int par2)
-        {
+
+        private void standardItemRender(Block par1Block, RenderBlocks renderer, int par2) {
             Tessellator tessellator = Tessellator.instance;
             par1Block.setBlockBoundsForItemRender();
             renderer.setRenderBoundsFromBlock(par1Block);

@@ -15,20 +15,17 @@ import org.lwjgl.opengl.GL12;
 import ruby.bamboo.entity.EntityKakeziku;
 import ruby.bamboo.entity.EnumKakeziku;
 
-public class RenderKakeziku extends Render
-{
+public class RenderKakeziku extends Render {
     private static ResourceLocation RESOUCE = new ResourceLocation("textures/entitys/kakeziku.png");
-    public RenderKakeziku()
-    {
+
+    public RenderKakeziku() {
         rand = new Random();
     }
 
-    public void func_158_a(EntityKakeziku entity, double d, double d1, double d2,
-                           float f, float f1)
-    {
+    public void func_158_a(EntityKakeziku entity, double d, double d1, double d2, float f, float f1) {
         rand.setSeed(187L);
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)d, (float)d1 + 1, (float)d2);
+        GL11.glTranslatef((float) d, (float) d1 + 1, (float) d2);
         GL11.glRotatef(f, 0.0F, 1.0F, 0.0F);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         bindEntityTexture(entity);
@@ -40,17 +37,14 @@ public class RenderKakeziku extends Render
         GL11.glPopMatrix();
     }
 
-    private void func_159_a(EntityKakeziku entity, int i, int j, int k, int l)
-    {
+    private void func_159_a(EntityKakeziku entity, int i, int j, int k, int l) {
         float f = (-i) / 2.0F;
         float f1 = (-j) / 2.0F;
         float f2 = -0.5F;
         float f3 = 0.5F;
 
-        for (int i1 = 0; i1 < i / 16; i1++)
-        {
-            for (int j1 = 0; j1 < j / 16; j1++)
-            {
+        for (int i1 = 0; i1 < i / 16; i1++) {
+            for (int j1 = 0; j1 < j / 16; j1++) {
                 float f4 = f + (i1 + 1) * 16;
                 float f5 = f + i1 * 16;
                 float f6 = f1 + (j1 + 1) * 16;
@@ -109,29 +103,24 @@ public class RenderKakeziku extends Render
         }
     }
 
-    private void func_160_a(EntityKakeziku entity, float f, float f1)
-    {
+    private void func_160_a(EntityKakeziku entity, float f, float f1) {
         int i = MathHelper.floor_double(entity.posX);
         int j = MathHelper.floor_double(entity.posY + f1 / 16F);
         int k = MathHelper.floor_double(entity.posZ);
 
-        if (entity.getDir() == 0)
-        {
+        if (entity.getDir() == 0) {
             i = MathHelper.floor_double(entity.posX + f / 16F);
         }
 
-        if (entity.getDir() == 1)
-        {
+        if (entity.getDir() == 1) {
             k = MathHelper.floor_double(entity.posZ - f / 16F);
         }
 
-        if (entity.getDir() == 2)
-        {
+        if (entity.getDir() == 2) {
             i = MathHelper.floor_double(entity.posX - f / 16F);
         }
 
-        if (entity.getDir() == 3)
-        {
+        if (entity.getDir() == 3) {
             k = MathHelper.floor_double(entity.posZ + f / 16F);
         }
 
@@ -143,16 +132,14 @@ public class RenderKakeziku extends Render
     }
 
     @Override
-    public void doRender(Entity entity, double d, double d1, double d2,
-                         float f, float f1)
-    {
-        func_158_a((EntityKakeziku)entity, d, d1, d2, f, f1);
+    public void doRender(Entity entity, double d, double d1, double d2, float f, float f1) {
+        func_158_a((EntityKakeziku) entity, d, d1, d2, f, f1);
     }
 
     private Random rand;
+
     @Override
-    protected ResourceLocation getEntityTexture(Entity entity)
-    {
+    protected ResourceLocation getEntityTexture(Entity entity) {
         // TODO 自動生成されたメソッド・スタブ
         return RESOUCE;
     }

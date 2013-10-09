@@ -24,47 +24,46 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 
-public class BambooInit
-{
+public class BambooInit {
     private static final int ITEMID_OFFSET = 256;
-    //instance
+    // instance
     public static BambooInit instance = new BambooInit();
-    public static final String SINGLE_TEX_DECO="singleTexDeco";
-    public static final String BAMBOO="bamboo";
-    public static final String KITUNEBI="kitunebi";
-    public static final String JP_CHEST="jpChest";
-    public static final String DIR_SQUARE="dirSquare";
-    public static final String ANDON="andon";
-    public static final String HALF_DIR_SQUARE="halfDirSquare";
-    public static final String BAMBOO_PANEL="bambooPanel";
-    public static final String SAKURA_LEAVES="sakuraLeaves";
-    public static final String SAKURA_SAPLING="sakuraSapling";
-    public static final String KAYABUKI_ROOF="kayabukiRoof";
-    public static final String SPA_WATER="spaWater";
-    public static final String SPA_UNIT="spaUnit";
-    public static final String SAKURA_LOG="sakuraLog";
-    public static final String DELUDE_WIDTH="delude_width";
-    public static final String DELUDE_HEIGHT="delude_height";
-    public static final String DELUDE_STAIR="delude_stair";
-    public static final String IRORI="campfire";
-    public static final String DECO_SQUARE="deco";
-    public static final String HALF_DECO_SQUARE="halfDeco";
-    public static final String TWO_DIR_DECO_SQUARE="twoDirDeco";
-    public static final String HALF_TWO_DIR_DECO_SQUARE="halfTwoDirDeco";
-    public static final String KAWARA_ROOF="kawara_stair";
-    public static final String RICE_FIELD="riceField";
-    public static final String RICE_PLANT="ricePlant";
-    public static final String MILLSTONE="millStone";
-    public static final String DECO_CARPET="decoCarpet";
-    public static final String THICK_SAKURA_PILLAR="thickSakuraPillar";
-    public static final String THIN_SAKURA_PILLAR="thinSakuraPillar";
-    public static final String THICK_ORC_PILLAR="thickOrcPillar";
-    public static final String THIN_ORC_PILLAR="thinOrcPillar";
-    public static final String THICK_SPRUCE_PILLAR="thickSprucePillar";
-    public static final String THIN_SPRUCE_PILLAR="thinSprucePillar";
-    public static final String DELUDE_PLATE="delude_plate";
-    public static final String MANEKI="maneki"; 
-    //blocks
+    public static final String SINGLE_TEX_DECO = "singleTexDeco";
+    public static final String BAMBOO = "bamboo";
+    public static final String KITUNEBI = "kitunebi";
+    public static final String JP_CHEST = "jpChest";
+    public static final String DIR_SQUARE = "dirSquare";
+    public static final String ANDON = "andon";
+    public static final String HALF_DIR_SQUARE = "halfDirSquare";
+    public static final String BAMBOO_PANEL = "bambooPanel";
+    public static final String SAKURA_LEAVES = "sakuraLeaves";
+    public static final String SAKURA_SAPLING = "sakuraSapling";
+    public static final String KAYABUKI_ROOF = "kayabukiRoof";
+    public static final String SPA_WATER = "spaWater";
+    public static final String SPA_UNIT = "spaUnit";
+    public static final String SAKURA_LOG = "sakuraLog";
+    public static final String DELUDE_WIDTH = "delude_width";
+    public static final String DELUDE_HEIGHT = "delude_height";
+    public static final String DELUDE_STAIR = "delude_stair";
+    public static final String IRORI = "campfire";
+    public static final String DECO_SQUARE = "deco";
+    public static final String HALF_DECO_SQUARE = "halfDeco";
+    public static final String TWO_DIR_DECO_SQUARE = "twoDirDeco";
+    public static final String HALF_TWO_DIR_DECO_SQUARE = "halfTwoDirDeco";
+    public static final String KAWARA_ROOF = "kawara_stair";
+    public static final String RICE_FIELD = "riceField";
+    public static final String RICE_PLANT = "ricePlant";
+    public static final String MILLSTONE = "millStone";
+    public static final String DECO_CARPET = "decoCarpet";
+    public static final String THICK_SAKURA_PILLAR = "thickSakuraPillar";
+    public static final String THIN_SAKURA_PILLAR = "thinSakuraPillar";
+    public static final String THICK_ORC_PILLAR = "thickOrcPillar";
+    public static final String THIN_ORC_PILLAR = "thinOrcPillar";
+    public static final String THICK_SPRUCE_PILLAR = "thickSprucePillar";
+    public static final String THIN_SPRUCE_PILLAR = "thinSprucePillar";
+    public static final String DELUDE_PLATE = "delude_plate";
+    public static final String MANEKI = "maneki";
+    // blocks
     public static int bambooBlockBID;
     public static int bambooBID;
     public static int sakuraLogBID;
@@ -101,7 +100,7 @@ public class BambooInit
     public static int thinSprucePillarBID;
     public static int delude_plateBID;
     public static int manekiBID;
-    //items
+    // items
     public static int bambooBasketIID;
     public static int firecrackerIID;
     public static int foodsIID;
@@ -131,29 +130,26 @@ public class BambooInit
     public static int magatamaIID;
 
     private static CreativeTabs tabBamboo;
-    public static void init()
-    {
+
+    public static void init() {
         instance.idsInit();
-        tabBamboo = new CreativeTabs("Bamboo")
-        {
+        tabBamboo = new CreativeTabs("Bamboo") {
             @Override
-            public int getTabIconItemIndex()
-            {
+            public int getTabIconItemIndex() {
                 return takenokoIID;
             }
+
             @Override
-            public String getTranslatedTabLabel()
-            {
+            public String getTranslatedTabLabel() {
                 return StatCollector.translateToLocal(this.getTabLabel());
             }
         };
         instance.blocksInit();
         instance.itemsInit();
     }
-    private void blocksInit()
-    {
-        try
-        {
+
+    private void blocksInit() {
+        try {
             registerBlock(new BlockBamboo(bambooBID, getChiledName()), BAMBOO);
             registerBlock(new BlockCustomRenderSingleTexture(bambooBlockBID), ItemCustomRenderSingleTexture.class, SINGLE_TEX_DECO, tabBamboo);
             registerBlock(new BlockKitunebi(kitunebiBID).setTextureName("kitunebi"), KITUNEBI, tabBamboo);
@@ -189,22 +185,20 @@ public class BambooInit
             registerBlock(new BlockPillar(thinSprucePillarBID, Block.wood, 1, 0.4F, 0.6F, 0.15F), ItemPillar.class, THIN_SPRUCE_PILLAR, tabBamboo);
             registerBlock(new BlockDeludePressurePlate(delude_plateBID), DELUDE_PLATE, tabBamboo);
             registerBlock(new BlockManeki(manekiBID, Material.ground), MANEKI, tabBamboo);
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             slotOccupiedException(e);
         }
     }
-    public static Block getBlockInstance(int blockID)
-    {
+
+    public static Block getBlockInstance(int blockID) {
         return BambooUtil.getBlcokInstance(blockID);
     }
-    public static Item getItemInstance(int itemID)
-    {
+
+    public static Item getItemInstance(int itemID) {
         return BambooUtil.getItemInstance(itemID);
     }
-    private void itemsInit()
-    {
+
+    private void itemsInit() {
         new ItemBambooBasket(bambooBasketIID - ITEMID_OFFSET).setUnlocalizedName("bamboobasket").setCreativeTab(tabBamboo);
         new ItemFirecracker(firecrackerIID - ITEMID_OFFSET).setUnlocalizedName("firecracker").setCreativeTab(tabBamboo);
         new ItemBambooFood(foodsIID - ITEMID_OFFSET).setUnlocalizedName("bambooFood").setCreativeTab(tabBamboo);
@@ -235,110 +229,95 @@ public class BambooInit
         new ItemMagatama(magatamaIID - ITEMID_OFFSET).setUnlocalizedName("magatama").setTextureName("magatama").setCreativeTab(tabBamboo);
     }
 
-    private void registerBlock(Block block, String name)
-    {
+    private void registerBlock(Block block, String name) {
         this.registerBlock(block, ItemBlock.class, name, null);
     }
-    
-    private void registerBlock(Block block, String name,CreativeTabs creativeTabs)
-    {
+
+    private void registerBlock(Block block, String name, CreativeTabs creativeTabs) {
         this.registerBlock(block, ItemBlock.class, name, creativeTabs);
     }
-    private void registerBlock(Block block, Class cls, String name)
-    {
-    	this.registerBlock(block,cls,name,null);
+
+    private void registerBlock(Block block, Class cls, String name) {
+        this.registerBlock(block, cls, name, null);
     }
-    private void registerBlock(Block block, Class cls, String name, CreativeTabs creativeTabs)
-    {
-        if (creativeTabs!=null)
-        {
-        	block.setCreativeTab(creativeTabs);
+
+    private void registerBlock(Block block, Class cls, String name, CreativeTabs creativeTabs) {
+        if (creativeTabs != null) {
+            block.setCreativeTab(creativeTabs);
         }
         block.setUnlocalizedName(name);
         GameRegistry.registerBlock(block, cls, name, BambooCore.MODID);
     }
 
-    private String getChiledName()
-    {
+    private String getChiledName() {
         String chiledName = "bambooshoot";
         Calendar ci = Calendar.getInstance();
         int date = ci.get(Calendar.DATE);
 
-        switch (ci.get(Calendar.MONTH))
-        {
-            case Calendar.JANUARY:
-                if (date == 1 || date == 2 || date == 3)
-                {
-                    chiledName = "bambooshoot0101";
-                }
+        switch (ci.get(Calendar.MONTH)) {
+        case Calendar.JANUARY:
+            if (date == 1 || date == 2 || date == 3) {
+                chiledName = "bambooshoot0101";
+            }
 
-                break;
+            break;
 
-            case Calendar.DECEMBER:
-                if (date == 24 || date == 25)
-                {
-                    chiledName = "bambooshoot1224";
-                }
+        case Calendar.DECEMBER:
+            if (date == 24 || date == 25) {
+                chiledName = "bambooshoot1224";
+            }
 
-                break;
+            break;
 
-            case Calendar.FEBRUARY:
-                chiledName = "bambooshoot0214";
-                break;
+        case Calendar.FEBRUARY:
+            chiledName = "bambooshoot0214";
+            break;
 
-            case Calendar.MARCH:
-                if (date == 03)
-                {
-                    chiledName = "bambooshoot0303";
-                }
-                else if (date == 14)
-                {
-                    chiledName = "bambooshoot0314";
-                }
+        case Calendar.MARCH:
+            if (date == 03) {
+                chiledName = "bambooshoot0303";
+            } else if (date == 14) {
+                chiledName = "bambooshoot0314";
+            }
 
-                break;
+            break;
 
-            case Calendar.APRIL:
-                if (date == 01)
-                {
-                    chiledName = "bambooshoot0401";
-                }
+        case Calendar.APRIL:
+            if (date == 01) {
+                chiledName = "bambooshoot0401";
+            }
 
-                break;
+            break;
 
-            case Calendar.MAY:
-                if (date == 05)
-                {
-                    chiledName = "bambooshoot0505";
-                }
+        case Calendar.MAY:
+            if (date == 05) {
+                chiledName = "bambooshoot0505";
+            }
 
-                ci.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-                ci.set(Calendar.DAY_OF_WEEK_IN_MONTH, 2);
+            ci.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+            ci.set(Calendar.DAY_OF_WEEK_IN_MONTH, 2);
 
-                if (ci.get(Calendar.DATE) == date)
-                {
-                    chiledName = "bambooshoot_mother";
-                }
+            if (ci.get(Calendar.DATE) == date) {
+                chiledName = "bambooshoot_mother";
+            }
 
-                break;
+            break;
 
-            case Calendar.JUNE:
-                ci.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-                ci.set(Calendar.DAY_OF_WEEK_IN_MONTH, 3);
+        case Calendar.JUNE:
+            ci.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+            ci.set(Calendar.DAY_OF_WEEK_IN_MONTH, 3);
 
-                if (ci.get(Calendar.DATE) == date)
-                {
-                    chiledName = "bambooshoot_father";
-                }
+            if (ci.get(Calendar.DATE) == date) {
+                chiledName = "bambooshoot_father";
+            }
 
-                break;
+            break;
         }
 
         return chiledName;
     }
 
-    private void idsInit()
-    {
+    private void idsInit() {
         File file = new File(Loader.instance().getConfigDir(), "mod_BambooIDConfig.cfg");
         Configuration conf = new Configuration(file);
         conf.load();
@@ -347,8 +326,8 @@ public class BambooInit
         idShifter(conf);
         conf.save();
     }
-    private void blockIdInit(Configuration conf)
-    {
+
+    private void blockIdInit(Configuration conf) {
         bambooBlockBID = getBlockId(conf, "bambooBlock", 3238);
         bambooBID = getBlockId(conf, "bamboo", 3239);
         sakuraLogBID = getBlockId(conf, "sakuraLog", 3240);
@@ -385,12 +364,12 @@ public class BambooInit
         delude_plateBID = getBlockId(conf, "delude_plate", 3271);
         manekiBID = getBlockId(conf, "maneki", 3272);
     }
-    private int getBlockId(Configuration conf, String key, int defaultId)
-    {
+
+    private int getBlockId(Configuration conf, String key, int defaultId) {
         return conf.getBlock(key, defaultId).getInt(defaultId);
     }
-    private void itemIdInit(Configuration conf)
-    {
+
+    private void itemIdInit(Configuration conf) {
         bambooBasketIID = getItemId(conf, "bambooBasket", 23535);
         firecrackerIID = getItemId(conf, "firecracker", 23536);
         foodsIID = getItemId(conf, "foods", 23539);
@@ -419,53 +398,37 @@ public class BambooInit
         bitchuHoeIID = getItemId(conf, "bitchuHoe", 23562);
         magatamaIID = getItemId(conf, "magatama", 23563);
     }
-    private int getItemId(Configuration conf, String key, int defaultId)
-    {
+
+    private int getItemId(Configuration conf, String key, int defaultId) {
         return conf.getItem(key, defaultId).getInt(defaultId);
     }
-    private void idShifter(Configuration conf)
-    {
+
+    private void idShifter(Configuration conf) {
         int blockShiftIndex = conf.get("A", "blockShiftIndex", 0, "BlockID bulk movement").getInt(0);
         int itemShiftIndex = conf.get("A", "itemShiftIndex", 0, "ItemID bulk movement").getInt(0);
 
-        for (Field f : this.getClass().getFields())
-        {
-            try
-            {
-                if (f.getName().matches(".*BID"))
-                {
+        for (Field f : this.getClass().getFields()) {
+            try {
+                if (f.getName().matches(".*BID")) {
                     f.setInt(this, f.getInt(this) + blockShiftIndex);
-                }
-                else if (f.getName().matches(".*IID"))
-                {
+                } else if (f.getName().matches(".*IID")) {
                     f.setInt(this, f.getInt(this) + itemShiftIndex + ITEMID_OFFSET);
                 }
-            }
-            catch (Exception e)
-            {
-            	FMLCommonHandler.instance().raiseException(e, "[mod_bamboo] IDShift exception", true);
+            } catch (Exception e) {
+                FMLCommonHandler.instance().raiseException(e, "[mod_bamboo] IDShift exception", true);
             }
         }
     }
 
-    private void slotOccupiedException(IllegalArgumentException e)
-    {
-        if (!(FMLCommonHandler.instance().getMinecraftServerInstance() != null && FMLCommonHandler.instance().getMinecraftServerInstance().isDedicatedServer()))
-        {
-            if (Minecraft.getMinecraft().gameSettings.language.equals("ja_JP"))
-            {
+    private void slotOccupiedException(IllegalArgumentException e) {
+        if (!(FMLCommonHandler.instance().getMinecraftServerInstance() != null && FMLCommonHandler.instance().getMinecraftServerInstance().isDedicatedServer())) {
+            if (Minecraft.getMinecraft().gameSettings.language.equals("ja_JP")) {
                 String[] message = e.getMessage().split(" ");
-                throw new IllegalArgumentException("\n[mod_Bamboo]BlockID " + message[1] + " が被ってます、トピックへ報告しないでください。\n"
-                                                   + "対象Block： " + message[6] + " と " + message[9] + " です。\n"
-                                                   + "BlockID変更方法のサポートは致しかねます、各自検索していただくようお願い申し上げます。\n" + e.getMessage());
-            }
-            else
-            {
+                throw new IllegalArgumentException("\n[mod_Bamboo]BlockID " + message[1] + " が被ってます、トピックへ報告しないでください。\n" + "対象Block： " + message[6] + " と " + message[9] + " です。\n" + "BlockID変更方法のサポートは致しかねます、各自検索していただくようお願い申し上げます。\n" + e.getMessage());
+            } else {
                 throw e;
             }
-        }
-        else
-        {
+        } else {
             throw e;
         }
     }

@@ -14,15 +14,17 @@ import ruby.bamboo.dispenser.DispenserBehaviorBambooSpear;
 import ruby.bamboo.dispenser.DispenserBehaviorDirtySnowball;
 import ruby.bamboo.dispenser.DispenserBehaviorFireCracker;
 
-@Mod(modid = "BambooMod" , name = "BambooMod", version = "Minecraft1.6.2 ver2.6.3")
-@NetworkMod(channels = {"B_Entity", "bamboo", "bamboo2"},
-            packetHandler = NetworkHandler.class,
-            connectionHandler = NetworkHandler.class)
-public class BambooCore
-{
-    public static final String MODID="BambooMod";
+@Mod(modid = "BambooMod", name = "BambooMod",
+        version = "Minecraft1.6.2 ver2.6.3")
+@NetworkMod(channels = { "B_Entity", "bamboo", "bamboo2" },
+        packetHandler = NetworkHandler.class,
+        connectionHandler = NetworkHandler.class)
+public class BambooCore {
+    public static final String MODID = "BambooMod";
     private final boolean DEBUGMODE = false;
-    @SidedProxy(serverSide = "ruby.bamboo.CommonProxy", clientSide = "ruby.bamboo.ClientProxy")
+
+    @SidedProxy(serverSide = "ruby.bamboo.CommonProxy",
+            clientSide = "ruby.bamboo.ClientProxy")
     public static CommonProxy proxy;
 
     @Instance("BambooMod")
@@ -30,53 +32,45 @@ public class BambooCore
 
     private static Config conf = new Config();
 
-    public static Config getConf()
-    {
+    public static Config getConf() {
         return conf;
     }
+
     @Mod.EventHandler
-    public void preLoad(FMLPreInitializationEvent e)
-    {
+    public void preLoad(FMLPreInitializationEvent e) {
         proxy.preInit();
     }
 
     @Mod.EventHandler
-    public void load(FMLInitializationEvent e)
-    {
+    public void load(FMLInitializationEvent e) {
         proxy.init();
         proxy.registerTESTileEntity();
         registDispencer();
 
         // debug
-        if (DEBUGMODE)
-        {
+        if (DEBUGMODE) {
             System.out.println("DEBUG MODE Enable");
         }
     }
 
     @Mod.EventHandler
-    public void serverStart(FMLServerStartedEvent event)
-    {
+    public void serverStart(FMLServerStartedEvent event) {
         getConf().serverInit();
         ManekiHandler.instance.clearManekiList();
     }
 
     @Mod.EventHandler
-    public void postInit(FMLPostInitializationEvent event)
-    {
+    public void postInit(FMLPostInitializationEvent event) {
         NetworkRegistry.instance().registerGuiHandler(BambooCore.getInstance(), new GuiHandler());
     }
 
-    private void registDispencer()
-    {
+    private void registDispencer() {
         BlockDispenser.dispenseBehaviorRegistry.putObject(BambooInit.snowBallIID, new DispenserBehaviorDirtySnowball());
         BlockDispenser.dispenseBehaviorRegistry.putObject(BambooInit.firecrackerIID, new DispenserBehaviorFireCracker());
         BlockDispenser.dispenseBehaviorRegistry.putObject(BambooInit.bambooSpearIID, new DispenserBehaviorBambooSpear());
     }
 
-
-    public static BambooCore getInstance()
-    {
+    public static BambooCore getInstance() {
         return instance;
     }
 }

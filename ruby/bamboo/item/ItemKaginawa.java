@@ -11,58 +11,45 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemKaginawa extends Item
-{
-    public ItemKaginawa(int par1)
-    {
+public class ItemKaginawa extends Item {
+    public ItemKaginawa(int par1) {
         super(par1);
         setMaxDamage(0);
         setMaxStackSize(1);
     }
+
     @Override
-    public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
-    {
+    public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
         EntityThrowable et = new EntityKaginawa(par2World, par3EntityPlayer);
 
-        if (!par2World.isRemote)
-        {
-            if (!KaginawaHandler.getUsageState(par3EntityPlayer))
-            {
+        if (!par2World.isRemote) {
+            if (!KaginawaHandler.getUsageState(par3EntityPlayer)) {
                 KaginawaHandler.setUsageState(par3EntityPlayer, true);
                 par2World.spawnEntityInWorld(et);
-            }
-            else if (par3EntityPlayer.onGround)
-            {
+            } else if (par3EntityPlayer.onGround) {
                 KaginawaHandler.setUsageState(par3EntityPlayer, false);
             }
-        }
-        else
-        {
-            if (!KaginawaHandler.isUsed())
-            {
+        } else {
+            if (!KaginawaHandler.isUsed()) {
                 par2World.joinEntityInSurroundings(et);
                 KaginawaHandler.setUsageState(true);
-            }
-            else if (par3EntityPlayer.onGround)
-            {
+            } else if (par3EntityPlayer.onGround) {
                 KaginawaHandler.setUsageState(false);
             }
         }
 
         return par1ItemStack;
     }
-    //LeftClick
+
+    // LeftClick
     /*
-    @Override
-    public boolean onEntitySwing(EntityLiving entityLiving, ItemStack stack)
-    {
-        return false;
-    }*/
+     * @Override public boolean onEntitySwing(EntityLiving entityLiving,
+     * ItemStack stack) { return false; }
+     */
 
     @Override
-	@SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister)
-    {
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IconRegister par1IconRegister) {
         this.itemIcon = Item.silk.getIconFromDamage(0);
     }
 }

@@ -13,23 +13,22 @@ import ruby.bamboo.entity.EntityFirecracker;
 
 public class RenderSphere// extends Render
 {
-    public RenderSphere()
-    {
+    public RenderSphere() {
         s.setTextureFlag(true);
     }
+
     private Sphere s = new Sphere();
     private float t;
-    private void render(Entity var1, double var2, double var4, double var6,
-                        float var8, float var9)
-    {
+
+    private void render(Entity var1, double var2, double var4, double var6, float var8, float var9) {
         t = t < 360 ? t + 1 : 0;
-        //glMaterial(GL_FRONT, GL_SPECULAR, matSpecular);
+        // glMaterial(GL_FRONT, GL_SPECULAR, matSpecular);
         glPushMatrix();
-        //loadTexture("/textures/entitys/bamboobasketb.png");
-        //glMatrixMode(GL_MODELVIEW);
-        //glColor3f(0.1f, 0.4f, 0.9f);
-        glTranslatef((float)var2, (float)var4, (float)var6);
-        int paw = ((EntityFirecracker)var1).getExplodeLv();
+        // loadTexture("/textures/entitys/bamboobasketb.png");
+        // glMatrixMode(GL_MODELVIEW);
+        // glColor3f(0.1f, 0.4f, 0.9f);
+        glTranslatef((float) var2, (float) var4, (float) var6);
+        int paw = ((EntityFirecracker) var1).getExplodeLv();
         float scale = paw * paw / 4F;
         glScalef(scale, scale, scale);
         glRotatef(90.0f, 1f, 0, 0);
@@ -38,10 +37,8 @@ public class RenderSphere// extends Render
         glPopMatrix();
     }
 
-    //@Override
-    public void doRender(Entity var1, double var2, double var4, double var6,
-                         float var8, float var9)
-    {
+    // @Override
+    public void doRender(Entity var1, double var2, double var4, double var6, float var8, float var9) {
         render(var1, var2, var4, var6, var8, var9);
     }
 }

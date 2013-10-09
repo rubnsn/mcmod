@@ -25,10 +25,9 @@ import ruby.bamboo.tileentity.TileEntitySpa;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class CommonProxy
-{
+public class CommonProxy {
     private static final int kakezikuEID = 0;
-    //private static int andonEID=1;
+    // private static int andonEID=1;
     private static final int slidedoorEID = 2;
     private static final int hutonEID = 3;
     private static final int bspearEID = 4;
@@ -44,11 +43,11 @@ public class CommonProxy
     private static final int flareEID = 14;
     private static final int gravityHoleEID = 15;
     private static final int goldenClockEID = 16;
-    public void preInit()
-    {
-        //わーるどじぇねれーとはんどら
+
+    public void preInit() {
+        // わーるどじぇねれーとはんどら
         GeneraterHandler.init();
-        //くらふとはんどら
+        // くらふとはんどら
         CraftingHandler.init();
         // block & item init 分割1
         BambooInit.init();
@@ -60,8 +59,8 @@ public class CommonProxy
         registerEntity(EntityWindChime.class, "Wind bell", windbellEID, 80, 10, false);
         registerEntity(EntityFirecracker.class, "FileCracker", fireCrackerEID, 80, 3, true);
         registerEntity(EntityDirtySnowball.class, "DirtySnowball", snowBallEID, 80, 3, true);
-        registerEntity(EntityWind.class, "wind", windEID,  80, 3, true);
-        registerEntity(EntityWindmill.class, "WindMill", windMillEID,  80, 10, false);
+        registerEntity(EntityWind.class, "wind", windEID, 80, 3, true);
+        registerEntity(EntityWindmill.class, "WindMill", windMillEID, 80, 10, false);
         registerEntity(EntityWaterwheel.class, "WaterMill", waterMillEID, 80, 10, false);
         registerEntity(EntityKaginawa.class, "Kaginawa", kaginawaEID, 80, 3, true);
         registerEntity(EntityObon.class, "Obon", obonEID, 80, 3, false);
@@ -72,25 +71,31 @@ public class CommonProxy
         GameRegistry.registerTileEntity(TileEntityJPChest.class, "JP Chest");
         GameRegistry.registerTileEntity(TileEntitySpa.class, "Tile Spa");
     }
-    public void registerTESTileEntity()
-    {
+
+    public void registerTESTileEntity() {
         GameRegistry.registerTileEntity(TileEntityCampfire.class, "Camp fire");
         GameRegistry.registerTileEntity(TileEntityAndon.class, "Andon");
         GameRegistry.registerTileEntity(TileEntityMillStone.class, "MillStone");
         GameRegistry.registerTileEntity(TileEntityManeki.class, "Maneki");
     }
-    public void init()
-    {
+
+    public void init() {
         new BambooRecipe();
     }
-    private void registerEntity(Class entityClass, String entityName, int id, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates)
-    {
-        /*try{
-        	Class.forName("cpw.mods.fml.common.registry.EntityRegistry").getMethod("registerModEntity",Class.class,String.class,int.class,Object.class,int.class,int.class,boolean.class).invoke(null,entityClass, entityName,id,mod,trackingRange,updateFrequency,sendsVelocityUpdates);
-        }catch(Exception e){
-        	e.printStackTrace();
-        }*/
+
+    private void registerEntity(Class entityClass, String entityName, int id, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {
+        /*
+         * try{
+         * Class.forName("cpw.mods.fml.common.registry.EntityRegistry").getMethod
+         * (
+         * "registerModEntity",Class.class,String.class,int.class,Object.class,int
+         * .class,int.class,boolean.class).invoke(null,entityClass,
+         * entityName,id
+         * ,mod,trackingRange,updateFrequency,sendsVelocityUpdates);
+         * }catch(Exception e){ e.printStackTrace(); }
+         */
         EntityRegistry.registerModEntity(entityClass, entityName, id, BambooCore.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
-        //EntityRegistry.instance().lookupModSpawn(entityClass,false).setCustomSpawning(ClientSpawnHandler.getInstance(), false);
+        // EntityRegistry.instance().lookupModSpawn(entityClass,false).setCustomSpawning(ClientSpawnHandler.getInstance(),
+        // false);
     }
 }

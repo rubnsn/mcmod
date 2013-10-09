@@ -3,25 +3,25 @@ package ruby.bamboo.item.magatama;
 import net.minecraft.entity.Entity;
 import ruby.bamboo.entity.magatama.EntityFlareEffect;
 
-public class MagatamaRed implements IMagatama{
+public class MagatamaRed implements IMagatama {
 
-	@Override
-	public Class getEffectClass() {
-		return EntityFlareEffect.class;
-	}
+    @Override
+    public Class getEffectClass() {
+        return EntityFlareEffect.class;
+    }
 
-	@Override
-	public void holdingEffect(Entity entity,int invIndex) {
-		entity.extinguish();
-	}
+    @Override
+    public void holdingEffect(Entity entity, int invIndex) {
+        entity.extinguish();
+    }
 
-	@Override
-	public int getReality() {
-		return 1;
-	}
+    @Override
+    public int getReality() {
+        return 1;
+    }
 
-	@Override
-	public int getColor() {
-		return 0xDD2222;
-	}
+    @Override
+    public int getColor() {
+        return 0xDD2222;
+    }
 }

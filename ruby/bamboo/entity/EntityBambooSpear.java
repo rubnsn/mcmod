@@ -19,8 +19,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class EntityBambooSpear extends EntityArrow
-{
+public class EntityBambooSpear extends EntityArrow {
     private int xTile = -1;
     private int yTile = -1;
     private int zTile = -1;
@@ -42,21 +41,20 @@ public class EntityBambooSpear extends EntityArrow
 
     private int maxAge = 600;
 
-    public EntityBambooSpear(World par1World)
-    {
+    public EntityBambooSpear(World par1World) {
         super(par1World);
     }
-    public EntityBambooSpear(World par1World, double par2, double par4, double par6)
-    {
+
+    public EntityBambooSpear(World par1World, double par2, double par4, double par6) {
         super(par1World, par2, par4, par6);
         canBePickedUp = 1;
     }
-    public EntityBambooSpear(World par1World, EntityLivingBase par2EntityLiving, EntityLivingBase par3EntityLiving, float par4, float par5)
-    {
+
+    public EntityBambooSpear(World par1World, EntityLivingBase par2EntityLiving, EntityLivingBase par3EntityLiving, float par4, float par5) {
         super(par1World, par2EntityLiving, par3EntityLiving, par4, par5);
     }
-    public EntityBambooSpear(World par1World, EntityLivingBase par2EntityLiving, float par3)
-    {
+
+    public EntityBambooSpear(World par1World, EntityLivingBase par2EntityLiving, float par3) {
         super(par1World, par2EntityLiving, par3);
         count = 0;
         power = par3;
@@ -64,43 +62,40 @@ public class EntityBambooSpear extends EntityArrow
         isDie = false;
         shootingEntity = par2EntityLiving;
     }
-    //ばくはつ
-    public void setExplode()
-    {
+
+    // ばくはつ
+    public void setExplode() {
         this.isExplode = true;
     }
-    //連射
-    public void setBarrage(int attackCount)
-    {
+
+    // 連射
+    public void setBarrage(int attackCount) {
         this.count = attackCount;
         this.isBarrage = true;
     }
-    //クリエイティブ連射負荷対策
-    public void setMaxAge(int maxAge)
-    {
+
+    // クリエイティブ連射負荷対策
+    public void setMaxAge(int maxAge) {
         this.maxAge = maxAge;
     }
+
     @Override
-    public double getDamage()
-    {
+    public double getDamage() {
         return isExplode ? 0 : super.getDamage();
     }
+
     @Override
-    public void onUpdate()
-    {
+    public void onUpdate() {
         onEntityUpdate();
         onUpdateArrow();
 
-        if (0 < count)
-        {
+        if (0 < count) {
             worldObj.playSoundAtEntity(shootingEntity, "random.bow", 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 1.2F) + power * 0.5F);
 
-            if (!worldObj.isRemote)
-            {
-                EntityBambooSpear ebs = new EntityBambooSpear(worldObj, (EntityLivingBase)shootingEntity, power);
+            if (!worldObj.isRemote) {
+                EntityBambooSpear ebs = new EntityBambooSpear(worldObj, (EntityLivingBase) shootingEntity, power);
 
-                if (this.isExplode)
-                {
+                if (this.isExplode) {
                     ebs.setExplode();
                 }
 
@@ -114,68 +109,54 @@ public class EntityBambooSpear extends EntityArrow
             }
 
             count--;
-        }
-        else
-        {
-            if (isDie)
-            {
+        } else {
+            if (isDie) {
                 setDead();
             }
         }
 
-        if (isExplode && hitEntity != null)
-        {
-            if (explodeTimer++ > 60 && !hitEntity.isDead)
-            {
+        if (isExplode && hitEntity != null) {
+            if (explodeTimer++ > 60 && !hitEntity.isDead) {
                 hitEntity.motionY += 0.8;
                 worldObj.createExplosion(this, hitEntity.posX, hitEntity.posY + 1, hitEntity.posZ, 0, true);
                 this.setDead();
             }
         }
     }
-    private void onUpdateArrow()
-    {
-        if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
-        {
+
+    private void onUpdateArrow() {
+        if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
             float var1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-            this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
-            this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(this.motionY, var1) * 180.0D / Math.PI);
+            this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
+            this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(this.motionY, var1) * 180.0D / Math.PI);
         }
 
         int var16 = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
 
-        if (var16 > 0)
-        {
+        if (var16 > 0) {
             Block.blocksList[var16].setBlockBoundsBasedOnState(this.worldObj, this.xTile, this.yTile, this.zTile);
             AxisAlignedBB var2 = Block.blocksList[var16].getCollisionBoundingBoxFromPool(this.worldObj, this.xTile, this.yTile, this.zTile);
 
-            if (var2 != null && var2.isVecInside(this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX, this.posY, this.posZ)))
-            {
+            if (var2 != null && var2.isVecInside(this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX, this.posY, this.posZ))) {
                 this.inGround = true;
             }
         }
 
-        if (this.arrowShake > 0)
-        {
+        if (this.arrowShake > 0) {
             --this.arrowShake;
         }
 
-        if (this.inGround)
-        {
+        if (this.inGround) {
             int var18 = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
             int var19 = this.worldObj.getBlockMetadata(this.xTile, this.yTile, this.zTile);
 
-            if (var18 == this.inTile && var19 == this.inData)
-            {
+            if (var18 == this.inTile && var19 == this.inData) {
                 ++this.ticksInGround;
 
-                if (this.ticksInGround == maxAge)
-                {
+                if (this.ticksInGround == maxAge) {
                     this.setDead();
                 }
-            }
-            else
-            {
+            } else {
                 this.inGround = false;
                 this.motionX *= this.rand.nextFloat() * 0.2F;
                 this.motionY *= this.rand.nextFloat() * 0.2F;
@@ -183,9 +164,7 @@ public class EntityBambooSpear extends EntityArrow
                 this.ticksInGround = 0;
                 this.ticksInAir = 0;
             }
-        }
-        else
-        {
+        } else {
             ++this.ticksInAir;
             Vec3 var17 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX, this.posY, this.posZ);
             Vec3 var3 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
@@ -193,8 +172,7 @@ public class EntityBambooSpear extends EntityArrow
             var17 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX, this.posY, this.posZ);
             var3 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
-            if (var4 != null)
-            {
+            if (var4 != null) {
                 var3 = this.worldObj.getWorldVec3Pool().getVecFromPool(var4.hitVec.xCoord, var4.hitVec.yCoord, var4.hitVec.zCoord);
             }
 
@@ -204,22 +182,18 @@ public class EntityBambooSpear extends EntityArrow
             Iterator var9 = var6.iterator();
             float var11;
 
-            while (var9.hasNext())
-            {
-                Entity var10 = (Entity)var9.next();
+            while (var9.hasNext()) {
+                Entity var10 = (Entity) var9.next();
 
-                if (var10.canBeCollidedWith() && (var10 != this.shootingEntity || this.ticksInAir >= 5))
-                {
+                if (var10.canBeCollidedWith() && (var10 != this.shootingEntity || this.ticksInAir >= 5)) {
                     var11 = 0.3F;
                     AxisAlignedBB var12 = var10.boundingBox.expand(var11, var11, var11);
                     MovingObjectPosition var13 = var12.calculateIntercept(var17, var3);
 
-                    if (var13 != null)
-                    {
+                    if (var13 != null) {
                         double var14 = var17.distanceTo(var13.hitVec);
 
-                        if (var14 < var7 || var7 == 0.0D)
-                        {
+                        if (var14 < var7 || var7 == 0.0D) {
                             var5 = var10;
                             var7 = var14;
                         }
@@ -227,65 +201,51 @@ public class EntityBambooSpear extends EntityArrow
                 }
             }
 
-            if (var5 != null)
-            {
+            if (var5 != null) {
                 var4 = new MovingObjectPosition(var5);
             }
 
             float var20;
 
-            if (var4 != null)
-            {
-                if (var4.entityHit != null)
-                {
+            if (var4 != null) {
+                if (var4.entityHit != null) {
                     var20 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
                     int var24 = MathHelper.ceiling_double_int(var20 * 0.7 * getDamage());
 
-                    if (this.getIsCritical())
-                    {
+                    if (this.getIsCritical()) {
                         var24 += this.rand.nextInt(var24 / 2 + 2);
                     }
 
                     DamageSource var22 = null;
 
-                    if (this.shootingEntity == null)
-                    {
+                    if (this.shootingEntity == null) {
                         var22 = DamageSource.causeArrowDamage(this, this);
-                    }
-                    else
-                    {
+                    } else {
                         var22 = DamageSource.causeArrowDamage(this, this.shootingEntity);
                     }
 
-                    if (this.isBurning())
-                    {
+                    if (this.isBurning()) {
                         var4.entityHit.setFire(5);
                     }
 
-                    if (var4.entityHit.attackEntityFrom(var22, var24))
-                    {
-                        if (var4.entityHit instanceof EntityLiving)
-                        {
-                            //対象セット
-                            if (isExplode)
-                            {
+                    if (var4.entityHit.attackEntityFrom(var22, var24)) {
+                        if (var4.entityHit instanceof EntityLiving) {
+                            // 対象セット
+                            if (isExplode) {
                                 this.hitEntity = var4.entityHit;
                             }
 
-                            //連射による無敵時間削除
-                            if (isBarrage)
-                            {
+                            // 連射による無敵時間削除
+                            if (isBarrage) {
                                 var4.entityHit.hurtResistantTime = 0;
                             }
 
-                            ++((EntityLiving)var4.entityHit).arrowHitTimer;
+                            ++((EntityLiving) var4.entityHit).arrowHitTimer;
 
-                            if (this.knockbackStrength > 0)
-                            {
+                            if (this.knockbackStrength > 0) {
                                 float var25 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 
-                                if (var25 > 0.0F)
-                                {
+                                if (var25 > 0.0F) {
                                     var4.entityHit.addVelocity(this.motionX * this.knockbackStrength * 0.6000000238418579D / var25, 0.1D, this.motionZ * this.knockbackStrength * 0.6000000238418579D / var25);
                                 }
                             }
@@ -293,22 +253,19 @@ public class EntityBambooSpear extends EntityArrow
 
                         this.worldObj.playSoundAtEntity(this, "random.bowhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
 
-                        if (!isExplode)
-                        {
+                        if (!isExplode) {
                             this.setDead();
                         }
                     }
-                }
-                else
-                {
+                } else {
                     this.xTile = var4.blockX;
                     this.yTile = var4.blockY;
                     this.zTile = var4.blockZ;
                     this.inTile = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
                     this.inData = this.worldObj.getBlockMetadata(this.xTile, this.yTile, this.zTile);
-                    this.motionX = ((float)(var4.hitVec.xCoord - this.posX));
-                    this.motionY = ((float)(var4.hitVec.yCoord - this.posY));
-                    this.motionZ = ((float)(var4.hitVec.zCoord - this.posZ));
+                    this.motionX = ((float) (var4.hitVec.xCoord - this.posX));
+                    this.motionY = ((float) (var4.hitVec.yCoord - this.posY));
+                    this.motionZ = ((float) (var4.hitVec.zCoord - this.posZ));
                     var20 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
                     this.posX -= this.motionX / var20 * 0.05000000074505806D;
                     this.posY -= this.motionY / var20 * 0.05000000074505806D;
@@ -320,10 +277,8 @@ public class EntityBambooSpear extends EntityArrow
                 }
             }
 
-            if (this.getIsCritical())
-            {
-                for (int var21 = 0; var21 < 4; ++var21)
-                {
+            if (this.getIsCritical()) {
+                for (int var21 = 0; var21 < 4; ++var21) {
                     this.worldObj.spawnParticle("crit", this.posX + this.motionX * var21 / 4.0D, this.posY + this.motionY * var21 / 4.0D, this.posZ + this.motionZ * var21 / 4.0D, -this.motionX, -this.motionY + 0.2D, -this.motionZ);
                 }
             }
@@ -332,25 +287,21 @@ public class EntityBambooSpear extends EntityArrow
             this.posY += this.motionY;
             this.posZ += this.motionZ;
             var20 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-            this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
+            this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 
-            for (this.rotationPitch = (float)(Math.atan2(this.motionY, var20) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
-            {
+            for (this.rotationPitch = (float) (Math.atan2(this.motionY, var20) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
                 ;
             }
 
-            while (this.rotationPitch - this.prevRotationPitch >= 180.0F)
-            {
+            while (this.rotationPitch - this.prevRotationPitch >= 180.0F) {
                 this.prevRotationPitch += 360.0F;
             }
 
-            while (this.rotationYaw - this.prevRotationYaw < -180.0F)
-            {
+            while (this.rotationYaw - this.prevRotationYaw < -180.0F) {
                 this.prevRotationYaw -= 360.0F;
             }
 
-            while (this.rotationYaw - this.prevRotationYaw >= 180.0F)
-            {
+            while (this.rotationYaw - this.prevRotationYaw >= 180.0F) {
                 this.prevRotationYaw += 360.0F;
             }
 
@@ -359,10 +310,8 @@ public class EntityBambooSpear extends EntityArrow
             float var23 = 0.99F;
             var11 = 0.05F;
 
-            if (this.isInWater())
-            {
-                for (int var26 = 0; var26 < 4; ++var26)
-                {
+            if (this.isInWater()) {
+                for (int var26 = 0; var26 < 4; ++var26) {
                     float var27 = 0.25F;
                     this.worldObj.spawnParticle("bubble", this.posX - this.motionX * var27, this.posY - this.motionY * var27, this.posZ - this.motionZ * var27, this.motionX, this.motionY, this.motionZ);
                 }
@@ -378,34 +327,28 @@ public class EntityBambooSpear extends EntityArrow
             this.doBlockCollisions();
         }
     }
-    //1本めがHit時連射が止まるため細工
+
+    // 1本めがHit時連射が止まるため細工
     @Override
-    public void setDead()
-    {
-        if (count < 1)
-        {
+    public void setDead() {
+        if (count < 1) {
             super.setDead();
-        }
-        else
-        {
+        } else {
             isDie = true;
         }
     }
-    //拾った時弓矢に化ける対策
+
+    // 拾った時弓矢に化ける対策
     @Override
-    public void onCollideWithPlayer(EntityPlayer par1EntityPlayer)
-    {
-        if (!this.worldObj.isRemote && inGround && this.arrowShake <= 0)
-        {
+    public void onCollideWithPlayer(EntityPlayer par1EntityPlayer) {
+        if (!this.worldObj.isRemote && inGround && this.arrowShake <= 0) {
             boolean var2 = this.canBePickedUp == 1 || this.canBePickedUp == 2 && par1EntityPlayer.capabilities.isCreativeMode;
 
-            if (this.canBePickedUp == 1 && !par1EntityPlayer.inventory.addItemStackToInventory(getPickUpItem()))
-            {
+            if (this.canBePickedUp == 1 && !par1EntityPlayer.inventory.addItemStackToInventory(getPickUpItem())) {
                 var2 = false;
             }
 
-            if (var2)
-            {
+            if (var2) {
                 this.worldObj.playSoundAtEntity(this, "random.pop", 0.2F, ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
                 par1EntityPlayer.onItemPickup(this, 1);
                 this.setDead();
@@ -413,15 +356,11 @@ public class EntityBambooSpear extends EntityArrow
         }
     }
 
-    public ItemStack getPickUpItem()
-    {
-        if (isExplode)
-        {
-            return new ItemStack(BambooInit.bambooSpearIID, 1 , 1);
-        }
-        else
-        {
-            return new ItemStack(BambooInit.bambooSpearIID, 1 , 0);
+    public ItemStack getPickUpItem() {
+        if (isExplode) {
+            return new ItemStack(BambooInit.bambooSpearIID, 1, 1);
+        } else {
+            return new ItemStack(BambooInit.bambooSpearIID, 1, 0);
         }
     }
 }
