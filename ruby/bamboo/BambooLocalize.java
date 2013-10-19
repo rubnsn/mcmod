@@ -53,14 +53,14 @@ public class BambooLocalize implements ResourceManagerReloadListener {
             prop = new Properties();
             InputStream stream = this.getClass().getResourceAsStream("/ruby/bamboo/lang/" + lang + ".properties");
 
-            if (stream != null) {
-                prop.load(new InputStreamReader(stream, "UTF-8"));
-            } else {
+            if (stream == null) {
                 System.out.printf("[mod_bamboo]lang %s not found \n", lang);
-                return;
+                stream = this.getClass().getResourceAsStream("/ruby/bamboo/lang/en_US.properties");
             }
+            prop.load(new InputStreamReader(stream, "UTF-8"));
         } catch (Exception e) {
             e.printStackTrace();
+            return;
         }
         // 桜の花どうしようかなー、名前が似たようなの?
         addName(sakuraleavsBID);
