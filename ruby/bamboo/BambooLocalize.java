@@ -145,6 +145,12 @@ public class BambooLocalize implements ResourceManagerReloadListener {
         addName(new ItemStack(decoCarpetBID, 1, 4));
         addName(new ItemStack(decoCarpetBID, 1, 6));
         addName(new ItemStack(decoCarpetBID, 1, 8));
+        addName(new ItemStack(magatamaIID, 1, 0));
+        addName(new ItemStack(magatamaIID, 1, 1));
+        addName(new ItemStack(magatamaIID, 1, 2));
+        addName(new ItemStack(magatamaIID, 1, 3));
+        addName(new ItemStack(magatamaIID, 1, 4));
+        addName(new ItemStack(magatamaIID, 1, 5));
     }
 
     private void addName(int itemId) {
