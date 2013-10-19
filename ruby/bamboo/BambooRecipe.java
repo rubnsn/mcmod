@@ -45,6 +45,7 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(slideDoorsIID, 2, EnumSlideDoor.GLASS.getId()), "XYX", "X#X", "XYX", '#', TUDURA, 'X', Block.fenceIron, 'Y', Block.thinGlass);
         addShapedOreRecipe(new ItemStack(slideDoorsIID, 2, EnumSlideDoor.GGLASS.getId()), "XYX", "X#X", "XYX", '#', TUDURA, 'X', Item.stick, 'Y', Block.thinGlass);
         addShapedOreRecipe(new ItemStack(slideDoorsIID, 2, EnumSlideDoor.YUKI.getId()), "XYX", "X#X", "XZX", '#', TUDURA, 'X', Item.stick, 'Y', Item.paper, 'Z', Block.thinGlass);
+        addShapedOreRecipe(new ItemStack(slideDoorsIID, 2, EnumSlideDoor.AMADO.getId()), "XYX", "X#X", "XYX", '#', TUDURA, 'X', Item.stick, 'Y', "plankWood");
         // パネル類
         addShapedOreRecipe(new ItemStack(bamboopaneBID, 8, 0), "###", "###", '#', BAMBOO);
         addShapedOreRecipe(new ItemStack(bamboopaneBID, 8, 1), "#X#", "###", '#', Block.planks, 'X', TUDURA);
