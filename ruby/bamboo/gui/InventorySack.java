@@ -30,12 +30,7 @@ public class InventorySack implements IInventory {
     public ItemStack decrStackSize(int i, int j) {
         if (slot0 != null) {
             ItemStack is = slot0.copy();
-            slot0.stackSize--;
-
-            if (slot0.stackSize <= 0) {
-                slot0 = null;
-            }
-
+            slot0 = null;
             return is;
         } else {
             return null;
@@ -48,7 +43,7 @@ public class InventorySack implements IInventory {
             sack.setTagCompound(new NBTTagCompound());
             NBTTagCompound var4 = sack.getTagCompound();
             var4.setShort("type", (short) slot0.getItem().itemID);
-            var4.setShort("count", (short) 1);
+            var4.setShort("count", (short) slot0.stackSize);
             var4.setShort("meta", (short) slot0.getItemDamage());
             sack.setItemDamage(sack.getMaxDamage() - 1);
         }
@@ -75,7 +70,7 @@ public class InventorySack implements IInventory {
 
     @Override
     public int getInventoryStackLimit() {
-        return 1;
+        return 64;
     }
 
     @Override
