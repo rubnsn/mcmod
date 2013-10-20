@@ -4,14 +4,6 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Calendar;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.registry.GameRegistry;
-
-import ruby.bamboo.block.*;
-import ruby.bamboo.item.*;
-import ruby.bamboo.item.magatama.*;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -23,6 +15,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
+import ruby.bamboo.block.*;
+import ruby.bamboo.item.*;
+import ruby.bamboo.item.magatama.*;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class BambooInit {
     private static final int ITEMID_OFFSET = 256;
@@ -160,7 +158,7 @@ public class BambooInit {
             registerBlock(new BlockBambooPane(bamboopaneBID, Material.ground), ItemBambooPane.class, BAMBOO_PANEL, tabBamboo);
             registerBlock(new BlockSakuraLeaves(sakuraleavsBID), ItemSakuraPetal.class, SAKURA_LEAVES, tabBamboo);
             registerBlock(new BlockSakura(sakuraBID).setTextureName("sakura"), SAKURA_SAPLING, tabBamboo);
-            registerBlock(new BlockKayabukiRoof(rooftileBID), ItemRooftile.class, KAYABUKI_ROOF, tabBamboo);
+            registerBlock(new BlockKayabukiRoof(rooftileBID), KAYABUKI_ROOF, tabBamboo);
             registerBlock(new BlockSpaWater(spaBID, Material.water), SPA_WATER);
             registerBlock(new BlockSpaUnit(spaunitBID), SPA_UNIT, tabBamboo);
             registerBlock(new BlockSakuraLog(sakuraLogBID), SAKURA_LOG, tabBamboo);
