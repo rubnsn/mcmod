@@ -51,10 +51,11 @@ public class BlockBamboo extends Block {
 
             int y = par3 + 1;
 
-            for (; par1World.getBlockId(par2, y, par4) == this.blockID; y++)
+            for (; par1World.getBlockId(par2, y, par4) == this.blockID; y++) {
                 ;
+            }
 
-            tryBambooGrowth(par1World, par2, y - 1, par4, 2);
+            tryBambooGrowth(par1World, par2, y - 1, par4, 0.75F);
             return true;
         }
 
@@ -72,19 +73,19 @@ public class BlockBamboo extends Block {
 
     @Override
     public void updateTick(World world, int i, int j, int k, Random random) {
-        tryBambooGrowth(world, i, j, k, world.isRaining() ? 6 : 8);
+        tryBambooGrowth(world, i, j, k, world.isRaining() ? 0.25F : 0.125F);
     }
 
-    private void tryBambooGrowth(World world, int x, int y, int z, int probability) {
+    private void tryBambooGrowth(World world, int x, int y, int z, float probability) {
         if (world.isAirBlock(x, y + 1, z)) {
-            if (world.rand.nextInt(probability) == 0) {
+            if (world.rand.nextFloat() < probability) {
                 int meta = world.getBlockMetadata(x, y, z);
 
                 if (meta != 15) {
                     if (meta < MAX_BAMBOO_LENGTH) {
                         world.setBlock(x, y + 1, z, blockID, meta + 1, 3);
                     } else {
-                        if (world.isRaining() || world.rand.nextInt((probability - 1) * 10 + 1) == 0) {
+                        if (world.isRaining() || world.rand.nextFloat() < (probability / 2F)) {
                             tryChildSpawn(world, x, y, z);
                         }
                     }
@@ -124,7 +125,7 @@ public class BlockBamboo extends Block {
     private boolean canChildSpawn(World world, int i, int j, int k, Random random) {
         if (world.isAirBlock(i, j, k)) {
             // 天候・耕地用確変
-            if (random.nextInt(world.isRaining() ? 5 : world.getBlockId(i, j - 1, k) == Block.tilledField.blockID ? 2 : 10) == 0) {
+            if (random.nextInt(world.isRaining() ? 3 : world.getBlockId(i, j - 1, k) == Block.tilledField.blockID ? 2 : 10) == 0) {
                 if ((world.getBlockId(i, j - 1, k) == Block.dirt.blockID || world.getBlockId(i, j - 1, k) == Block.grass.blockID || world.getBlockId(i, j - 1, k) == Block.tilledField.blockID)) {
                     return true;
                 }
