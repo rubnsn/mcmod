@@ -8,7 +8,7 @@ Start.java
 *.lzma
 *.properties
 forge_logo.png
-*.info
+mcpmod.info
 CodecIBXM.java
 # Package Files #
 *.jar
