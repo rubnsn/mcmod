@@ -2,11 +2,6 @@ package ruby.bamboo.block;
 
 import java.util.Random;
 
-import ruby.bamboo.BambooInit;
-import ruby.bamboo.CustomRenderHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,21 +14,25 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import ruby.bamboo.BambooInit;
+import ruby.bamboo.CustomRenderHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockBamboo extends Block {
     // 最大成長値(0も含まれる)
     private static final int MAX_BAMBOO_LENGTH = 9;
     private Icon parent;
     private Icon child;
-    private String chiledName;
+    private final String chiledName;
 
     public BlockBamboo(int i, String chiledName) {
         super(i, MaterialBamboo.instance);
         this.chiledName = chiledName;
         setLightOpacity(0);
         setTickRandomly(true);
-        setHardness(0.0F);
-        setResistance(0.0F);
+        setHardness(0F);
+        setResistance(0F);
     }
 
     @Override
@@ -73,25 +72,27 @@ public class BlockBamboo extends Block {
 
     @Override
     public void updateTick(World world, int i, int j, int k, Random random) {
-        tryBambooGrowth(world, i, j, k, world.isRaining() ? 0.25F : 0.125F);
+        tryBambooGrowth(world, i, j, k, world.isRaining() ? 0.1875F : 0.125F);
     }
 
     private void tryBambooGrowth(World world, int x, int y, int z, float probability) {
-        if (world.isAirBlock(x, y + 1, z)) {
-            if (world.rand.nextFloat() < probability) {
-                int meta = world.getBlockMetadata(x, y, z);
+        if (!world.isRemote) {
+            if (world.isAirBlock(x, y + 1, z)) {
+                if (world.rand.nextFloat() < probability) {
+                    int meta = world.getBlockMetadata(x, y, z);
 
-                if (meta != 15) {
-                    if (meta < MAX_BAMBOO_LENGTH) {
-                        world.setBlock(x, y + 1, z, blockID, meta + 1, 3);
-                    } else {
-                        if (world.isRaining() || world.rand.nextFloat() < (probability / 2F)) {
-                            tryChildSpawn(world, x, y, z);
+                    if (meta != 15) {
+                        if (meta < MAX_BAMBOO_LENGTH) {
+                            world.setBlock(x, y + 1, z, blockID, meta + 1, 3);
+                        } else {
+                            if (world.isRaining() || world.rand.nextFloat() < (probability / 2F)) {
+                                tryChildSpawn(world, x, y, z);
+                            }
                         }
-                    }
-                } else {
-                    if (getBlockLightValue(world, x, y, z) > 7) {
-                        world.setBlockMetadataWithNotify(x, y, z, 0, 3);
+                    } else {
+                        if (getBlockLightValue(world, x, y, z) > 7) {
+                            world.setBlockMetadataWithNotify(x, y, z, 0, 3);
+                        }
                     }
                 }
             }
@@ -106,8 +107,8 @@ public class BlockBamboo extends Block {
                 for (int j1 = -1; j1 <= 1; j1++) {
                     for (int k1 = -1; k1 <= 1; k1++) {
                         if (canChildSpawn(world, i + i1, j + j1, k + k1, world.rand)) {
-                            world.setBlock(i + i1, j + j1 - 1, k + k1, Block.dirt.blockID, 0, 3);
-                            world.setBlock(i + i1, j + j1, k + k1, blockID, 15, 3);
+                            world.setBlockMetadataWithNotify(i + i1, j + j1 - 1, k + k1, Block.dirt.blockID, 0);
+                            world.setBlockMetadataWithNotify(i + i1, j + j1, k + k1, blockID, 15);
                         }
                     }
                 }
@@ -125,7 +126,7 @@ public class BlockBamboo extends Block {
     private boolean canChildSpawn(World world, int i, int j, int k, Random random) {
         if (world.isAirBlock(i, j, k)) {
             // 天候・耕地用確変
-            if (random.nextInt(world.isRaining() ? 3 : world.getBlockId(i, j - 1, k) == Block.tilledField.blockID ? 2 : 10) == 0) {
+            if (random.nextFloat() < (world.isRaining() ? 0.4F : world.getBlockId(i, j - 1, k) == Block.tilledField.blockID ? 0.2F : 0.1F)) {
                 if ((world.getBlockId(i, j - 1, k) == Block.dirt.blockID || world.getBlockId(i, j - 1, k) == Block.grass.blockID || world.getBlockId(i, j - 1, k) == Block.tilledField.blockID)) {
                     return true;
                 }
