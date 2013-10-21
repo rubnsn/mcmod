@@ -39,7 +39,7 @@ public class EntityHuton extends Entity {
                 return true;
             }
 
-            this.dropItem(BambooInit.kakezikuIID, 1);
+            this.dropItem(BambooInit.hutonIID, 1);
         }
 
         return true;
@@ -100,19 +100,6 @@ public class EntityHuton extends Entity {
     public void onUpdate() {
         super.onUpdate();
 
-        /*
-         * //クライアント用消去判定 if
-         * (!isDead&&this.worldObj.isRemote&&dataWatcher.getWatchableObjectByte
-         * (ATTACK)==1) { setDead(); }
-         */
-        /*
-         * //クライアント側で座らせる if(worldObj.isRemote){ Entity
-         * entity=getRiddenByEntity();
-         * if(this.riddenByEntity==null&&getRiddenByEntityID()!=0){
-         * if(entity!=null){ entity.mountEntity(this); } }else
-         * if(getRiddenByEntityID()==0){ if(entity!=null){
-         * entity.mountEntity(this); } } }
-         */
         // 時間加速
         if (BambooCore.getConf().timeAccel && timechange) {
             if (riddenByEntity instanceof EntityPlayer) {
@@ -143,13 +130,7 @@ public class EntityHuton extends Entity {
             }
         }
     }
-
-    /*
-     * private Entity getRiddenByEntity(){ return
-     * ((WorldClient)worldObj).getEntityByID(getRiddenByEntityID()); } private
-     * int getRiddenByEntityID(){ return dataWatcher.getWatchableObjectInt(SIT);
-     * }
-     */
+    
     @Override
     public AxisAlignedBB getBoundingBox() {
         return boundingBox;
