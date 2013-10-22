@@ -1,16 +1,14 @@
 [
 {
-    "modid": "BambooMod",
-    "name": "BambooMod",
-    "description": "Watch the growth of bamboo",
-    "version": "Minecraft1.6.4 ver2.6.3.1",
-    "logoFile": "",
-    "mcversion": "1.6.2",
-    "url": "http://forum.minecraftuser.jp/viewtopic.php?f=13&t=172",
-    "updateUrl": "",
-    "authors": "ruby",
-    "parent":"",
-    "screenshots": [],
-    "dependencies": ["mod_MinecraftForge"]
+  "modid": "BambooMod",
+  "name": "BambooMod",
+  "description": "Watch the growth of bamboo.",
+  "url": "http://forum.minecraftuser.jp/viewtopic.php?f=13&t=172",
+  "updateUrl": "http://forum.minecraftuser.jp/viewtopic.php?f=13&t=172",
+  "logoFile": "",
+  "version": "2.6.3.1",
+  "parent": "",
+  "authors": ["ruby"],
+  "dependencies": ["mod_MinecraftForge"]
 }
 ]
