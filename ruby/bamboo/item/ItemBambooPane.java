@@ -27,6 +27,6 @@ public class ItemBambooPane extends ItemBlock {
 
     @Override
     public String getUnlocalizedName(ItemStack par1ItemStack) {
-        return this.getUnlocalizedName() + par1ItemStack.getItemDamage();
+        return this.getUnlocalizedName() + "." + par1ItemStack.getItemDamage();
     }
 }

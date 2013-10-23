@@ -71,22 +71,6 @@ public class ItemFirecracker extends Item {
 
     @Override
     public String getUnlocalizedName(ItemStack par1ItemStack) {
-        char c = ' ';
-
-        switch (par1ItemStack.getItemDamage()) {
-        case 0:
-            c = 'S';
-            break;
-
-        case 1:
-            c = 'M';
-            break;
-
-        case 2:
-            c = 'L';
-            break;
-        }
-
-        return super.getUnlocalizedName(par1ItemStack) + "_" + c;
+        return super.getUnlocalizedName(par1ItemStack) + "." + par1ItemStack.getItemDamage();
     }
 }

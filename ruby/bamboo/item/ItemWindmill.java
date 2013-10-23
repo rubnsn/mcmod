@@ -92,13 +92,7 @@ public class ItemWindmill extends Item {
 
     @Override
     public String getUnlocalizedName(ItemStack par1ItemStack) {
-        int i = par1ItemStack.getItemDamage();
-
-        if (i == 1) {
-            return super.getUnlocalizedName() + "." + "Windmill(cloth)";
-        } else {
-            return super.getUnlocalizedName() + "." + "Windmill";
-        }
+        return super.getUnlocalizedName() + "." + par1ItemStack.getItemDamage();
     }
 
     @Override

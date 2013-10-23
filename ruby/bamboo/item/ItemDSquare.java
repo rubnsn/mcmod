@@ -17,18 +17,6 @@ public class ItemDSquare extends ItemBlock {
 
     @Override
     public String getUnlocalizedName(ItemStack par1ItemStack) {
-        int i = par1ItemStack.getItemDamage();
-
-        if (i == 12) {
-            return super.getUnlocalizedName() + "." + "Tatami(NonBorder)";
-        } else if (i == 10) {
-            return super.getUnlocalizedName() + "." + "Tatami(NonBorder+Tan)";
-        } else if (i == 8) {
-            return super.getUnlocalizedName() + "." + "Tatami(Tan)";
-        } else if (i == 4) {
-            return super.getUnlocalizedName() + "." + "Kayabuki";
-        } else {
-            return super.getUnlocalizedName() + "." + "Tatami";
-        }
+        return super.getUnlocalizedName() + "." + par1ItemStack.getItemDamage();
     }
 }

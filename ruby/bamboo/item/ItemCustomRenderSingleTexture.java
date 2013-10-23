@@ -20,6 +20,6 @@ public class ItemCustomRenderSingleTexture extends ItemBlock {
     @Override
     public String getUnlocalizedName(ItemStack itemstack) {
         int i = itemstack.getItemDamage();
-        return ((BlockCustomRenderSingleTexture) (Block.blocksList[this.getBlockID()])).getUnlocalizedName(itemstack.getItemDamage());
+        return Block.blocksList[this.getBlockID()].getUnlocalizedName() + "." + i;
     }
 }

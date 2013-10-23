@@ -51,7 +51,7 @@ public class ItemSlideDoor extends Item {
 
     @Override
     public String getUnlocalizedName(ItemStack par1ItemStack) {
-        return super.getUnlocalizedName() + "." + doors[par1ItemStack.getItemDamage()].toString();
+        return super.getUnlocalizedName() + "." + par1ItemStack.getItemDamage();
     }
 
     @Override
