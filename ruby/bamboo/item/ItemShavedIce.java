@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ruby.bamboo.BambooCore;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -111,8 +113,8 @@ public class ItemShavedIce extends ItemFood {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.tableware = par1IconRegister.registerIcon("iceglass");
-        this.syrup = par1IconRegister.registerIcon("syrup");
-        this.milk = par1IconRegister.registerIcon("condensedmilk");
+        this.tableware = par1IconRegister.registerIcon(BambooCore.resorceDmain + "iceglass");
+        this.syrup = par1IconRegister.registerIcon(BambooCore.resorceDmain + "syrup");
+        this.milk = par1IconRegister.registerIcon(BambooCore.resorceDmain + "condensedmilk");
     }
 }

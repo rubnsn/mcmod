@@ -1,5 +1,7 @@
 package ruby.bamboo.item;
 
+import ruby.bamboo.BambooCore;
+
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
@@ -25,8 +27,8 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.util.DamageSource;
 
 public class ItemKatana extends ItemSword {
-    private float weaponDamage;
-    private short tick = 0;
+    private final float weaponDamage;
+    private final short tick = 0;
 
     public ItemKatana(int par1) {
         super(par1, EnumToolMaterial.IRON);
@@ -95,6 +97,6 @@ public class ItemKatana extends ItemSword {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon("katana");
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "katana");
     }
 }

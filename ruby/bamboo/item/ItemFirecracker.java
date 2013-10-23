@@ -5,6 +5,7 @@ import java.util.List;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityFirecracker;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -56,9 +57,9 @@ public class ItemFirecracker extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        icons[0] = par1IconRegister.registerIcon("firecracker_s");
-        icons[1] = par1IconRegister.registerIcon("firecracker_m");
-        icons[2] = par1IconRegister.registerIcon("firecracker_l");
+        icons[0] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "firecracker_s");
+        icons[1] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "firecracker_m");
+        icons[2] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "firecracker_l");
     }
 
     @Override

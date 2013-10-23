@@ -2,6 +2,7 @@ package ruby.bamboo.block;
 
 import java.util.Random;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.CustomRenderHandler;
 
 import cpw.mods.fml.client.FMLClientHandler;
@@ -10,6 +11,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -79,6 +81,12 @@ public class BlockKitunebi extends Block {
                 setBlockBounds(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
             }
         }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IconRegister par1IconRegister) {
+        this.blockIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + this.getTextureName());
     }
 
     public boolean isVisible() {

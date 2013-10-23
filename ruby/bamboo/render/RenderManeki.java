@@ -2,6 +2,7 @@ package ruby.bamboo.render;
 
 import org.lwjgl.opengl.GL11;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.tileentity.TileEntityManeki;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -10,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 public class RenderManeki extends TileEntitySpecialRenderer {
     public static ModelManeki model;
     public static RenderManeki instance;
-    private static ResourceLocation RESOURCE = new ResourceLocation("textures/entitys/maneki.png");
+    private static ResourceLocation RESOURCE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/maneki.png");
 
     public RenderManeki() {
         instance = this;

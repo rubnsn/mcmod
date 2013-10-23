@@ -6,6 +6,7 @@ import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.magatama.EntityMagatama;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -101,5 +102,11 @@ public class ItemMagatama extends Item {
     @Override
     public String getUnlocalizedName(ItemStack par1ItemStack) {
         return super.getUnlocalizedName(par1ItemStack) + "." + par1ItemStack.getItemDamage();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IconRegister par1IconRegister) {
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "magatama");
     }
 }

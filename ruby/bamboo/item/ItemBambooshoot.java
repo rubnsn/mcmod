@@ -1,5 +1,6 @@
 package ruby.bamboo.item;
 
+import ruby.bamboo.BambooCore;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -10,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class ItemBambooshoot extends Item {
-    private int spawnID;
+    private final int spawnID;
 
     public ItemBambooshoot(int i, int spawnID) {
         super(i);
@@ -68,6 +69,6 @@ public class ItemBambooshoot extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon("bambooshoot");
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "bambooshoot");
     }
 }

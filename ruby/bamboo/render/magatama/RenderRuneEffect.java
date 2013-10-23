@@ -2,14 +2,16 @@ package ruby.bamboo.render.magatama;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Cylinder;
+
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.magatama.EntityRuneEffect;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderRuneEffect extends Render {
-    private Cylinder cylinder;
-    private static final ResourceLocation RESOUCE = new ResourceLocation("textures/entitys/rune.png");
+    private final Cylinder cylinder;
+    private static final ResourceLocation RESOUCE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/rune.png");
 
     public RenderRuneEffect() {
         cylinder = new Cylinder();

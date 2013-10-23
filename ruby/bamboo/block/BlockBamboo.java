@@ -14,6 +14,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.CustomRenderHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -218,8 +219,8 @@ public class BlockBamboo extends Block {
     @SideOnly(Side.CLIENT)
     @Override
     public void registerIcons(IconRegister par1IconRegister) {
-        this.parent = par1IconRegister.registerIcon("bamboo");
-        this.child = par1IconRegister.registerIcon(this.chiledName);
+        this.parent = par1IconRegister.registerIcon(BambooCore.resorceDmain + "bamboo");
+        this.child = par1IconRegister.registerIcon(BambooCore.resorceDmain + this.chiledName);
     }
 
     @Override

@@ -2,6 +2,7 @@ package ruby.bamboo.item;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityWindChime;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -81,6 +82,6 @@ public class ItemWindChime extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon("windchime");
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "windchime");
     }
 }

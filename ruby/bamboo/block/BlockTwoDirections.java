@@ -2,6 +2,7 @@ package ruby.bamboo.block;
 
 import java.util.List;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -30,8 +31,8 @@ public class BlockTwoDirections extends BlockDecorations {
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
         for (int i = 0; i < texNames.length; i++) {
-            this.icons[i * 2] = par1IconRegister.registerIcon(texNames[i] + "_x");
-            this.icons[i * 2 + 1] = par1IconRegister.registerIcon(texNames[i] + "_y");
+            this.icons[i * 2] = par1IconRegister.registerIcon(BambooCore.resorceDmain + texNames[i] + "_x");
+            this.icons[i * 2 + 1] = par1IconRegister.registerIcon(BambooCore.resorceDmain + texNames[i] + "_y");
         }
     }
 

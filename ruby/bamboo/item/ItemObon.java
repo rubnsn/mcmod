@@ -2,6 +2,7 @@ package ruby.bamboo.item;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityObon;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -47,6 +48,6 @@ public class ItemObon extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon("obon");
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "obon");
     }
 }

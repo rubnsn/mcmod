@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.entity.EntityBambooSpear;
 import net.minecraft.client.Minecraft;
@@ -28,7 +29,7 @@ import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
 public class ItemBambooBow extends ItemBow implements IItemRenderer {
     private static final ResourceLocation ENCHANTED_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
-    private Icon icons[];
+    private final Icon icons[];
 
     public ItemBambooBow(int par1) {
         super(par1);
@@ -167,10 +168,10 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon("bamboobow");
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "bamboobow");
 
         for (int i = 0; i < icons.length; i++) {
-            icons[i] = par1IconRegister.registerIcon("bamboobow_pull_" + i);
+            icons[i] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "bamboobow_pull_" + i);
         }
     }
 

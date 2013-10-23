@@ -6,17 +6,18 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityWindmill;
 
 public class RenderWindmill extends Render {
-    private ModelWindmill model;
+    private final ModelWindmill model;
     private static ResourceLocation textuer[];
 
     public RenderWindmill() {
         model = new ModelWindmill();
         textuer = new ResourceLocation[2];
-        textuer[0] = new ResourceLocation("textures/entitys/windmill.png");
-        textuer[1] = new ResourceLocation("textures/entitys/windmill_cloth.png");
+        textuer[0] = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/windmill.png");
+        textuer[1] = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/windmill_cloth.png");
     }
 
     @Override

@@ -2,6 +2,7 @@ package ruby.bamboo.block;
 
 import java.util.List;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.CustomRenderHandler;
 
 import cpw.mods.fml.relauncher.Side;
@@ -20,7 +21,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockBambooPane extends BlockPane {
-    private Icon[] blockIcons = new Icon[6];
+    private final Icon[] blockIcons = new Icon[6];
 
     public BlockBambooPane(int i, Material material) {
         super(i, "bamboopane", "bamboopane", material, true);
@@ -78,12 +79,12 @@ public class BlockBambooPane extends BlockPane {
 
     @Override
     public void registerIcons(IconRegister par1IconRegister) {
-        this.blockIcons[0] = par1IconRegister.registerIcon("bamboopane");
-        this.blockIcons[1] = par1IconRegister.registerIcon("ranma");
-        this.blockIcons[2] = par1IconRegister.registerIcon("bamboopane2");
-        this.blockIcons[3] = par1IconRegister.registerIcon("bamboopane3");
-        this.blockIcons[4] = par1IconRegister.registerIcon("norenblue");
-        this.blockIcons[5] = par1IconRegister.registerIcon("norenpurple");
+        this.blockIcons[0] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "bamboopane");
+        this.blockIcons[1] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "ranma");
+        this.blockIcons[2] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "bamboopane2");
+        this.blockIcons[3] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "bamboopane3");
+        this.blockIcons[4] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "norenblue");
+        this.blockIcons[5] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "norenpurple");
     }
 
     @Override

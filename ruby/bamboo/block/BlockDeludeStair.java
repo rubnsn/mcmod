@@ -140,14 +140,14 @@ public class BlockDeludeStair extends BlockStairs implements IDelude {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIcon(int par1, int par2) {
-        return !isIcongrass ? getDefaultIcon() : Block.grass.getIcon(par1, par2);
+    public void registerIcons(IconRegister par1IconRegister) {
+        this.blockIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "delude");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
-        this.blockIcon = par1IconRegister.registerIcon("delude");
+    public Icon getIcon(int par1, int par2) {
+        return !isIcongrass ? getDefaultIcon() : Block.grass.getIcon(par1, par2);
     }
 
     @Override

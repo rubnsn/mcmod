@@ -3,6 +3,7 @@ package ruby.bamboo.block;
 import java.util.List;
 import java.util.Random;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.BambooUtil;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -20,9 +21,9 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
 public class BlockDSquare extends Block {
-    private boolean isHalf;
+    private final boolean isHalf;
     private String[] texNameList;
-    private Icon[] icons;
+    private final Icon[] icons;
 
     public BlockDSquare(int itemID, boolean isHalf) {
         super(itemID, Material.ground);
@@ -162,7 +163,7 @@ public class BlockDSquare extends Block {
     @Override
     public void registerIcons(IconRegister par1IconRegister) {
         for (int i = 0; i < texNameList.length; i++) {
-            icons[i] = par1IconRegister.registerIcon(texNameList[i]);
+            icons[i] = par1IconRegister.registerIcon(BambooCore.resorceDmain + texNameList[i]);
         }
     }
 

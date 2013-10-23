@@ -2,6 +2,7 @@ package ruby.bamboo.item;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooUtil;
 import ruby.bamboo.entity.EntityHuton;
 import net.minecraft.block.Block;
@@ -69,6 +70,6 @@ public class ItemHuton extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon("huton");
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "huton");
     }
 }

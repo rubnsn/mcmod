@@ -299,7 +299,7 @@ public class ItemSack extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon("itemsack");
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "itemsack");
     }
 
     @Override

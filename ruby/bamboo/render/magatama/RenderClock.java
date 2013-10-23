@@ -1,15 +1,17 @@
 package ruby.bamboo.render.magatama;
 
 import org.lwjgl.opengl.*;
+
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.magatama.EntityClock;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderClock extends Render {
-    private ResourceLocation GEAR = new ResourceLocation("textures/entitys/gear.png");
-    private ResourceLocation SECOND_HAND = new ResourceLocation("textures/entitys/secondhand.png");
-    private ResourceLocation CLOCK_NEEDLE = new ResourceLocation("textures/entitys/clockneedle.png");
+    private final ResourceLocation GEAR = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/gear.png");
+    private final ResourceLocation SECOND_HAND = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/secondhand.png");
+    private final ResourceLocation CLOCK_NEEDLE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/clockneedle.png");
 
     public RenderClock() {
     }

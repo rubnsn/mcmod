@@ -1,5 +1,6 @@
 package ruby.bamboo.item;
 
+import ruby.bamboo.BambooCore;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -26,7 +27,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class ItemBambooSword extends ItemSword {
-    private int weaponDamage;
+    private final int weaponDamage;
 
     public ItemBambooSword(int par1) {
         super(par1, EnumToolMaterial.WOOD);
@@ -175,6 +176,6 @@ public class ItemBambooSword extends ItemSword {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon("bamboosword");
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "bamboosword");
     }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityBambooSpear;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -42,7 +43,7 @@ public class ItemBambooSpear extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon("bamboospear");
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "bamboospear");
     }
 
     @Override

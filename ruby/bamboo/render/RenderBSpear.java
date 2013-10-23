@@ -9,10 +9,11 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityBambooSpear;
 
 public class RenderBSpear extends Render {
-    private static ResourceLocation RESOURCE = new ResourceLocation("textures/entitys/bamboospear.png");
+    private static ResourceLocation RESOURCE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/bamboospear.png");
 
     public void renderBSpear(EntityBambooSpear par1EntityBSpear, double par2, double par4, double par6, float par8, float par9) {
         // loadTexture("/textures/entitys/bamboospear.png");

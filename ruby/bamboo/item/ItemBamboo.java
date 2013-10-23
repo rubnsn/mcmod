@@ -1,5 +1,6 @@
 package ruby.bamboo.item;
 
+import ruby.bamboo.BambooCore;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -13,6 +14,6 @@ public class ItemBamboo extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon("itembamboo");
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "itembamboo");
     }
 }

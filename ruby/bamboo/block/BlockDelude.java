@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 
 public class BlockDelude extends Block implements IDelude {
     // 縦半か
-    private boolean isHeightSlab;
+    private final boolean isHeightSlab;
     private boolean isIconGrass = false;
 
     public BlockDelude(int par1, boolean par2) {
@@ -34,7 +34,7 @@ public class BlockDelude extends Block implements IDelude {
         } else {
             this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
         }
-
+        setTextureName(BambooCore.resorceDmain + "delude");
         setHardness(0.5F);
     }
 
@@ -119,12 +119,6 @@ public class BlockDelude extends Block implements IDelude {
         } else {
             this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
         }
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
-        this.blockIcon = par1IconRegister.registerIcon("delude");
     }
 
     @Override

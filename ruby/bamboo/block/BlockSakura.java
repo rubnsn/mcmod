@@ -2,10 +2,15 @@ package ruby.bamboo.block;
 
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.WorldGenBigSakura;
 import ruby.bamboo.WorldGenSakura;
 
 import net.minecraft.block.BlockFlower;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -67,5 +72,11 @@ public class BlockSakura extends BlockFlower {
     @Override
     public int damageDropped(int i) {
         return this.blockID;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IconRegister par1IconRegister) {
+        this.blockIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "sakura");
     }
 }

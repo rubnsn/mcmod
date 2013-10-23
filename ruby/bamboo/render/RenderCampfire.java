@@ -6,6 +6,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.tileentity.TileEntityCampfire;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -14,7 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RenderCampfire extends TileEntitySpecialRenderer {
     public static ModelCampfire model;
     public static RenderCampfire instance;
-    private static ResourceLocation RESOURCE = new ResourceLocation("textures/entitys/campfire.png");
+    private static ResourceLocation RESOURCE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/campfire.png");
 
     public RenderCampfire() {
         instance = this;

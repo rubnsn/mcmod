@@ -2,6 +2,7 @@ package ruby.bamboo.item;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityWind;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,6 +28,6 @@ public class ItemFan extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon("fan");
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "fan");
     }
 }

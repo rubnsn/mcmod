@@ -6,11 +6,12 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityWaterwheel;
 
 public class RenderWaterwheel extends Render {
-    private ModelWaterwheel model;
-    private static final ResourceLocation RESOURCE = new ResourceLocation("textures/entitys/waterwheel.png");
+    private final ModelWaterwheel model;
+    private static final ResourceLocation RESOURCE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/waterwheel.png");
 
     public RenderWaterwheel() {
         model = new ModelWaterwheel();

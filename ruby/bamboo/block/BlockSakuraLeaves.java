@@ -6,6 +6,7 @@ import java.util.Random;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.entity.EntitySakuraPetal;
 
@@ -166,8 +167,8 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.sakurapetal = par1IconRegister.registerIcon("sakurapetal");
-        this.broadleaf = par1IconRegister.registerIcon("broadleaf");
+        this.sakurapetal = par1IconRegister.registerIcon(BambooCore.resorceDmain + "sakurapetal");
+        this.broadleaf = par1IconRegister.registerIcon(BambooCore.resorceDmain + "broadleaf");
     }
 
     @Override

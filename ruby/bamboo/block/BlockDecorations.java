@@ -2,6 +2,8 @@ package ruby.bamboo.block;
 
 import java.util.List;
 
+import ruby.bamboo.BambooCore;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -17,7 +19,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockDecorations extends Block {
-    private boolean isHalf;
+    private final boolean isHalf;
     String[] texNames;
     Icon[] icons;
     private Block upper;
@@ -57,7 +59,7 @@ public class BlockDecorations extends Block {
     @Override
     public void registerIcons(IconRegister par1IconRegister) {
         for (int i = 0; i < icons.length; i++) {
-            this.icons[i] = par1IconRegister.registerIcon(texNames[i]);
+            this.icons[i] = par1IconRegister.registerIcon(BambooCore.resorceDmain + texNames[i]);
         }
     }
 

@@ -5,6 +5,7 @@ import java.util.Random;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooUtil;
 import ruby.bamboo.tileentity.TileEntityJPChest;
 
@@ -168,7 +169,7 @@ public class BlockJpchest extends BlockContainer {
         return Container.calcRedstoneFromInventory((IInventory) par1World.getBlockTileEntity(par2, par3, par4));
     }
 
-    private Random random;
+    private final Random random;
 
     @Override
     public TileEntity createNewTileEntity(World var1) {
@@ -178,7 +179,7 @@ public class BlockJpchest extends BlockContainer {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.front = par1IconRegister.registerIcon("jpchest_f");
-        this.other = par1IconRegister.registerIcon("jpchest_o");
+        this.front = par1IconRegister.registerIcon(BambooCore.resorceDmain + "jpchest_f");
+        this.other = par1IconRegister.registerIcon(BambooCore.resorceDmain + "jpchest_o");
     }
 }

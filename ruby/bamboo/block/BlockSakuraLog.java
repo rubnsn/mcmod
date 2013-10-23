@@ -3,6 +3,8 @@ package ruby.bamboo.block;
 import java.util.List;
 import java.util.Random;
 
+import ruby.bamboo.BambooCore;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -60,7 +62,7 @@ public class BlockSakuraLog extends BlockLog {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        BlockSakuraLog.top = par1IconRegister.registerIcon("sakuralog_t");
-        BlockSakuraLog.side = par1IconRegister.registerIcon("sakuralog_s");
+        BlockSakuraLog.top = par1IconRegister.registerIcon(BambooCore.resorceDmain + "sakuralog_t");
+        BlockSakuraLog.side = par1IconRegister.registerIcon(BambooCore.resorceDmain + "sakuralog_s");
     }
 }

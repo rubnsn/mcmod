@@ -1,5 +1,6 @@
 package ruby.bamboo.block;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.CustomRenderHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -36,7 +37,7 @@ public class BlockCustomRenderSingleTexture extends Block {
     @SideOnly(Side.CLIENT)
     @Override
     public void registerIcons(IconRegister par1IconRegister) {
-        this.bamboo = par1IconRegister.registerIcon("bamboo");
+        this.bamboo = par1IconRegister.registerIcon(BambooCore.resorceDmain + "bamboo");
     }
 
     @Override

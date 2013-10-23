@@ -12,11 +12,12 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityKakeziku;
 import ruby.bamboo.entity.EnumKakeziku;
 
 public class RenderKakeziku extends Render {
-    private static ResourceLocation RESOUCE = new ResourceLocation("textures/entitys/kakeziku.png");
+    private static ResourceLocation RESOUCE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/kakeziku.png");
 
     public RenderKakeziku() {
         rand = new Random();
@@ -136,7 +137,7 @@ public class RenderKakeziku extends Render {
         func_158_a((EntityKakeziku) entity, d, d1, d2, f, f1);
     }
 
-    private Random rand;
+    private final Random rand;
 
     @Override
     protected ResourceLocation getEntityTexture(Entity entity) {

@@ -16,7 +16,7 @@ public class BlockDeludePressurePlate extends BlockPressurePlate implements
     private boolean isIconGrass = false;
 
     public BlockDeludePressurePlate(int par1) {
-        super(par1, "delude", Material.ground, EnumMobType.everything);
+        super(par1, BambooCore.resorceDmain + "delude", Material.ground, EnumMobType.everything);
     }
 
     @Override

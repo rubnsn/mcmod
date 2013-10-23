@@ -5,6 +5,7 @@ import java.util.Random;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityObon;
 
 import net.minecraft.client.Minecraft;
@@ -22,10 +23,10 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderObon extends Render {
-    private static final ResourceLocation res = new ResourceLocation("textures/entitys/obon.png");
+    private static final ResourceLocation res = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/obon.png");
     protected static final RenderItem itemRenderer = new RenderItem();
-    private ModelObon model;
-    private Random random;
+    private final ModelObon model;
+    private final Random random;
 
     public RenderObon() {
         model = new ModelObon();

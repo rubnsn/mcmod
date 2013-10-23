@@ -2,6 +2,7 @@ package ruby.bamboo.render;
 
 import org.lwjgl.opengl.GL11;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.tileentity.TileEntityMillStone;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -9,9 +10,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderMillStone extends TileEntitySpecialRenderer {
-    private ModelMillStone model;
+    private final ModelMillStone model;
     public static RenderMillStone instance;
-    private static final ResourceLocation RESOUCE = new ResourceLocation("textures/entitys/millstone.png");
+    private static final ResourceLocation RESOUCE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/millstone.png");
 
     public RenderMillStone() {
         instance = this;

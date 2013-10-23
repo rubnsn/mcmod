@@ -5,10 +5,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
+import ruby.bamboo.BambooCore;
+
 public class RenderAndon extends TileEntitySpecialRenderer {
     public static RenderAndon instance;
     public static ModelAndon modelAndon;
-    private static final ResourceLocation RESOUCE = new ResourceLocation("textures/entitys/andon.png");
+    private static final ResourceLocation RESOUCE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/andon.png");
 
     public RenderAndon() {
         instance = this;

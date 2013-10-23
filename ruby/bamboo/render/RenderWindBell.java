@@ -8,11 +8,12 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityWindChime;
 
 public class RenderWindBell extends Render {
-    private ModelWindBell modelwindbell;
-    private static final ResourceLocation RESOURCE = new ResourceLocation("textures/entitys/windbell.png");
+    private final ModelWindBell modelwindbell;
+    private static final ResourceLocation RESOURCE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/windbell.png");
 
     public RenderWindBell() {
         modelwindbell = new ModelWindBell();

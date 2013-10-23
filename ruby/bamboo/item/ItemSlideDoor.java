@@ -4,6 +4,7 @@ import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooUtil;
 import ruby.bamboo.entity.EntitySlideDoor;
 import ruby.bamboo.entity.EnumSlideDoor;
@@ -71,7 +72,7 @@ public class ItemSlideDoor extends Item {
         icons = new Icon[doors.length];
 
         for (EnumSlideDoor esd : doors) {
-            icons[esd.getId()] = par1IconRegister.registerIcon(esd.getIconName().toLowerCase());
+            icons[esd.getId()] = par1IconRegister.registerIcon(BambooCore.resorceDmain + esd.getIconName().toLowerCase());
         }
 
         // this.iconIndex = par1IconRegister.registerIcon(this.unlocalizedName);

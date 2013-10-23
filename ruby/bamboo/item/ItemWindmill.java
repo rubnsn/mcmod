@@ -5,6 +5,7 @@ import java.util.List;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooUtil;
 import ruby.bamboo.entity.EntityWindmill;
 
@@ -103,8 +104,8 @@ public class ItemWindmill extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        icons[0] = par1IconRegister.registerIcon("windmill");
-        icons[1] = par1IconRegister.registerIcon("windmill_cloth");
+        icons[0] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "windmill");
+        icons[1] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "windmill_cloth");
     }
 
     @Override
