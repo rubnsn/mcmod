@@ -12,8 +12,8 @@ import ruby.bamboo.entity.EntityHuton;
 public class RenderHuton extends Render {
     public String tex;
     private final ModelHuton modelHuton;
-    private static ResourceLocation MAKURA = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/makura.png");
-    private static ResourceLocation HUTON = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/huton.png");
+    private static ResourceLocation MAKURA = new ResourceLocation(BambooCore.resourceDomain + "textures/entitys/makura.png");
+    private static ResourceLocation HUTON = new ResourceLocation(BambooCore.resourceDomain + "textures/entitys/huton.png");
 
     public RenderHuton() {
         // TODO 自動生成されたコンストラクター・スタブ

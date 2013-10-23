@@ -8,7 +8,7 @@ public enum EnumSlideDoor {
         this.id = (short) id;
         this.iconName = iconName;
         this.isBlend = isBlend;
-        this.tex = BambooCore.resorceDmain + "textures/entitys/" + iconName.toLowerCase() + ".png";
+        this.tex = BambooCore.resourceDomain + "textures/entitys/" + iconName.toLowerCase() + ".png";
     }
 
     private final short id;

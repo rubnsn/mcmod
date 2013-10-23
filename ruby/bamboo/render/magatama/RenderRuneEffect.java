@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderRuneEffect extends Render {
     private final Cylinder cylinder;
-    private static final ResourceLocation RESOUCE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/rune.png");
+    private static final ResourceLocation RESOUCE = new ResourceLocation(BambooCore.resourceDomain + "textures/entitys/rune.png");
 
     public RenderRuneEffect() {
         cylinder = new Cylinder();

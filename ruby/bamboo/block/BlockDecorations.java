@@ -59,7 +59,7 @@ public class BlockDecorations extends Block {
     @Override
     public void registerIcons(IconRegister par1IconRegister) {
         for (int i = 0; i < icons.length; i++) {
-            this.icons[i] = par1IconRegister.registerIcon(BambooCore.resorceDmain + texNames[i]);
+            this.icons[i] = par1IconRegister.registerIcon(BambooCore.resourceDomain + texNames[i]);
         }
     }
 

@@ -9,9 +9,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderClock extends Render {
-    private final ResourceLocation GEAR = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/gear.png");
-    private final ResourceLocation SECOND_HAND = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/secondhand.png");
-    private final ResourceLocation CLOCK_NEEDLE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/clockneedle.png");
+    private final ResourceLocation SECOND_HAND = new ResourceLocation(BambooCore.resourceDomain + "textures/entitys/secondhand.png");
+    private final ResourceLocation CLOCK_NEEDLE = new ResourceLocation(BambooCore.resourceDomain + "textures/entitys/clockneedle.png");
 
     public RenderClock() {
     }

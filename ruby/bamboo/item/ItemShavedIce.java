@@ -113,8 +113,8 @@ public class ItemShavedIce extends ItemFood {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.tableware = par1IconRegister.registerIcon(BambooCore.resorceDmain + "iceglass");
-        this.syrup = par1IconRegister.registerIcon(BambooCore.resorceDmain + "syrup");
-        this.milk = par1IconRegister.registerIcon(BambooCore.resorceDmain + "condensedmilk");
+        this.tableware = par1IconRegister.registerIcon(BambooCore.resourceDomain + "iceglass");
+        this.syrup = par1IconRegister.registerIcon(BambooCore.resourceDomain + "syrup");
+        this.milk = par1IconRegister.registerIcon(BambooCore.resourceDomain + "condensedmilk");
     }
 }

@@ -179,7 +179,7 @@ public class BlockJpchest extends BlockContainer {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.front = par1IconRegister.registerIcon(BambooCore.resorceDmain + "jpchest_f");
-        this.other = par1IconRegister.registerIcon(BambooCore.resorceDmain + "jpchest_o");
+        this.front = par1IconRegister.registerIcon(BambooCore.resourceDomain + "jpchest_f");
+        this.other = par1IconRegister.registerIcon(BambooCore.resourceDomain + "jpchest_o");
     }
 }

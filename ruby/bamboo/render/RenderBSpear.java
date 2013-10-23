@@ -13,7 +13,7 @@ import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityBambooSpear;
 
 public class RenderBSpear extends Render {
-    private static ResourceLocation RESOURCE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/bamboospear.png");
+    private static ResourceLocation RESOURCE = new ResourceLocation(BambooCore.resourceDomain + "textures/entitys/bamboospear.png");
 
     public void renderBSpear(EntityBambooSpear par1EntityBSpear, double par2, double par4, double par6, float par8, float par9) {
         // loadTexture("/textures/entitys/bamboospear.png");

@@ -15,7 +15,7 @@ import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityKaginawa;
 
 public class RenderKaginawa extends Render {
-    private static final ResourceLocation RESOURCE = new ResourceLocation(BambooCore.resorceDmain + "textures/particle/particles.png");
+    private static final ResourceLocation RESOURCE = new ResourceLocation(BambooCore.resourceDomain + "textures/particle/particles.png");
 
     public void doRenderKaginawa(EntityKaginawa par1Entity, double par2, double par4, double par6, float par8, float par9) {
         GL11.glPushMatrix();

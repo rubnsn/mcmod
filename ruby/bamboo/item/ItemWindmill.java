@@ -98,8 +98,8 @@ public class ItemWindmill extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        icons[0] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "windmill");
-        icons[1] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "windmill_cloth");
+        icons[0] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "windmill");
+        icons[1] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "windmill_cloth");
     }
 
     @Override

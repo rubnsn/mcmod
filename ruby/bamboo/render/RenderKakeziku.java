@@ -17,7 +17,7 @@ import ruby.bamboo.entity.EntityKakeziku;
 import ruby.bamboo.entity.EnumKakeziku;
 
 public class RenderKakeziku extends Render {
-    private static ResourceLocation RESOUCE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/kakeziku.png");
+    private static ResourceLocation RESOUCE = new ResourceLocation(BambooCore.resourceDomain + "textures/entitys/kakeziku.png");
 
     public RenderKakeziku() {
         rand = new Random();

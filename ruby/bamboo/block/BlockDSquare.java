@@ -163,7 +163,7 @@ public class BlockDSquare extends Block {
     @Override
     public void registerIcons(IconRegister par1IconRegister) {
         for (int i = 0; i < texNameList.length; i++) {
-            icons[i] = par1IconRegister.registerIcon(BambooCore.resorceDmain + texNameList[i]);
+            icons[i] = par1IconRegister.registerIcon(BambooCore.resourceDomain + texNameList[i]);
         }
     }
 

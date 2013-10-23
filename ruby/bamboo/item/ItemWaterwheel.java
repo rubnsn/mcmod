@@ -77,6 +77,6 @@ public class ItemWaterwheel extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "waterwheel");
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "waterwheel");
     }
 }

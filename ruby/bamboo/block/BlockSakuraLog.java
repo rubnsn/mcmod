@@ -62,7 +62,7 @@ public class BlockSakuraLog extends BlockLog {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        BlockSakuraLog.top = par1IconRegister.registerIcon(BambooCore.resorceDmain + "sakuralog_t");
-        BlockSakuraLog.side = par1IconRegister.registerIcon(BambooCore.resorceDmain + "sakuralog_s");
+        BlockSakuraLog.top = par1IconRegister.registerIcon(BambooCore.resourceDomain + "sakuralog_t");
+        BlockSakuraLog.side = par1IconRegister.registerIcon(BambooCore.resourceDomain + "sakuralog_s");
     }
 }

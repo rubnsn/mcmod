@@ -57,9 +57,9 @@ public class ItemFirecracker extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        icons[0] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "firecracker_s");
-        icons[1] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "firecracker_m");
-        icons[2] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "firecracker_l");
+        icons[0] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "firecracker_s");
+        icons[1] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "firecracker_m");
+        icons[2] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "firecracker_l");
     }
 
     @Override

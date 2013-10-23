@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 public class RenderManeki extends TileEntitySpecialRenderer {
     public static ModelManeki model;
     public static RenderManeki instance;
-    private static ResourceLocation RESOURCE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/maneki.png");
+    private static ResourceLocation RESOURCE = new ResourceLocation(BambooCore.resourceDomain + "textures/entitys/maneki.png");
 
     public RenderManeki() {
         instance = this;

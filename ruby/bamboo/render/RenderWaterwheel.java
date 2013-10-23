@@ -11,7 +11,7 @@ import ruby.bamboo.entity.EntityWaterwheel;
 
 public class RenderWaterwheel extends Render {
     private final ModelWaterwheel model;
-    private static final ResourceLocation RESOURCE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/waterwheel.png");
+    private static final ResourceLocation RESOURCE = new ResourceLocation(BambooCore.resourceDomain + "textures/entitys/waterwheel.png");
 
     public RenderWaterwheel() {
         model = new ModelWaterwheel();

@@ -79,12 +79,12 @@ public class BlockBambooPane extends BlockPane {
 
     @Override
     public void registerIcons(IconRegister par1IconRegister) {
-        this.blockIcons[0] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "bamboopane");
-        this.blockIcons[1] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "ranma");
-        this.blockIcons[2] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "bamboopane2");
-        this.blockIcons[3] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "bamboopane3");
-        this.blockIcons[4] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "norenblue");
-        this.blockIcons[5] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "norenpurple");
+        this.blockIcons[0] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bamboopane");
+        this.blockIcons[1] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "ranma");
+        this.blockIcons[2] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bamboopane2");
+        this.blockIcons[3] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bamboopane3");
+        this.blockIcons[4] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "norenblue");
+        this.blockIcons[5] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "norenpurple");
     }
 
     @Override

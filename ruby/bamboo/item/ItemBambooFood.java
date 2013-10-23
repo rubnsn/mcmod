@@ -99,7 +99,7 @@ public class ItemBambooFood extends ItemFood {
     @Override
     public void registerIcons(IconRegister par1IconRegister) {
         for (EnumFood ef : EnumFood.values()) {
-            ef.setTex(par1IconRegister.registerIcon(BambooCore.resorceDmain + ef.name().toLowerCase()));
+            ef.setTex(par1IconRegister.registerIcon(BambooCore.resourceDomain + ef.name().toLowerCase()));
         }
     }
 }

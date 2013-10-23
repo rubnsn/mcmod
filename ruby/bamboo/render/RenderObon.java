@@ -23,7 +23,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderObon extends Render {
-    private static final ResourceLocation res = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/obon.png");
+    private static final ResourceLocation res = new ResourceLocation(BambooCore.resourceDomain + "textures/entitys/obon.png");
     protected static final RenderItem itemRenderer = new RenderItem();
     private final ModelObon model;
     private final Random random;

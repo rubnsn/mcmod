@@ -167,8 +167,8 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.sakurapetal = par1IconRegister.registerIcon(BambooCore.resorceDmain + "sakurapetal");
-        this.broadleaf = par1IconRegister.registerIcon(BambooCore.resorceDmain + "broadleaf");
+        this.sakurapetal = par1IconRegister.registerIcon(BambooCore.resourceDomain + "sakurapetal");
+        this.broadleaf = par1IconRegister.registerIcon(BambooCore.resourceDomain + "broadleaf");
     }
 
     @Override

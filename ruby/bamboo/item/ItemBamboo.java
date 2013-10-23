@@ -14,6 +14,6 @@ public class ItemBamboo extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "itembamboo");
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "itembamboo");
     }
 }

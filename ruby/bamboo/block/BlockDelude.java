@@ -34,7 +34,7 @@ public class BlockDelude extends Block implements IDelude {
         } else {
             this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
         }
-        setTextureName(BambooCore.resorceDmain + "delude");
+        setTextureName(BambooCore.resourceDomain + "delude");
         setHardness(0.5F);
     }
 

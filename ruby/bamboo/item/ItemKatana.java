@@ -97,6 +97,6 @@ public class ItemKatana extends ItemSword {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "katana");
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "katana");
     }
 }

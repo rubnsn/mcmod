@@ -16,8 +16,8 @@ public class RenderWindmill extends Render {
     public RenderWindmill() {
         model = new ModelWindmill();
         textuer = new ResourceLocation[2];
-        textuer[0] = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/windmill.png");
-        textuer[1] = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/windmill_cloth.png");
+        textuer[0] = new ResourceLocation(BambooCore.resourceDomain + "textures/entitys/windmill.png");
+        textuer[1] = new ResourceLocation(BambooCore.resourceDomain + "textures/entitys/windmill_cloth.png");
     }
 
     @Override

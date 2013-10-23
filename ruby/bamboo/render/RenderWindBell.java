@@ -13,7 +13,7 @@ import ruby.bamboo.entity.EntityWindChime;
 
 public class RenderWindBell extends Render {
     private final ModelWindBell modelwindbell;
-    private static final ResourceLocation RESOURCE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/windbell.png");
+    private static final ResourceLocation RESOURCE = new ResourceLocation(BambooCore.resourceDomain + "textures/entitys/windbell.png");
 
     public RenderWindBell() {
         modelwindbell = new ModelWindBell();

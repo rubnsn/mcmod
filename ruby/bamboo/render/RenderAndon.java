@@ -10,7 +10,7 @@ import ruby.bamboo.BambooCore;
 public class RenderAndon extends TileEntitySpecialRenderer {
     public static RenderAndon instance;
     public static ModelAndon modelAndon;
-    private static final ResourceLocation RESOUCE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/andon.png");
+    private static final ResourceLocation RESOUCE = new ResourceLocation(BambooCore.resourceDomain + "textures/entitys/andon.png");
 
     public RenderAndon() {
         instance = this;

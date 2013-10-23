@@ -86,7 +86,7 @@ public class BlockKitunebi extends Block {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.blockIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + this.getTextureName());
+        this.blockIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + this.getTextureName());
     }
 
     public boolean isVisible() {

@@ -14,6 +14,6 @@ public class ItemTudura extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "tudura");
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "tudura");
     }
 }

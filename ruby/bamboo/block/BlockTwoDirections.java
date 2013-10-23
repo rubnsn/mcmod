@@ -31,8 +31,8 @@ public class BlockTwoDirections extends BlockDecorations {
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
         for (int i = 0; i < texNames.length; i++) {
-            this.icons[i * 2] = par1IconRegister.registerIcon(BambooCore.resorceDmain + texNames[i] + "_x");
-            this.icons[i * 2 + 1] = par1IconRegister.registerIcon(BambooCore.resorceDmain + texNames[i] + "_y");
+            this.icons[i * 2] = par1IconRegister.registerIcon(BambooCore.resourceDomain + texNames[i] + "_x");
+            this.icons[i * 2 + 1] = par1IconRegister.registerIcon(BambooCore.resourceDomain + texNames[i] + "_y");
         }
     }
 

@@ -219,8 +219,8 @@ public class BlockBamboo extends Block {
     @SideOnly(Side.CLIENT)
     @Override
     public void registerIcons(IconRegister par1IconRegister) {
-        this.parent = par1IconRegister.registerIcon(BambooCore.resorceDmain + "bamboo");
-        this.child = par1IconRegister.registerIcon(BambooCore.resorceDmain + this.chiledName);
+        this.parent = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bamboo");
+        this.child = par1IconRegister.registerIcon(BambooCore.resourceDomain + this.chiledName);
     }
 
     @Override

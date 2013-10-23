@@ -15,7 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RenderCampfire extends TileEntitySpecialRenderer {
     public static ModelCampfire model;
     public static RenderCampfire instance;
-    private static ResourceLocation RESOURCE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/campfire.png");
+    private static ResourceLocation RESOURCE = new ResourceLocation(BambooCore.resourceDomain + "textures/entitys/campfire.png");
 
     public RenderCampfire() {
         instance = this;

@@ -14,6 +14,6 @@ public class ItemBambooBasket extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "bamboobasket");
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bamboobasket");
     }
 }

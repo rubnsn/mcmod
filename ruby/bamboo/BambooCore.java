@@ -21,7 +21,7 @@ import ruby.bamboo.dispenser.DispenserBehaviorFireCracker;
         connectionHandler = NetworkHandler.class)
 public class BambooCore {
     public static final String MODID = "BambooMod";
-    public static final String resorceDmain = "bamboo:";
+    public static final String resourceDomain = "bamboo:";
     private final boolean DEBUGMODE = false;
 
     @SidedProxy(serverSide = "ruby.bamboo.CommonProxy",

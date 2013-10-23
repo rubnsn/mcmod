@@ -72,7 +72,7 @@ public class ItemSlideDoor extends Item {
         icons = new Icon[doors.length];
 
         for (EnumSlideDoor esd : doors) {
-            icons[esd.getId()] = par1IconRegister.registerIcon(BambooCore.resorceDmain + esd.getIconName().toLowerCase());
+            icons[esd.getId()] = par1IconRegister.registerIcon(BambooCore.resourceDomain + esd.getIconName().toLowerCase());
         }
 
         // this.iconIndex = par1IconRegister.registerIcon(this.unlocalizedName);

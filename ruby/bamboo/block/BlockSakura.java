@@ -77,6 +77,6 @@ public class BlockSakura extends BlockFlower {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.blockIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "sakura");
+        this.blockIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "sakura");
     }
 }

@@ -37,7 +37,7 @@ public class BlockCustomRenderSingleTexture extends Block {
     @SideOnly(Side.CLIENT)
     @Override
     public void registerIcons(IconRegister par1IconRegister) {
-        this.bamboo = par1IconRegister.registerIcon(BambooCore.resorceDmain + "bamboo");
+        this.bamboo = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bamboo");
     }
 
     @Override

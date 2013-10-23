@@ -82,6 +82,6 @@ public class ItemWindChime extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "windchime");
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "windchime");
     }
 }

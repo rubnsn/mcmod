@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 public class RenderMillStone extends TileEntitySpecialRenderer {
     private final ModelMillStone model;
     public static RenderMillStone instance;
-    private static final ResourceLocation RESOUCE = new ResourceLocation(BambooCore.resorceDmain + "textures/entitys/millstone.png");
+    private static final ResourceLocation RESOUCE = new ResourceLocation(BambooCore.resourceDomain + "textures/entitys/millstone.png");
 
     public RenderMillStone() {
         instance = this;

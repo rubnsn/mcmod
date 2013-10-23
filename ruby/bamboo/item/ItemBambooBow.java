@@ -168,10 +168,10 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "bamboobow");
+        this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bamboobow");
 
         for (int i = 0; i < icons.length; i++) {
-            icons[i] = par1IconRegister.registerIcon(BambooCore.resorceDmain + "bamboobow_pull_" + i);
+            icons[i] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bamboobow_pull_" + i);
         }
     }
 

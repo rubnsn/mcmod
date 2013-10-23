@@ -39,7 +39,7 @@ public class BlockKayabukiRoof extends BlockStairs {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-        this.blockIcon = par1IconRegister.registerIcon(BambooCore.resorceDmain + "kaya_y");
+        this.blockIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "kaya_y");
     }
 
 }
