@@ -14,8 +14,8 @@ import ruby.bamboo.dispenser.DispenserBehaviorBambooSpear;
 import ruby.bamboo.dispenser.DispenserBehaviorDirtySnowball;
 import ruby.bamboo.dispenser.DispenserBehaviorFireCracker;
 
-@Mod(modid = "bamboomod", name = "BambooMod",
-        version = "Minecraft1.6.4 ver2.6.3.1")
+@Mod(modid = "BambooMod", name = "BambooMod",
+        version = "Minecraft1.6.4 ver2.6.3.2")
 @NetworkMod(channels = { "B_Entity", "bamboo", "bamboo2" },
         packetHandler = NetworkHandler.class,
         connectionHandler = NetworkHandler.class)

@@ -1,12 +1,12 @@
 [
 {
-  "modid": "bamboomod",
+  "modid": "BambooMod",
   "name": "BambooMod",
   "description": "Watch the growth of bamboo.",
   "url": "http://forum.minecraftuser.jp/viewtopic.php?f=13&t=172",
   "updateUrl": "http://forum.minecraftuser.jp/viewtopic.php?f=13&t=172",
   "logoFile": "",
-  "version": "2.6.3.1",
+  "version": "2.6.3.2",
   "parent": "",
   "authors": ["ruby"],
   "dependencies": ["mod_MinecraftForge"]
