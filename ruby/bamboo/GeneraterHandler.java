@@ -11,6 +11,7 @@ import net.minecraft.world.biome.BiomeGenForest;
 import net.minecraft.world.biome.BiomeGenHills;
 import net.minecraft.world.biome.WorldChunkManager;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraftforge.common.BiomeDictionary;
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -29,9 +30,8 @@ public class GeneraterHandler implements IWorldGenerator {
         WorldChunkManager worldchunkmanager = world.getWorldChunkManager();
 
         if (worldchunkmanager != null) {
-            BiomeGenBase biomegenbase = worldchunkmanager.getBiomeGenAt(chunkX * 16, chunkZ * 16);
-
-            if (biomegenbase instanceof BiomeGenHills) {
+            BiomeGenBase biome = worldchunkmanager.getBiomeGenAt(chunkX * 16, chunkZ * 16);
+            if (BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.MOUNTAIN) || (BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.FOREST) && !BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.FROZEN))) {
                 switch (random.nextInt(4)) {
                 case BAMBOO:
                     generateBambooshoot(random, world, chunkX, chunkZ, 60);
@@ -39,16 +39,6 @@ public class GeneraterHandler implements IWorldGenerator {
 
                 case SAKURA:
                     generateSakura(random, world, chunkX, chunkZ, 60);
-                    break;
-                }
-            } else if (biomegenbase instanceof BiomeGenForest) {
-                switch (random.nextInt(4)) {
-                case BAMBOO:
-                    generateBambooshoot(random, world, chunkX, chunkZ, 60);
-                    break;
-
-                case SAKURA:
-                    generateSakura(random, world, chunkX, chunkZ, 20);
                     break;
                 }
             }
