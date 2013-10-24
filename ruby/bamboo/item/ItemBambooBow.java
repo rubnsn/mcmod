@@ -71,7 +71,7 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer {
 
             spearNum--;
             int limit = 5;
-            int chargeTime = 6;
+            int chargeTime = 8;
             EntityBambooSpear ebs;
             int attackCount;
             attackCount = chargeFrame / chargeTime > limit ? limit : chargeFrame / chargeTime;
@@ -187,11 +187,11 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer {
         if (usingItem != null && usingItem.getItem().itemID == BambooInit.bambooBowIID) {
             int k = usingItem.getMaxItemUseDuration() - useRemaining;
 
-            if (k >= 30) {
+            if (k >= 40) {
                 return getItemIconForUseDuration(2);
             }
 
-            if (k > 20) {
+            if (k > 25) {
                 return getItemIconForUseDuration(1);
             }
 
