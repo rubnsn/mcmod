@@ -30,6 +30,8 @@ import net.minecraftforge.event.entity.player.ArrowNockEvent;
 public class ItemBambooBow extends ItemBow implements IItemRenderer {
     private static final ResourceLocation ENCHANTED_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
     private final Icon icons[];
+    private static final int chargeTime = 8;
+    private static final int limit = 5;
 
     public ItemBambooBow(int par1) {
         super(par1);
@@ -70,8 +72,6 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer {
             }
 
             spearNum--;
-            int limit = 5;
-            int chargeTime = 8;
             EntityBambooSpear ebs;
             int attackCount;
             attackCount = chargeFrame / chargeTime > limit ? limit : chargeFrame / chargeTime;

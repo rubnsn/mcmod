@@ -86,7 +86,7 @@ public class BlockBamboo extends Block {
                         if (meta < MAX_BAMBOO_LENGTH) {
                             world.setBlock(x, y + 1, z, blockID, meta + 1, 3);
                         } else {
-                            if (world.isRaining() || world.rand.nextFloat() < (probability / 2F)) {
+                            if (world.isRaining() || world.rand.nextFloat() < probability) {
                                 tryChildSpawn(world, x, y, z);
                             }
                         }
@@ -126,8 +126,8 @@ public class BlockBamboo extends Block {
 
     private boolean canChildSpawn(World world, int i, int j, int k, Random random) {
         if (world.isAirBlock(i, j, k)) {
-            // 天候・耕地用確変
-            if (random.nextFloat() < (world.isRaining() ? 0.4F : world.getBlockId(i, j - 1, k) == Block.tilledField.blockID ? 0.2F : 0.1F)) {
+            // 天候・耕地確変
+            if (random.nextFloat() < (world.isRaining() ? 0.4F : world.getBlockId(i, j - 1, k) == Block.tilledField.blockID ? 0.25F : 0.1F)) {
                 if ((world.getBlockId(i, j - 1, k) == Block.dirt.blockID || world.getBlockId(i, j - 1, k) == Block.grass.blockID || world.getBlockId(i, j - 1, k) == Block.tilledField.blockID)) {
                     return true;
                 }
