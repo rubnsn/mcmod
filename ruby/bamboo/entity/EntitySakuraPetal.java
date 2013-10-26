@@ -1,5 +1,6 @@
 package ruby.bamboo.entity;
 
+import ruby.bamboo.BambooCore;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,14 +20,14 @@ public class EntitySakuraPetal extends Entity {
     protected float particleRed;
     protected float particleGreen;
     protected float particleBlue;
-    private String texPath = "textures/entitys/leaf.png";
+    private String texPath = BambooCore.resourceDomain + "textures/entitys/leaf.png";
 
     public String getTexPath() {
         return texPath;
     }
 
     public EntitySakuraPetal setCustomPetal(String path) {
-        texPath = "textures/entitys/" + path + ".png";
+        texPath = BambooCore.resourceDomain + "textures/entitys/" + path + ".png";
         return this;
     }
 
