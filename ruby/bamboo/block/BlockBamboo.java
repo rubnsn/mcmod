@@ -73,7 +73,7 @@ public class BlockBamboo extends Block {
 
     @Override
     public void updateTick(World world, int i, int j, int k, Random random) {
-        tryBambooGrowth(world, i, j, k, world.isRaining() ? 0.1875F : 0.125F);
+        tryBambooGrowth(world, i, j, k, world.isRaining() ? 0.25F : 0.125F);
     }
 
     private void tryBambooGrowth(World world, int x, int y, int z, float probability) {
@@ -108,8 +108,8 @@ public class BlockBamboo extends Block {
                 for (int j1 = -1; j1 <= 1; j1++) {
                     for (int k1 = -1; k1 <= 1; k1++) {
                         if (canChildSpawn(world, i + i1, j + j1, k + k1, world.rand)) {
-                            world.setBlockMetadataWithNotify(i + i1, j + j1 - 1, k + k1, Block.dirt.blockID, 0);
-                            world.setBlockMetadataWithNotify(i + i1, j + j1, k + k1, blockID, 15);
+                            world.setBlock(i + i1, j + j1 - 1, k + k1, Block.dirt.blockID, 0,3);
+                            world.setBlock(i + i1, j + j1, k + k1, blockID, 15,3);
                         }
                     }
                 }
