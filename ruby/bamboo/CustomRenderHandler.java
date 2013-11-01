@@ -22,26 +22,22 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class CustomRenderHandler {
-    public static int kitunebiUID;
-    public static int bambooUID;
-    public static int bambooBlockUID;
-    public static int madUID;
-    public static int andonUID;
-    public static int campfireUID;
-    public static int bambooPaneUID;
-    public static int riceFieldUID;
-    public static int millStoneUID;
-    public static int pillarUID;
-    public static int deludeUID;
-    public static int manekiUID;
+    public static final int kitunebiUID;
+    public static final int bambooUID;
+    public static final int bambooBlockUID;
+    public static final int andonUID;
+    public static final int campfireUID;
+    public static final int bambooPaneUID;
+    public static final int riceFieldUID;
+    public static final int millStoneUID;
+    public static final int pillarUID;
+    public static final int deludeUID;
+    public static final int manekiUID;
     public static CustomRenderBlocks customRenders;
     private static CustomRenderHandler instance = new CustomRenderHandler();
-    private SimpleInvRender SimpleInvRenderInstance = new SimpleInvRender();
-    private Render3DInInventory Render3DInInvInstance = new Render3DInInventory();
-
-    @SideOnly(Side.CLIENT)
-    public static void init() {
-        customRenders = new CustomRenderBlocks();
+    private final SimpleInvRender SimpleInvRenderInstance = new SimpleInvRender();
+    private final Render3DInInventory Render3DInInvInstance = new Render3DInInventory();
+    static {
         bambooUID = getUIDAndRegistSimpleInvRender();
         kitunebiUID = getUIDAndRegistSimpleInvRender();
         bambooPaneUID = getUIDAndRegistSimpleInvRender();
@@ -54,6 +50,11 @@ public class CustomRenderHandler {
         pillarUID = getUIDAndRegist3DRender();
         deludeUID = getUIDAndRegist3DRender();
         manekiUID = getUIDAndRegist3DRender();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void init() {
+        customRenders = new CustomRenderBlocks();
     }
 
     private static int getUIDAndRegistSimpleInvRender() {
@@ -75,55 +76,34 @@ public class CustomRenderHandler {
 
         @Override
         public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
-            int meta = world.getBlockMetadata(x, y, z);
-
             if (kitunebiUID == modelId) {
                 if (((BlockKitunebi) block).isVisible()) {
                     renderer.renderCrossedSquares(block, x, y, z);
                 }
-
-                return true;
-            }
-
-            if (bambooUID == modelId) {
-                if (meta != 15) {
+            } else if (bambooUID == modelId) {
+                if (world.getBlockMetadata(x, y, z) != 15) {
                     renderer.renderBlockCrops(block, x, y, z);
                 } else {
                     renderer.renderCrossedSquares(block, x, y, z);
                 }
-
-                return true;
-            }
-
-            if (bambooBlockUID == modelId) {
-                if (meta == 0) {
+            } else if (bambooBlockUID == modelId) {
+                if (world.getBlockMetadata(x, y, z) == 0) {
                     renderer.renderBlockCrops(block, x, y, z);
                 } else {
                     renderer.renderStandardBlock(block, x, y, z);
                 }
-
-                return true;
-            }
-
-            if (bambooPaneUID == modelId) {
+            } else if (bambooPaneUID == modelId) {
                 customRenders.renderBlockBambooPane(renderer, (BlockBambooPane) block, x, y, z);
-                return true;
-            }
-
-            if (riceFieldUID == modelId) {
+            } else if (riceFieldUID == modelId) {
                 customRenders.renderBlockRiceField(renderer, (BlockRiceField) block, x, y, z);
-                return true;
-            }
-
-            if (pillarUID == modelId) {
+            } else if (pillarUID == modelId) {
                 customRenders.renderBlockPillar(renderer, (BlockPillar) block, x, y, z);
-            }
-
-            if (deludeUID == modelId) {
+            } else if (deludeUID == modelId) {
                 customRenders.renderDelude(renderer, block, x, y, z);
+            } else {
+                return false;
             }
-
-            return false;
+            return true;
         }
 
         @Override
