@@ -1,5 +1,7 @@
 package ruby.bamboo;
 
+import java.util.HashMap;
+
 import org.lwjgl.opengl.GL11;
 
 import ruby.bamboo.block.BlockBambooPane;
@@ -7,11 +9,18 @@ import ruby.bamboo.block.BlockKitunebi;
 import ruby.bamboo.block.BlockPillar;
 import ruby.bamboo.block.BlockRiceField;
 import ruby.bamboo.block.IDelude;
-import ruby.bamboo.render.CustomRenderBlocks;
 import ruby.bamboo.render.RenderAndon;
 import ruby.bamboo.render.RenderCampfire;
 import ruby.bamboo.render.RenderManeki;
 import ruby.bamboo.render.RenderMillStone;
+import ruby.bamboo.render.block.IRenderBlocks;
+import ruby.bamboo.render.block.RenderBamboo;
+import ruby.bamboo.render.block.RenderBambooBlock;
+import ruby.bamboo.render.block.RenderBambooPane;
+import ruby.bamboo.render.block.RenderDelude;
+import ruby.bamboo.render.block.RenderKitunebi;
+import ruby.bamboo.render.block.RenderPillar;
+import ruby.bamboo.render.block.RenderRiceField;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -33,11 +42,12 @@ public class CustomRenderHandler {
     public static final int pillarUID;
     public static final int deludeUID;
     public static final int manekiUID;
-    public static CustomRenderBlocks customRenders;
+    public static HashMap<Integer, IRenderBlocks> customRenderMap;
     private static CustomRenderHandler instance = new CustomRenderHandler();
     private final SimpleInvRender SimpleInvRenderInstance = new SimpleInvRender();
     private final Render3DInInventory Render3DInInvInstance = new Render3DInInventory();
     static {
+        customRenderMap = new HashMap<Integer, IRenderBlocks>();
         bambooUID = getUIDAndRegistSimpleInvRender();
         kitunebiUID = getUIDAndRegistSimpleInvRender();
         bambooPaneUID = getUIDAndRegistSimpleInvRender();
@@ -54,7 +64,13 @@ public class CustomRenderHandler {
 
     @SideOnly(Side.CLIENT)
     public static void init() {
-        customRenders = new CustomRenderBlocks();
+        customRenderMap.put(kitunebiUID, new RenderKitunebi());
+        customRenderMap.put(bambooUID, new RenderBamboo());
+        customRenderMap.put(bambooBlockUID, new RenderBambooBlock());
+        customRenderMap.put(bambooPaneUID, new RenderBambooPane());
+        customRenderMap.put(riceFieldUID, new RenderRiceField());
+        customRenderMap.put(pillarUID, new RenderPillar());
+        customRenderMap.put(deludeUID, new RenderDelude());
     }
 
     private static int getUIDAndRegistSimpleInvRender() {
@@ -76,34 +92,11 @@ public class CustomRenderHandler {
 
         @Override
         public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
-            if (kitunebiUID == modelId) {
-                if (((BlockKitunebi) block).isVisible()) {
-                    renderer.renderCrossedSquares(block, x, y, z);
-                }
-            } else if (bambooUID == modelId) {
-                if (world.getBlockMetadata(x, y, z) != 15) {
-                    renderer.renderBlockCrops(block, x, y, z);
-                } else {
-                    renderer.renderCrossedSquares(block, x, y, z);
-                }
-            } else if (bambooBlockUID == modelId) {
-                if (world.getBlockMetadata(x, y, z) == 0) {
-                    renderer.renderBlockCrops(block, x, y, z);
-                } else {
-                    renderer.renderStandardBlock(block, x, y, z);
-                }
-            } else if (bambooPaneUID == modelId) {
-                customRenders.renderBlockBambooPane(renderer, (BlockBambooPane) block, x, y, z);
-            } else if (riceFieldUID == modelId) {
-                customRenders.renderBlockRiceField(renderer, (BlockRiceField) block, x, y, z);
-            } else if (pillarUID == modelId) {
-                customRenders.renderBlockPillar(renderer, (BlockPillar) block, x, y, z);
-            } else if (deludeUID == modelId) {
-                customRenders.renderDelude(renderer, block, x, y, z);
-            } else {
-                return false;
+            if (customRenderMap.containsKey(modelId)) {
+                customRenderMap.get(modelId).render(renderer, block, x, y, z);
+                return true;
             }
-            return true;
+            return false;
         }
 
         @Override
