@@ -21,7 +21,8 @@ import ruby.bamboo.tileentity.TileEntityCampfire;
 import ruby.bamboo.tileentity.TileEntityJPChest;
 import ruby.bamboo.tileentity.TileEntityManeki;
 import ruby.bamboo.tileentity.TileEntityMillStone;
-import ruby.bamboo.tileentity.TileEntitySpa;
+import ruby.bamboo.tileentity.TileEntitySpaChild;
+import ruby.bamboo.tileentity.TileEntitySpaParent;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -69,7 +70,8 @@ public class CommonProxy {
         registerEntity(EntityGravityHole.class, "GravityHole", gravityHoleEID, 304, 3, true);
         registerEntity(EntityClock.class, "GoldenClock", goldenClockEID, 304, 3, true);
         GameRegistry.registerTileEntity(TileEntityJPChest.class, "JP Chest");
-        GameRegistry.registerTileEntity(TileEntitySpa.class, "Tile Spa");
+        GameRegistry.registerTileEntity(TileEntitySpaParent.class, "Tile Spa");
+        GameRegistry.registerTileEntity(TileEntitySpaChild.class, "Tile SpaChild");
     }
 
     public void registerTESTileEntity() {

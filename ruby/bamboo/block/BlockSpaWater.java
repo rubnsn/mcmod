@@ -7,10 +7,13 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import ruby.bamboo.entity.EntityWhiteSmokeFX;
-import ruby.bamboo.tileentity.TileEntitySpa;
+import ruby.bamboo.tileentity.ITileEntitySpa;
+import ruby.bamboo.tileentity.TileEntitySpaChild;
+import ruby.bamboo.tileentity.TileEntitySpaParent;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
@@ -22,9 +25,12 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
-public class BlockSpaWater extends BlockContainer {
-    private static int dyePattern[] = new int[16];
+public class BlockSpaWater extends BlockContainer implements
+        ITileEntityProvider {
+    private static final ForgeDirection[] directions;
+    private static final int dyePattern[] = new int[16];
     static {
         dyePattern[1] = 0x000404;
         dyePattern[2] = 0x040004;
@@ -41,6 +47,7 @@ public class BlockSpaWater extends BlockContainer {
         dyePattern[13] = 0x040406;
         dyePattern[14] = 0x000004;
         dyePattern[15] = 0x000000;
+        directions = new ForgeDirection[] { ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.EAST };
     }
 
     public BlockSpaWater(int i, Material material) {
@@ -60,54 +67,32 @@ public class BlockSpaWater extends BlockContainer {
         return 0xffffff;
     }
 
-    private int getWaterColor(IBlockAccess iblockaccess, int i, int j, int k) {
-        TileEntitySpa tsp = getParentEntity(iblockaccess, i, j, k);
-
+    private int getWaterColor(IBlockAccess iblockaccess, int posX, int posY, int posZ) {
+        ITileEntitySpa tsp = (ITileEntitySpa) iblockaccess.getBlockTileEntity(posX, posY, posZ);
         if (tsp != null) {
             return tsp.getColor();
         }
-
         return 0xffffff;
     }
 
-    private TileEntitySpa getParentEntity(IBlockAccess iblockaccess, int i, int j, int k) {
-        TileEntitySpa tesChild = (TileEntitySpa) iblockaccess.getBlockTileEntity(i, j, k);
-
-        if (tesChild != null) {
-            TileEntity parent = iblockaccess.getBlockTileEntity(tesChild.getX(), tesChild.getY(), tesChild.getZ());
-
-            if (parent instanceof TileEntitySpa) {
-                return (TileEntitySpa) parent;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
-
     @Override
-    public void onEntityCollidedWithBlock(World world, int i, int j, int k, Entity entity) {
-        if (!world.isRemote) {
-            if (entity instanceof EntityLivingBase) {
-                ((TileEntitySpa) world.getBlockTileEntity(i, j, k)).onCollisionEntity((EntityLivingBase) entity);
-            } else if (entity instanceof EntityItem) {
-                if (((EntityItem) entity).getEntityItem().itemID == Item.dyePowder.itemID) {
-                    TileEntitySpa parent = getParentEntity(world, i, j, k);
+    public void onEntityCollidedWithBlock(World world, int posX, int posY, int posZ, Entity entity) {
 
-                    if (parent == null) {
-                        return;
-                    }
-
-                    while (((EntityItem) entity).getEntityItem().stackSize-- > 0) {
-                        parent.addColor(dyePattern[((EntityItem) entity).getEntityItem().getItemDamage()]);
-                    }
-
-                    if (world.getBlockMetadata(parent.xCoord, parent.yCoord, parent.zCoord) == 0) {
-                        world.setBlockMetadataWithNotify(parent.xCoord, parent.yCoord, parent.zCoord, world.getBlockMetadata(parent.xCoord, parent.yCoord, parent.zCoord) + 1, 3);
-                        world.scheduleBlockUpdate(parent.xCoord, parent.yCoord, parent.zCoord, this.blockID, 0);
+        if (entity instanceof EntityLivingBase) {
+            if (!world.isRemote) {
+                ((ITileEntitySpa) world.getBlockTileEntity(posX, posY, posZ)).onEntityCollision((EntityLivingBase) entity);
+            }
+        } else if (entity instanceof EntityItem) {
+            if (((EntityItem) entity).getEntityItem().itemID == Item.dyePowder.itemID) {
+                ITileEntitySpa tsp = (ITileEntitySpa) world.getBlockTileEntity(posX, posY, posZ);
+                if (!world.isRemote) {
+                    if (tsp != null) {
+                        while (((EntityItem) entity).getEntityItem().stackSize-- > 0) {
+                            tsp.addColor(dyePattern[((EntityItem) entity).getEntityItem().getItemDamage()]);
+                        }
                     }
                 }
+                tsp.colorUpdate();
             }
         }
     }
@@ -123,80 +108,105 @@ public class BlockSpaWater extends BlockContainer {
         return getWaterColor(iblockaccess, i, j, k);
     }
 
-    private boolean canStay(World world, TileEntitySpa ts, int i, int j, int k) {
-        if (ts.getOffset(i, j, k) > 16) {
-            return false;
+    @Override
+    public void updateTick(World world, int posX, int posY, int posZ, Random random) {
+        if (!world.isRemote) {
+            ITileEntitySpa tileSpa = (ITileEntitySpa) world.getBlockTileEntity(posX, posY, posZ);
+            if (tileSpa == null) {
+                world.setBlockToAir(posX, posY, posZ);
+            } else {
+                if (tileSpa.isStay()) {
+                    if (world.getBlockId(posX, posY - 1, posZ) != blockID) {
+                        this.spread(world, posX, posY, posZ, tileSpa, world.rand);
+                    }
+                } else {
+                    this.waterLevelDown(world, posX, posY, posZ);
+                }
+            }
         }
 
-        if (world.isAirBlock(i, j - 1, k)) {
-            return false;
-        }
-
-        return true;
+        //if (world.getBlockMetadata(posX, posY, posZ) != 0) {
+        world.scheduleBlockUpdate(posX, posY, posZ, this.blockID, this.tickRate(world));
+        //}
     }
 
-    private void spread(World world, int i, int j, int k, Random random) {
-        TileEntitySpa parent = getParentEntity(world, i, j, k);
-
-        if (world.getBlockId(i, j - 1, k) == blockID) {
-            return;
-        }
-
-        if (parent == null || !parent.isStay()) {
-            addMeta(world, i, j, k, 1);
-            return;
-        }
-
-        if (world.getBlockMetadata(i, j, k) < 7) {
-            int pmeta = world.getBlockMetadata(i, j, k);
-            int cx = i;
-            int cy = j;
-            int cz = k;
-
-            if (world.isAirBlock(i, j - 1, k)) {
-                cy--;
-
-                if (cy < 0) {
-                    return;
+    private void spread(World world, int posX, int posY, int posZ, ITileEntitySpa tileSpa, Random random) {
+        if (canSpread(world, posX, posY, posZ)) {
+            if (this.isDirOffsettedIsAirBlock(world, posX, posY, posZ, ForgeDirection.DOWN)) {
+                if (posY >= 0) {
+                    this.setThisChildBlock(world, posX, posY, posZ, ForgeDirection.DOWN);
                 }
+            } else {
+                ForgeDirection dirTravel = this.getDirTravel(world, posX, posY, posZ);
 
-                addMeta(world, i, j, k, 1);
-                world.setBlock(cx, cy, cz, blockID, 0, 3);
-                setLocation(world, cx, cy, cz, parent.getX(), parent.getY(), parent.getZ());
-                return;
-            }
-
-            switch (random.nextInt(4)) {
-            case 0:
-                cx++;
-                break;
-
-            case 1:
-                cx--;
-                break;
-
-            case 2:
-                cz++;
-                break;
-
-            case 3:
-                cz--;
-                break;
-            }
-
-            if (world.getBlockId(cx, cy, cz) == blockID) {
-                if (world.getBlockMetadata(i, j, k) < world.getBlockMetadata(cx, cy, cz)) {
-                    addMeta(world, cx, cy, cz, -1);
+                if (this.getDirOffsettedBlockID(world, posX, posY, posZ, dirTravel) == blockID) {
+                    if (world.getBlockMetadata(posX, posY, posZ) < this.getDirOffsettedMetadata(world, posX, posY, posZ, dirTravel)) {
+                        this.waterLevelUP(world, posX, posY, posZ, dirTravel);
+                    }
+                } else if (this.isDirOffsettedIsAirBlock(world, posX, posY, posZ, dirTravel)) {
+                    this.setThisChildBlock(world, posX, posY, posZ, dirTravel);
                 }
-            } else if (world.isAirBlock(cx, cy, cz) && !world.isAirBlock(cx, cy - 1, cz)) {
-                addMeta(world, i, j, k, 1);
-                world.setBlock(cx, cy, cz, blockID, 7, 3);
-                setLocation(world, cx, cy, cz, parent.getX(), parent.getY(), parent.getZ());
-            } else if (world.isAirBlock(cx, cy, cz) && world.isAirBlock(cx, cy - 1, cz)) {
-                addMeta(world, i, j, k, 1);
-                world.setBlock(cx, cy, cz, blockID, 7, 3);
-                setLocation(world, cx, cy, cz, parent.getX(), parent.getY(), parent.getZ());
             }
+        }
+    }
+
+    private ForgeDirection getDirTravel(World world, int posX, int posY, int posZ) {
+        ForgeDirection resultDir = ForgeDirection.NORTH;
+        int meta = 0;
+        int targetMeta;
+        for (ForgeDirection dir : directions) {
+            if (this.isDirOffsettedIsAirBlock(world, posX, posY, posZ, dir)) {
+                resultDir = dir;
+                break;
+            } else {
+                targetMeta = this.getDirOffsettedMetadata(world, posX, posY, posZ, dir);
+                if (meta < targetMeta) {
+                    resultDir = dir;
+                    meta = targetMeta;
+                }
+            }
+        }
+        return resultDir;
+    }
+
+    private boolean isDirOffsettedIsAirBlock(World world, int posX, int posY, int posZ, ForgeDirection dir) {
+        return world.isAirBlock(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ);
+    }
+
+    private int getDirOffsettedBlockID(World world, int posX, int posY, int posZ, ForgeDirection dir) {
+        return world.getBlockId(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ);
+    }
+
+    private int getDirOffsettedMetadata(World world, int posX, int posY, int posZ, ForgeDirection dir) {
+        return world.getBlockMetadata(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ);
+    }
+
+    private void setThisChildBlock(World world, int posX, int posY, int posZ, ForgeDirection dir) {
+        world.setBlock(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ, blockID, 7, 3);
+        ((TileEntitySpaChild) world.getBlockTileEntity(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ)).setParentPosition(((ITileEntitySpa) world.getBlockTileEntity(posX, posY, posZ)).getParentPosition());
+    }
+
+    private boolean canSpread(World world, int posX, int posY, int posZ) {
+        return world.getBlockMetadata(posX, posY, posZ) < 7;
+    }
+
+    private void waterLevelUP(World world, int posX, int posY, int posZ) {
+        int meta = world.getBlockMetadata(posX, posY, posZ);
+        if (meta > 0) {
+            world.setBlockMetadataWithNotify(posX, posY, posZ, meta - 1, 3);
+        }
+    }
+
+    private void waterLevelUP(World world, int posX, int posY, int posZ, ForgeDirection dir) {
+        this.waterLevelUP(world, posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ);
+    }
+
+    private void waterLevelDown(World world, int posX, int posY, int posZ) {
+        int meta = world.getBlockMetadata(posX, posY, posZ);
+        if (meta < 7) {
+            world.setBlockMetadataWithNotify(posX, posY, posZ, meta + 1, 3);
+        } else {
+            world.setBlockToAir(posX, posY, posZ);
         }
     }
 
@@ -210,23 +220,14 @@ public class BlockSpaWater extends BlockContainer {
     protected void initializeBlock() {
     }
 
-    private boolean addMeta(World world, int i, int j, int k, int l) {
-        if (((world.getBlockMetadata(i, j, k) + l) >= 0) && ((world.getBlockMetadata(i, j, k) + l) < 8)) {
-            world.setBlockMetadataWithNotify(i, j, k, world.getBlockMetadata(i, j, k) + l, 3);
-            return true;
-        } else if (l > 0) {
-            world.setBlock(i, j, k, 0, 0, 3);
-            return true;
-        }
-
-        return false;
-    }
-
     @Override
     public int tickRate(World par1World) {
         return 20;
     }
 
+    /*
+     * 水流部分は0～7(水位高～低)まで、垂直部分は8？
+     */
     @Override
     public int getRenderType() {
         return 4;
@@ -379,18 +380,6 @@ public class BlockSpaWater extends BlockContainer {
     }
 
     @Override
-    public void updateTick(World world, int i, int j, int k, Random random) {
-        spread(world, i, j, k, world.rand);
-
-        if (world.getBlockMetadata(i, j, k) != 0) {
-            world.scheduleBlockUpdate(i, j, k, this.blockID, this.tickRate(world));
-        } else {
-            // world.scheduleBlockUpdate(i, j, k, this.blockID,
-            // this.tickRate()+200);
-        }
-    }
-
-    @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int i, int j, int k) {
         return null;
     }
@@ -400,12 +389,8 @@ public class BlockSpaWater extends BlockContainer {
         return AxisAlignedBB.getBoundingBox(0, 0, 0, 0, 0, 0);
     }
 
-    public void setLocation(World world, int i, int j, int k, int i2, int j2, int k2) {
-        ((TileEntitySpa) world.getBlockTileEntity(i, j, k)).setLocation(i2, j2, k2);
-    }
-
     @Override
     public TileEntity createNewTileEntity(World var1) {
-        return new TileEntitySpa();
+        return new TileEntitySpaChild();
     }
 }

@@ -14,13 +14,13 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class TileEntitySpa extends TileEntity {
-    private int parentX, parentY, parentZ;
+public class TileEntitySpaParent extends TileEntity implements ITileEntitySpa {
     private EntityLivingBase bathingEntity = null;
     private short bathingTime;
     private boolean stay;
     private int color = 0xffffff;
 
+    @Override
     public void addColor(int deycolor) {
         int i = (deycolor & 0xff0000) >> 16;
         int j = (deycolor & 0x00ff00) >> 8;
@@ -48,10 +48,21 @@ public class TileEntitySpa extends TileEntity {
         }
     }
 
+    @Override
+    public void colorUpdate() {
+        int meta = (getBlockMetadata() & 4) != 0 ? getBlockMetadata() - 4 : getBlockMetadata() + 4;
+        this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, meta, 3);
+        /*
+        this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+        this.worldObj.markBlockForRenderUpdate(this.xCoord, this.yCoord + 1, this.zCoord);*/
+    }
+
+    @Override
     public int getColor() {
         return color;
     }
 
+    @Override
     public boolean isStay() {
         return stay;
     }
@@ -60,16 +71,9 @@ public class TileEntitySpa extends TileEntity {
         stay = flg;
     }
 
-    public int getX() {
-        return parentX;
-    }
-
-    public int getY() {
-        return parentY;
-    }
-
-    public int getZ() {
-        return parentZ;
+    @Override
+    public int[] getParentPosition() {
+        return new int[] { this.xCoord, this.yCoord, this.zCoord };
     }
 
     @Override
@@ -83,14 +87,15 @@ public class TileEntitySpa extends TileEntity {
     }
 
     // ブロックからの温泉の接触呼び出し(1tick毎？)
-    public void onCollisionEntity(EntityLivingBase entity) {
+    @Override
+    public void onEntityCollision(EntityLivingBase entity) {
         if (bathingEntity == null) {
             bathingEntity = entity;
             bathingTime = 0;
         } else {
             // 20tick1秒で10秒計算
             if (++bathingTime > 400) {
-                int effectNum = getEffectNum(worldObj, getX(), getY(), getZ());
+                int effectNum = this.getEffectNum();
 
                 if (effectNum == 0) {
                     entity.heal(1);
@@ -127,51 +132,30 @@ public class TileEntitySpa extends TileEntity {
         }
     }
 
-    private int getEffectNum(World world, int i, int j, int k) {
-        TileEntitySpa tes = ((TileEntitySpa) world.getBlockTileEntity(getX(), getY(), getZ()));
+    private int getEffectNum() {
         int result = 0;
+        int wc = this.getColor();
+        int r = (wc & 0xff0000) >> 16;
+        int g = (wc & 0x00ff00) >> 8;
+        int b = (wc & 0x0000ff);
 
-        if (tes != null) {
-            int wc = tes.getColor();
-            int r = (wc & 0xff0000) >> 16;
-            int g = (wc & 0x00ff00) >> 8;
-            int b = (wc & 0x0000ff);
-
-            if (r < 0xaf && g < 0xaf && b < 0xaf) {
-                result = 1;
-            }
-
-            if (g < 0x7f && b < 0x7f) {
-                result += 2;
-            }
-
-            if (r < 0x7f && b < 0x7f) {
-                result += 4;
-            }
-
-            if (r < 0x7f && g < 0x7f) {
-                result += 8;
-            }
+        if (r < 0xaf && g < 0xaf && b < 0xaf) {
+            result = 1;
         }
 
+        if (g < 0x7f && b < 0x7f) {
+            result += 2;
+        }
+
+        if (r < 0x7f && b < 0x7f) {
+            result += 4;
+        }
+
+        if (r < 0x7f && g < 0x7f) {
+            result += 8;
+        }
         return result;
     }
-
-    public void setLocation(int i, int j, int k) {
-        this.parentX = i;
-        this.parentY = j;
-        this.parentZ = k;
-    }
-
-    public int getOffset(int i, int j, int k) {
-        return Math.abs((parentX - i)) + Math.abs((parentY - j)) + Math.abs((parentZ - k));
-    }/*
-      * @Override public void onInventoryChanged() { if (this.worldObj != null)
-      * { this.blockMetadata = this.worldObj.getBlockMetadata(this.xCoord,
-      * this.yCoord, this.zCoord);
-      * this.worldObj.updateTileEntityChunkAndDoNothing(this.xCoord,
-      * this.yCoord, this.zCoord, this); } }
-      */
 
     @Override
     public Packet getDescriptionPacket() {
@@ -188,9 +172,6 @@ public class TileEntitySpa extends TileEntity {
     @Override
     public void readFromNBT(NBTTagCompound nbttagcompound) {
         super.readFromNBT(nbttagcompound);
-        parentX = nbttagcompound.getInteger("xx");
-        parentY = nbttagcompound.getInteger("yy");
-        parentZ = nbttagcompound.getInteger("zz");
         stay = nbttagcompound.getBoolean("stay");
         color = nbttagcompound.getInteger("color");
     }
@@ -204,9 +185,6 @@ public class TileEntitySpa extends TileEntity {
 
     // クライアント送信用NBT
     private void writeToParentNBT(NBTTagCompound nbttagcompound) {
-        nbttagcompound.setInteger("xx", parentX);
-        nbttagcompound.setInteger("yy", parentY);
-        nbttagcompound.setInteger("zz", parentZ);
         nbttagcompound.setInteger("color", color);
     }
 }
