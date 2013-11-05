@@ -6,19 +6,23 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import ruby.bamboo.BambooInit;
-import ruby.bamboo.tileentity.TileEntitySpa;
+import ruby.bamboo.tileentity.ITileEntitySpa;
+import ruby.bamboo.tileentity.TileEntitySpaChild;
+import ruby.bamboo.tileentity.TileEntitySpaParent;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockPistonBase;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
-public class BlockSpaUnit extends Block {
-    private int topTex;
-    private int otherTex;
+public class BlockSpaUnit extends BlockContainer implements ITileEntityProvider {
 
     public BlockSpaUnit(int par1) {
         super(par1, Material.ground);
@@ -32,21 +36,11 @@ public class BlockSpaUnit extends Block {
         }
 
         par5EntityPlayer.swingItem();
-        int time = par1World.getBlockMetadata(par2, par3, par4);
-        time = (time & 8) == 8 ? 0 : 15;
-        par1World.setBlockMetadataWithNotify(par2, par3, par4, time, 3);
+        int meta = par1World.getBlockMetadata(par2, par3, par4);
+        meta = (meta & 8) == 8 ? 0 : 8;
+        par1World.setBlockMetadataWithNotify(par2, par3, par4, meta, 3);
         par1World.scheduleBlockUpdate(par2, par3, par4, this.blockID, this.tickRate(par1World));
         return true;
-    }
-
-    public BlockSpaUnit setTopTex(int i) {
-        topTex = i;
-        return this;
-    }
-
-    public BlockSpaUnit setOtherTex(int i) {
-        otherTex = i;
-        return this;
     }
 
     @Override
@@ -69,37 +63,32 @@ public class BlockSpaUnit extends Block {
     }
 
     @Override
-    public void updateTick(World world, int i, int j, int k, Random random) {
-        boolean flg = (world.getBlockMetadata(i, j, k) & 8) != 0;
-        int x = i;
-        int y = j;
-        int z = k;
+    public void updateTick(World world, int posX, int posY, int posZ, Random random) {
+        boolean isEnable = (world.getBlockMetadata(posX, posY, posZ) & 8) != 0;
 
-        if (world.isBlockIndirectlyGettingPowered(x, y - 1, z) || flg) {
-            if (world.isAirBlock(x, y + 1, z)) {
-                world.setBlock(x, y + 1, z, BambooInit.spaBID, 6, 3);
-                world.setBlockTileEntity(x, y + 1, z, new TileEntitySpa());
-                ((TileEntitySpa) world.getBlockTileEntity(x, y + 1, z)).setLocation(x, y + 1, z);
-                ((TileEntitySpa) world.getBlockTileEntity(x, y + 1, z)).setStay(true);
-            } else if (world.getBlockId(x, y + 1, z) == BambooInit.spaBID && world.getBlockMetadata(x, y + 1, z) > 0) {
-                world.setBlockMetadataWithNotify(x, y + 1, z, world.getBlockMetadata(x, y + 1, z) - 1, 3);
+        if (world.isBlockIndirectlyGettingPowered(posX, posY - 1, posZ) || isEnable) {
+            if (world.isAirBlock(posX, posY + 1, posZ)) {
+                this.setThisChildBlock(world, posX, posY, posZ, ForgeDirection.UP);
+                ((TileEntitySpaParent) world.getBlockTileEntity(posX, posY, posZ)).setStay(true);
+            } else if (world.getBlockId(posX, posY + 1, posZ) == BambooInit.spaBID && world.getBlockMetadata(posX, posY + 1, posZ) > 0) {
+                world.setBlockMetadataWithNotify(posX, posY + 1, posZ, world.getBlockMetadata(posX, posY + 1, posZ) - 1, 3);
             }
         } else {
-            if (world.getBlockTileEntity(x, y + 1, z) != null) {
-                ((TileEntitySpa) world.getBlockTileEntity(x, y + 1, z)).setStay(false);
+            if (world.getBlockTileEntity(posX, posY + 1, posZ) != null) {
+                ((TileEntitySpaParent) world.getBlockTileEntity(posX, posY, posZ)).setStay(false);
             }
         }
 
-        world.setBlockMetadataWithNotify(i, j, k, flg ? 8 : 0, 0);
+        world.setBlockMetadataWithNotify(posX, posY, posZ, isEnable ? 8 : 0, 0);
 
-        if (world.getBlockId(i, j + 1, k) == BambooInit.spaBID) {
-            world.scheduleBlockUpdate(i, j, k, this.blockID, this.tickRate(world));
-        }/*
-          * else{
-          * 
-          * world.scheduleBlockUpdate(i, j, k, this.blockID,
-          * this.tickRate(world)+300); }
-          */
+        if (world.getBlockId(posX, posY + 1, posZ) == BambooInit.spaBID) {
+            world.scheduleBlockUpdate(posX, posY, posZ, this.blockID, this.tickRate(world));
+        }
+    }
+
+    private void setThisChildBlock(World world, int posX, int posY, int posZ, ForgeDirection dir) {
+        world.setBlock(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ, BambooInit.spaBID, 7, 3);
+        ((TileEntitySpaChild) world.getBlockTileEntity(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ)).setParentPosition(((ITileEntitySpa) world.getBlockTileEntity(posX, posY, posZ)).getParentPosition());
     }
 
     @Override
@@ -108,14 +97,13 @@ public class BlockSpaUnit extends Block {
     }
 
     @Override
-    public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6) {
-        if (par1World.getBlockId(par2, par3 + 1, par4) == BambooInit.spaBID) {
-            ((TileEntitySpa) par1World.getBlockTileEntity(par2, par3 + 1, par4)).setStay(false);
-        }
+    public int tickRate(World world) {
+        return 60;
     }
 
     @Override
-    public int tickRate(World world) {
-        return 60;
+    public TileEntity createNewTileEntity(World world) {
+        // TODO 自動生成されたメソッド・スタブ
+        return new TileEntitySpaParent();
     }
 }
