@@ -14,4 +14,12 @@ public interface ITileEntitySpa {
     public void onEntityCollision(EntityLivingBase entity);
 
     public void colorUpdate();
+
+    public boolean isTickScheduled();
+
+    public void setTickSchedule(boolean flg);
+
+    public int getLastTickMeta();
+
+    public void setLastTickMeta(int meta);
 }

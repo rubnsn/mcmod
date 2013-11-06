@@ -187,4 +187,24 @@ public class TileEntitySpaParent extends TileEntity implements ITileEntitySpa {
     private void writeToParentNBT(NBTTagCompound nbttagcompound) {
         nbttagcompound.setInteger("color", color);
     }
+
+    @Override
+    public boolean isTickScheduled() {
+        return false;
+    }
+
+    @Override
+    public void setTickSchedule(boolean flg) {
+
+    }
+
+    @Override
+    public int getLastTickMeta() {
+        return -1;
+    }
+
+    @Override
+    public void setLastTickMeta(int meta) {
+
+    }
 }

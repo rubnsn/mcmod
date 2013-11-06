@@ -115,9 +115,18 @@ public class BlockSpaWater extends BlockContainer implements
             if (tileSpa == null) {
                 world.setBlockToAir(posX, posY, posZ);
             } else {
+                int meta = world.getBlockMetadata(posX, posY, posZ);
+
+                if (meta != tileSpa.getLastTickMeta()) {
+                    this.setTickSchedule(world, posX, posY, posZ, tileSpa);
+                    tileSpa.setLastTickMeta(meta);
+                } else {
+                    tileSpa.setTickSchedule(false);
+                }
+
                 if (tileSpa.isStay()) {
                     if (world.getBlockId(posX, posY - 1, posZ) != blockID) {
-                        this.spread(world, posX, posY, posZ, tileSpa, world.rand);
+                        this.spread(world, posX, posY, posZ, meta, world.rand);
                     }
                 } else {
                     this.waterLevelDown(world, posX, posY, posZ);
@@ -125,22 +134,24 @@ public class BlockSpaWater extends BlockContainer implements
             }
         }
 
-        //if (world.getBlockMetadata(posX, posY, posZ) != 0) {
-        world.scheduleBlockUpdate(posX, posY, posZ, this.blockID, this.tickRate(world));
-        //}
     }
 
-    private void spread(World world, int posX, int posY, int posZ, ITileEntitySpa tileSpa, Random random) {
+    private void setTickSchedule(World world, int posX, int posY, int posZ, ITileEntitySpa tileSpa) {
+        world.scheduleBlockUpdate(posX, posY, posZ, this.blockID, this.tickRate(world));
+        tileSpa.setTickSchedule(true);
+    }
+
+    private void spread(World world, int posX, int posY, int posZ, int meta, Random random) {
         if (canSpread(world, posX, posY, posZ)) {
             if (this.isDirOffsettedIsAirBlock(world, posX, posY, posZ, ForgeDirection.DOWN)) {
                 if (posY >= 0) {
-                    this.setThisChildBlock(world, posX, posY, posZ, ForgeDirection.DOWN);
+                    this.setThisChildBlock(world, posX, posY, posZ, 0, ForgeDirection.DOWN);
                 }
             } else {
                 ForgeDirection dirTravel = this.getDirTravel(world, posX, posY, posZ);
 
                 if (this.getDirOffsettedBlockID(world, posX, posY, posZ, dirTravel) == blockID) {
-                    if (world.getBlockMetadata(posX, posY, posZ) < this.getDirOffsettedMetadata(world, posX, posY, posZ, dirTravel)) {
+                    if (meta < this.getDirOffsettedMetadata(world, posX, posY, posZ, dirTravel)) {
                         this.waterLevelUP(world, posX, posY, posZ, dirTravel);
                     }
                 } else if (this.isDirOffsettedIsAirBlock(world, posX, posY, posZ, dirTravel)) {
@@ -160,7 +171,7 @@ public class BlockSpaWater extends BlockContainer implements
                 break;
             } else {
                 targetMeta = this.getDirOffsettedMetadata(world, posX, posY, posZ, dir);
-                if (meta < targetMeta) {
+                if (this.getDirOffsettedBlockID(world, posX, posY, posZ, dir) == this.blockID && meta < targetMeta) {
                     resultDir = dir;
                     meta = targetMeta;
                 }
@@ -181,9 +192,13 @@ public class BlockSpaWater extends BlockContainer implements
         return world.getBlockMetadata(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ);
     }
 
-    private void setThisChildBlock(World world, int posX, int posY, int posZ, ForgeDirection dir) {
-        world.setBlock(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ, blockID, 7, 3);
+    private void setThisChildBlock(World world, int posX, int posY, int posZ, int amount, ForgeDirection dir) {
+        world.setBlock(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ, blockID, amount, 3);
         ((TileEntitySpaChild) world.getBlockTileEntity(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ)).setParentPosition(((ITileEntitySpa) world.getBlockTileEntity(posX, posY, posZ)).getParentPosition());
+    }
+
+    private void setThisChildBlock(World world, int posX, int posY, int posZ, ForgeDirection dir) {
+        this.setThisChildBlock(world, posX, posY, posZ, 7, dir);
     }
 
     private boolean canSpread(World world, int posX, int posY, int posZ) {
@@ -207,6 +222,16 @@ public class BlockSpaWater extends BlockContainer implements
             world.setBlockMetadataWithNotify(posX, posY, posZ, meta + 1, 3);
         } else {
             world.setBlockToAir(posX, posY, posZ);
+        }
+    }
+
+    @Override
+    public void onNeighborBlockChange(World world, int posX, int posY, int posZ, int par5) {
+        if (!world.isRemote) {
+            ITileEntitySpa tileSpa = (ITileEntitySpa) world.getBlockTileEntity(posX, posY, posZ);
+            if (tileSpa != null && !tileSpa.isTickScheduled()) {
+                this.setTickSchedule(world, posX, posY, posZ, tileSpa);
+            }
         }
     }
 

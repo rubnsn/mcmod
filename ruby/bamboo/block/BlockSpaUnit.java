@@ -76,6 +76,7 @@ public class BlockSpaUnit extends BlockContainer implements ITileEntityProvider 
         } else {
             if (world.getBlockTileEntity(posX, posY + 1, posZ) != null) {
                 ((TileEntitySpaParent) world.getBlockTileEntity(posX, posY, posZ)).setStay(false);
+                world.markBlockForUpdate(posX, posY, posZ);
             }
         }
 
@@ -98,7 +99,7 @@ public class BlockSpaUnit extends BlockContainer implements ITileEntityProvider 
 
     @Override
     public int tickRate(World world) {
-        return 60;
+        return 30;
     }
 
     @Override
