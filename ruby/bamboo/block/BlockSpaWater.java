@@ -145,7 +145,7 @@ public class BlockSpaWater extends BlockContainer implements
         if (canSpread(world, posX, posY, posZ)) {
             if (this.isDirOffsettedIsAirBlock(world, posX, posY, posZ, ForgeDirection.DOWN)) {
                 if (posY >= 0) {
-                    this.setThisChildBlock(world, posX, posY, posZ, 1, ForgeDirection.DOWN);
+                    this.setThisChildBlock(world, posX, posY, posZ, 0, ForgeDirection.DOWN);
                 }
             } else {
                 ForgeDirection dirTravel = this.getDirTravel(world, posX, posY, posZ);
@@ -171,7 +171,7 @@ public class BlockSpaWater extends BlockContainer implements
                 break;
             } else {
                 targetMeta = this.getDirOffsettedMetadata(world, posX, posY, posZ, dir);
-                if (meta < targetMeta) {
+                if (this.getDirOffsettedBlockID(world, posX, posY, posZ, dir) == this.blockID && meta < targetMeta) {
                     resultDir = dir;
                     meta = targetMeta;
                 }
