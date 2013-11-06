@@ -9,6 +9,8 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileEntitySpaChild extends TileEntity implements ITileEntitySpa {
     private int parentX, parentY, parentZ;
+    private boolean isScheduled = false;
+    private int lastTickMeta;
 
     @Override
     public void addColor(int deycolor) {
@@ -104,5 +106,25 @@ public class TileEntitySpaChild extends TileEntity implements ITileEntitySpa {
     @Override
     public boolean canUpdate() {
         return false;
+    }
+
+    @Override
+    public boolean isTickScheduled() {
+        return isScheduled;
+    }
+
+    @Override
+    public void setTickSchedule(boolean flg) {
+        isScheduled = flg;
+    }
+
+    @Override
+    public int getLastTickMeta() {
+        return lastTickMeta;
+    }
+
+    @Override
+    public void setLastTickMeta(int meta) {
+        this.lastTickMeta = meta;
     }
 }
