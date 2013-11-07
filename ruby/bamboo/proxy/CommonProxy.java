@@ -1,5 +1,9 @@
-package ruby.bamboo;
+package ruby.bamboo.proxy;
 
+import ruby.bamboo.BambooCore;
+import ruby.bamboo.BambooInit;
+import ruby.bamboo.BambooRecipe;
+import ruby.bamboo.CraftingHandler;
 import ruby.bamboo.entity.EntityBambooSpear;
 import ruby.bamboo.entity.EntityDirtySnowball;
 import ruby.bamboo.entity.EntityFirecracker;
@@ -23,6 +27,7 @@ import ruby.bamboo.tileentity.TileEntityManeki;
 import ruby.bamboo.tileentity.TileEntityMillStone;
 import ruby.bamboo.tileentity.TileEntitySpaChild;
 import ruby.bamboo.tileentity.TileEntitySpaParent;
+import ruby.bamboo.worldgen.GeneraterHandler;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 

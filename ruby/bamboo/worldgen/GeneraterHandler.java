@@ -1,7 +1,8 @@
-package ruby.bamboo;
+package ruby.bamboo.worldgen;
 
 import java.util.Random;
 
+import ruby.bamboo.BambooInit;
 import ruby.bamboo.block.BlockSakura;
 
 import net.minecraft.block.Block;

@@ -6,8 +6,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import ruby.bamboo.BambooCore;
-import ruby.bamboo.WorldGenBigSakura;
-import ruby.bamboo.WorldGenSakura;
+import ruby.bamboo.worldgen.WorldGenBigSakura;
+import ruby.bamboo.worldgen.WorldGenSakura;
 
 import net.minecraft.block.BlockFlower;
 import net.minecraft.client.renderer.texture.IconRegister;

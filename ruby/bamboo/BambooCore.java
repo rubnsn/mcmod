@@ -13,6 +13,8 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import ruby.bamboo.dispenser.DispenserBehaviorBambooSpear;
 import ruby.bamboo.dispenser.DispenserBehaviorDirtySnowball;
 import ruby.bamboo.dispenser.DispenserBehaviorFireCracker;
+import ruby.bamboo.gui.GuiHandler;
+import ruby.bamboo.proxy.CommonProxy;
 
 @Mod(modid = "BambooMod", name = "BambooMod",
         version = "Minecraft1.6.4 ver2.6.3.3")

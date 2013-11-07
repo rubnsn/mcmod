@@ -1,4 +1,4 @@
-package ruby.bamboo;
+package ruby.bamboo.proxy;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -10,6 +10,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
+import ruby.bamboo.BambooInit;
+import ruby.bamboo.BambooLocalize;
+import ruby.bamboo.BambooUtil;
+import ruby.bamboo.CustomRenderHandler;
 import ruby.bamboo.entity.*;
 import ruby.bamboo.entity.magatama.*;
 import ruby.bamboo.render.*;

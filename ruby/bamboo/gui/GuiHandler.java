@@ -1,9 +1,5 @@
-package ruby.bamboo;
+package ruby.bamboo.gui;
 
-import ruby.bamboo.gui.ContainerMillStone;
-import ruby.bamboo.gui.ContainerSack;
-import ruby.bamboo.gui.GuiMillStone;
-import ruby.bamboo.gui.GuiSack;
 import ruby.bamboo.tileentity.TileEntityMillStone;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;

@@ -6,7 +6,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ruby.bamboo.BambooCore;
-import ruby.bamboo.GuiHandler;
+import ruby.bamboo.gui.GuiHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.renderer.texture.IconRegister;

@@ -2,9 +2,11 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) braces deadcode
 
-package ruby.bamboo;
+package ruby.bamboo.worldgen;
 
 import java.util.Random;
+
+import ruby.bamboo.BambooInit;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;

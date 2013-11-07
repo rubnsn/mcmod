@@ -2,7 +2,7 @@ package ruby.bamboo.block;
 
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.CustomRenderHandler;
-import ruby.bamboo.GuiHandler;
+import ruby.bamboo.gui.GuiHandler;
 import ruby.bamboo.tileentity.TileEntityMillStone;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
