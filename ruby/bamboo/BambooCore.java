@@ -26,8 +26,8 @@ public class BambooCore {
     public static final String resourceDomain = "bamboo:";
     private final boolean DEBUGMODE = false;
 
-    @SidedProxy(serverSide = "ruby.bamboo.CommonProxy",
-            clientSide = "ruby.bamboo.ClientProxy")
+    @SidedProxy(serverSide = "ruby.bamboo.proxy.CommonProxy",
+            clientSide = "ruby.bamboo.proxy.ClientProxy")
     public static CommonProxy proxy;
 
     @Instance("BambooMod")
