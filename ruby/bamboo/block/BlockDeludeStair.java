@@ -23,7 +23,7 @@ public class BlockDeludeStair extends BlockStairs implements IDelude {
 
     public BlockDeludeStair(int par1) {
         super(par1, Block.blocksList[BambooInit.delude_widthBID], 0);
-        this.setLightOpacity(1);
+        useNeighborBrightness[par1] = true;
     }
 
     @Override

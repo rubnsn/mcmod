@@ -17,8 +17,7 @@ public class BlockKayabukiRoof extends BlockStairs {
         super(par1, Block.blocksList[BambooInit.dSquareBID], 4);
         this.setStepSound(Block.soundSandFootstep);
         setHardness(1.0F);
-        // setLightValue(0.01F);
-        this.setLightOpacity(1);
+        useNeighborBrightness[par1] = true;
     }
 
     @Override
