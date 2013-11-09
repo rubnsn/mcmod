@@ -34,14 +34,16 @@ public class EntityWind extends EntityThrowable {
      */
     @Override
     protected void onImpact(MovingObjectPosition var1) {
-        if (var1.entityHit instanceof EntityLivingBase) {
-            if (!BambooCore.getConf().windPushPlayer && var1.entityHit instanceof EntityPlayer) {
-                return;
-            }
+        if (var1.entityHit.ridingEntity == null && var1.entityHit.riddenByEntity == null) {
+            if (var1.entityHit instanceof EntityLivingBase) {
+                if (!BambooCore.getConf().windPushPlayer && var1.entityHit instanceof EntityPlayer) {
+                    return;
+                }
 
-            var1.entityHit.motionX = this.motionX;
-            var1.entityHit.motionY = this.motionY;
-            var1.entityHit.motionZ = this.motionZ;
+                var1.entityHit.motionX = this.motionX;
+                var1.entityHit.motionY = this.motionY;
+                var1.entityHit.motionZ = this.motionZ;
+            }
         }
     }
 
