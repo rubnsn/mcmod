@@ -30,13 +30,8 @@ public class BambooRecipe {
         // きつねび
         addShapedOreRecipe(new ItemStack(kitunebiBID, 6, 0), "YYY", "#X#", "YYY", 'Y', "dyeBlue", '#', TUDURA, 'X', Block.pumpkinLantern);
         addShapedOreRecipe(new ItemStack(kitunebiBID, 6, 0), "Y#Y", "YXY", "Y#Y", 'Y', "dyeBlue", '#', TUDURA, 'X', Block.pumpkinLantern);
-        addShapedOreRecipe(new ItemStack(kitunebiBID, 3, 0), "YYY", "#X#", "YYY", 'Y', "dyeBlue", '#', TUDURA, 'X', Item.enderPearl);
-        addShapedOreRecipe(new ItemStack(kitunebiBID, 3, 0), "Y#Y", "YXY", "Y#Y", 'Y', "dyeBlue", '#', TUDURA, 'X', Item.enderPearl);
-        /*
-         * GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(kitunebi,
-         * 6), "YYY", "YXY", "YYY", 'X', Block.pumpkinLantern,
-         * 'Y',"oreNikolite"));
-         */
+        addShapedOreRecipe(new ItemStack(kitunebiBID, 6, 0), "YYY", "#X#", "YYY", 'Y', "dyeBlue", '#', TUDURA, 'X', Item.enderPearl);
+        addShapedOreRecipe(new ItemStack(kitunebiBID, 6, 0), "Y#Y", "YXY", "Y#Y", 'Y', "dyeBlue", '#', TUDURA, 'X', Item.enderPearl);
         // うつわ
         addShapedOreRecipe(new ItemStack(bambooBasketIID, 1, 0), "# #", " # ", '#', BAMBOO);
         // 竹槍
