@@ -3,7 +3,17 @@ package ruby.bamboo.item;
 import net.minecraft.util.Icon;
 
 public enum EnumFood {
-    MUGIMESI(0, 3, 36), GYUMESI(1, 10, 16), BUTAMESI(2, 12, 48), KINOKOMESI(3, 6, 32), BUTAKUSI(4, 10, 16), GYUKUSI(5, 8, 8), TAKEMESI(6, 5, 32), TAMAKAKE(7, 5, 24), OYAKO(8, 12, 64), TEKKA(9, 7, 36), TORIKUSI(10, 9, 12);
+    MUGIMESI(0, 3, 36),
+    GYUMESI(1, 10, 16),
+    BUTAMESI(2, 12, 48),
+    KINOKOMESI(3, 6, 32),
+    BUTAKUSI(4, 10, 16),
+    GYUKUSI(5, 8, 8),
+    TAKEMESI(6, 5, 32),
+    TAMAKAKE(7, 5, 24),
+    OYAKO(8, 12, 64),
+    TEKKA(9, 7, 36),
+    TORIKUSI(10, 9, 12);
 
     private EnumFood(int dmgid, int heal, int duration) {
         this.dmgid = dmgid;
