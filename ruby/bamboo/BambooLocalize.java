@@ -2,9 +2,11 @@ package ruby.bamboo;
 
 import static ruby.bamboo.BambooInit.*;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -34,7 +36,7 @@ public class BambooLocalize implements ResourceManagerReloadListener {
     public static void init() {
         //デフォルトパッケージより後だと、ゲーム中に言語変更した際正常に適応されないため、無理やり最初に詰めておく
         //うまいやり方思いついたら直す
-
+        /*
         for (Field field : Minecraft.getMinecraft().getResourceManager().getClass().getDeclaredFields()) {
             try {
                 if (field.getType() == List.class) {
@@ -47,7 +49,8 @@ public class BambooLocalize implements ResourceManagerReloadListener {
                 ((SimpleReloadableResourceManager) Minecraft.getMinecraft().getResourceManager()).registerReloadListener(instance);
                 return;
             }
-        }
+        }*/
+        ((SimpleReloadableResourceManager) Minecraft.getMinecraft().getResourceManager()).registerReloadListener(instance);
     }
 
     @Override
@@ -55,6 +58,9 @@ public class BambooLocalize implements ResourceManagerReloadListener {
         Language lang = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage();
         //load(lang.getLanguageCode());
         LanguageRegistry.instance().loadLocalization("/ruby/bamboo/lang/en_US.properties", "en_US", false);
+        LanguageRegistry.instance().loadLocalization("/ruby/bamboo/lang/ja_JP.properties", "ja_JP", false);
+        LanguageRegistry.instance().loadLocalization("/ruby/bamboo/lang/zh_CN.properties", "zh_CN", false);
         LanguageRegistry.instance().loadLocalization("/ruby/bamboo/lang/" + lang.getLanguageCode() + ".properties", lang.getLanguageCode(), false);
     }
+
 }
