@@ -34,8 +34,8 @@ public class EntityWind extends EntityThrowable {
      */
     @Override
     protected void onImpact(MovingObjectPosition var1) {
-        if (var1.entityHit.ridingEntity == null && var1.entityHit.riddenByEntity == null) {
-            if (var1.entityHit instanceof EntityLivingBase) {
+        if (var1.entityHit instanceof EntityLivingBase) {
+            if (var1.entityHit.ridingEntity == null && var1.entityHit.riddenByEntity == null) {
                 if (!BambooCore.getConf().windPushPlayer && var1.entityHit instanceof EntityPlayer) {
                     return;
                 }
