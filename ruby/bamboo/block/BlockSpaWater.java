@@ -7,9 +7,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import ruby.bamboo.entity.EntityWhiteSmokeFX;
-import ruby.bamboo.tileentity.ITileEntitySpa;
-import ruby.bamboo.tileentity.TileEntitySpaChild;
-import ruby.bamboo.tileentity.TileEntitySpaParent;
+import ruby.bamboo.tileentity.spa.ITileEntitySpa;
+import ruby.bamboo.tileentity.spa.TileEntitySpaChild;
+import ruby.bamboo.tileentity.spa.TileEntitySpaParent;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -30,23 +30,7 @@ import net.minecraftforge.common.ForgeDirection;
 public class BlockSpaWater extends BlockContainer implements
         ITileEntityProvider {
     private static final ForgeDirection[] directions;
-    private static final int dyePattern[] = new int[16];
     static {
-        dyePattern[1] = 0x000404;
-        dyePattern[2] = 0x040004;
-        dyePattern[3] = 0x040808;
-        dyePattern[4] = 0x040400;
-        dyePattern[5] = 0x000400;
-        dyePattern[6] = 0x040202;
-        dyePattern[7] = 0x010101;
-        dyePattern[8] = 0x020202;
-        dyePattern[9] = 0x020404;
-        dyePattern[10] = 0x040204;
-        dyePattern[11] = 0x000002;
-        dyePattern[12] = 0x040402;
-        dyePattern[13] = 0x040406;
-        dyePattern[14] = 0x000004;
-        dyePattern[15] = 0x000000;
         directions = new ForgeDirection[] { ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.EAST };
     }
 
@@ -78,21 +62,22 @@ public class BlockSpaWater extends BlockContainer implements
     @Override
     public void onEntityCollidedWithBlock(World world, int posX, int posY, int posZ, Entity entity) {
 
-        if (entity instanceof EntityLivingBase) {
-            if (!world.isRemote) {
-                ((ITileEntitySpa) world.getBlockTileEntity(posX, posY, posZ)).onEntityCollision((EntityLivingBase) entity);
-            }
-        } else if (entity instanceof EntityItem) {
-            if (((EntityItem) entity).getEntityItem().itemID == Item.dyePowder.itemID) {
-                ITileEntitySpa tsp = (ITileEntitySpa) world.getBlockTileEntity(posX, posY, posZ);
-                if (!world.isRemote) {
-                    if (tsp != null) {
-                        while (((EntityItem) entity).getEntityItem().stackSize-- > 0) {
-                            tsp.addColor(dyePattern[((EntityItem) entity).getEntityItem().getItemDamage()]);
+        if (!world.isRemote) {
+            if (entity instanceof EntityLivingBase) {
+                ((ITileEntitySpa) world.getBlockTileEntity(posX, posY, posZ)).onEntityLivingCollision((EntityLivingBase) entity);
+            } else if (entity instanceof EntityItem) {
+                ((ITileEntitySpa) world.getBlockTileEntity(posX, posY, posZ)).onEntityItemCollision((EntityItem) entity);
+                /*if (((EntityItem) entity).getEntityItem().itemID == Item.dyePowder.itemID) {
+                    ITileEntitySpa tsp = (ITileEntitySpa) world.getBlockTileEntity(posX, posY, posZ);
+                    if (!world.isRemote) {
+                        if (tsp != null) {
+                            while (((EntityItem) entity).getEntityItem().stackSize-- > 0) {
+                                tsp.addColor(dyePattern[((EntityItem) entity).getEntityItem().getItemDamage()]);
+                            }
                         }
                     }
-                }
-                tsp.colorUpdate();
+                    tsp.colorUpdate();
+                }*/
             }
         }
     }

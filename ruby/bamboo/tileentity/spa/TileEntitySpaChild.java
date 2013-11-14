@@ -1,6 +1,7 @@
-package ruby.bamboo.tileentity;
+package ruby.bamboo.tileentity.spa;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
@@ -69,9 +70,16 @@ public class TileEntitySpaChild extends TileEntity implements ITileEntitySpa {
     }
 
     @Override
-    public void onEntityCollision(EntityLivingBase entity) {
+    public void onEntityLivingCollision(EntityLivingBase entity) {
         if (this.isParentExist()) {
-            this.getParent().onEntityCollision(entity);
+            this.getParent().onEntityLivingCollision(entity);
+        }
+    }
+
+    @Override
+    public void onEntityItemCollision(EntityItem entity) {
+        if (this.isParentExist()) {
+            this.getParent().onEntityItemCollision(entity);
         }
     }
 
@@ -127,4 +135,5 @@ public class TileEntitySpaChild extends TileEntity implements ITileEntitySpa {
     public void setLastTickMeta(int meta) {
         this.lastTickMeta = meta;
     }
+
 }

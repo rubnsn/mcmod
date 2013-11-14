@@ -1,6 +1,7 @@
-package ruby.bamboo.tileentity;
+package ruby.bamboo.tileentity.spa;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 
 public interface ITileEntitySpa {
     public void addColor(int deycolor);
@@ -11,7 +12,9 @@ public interface ITileEntitySpa {
 
     public int[] getParentPosition();
 
-    public void onEntityCollision(EntityLivingBase entity);
+    public void onEntityLivingCollision(EntityLivingBase entity);
+
+    public void onEntityItemCollision(EntityItem entity);
 
     public void colorUpdate();
 

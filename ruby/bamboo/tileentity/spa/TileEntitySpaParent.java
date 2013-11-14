@@ -1,9 +1,10 @@
-package ruby.bamboo.tileentity;
+package ruby.bamboo.tileentity.spa;
 
 import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -88,7 +89,7 @@ public class TileEntitySpaParent extends TileEntity implements ITileEntitySpa {
 
     // ブロックからの温泉の接触呼び出し(1tick毎？)
     @Override
-    public void onEntityCollision(EntityLivingBase entity) {
+    public void onEntityLivingCollision(EntityLivingBase entity) {
         if (bathingEntity == null) {
             bathingEntity = entity;
             bathingTime = 0;
@@ -96,7 +97,7 @@ public class TileEntitySpaParent extends TileEntity implements ITileEntitySpa {
             // 20tick1秒で10秒計算
             if (++bathingTime > 400) {
                 int effectNum = this.getEffectNum();
-
+                System.out.println(effectNum);
                 if (effectNum == 0) {
                     entity.heal(1);
                     bathingTime = 380;
@@ -117,6 +118,11 @@ public class TileEntitySpaParent extends TileEntity implements ITileEntitySpa {
                 }
             }
         }
+    }
+
+    @Override
+    public void onEntityItemCollision(EntityItem entity) {
+        BoilManager.boil(this, entity);
     }
 
     private void onFoodEaten(ItemStack par1ItemStack, World par2World, EntityLivingBase par3EntityPlayer) {

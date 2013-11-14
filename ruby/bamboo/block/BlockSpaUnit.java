@@ -6,9 +6,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import ruby.bamboo.BambooInit;
-import ruby.bamboo.tileentity.ITileEntitySpa;
-import ruby.bamboo.tileentity.TileEntitySpaChild;
-import ruby.bamboo.tileentity.TileEntitySpaParent;
+import ruby.bamboo.tileentity.spa.ITileEntitySpa;
+import ruby.bamboo.tileentity.spa.TileEntitySpaChild;
+import ruby.bamboo.tileentity.spa.TileEntitySpaParent;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
