@@ -18,6 +18,7 @@ import net.minecraft.world.World;
 public class TileEntitySpaParent extends TileEntity implements ITileEntitySpa {
     private EntityLivingBase bathingEntity = null;
     private short bathingTime;
+    private short lastBathingTime;
     private boolean stay;
     private int color = 0xffffff;
 
@@ -81,9 +82,10 @@ public class TileEntitySpaParent extends TileEntity implements ITileEntitySpa {
     public void updateEntity() {
         if (bathingEntity != null) {
             // 入浴キャンセル判定
-            if ((Math.floor(bathingEntity.posX) - this.xCoord + Math.floor(bathingEntity.posY) - this.yCoord + Math.floor(bathingEntity.posZ) - this.zCoord) != 0) {
+            if (!bathingEntity.isInWater()) {
                 bathingEntity = null;
             }
+            lastBathingTime = bathingTime;
         }
     }
 
@@ -92,29 +94,30 @@ public class TileEntitySpaParent extends TileEntity implements ITileEntitySpa {
     public void onEntityLivingCollision(EntityLivingBase entity) {
         if (bathingEntity == null) {
             bathingEntity = entity;
-            bathingTime = 0;
+            lastBathingTime = bathingTime = 0;
         } else {
-            // 20tick1秒で10秒計算
-            if (++bathingTime > 400) {
-                int effectNum = this.getEffectNum();
-                System.out.println(effectNum);
-                if (effectNum == 0) {
-                    entity.heal(1);
-                    bathingTime = 380;
-                } else if (effectNum == 1) {
-                    onFoodEaten(new ItemStack(373, 1, 8289), entity.worldObj, entity);
-                    bathingTime = 0;
-                } else if (effectNum == 2) {
-                    onFoodEaten(new ItemStack(373, 1, 8297), entity.worldObj, entity);
-                    bathingTime = 0;
-                } else if (effectNum == 4) {
-                    onFoodEaten(new ItemStack(373, 1, 8195), entity.worldObj, entity);
-                    bathingTime = 0;
-                } else if (effectNum == 8) {
-                    onFoodEaten(new ItemStack(373, 1, 8290), entity.worldObj, entity);
-                    bathingTime = 0;
-                } else if (effectNum == 15) {
-                    onFoodEaten(new ItemStack(373, 1, 8292), entity.worldObj, entity);
+            if (lastBathingTime == bathingTime) {
+                // 20tick1秒で10秒計算
+                if (++bathingTime > 200) {
+                    int effectNum = this.getEffectNum();
+                    if (effectNum == 0) {
+                        entity.heal(1);
+                        bathingTime = 180;
+                    } else if (effectNum == 1) {
+                        onFoodEaten(new ItemStack(373, 1, 8289), entity.worldObj, entity);
+                        bathingTime = 0;
+                    } else if (effectNum == 2) {
+                        onFoodEaten(new ItemStack(373, 1, 8297), entity.worldObj, entity);
+                        bathingTime = 0;
+                    } else if (effectNum == 4) {
+                        onFoodEaten(new ItemStack(373, 1, 8195), entity.worldObj, entity);
+                        bathingTime = 0;
+                    } else if (effectNum == 8) {
+                        onFoodEaten(new ItemStack(373, 1, 8290), entity.worldObj, entity);
+                        bathingTime = 0;
+                    } else if (effectNum == 15) {
+                        onFoodEaten(new ItemStack(373, 1, 8292), entity.worldObj, entity);
+                    }
                 }
             }
         }
