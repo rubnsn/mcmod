@@ -15,7 +15,7 @@ public class BoilManager {
     private static final HashMap<Item, HashMap<Integer, IBoilItem>> boilMap = new HashMap<Item, HashMap<Integer, IBoilItem>>();
     static {
         ItemStack is = new ItemStack(Item.dyePowder);
-        for (int i = 1; i < 16; i++) {
+        for (int i = 0; i < 15; i++) {
             is.setItemDamage(i);
             addBileItem(new BoilDye(), is);
         }
