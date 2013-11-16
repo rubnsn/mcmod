@@ -68,39 +68,11 @@ public class ItemMagatama extends Item {
         if (!BambooCore.getConf().useMagatama || magatamaMap.get(par1ItemStack.getItemDamage()).getEffectClass() == null) {
             return par1ItemStack;
         }
-        switch (getUseType()) {
-        case THROWING:
-            throwing(par2World, par1ItemStack, par3EntityPlayer);
-            break;
-        case HAND:
-            hand(par2World, par1ItemStack, par3EntityPlayer);
-            break;
-        }
-        if (isDecrease()) {
+        magatamaMap.get(par1ItemStack.getItemDamage()).useItem(par2World, par1ItemStack, par3EntityPlayer);
+        if (magatamaMap.get(par1ItemStack.getItemDamage()).isDecrease()) {
             par1ItemStack.stackSize--;
         }
         return par1ItemStack;
-    }
-
-    public UseType getUseType() {
-        return UseType.THROWING;
-    }
-
-    public void throwing(World world, ItemStack itemStack, EntityPlayer entityPlayer) {
-        if (!world.isRemote) {
-            world.spawnEntityInWorld(new EntityMagatama(world, entityPlayer, itemStack));
-        } else {
-            world.playSoundAtEntity(entityPlayer, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-        }
-        entityPlayer.swingItem();
-    }
-
-    public void hand(World world, ItemStack itemStack, EntityPlayer entityPlayer) {
-
-    }
-
-    public boolean isDecrease() {
-        return true;
     }
 
     @Override

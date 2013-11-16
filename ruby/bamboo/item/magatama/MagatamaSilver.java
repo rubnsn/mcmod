@@ -3,11 +3,13 @@ package ruby.bamboo.item.magatama;
 import java.util.Iterator;
 
 import ruby.bamboo.entity.magatama.EntityClock;
+import ruby.bamboo.entity.magatama.EntityMagatama;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.World;
 
 public class MagatamaSilver implements IMagatama {
 
@@ -47,5 +49,19 @@ public class MagatamaSilver implements IMagatama {
     @Override
     public int getColor() {
         return 0xEEEEEE;
+    }
+
+    @Override
+    public void useItem(World world, ItemStack itemStack, EntityPlayer entityPlayer) {
+        if (!world.isRemote) {
+            world.spawnEntityInWorld(new EntityMagatama(world, entityPlayer, itemStack));
+        }
+        world.playSoundAtEntity(entityPlayer, "random.bow", 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
+        entityPlayer.swingItem();
+    }
+
+    @Override
+    public boolean isDecrease() {
+        return true;
     }
 }
