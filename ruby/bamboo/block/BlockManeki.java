@@ -1,10 +1,13 @@
 package ruby.bamboo.block;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import ruby.bamboo.CustomRenderHandler;
 import ruby.bamboo.ManekiHandler;
 import ruby.bamboo.tileentity.TileEntityManeki;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -75,6 +78,12 @@ public class BlockManeki extends BlockContainer {
 
     public boolean addManeki(int posX, int posZ) {
         return maneki.addManeki(posX, posZ);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IconRegister par1IconRegister) {
+        this.blockIcon = par1IconRegister.registerIcon("wool_colored_red");
     }
 
     @Override
