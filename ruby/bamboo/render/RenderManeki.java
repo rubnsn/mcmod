@@ -28,7 +28,8 @@ public class RenderManeki extends TileEntitySpecialRenderer {
         byte byte0 = (byte) (entity.getBlockMetadata());
         GL11.glTranslatef((float) d + 0.5F, (float) d1 + 0.5F, (float) d2 + 0.5F);
         this.bindTexture(RESOURCE);
-        GL11.glRotatef((byte0 & 3) * 90.0F, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef((byte0 & 3) * 90.0F + 180F, 0.0F, 1.0F, 0.0F);
+        //GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
         // 光源処理
         /*
          * int i = MathHelper.floor_double(d); int j =
