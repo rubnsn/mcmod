@@ -9,7 +9,6 @@ public class BoilItem implements IBoilItem {
 
     public BoilItem(ItemStack output) {
         this.output = output;
-        this.cookTime = 100;
     }
 
     public BoilItem(ItemStack output, int cookTime) {
@@ -21,7 +20,6 @@ public class BoilItem implements IBoilItem {
     public void boil(ITileEntitySpa iTileSpa, EntityItem entity) {
         if (entity.getEntityItem().stackSize-- > 0) {
             entity.worldObj.spawnEntityInWorld(new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, output.copy()));
-            entity.age = 0;
         }
     }
 

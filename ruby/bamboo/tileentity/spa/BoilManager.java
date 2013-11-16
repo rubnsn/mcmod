@@ -16,7 +16,7 @@ import net.minecraft.item.ItemStack;
 public class BoilManager {
     private static final HashMap<Item, HashMap<Integer, IBoilItem>> boilMap = new HashMap<Item, HashMap<Integer, IBoilItem>>();
     static {
-        addBileItem(new BoilItem(new ItemStack(BambooInit.boiledEggIID, 1, 0)), new ItemStack(Item.egg));
+        addBileItem(new BoilItem(new ItemStack(BambooInit.boiledEggIID, 1, 0), 3600), new ItemStack(Item.egg));
         addBileItem(new BoilItem(new ItemStack(Item.axeGold), 5990), new ItemStack(Item.axeIron));
         ItemStack is = new ItemStack(Item.dyePowder);
         for (int i = 0; i < 15; i++) {
