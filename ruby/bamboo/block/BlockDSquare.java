@@ -134,7 +134,7 @@ public class BlockDSquare extends Block {
 
     @Override
     public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random) {
-        if (par1World.canBlockSeeTheSky(par2, par3, par4) && par5Random.nextInt(10) == 0) {
+        if (par1World.canBlockSeeTheSky(par2, par3 + 1, par4) && par5Random.nextInt(10) == 0) {
             switch (par1World.getBlockMetadata(par2, par3, par4)) {
             case 0:
             case 1:
