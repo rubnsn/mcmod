@@ -15,28 +15,26 @@ public class ModelManeki extends ModelBase {
         textureHeight = 32;
         body = new ModelRenderer(this, 0, 0);
         body.addBox(-3.5F, -8F, -3.5F, 7, 12, 7);
-        body.setRotationPoint(0F, 0F, 0F);
+        body.setRotationPoint(0F, -4F, 0F);
         body.setTextureSize(64, 32);
-        body.mirror = true;
-        setRotation(body, 0F, 0F, 0F);
+        setRotation(body, 0F, 0F, (float) Math.PI);
         earR = new ModelRenderer(this, 29, 0);
         earR.addBox(0.5F, 0F, 1F, 3, 2, 1);
-        earR.setRotationPoint(0F, 4F, -1F);
+        earR.setRotationPoint(0F, 6F, -1F);
         earR.setTextureSize(64, 32);
-        earR.mirror = true;
-        setRotation(earR, 0F, 0F, 0F);
+        setRotation(earR, 0F, 0F, (float) Math.PI);
         earL = new ModelRenderer(this, 29, 4);
         earL.addBox(-3.5F, 0F, 1F, 3, 2, 1);
-        earL.setRotationPoint(0F, 4F, -1F);
+        earL.setRotationPoint(0F, 6F, -1F);
         earL.setTextureSize(64, 32);
         earL.mirror = true;
-        setRotation(earL, 0F, 0F, 0F);
+        setRotation(earL, 0F, 0F, (float) Math.PI);
         hand = new ModelRenderer(this, 29, 8);
         hand.addBox(-1F, -1F, -1F, 2, 7, 2);
-        hand.setRotationPoint(-4.5F, -1F, 0F);
+        hand.setRotationPoint(4.5F, -1F, 0F);
         hand.setTextureSize(64, 32);
         hand.mirror = true;
-        setRotation(hand, 0F, 0F, 0F);
+        setRotation(hand, 0F, (float) Math.PI, 0F);
     }
 
     @Override
