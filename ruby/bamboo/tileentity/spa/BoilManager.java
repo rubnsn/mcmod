@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import ruby.bamboo.BambooInit;
+
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
@@ -14,6 +16,8 @@ import net.minecraft.item.ItemStack;
 public class BoilManager {
     private static final HashMap<Item, HashMap<Integer, IBoilItem>> boilMap = new HashMap<Item, HashMap<Integer, IBoilItem>>();
     static {
+        addBileItem(new BoilItem(new ItemStack(BambooInit.boiledEggIID, 1, 0)), new ItemStack(Item.egg));
+        addBileItem(new BoilItem(new ItemStack(Item.axeGold), 5990), new ItemStack(Item.axeIron));
         ItemStack is = new ItemStack(Item.dyePowder);
         for (int i = 0; i < 15; i++) {
             is.setItemDamage(i);
