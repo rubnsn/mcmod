@@ -39,6 +39,7 @@ public class ItemMagatama extends Item {
         addMagatama(3, new MagatamaBlue());
         addMagatama(4, new MagatamaGreen());
         addMagatama(5, new MagatamaPink());
+        addMagatama(6, new MagatamaOrange());
     }
 
     public static IMagatama getMagatama(int id) {
