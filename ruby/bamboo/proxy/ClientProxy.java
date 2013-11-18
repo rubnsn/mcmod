@@ -11,7 +11,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
 import ruby.bamboo.BambooInit;
-import ruby.bamboo.BambooLocalize;
 import ruby.bamboo.BambooUtil;
 import ruby.bamboo.CustomRenderHandler;
 import ruby.bamboo.entity.*;
@@ -29,7 +28,6 @@ public class ClientProxy extends CommonProxy {
     public void preInit() {
         super.preInit();
         CustomRenderHandler.init();
-        BambooLocalize.init();
         addRenderer();
     }
 

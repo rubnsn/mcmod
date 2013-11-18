@@ -77,8 +77,10 @@ public class ItemMagatama extends Item {
 
     @Override
     public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {
-        if (par4 <= 9) {
-            magatamaMap.get(par1ItemStack.getItemDamage()).holdingEffect(par3Entity, par4);
+        if (magatamaMap.containsKey(par1ItemStack.getItemDamage())) {
+            if (par4 <= 9) {
+                magatamaMap.get(par1ItemStack.getItemDamage()).holdingEffect(par3Entity, par4);
+            }
         }
     }
 
@@ -91,7 +93,11 @@ public class ItemMagatama extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack par1ItemStack, int par2) {
-        return magatamaMap.get(par1ItemStack.getItemDamage()).getColor();
+        if (magatamaMap.containsKey(par1ItemStack.getItemDamage())) {
+            return magatamaMap.get(par1ItemStack.getItemDamage()).getColor();
+        } else {
+            return 0;
+        }
     }
 
     @Override
