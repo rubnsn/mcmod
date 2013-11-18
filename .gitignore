@@ -1,5 +1,6 @@
 *.class
-assets/
+assets/forge
+assets/bamboo/textures
 cpw/
 ibxm/
 net/
