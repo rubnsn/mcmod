@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumMovingObjectType;
@@ -247,25 +248,19 @@ public class EntityFirecracker extends EntityThrowable {
     protected void entityInit() {
         dataWatcher.addObject(15, (byte) 0);
     }
-    /*
-     * public boolean isInRangeToRenderDist(double d) { double d1 =
-     * boundingBox.getAverageEdgeLength() * 4D; d1 *= 64D; return d < d1 * d1; }
-     * public void onCollideWithPlayer(EntityPlayer entityplayer) { } public
-     * void writeEntityToNBT(NBTTagCompound nbttagcompound) { /*
-     * nbttagcompound.setShort("xTile", (short)field_20056_b);
-     * nbttagcompound.setShort("yTile", (short)field_20055_c);
-     * nbttagcompound.setShort("zTile", (short)field_20054_d);
-     * nbttagcompound.setByte("inTile", (byte)field_20053_e);
-     * nbttagcompound.setByte("shake", (byte)field_20057_a);
-     * nbttagcompound.setByte("inGround", (byte)(field_20052_f ? 1 : 0)); }
-     * 
-     * public void readEntityFromNBT(NBTTagCompound nbttagcompound) { /*
-     * field_20056_b = nbttagcompound.getShort("xTile"); field_20055_c =
-     * nbttagcompound.getShort("yTile"); field_20054_d =
-     * nbttagcompound.getShort("zTile"); field_20053_e =
-     * nbttagcompound.getByte("inTile") & 0xff; field_20057_a =
-     * nbttagcompound.getByte("shake") & 0xff; field_20052_f =
-     * nbttagcompound.getByte("inGround") == 1; }
-     */
+
+    @Override
+    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+        super.writeEntityToNBT(nbttagcompound);
+        nbttagcompound.setByte("power", dataWatcher.getWatchableObjectByte(15));
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+        super.readEntityFromNBT(nbttagcompound);
+        if (nbttagcompound.hasKey("power")) {
+            dataWatcher.updateObject(15, nbttagcompound.getByte("power"));
+        }
+    }
 
 }
