@@ -1,5 +1,6 @@
 package ruby.bamboo.entity.magatama;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,8 +24,7 @@ public class EntityClock extends Entity {
     private int effectTime;
     private boolean[] isSkip;
     private boolean isTimeStop;
-    private HashSet<Entity> hookedEntitys;
-    private HashMap<Entity, NBTTagCompound> hookedEntitysSaveDate;
+    private ArrayList<EntityDummy> hookedEntitys;
 
     public EntityClock(World par1World) {
         super(par1World);
@@ -34,8 +34,7 @@ public class EntityClock extends Entity {
         effectTime = 0;
         skipTickRate = 1;
         isTimeStop = true;
-        hookedEntitys = new HashSet<Entity>();
-        hookedEntitysSaveDate = new HashMap<Entity, NBTTagCompound>();
+        hookedEntitys = new ArrayList<EntityDummy>();
         isSkip = new boolean[20];
         Arrays.fill(isSkip, false);
     }
@@ -55,67 +54,26 @@ public class EntityClock extends Entity {
                 }
             }
         }
-        if (time % 10 == 0) {
-            hookedEntitys.addAll(worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(40, 40, 40)));
-        }
-        for (Entity e : hookedEntitys) {
-            bindEntity(e);
-        }
-        if (effectTime > 400) {
-            for (Entity e : hookedEntitys) {
-                releaseEntity(e);
+        if(!this.worldObj.isRemote){
+            if (time % 10 == 0) {
+                for (Object entity : worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(40, 40, 40))) {
+                    if (entity instanceof Entity && !(entity instanceof EntityPlayer) && !(entity instanceof EntityDummy)) {
+                        hookedEntitys.add(DummyManager.replace((Entity) entity));
+                    }
+                }
             }
-            hookedEntitys.clear();
-            hookedEntitysSaveDate.clear();
-            setDead();
+            if (effectTime > 400) {
+                for (EntityDummy e : hookedEntitys) {
+                    DummyManager.restore(e);
+                }
+                hookedEntitys.clear();
+                setDead();
+            }
         }
         if (effectTime < 20 || effectTime > 380) {
             preTime += (effectTime % 2 == 0 ? 1 : 0);
         }
 
-    }
-
-    private void bindEntity(Entity entity) {
-        if (!hookedEntitysSaveDate.containsKey(entity)) {
-            NBTTagCompound nbt = new NBTTagCompound();
-            entity.writeToNBT(nbt);
-            hookedEntitysSaveDate.put(entity, nbt);
-        }
-        if (!(entity instanceof EntityPlayer)) {
-            entity.fallDistance = 0;
-            entity.motionX = 0;
-            entity.motionY = 0;
-            entity.motionZ = 0;
-            NBTTagList pos = hookedEntitysSaveDate.get(entity).getTagList("Pos");
-            NBTTagList rotation = hookedEntitysSaveDate.get(entity).getTagList("Rotation");
-            entity.rotationYaw = ((NBTTagFloat) rotation.tagAt(0)).data;
-            entity.rotationPitch = ((NBTTagFloat) rotation.tagAt(1)).data;
-            entity.prevPosX = entity.posX = entity.lastTickPosX = ((NBTTagDouble) pos.tagAt(0)).data;
-            entity.prevPosY = entity.posY = entity.lastTickPosY = ((NBTTagDouble) pos.tagAt(1)).data;
-            entity.prevPosZ = entity.posZ = entity.lastTickPosZ = ((NBTTagDouble) pos.tagAt(2)).data;
-            if (entity instanceof EntityLivingBase) {
-                EntityLivingBase entityLiving = ((EntityLivingBase) entity);
-                entityLiving.rotationYawHead = entityLiving.prevRotationYawHead;
-                entityLiving.moveForward = 0;
-            }
-        }
-
-    }
-
-    private void releaseEntity(Entity entity) {
-        if (hookedEntitysSaveDate.containsKey(entity)) {
-            if (!(entity instanceof EntityPlayer)) {
-                NBTTagCompound nbt = hookedEntitysSaveDate.get(entity);
-                NBTTagList rotation = hookedEntitysSaveDate.get(entity).getTagList("Rotation");
-                NBTTagList motion = nbt.getTagList("Motion");
-                entity.motionX = ((NBTTagDouble) motion.tagAt(0)).data;
-                entity.motionY = ((NBTTagDouble) motion.tagAt(1)).data;
-                entity.motionZ = ((NBTTagDouble) motion.tagAt(2)).data;
-                entity.rotationYaw = ((NBTTagFloat) rotation.tagAt(0)).data;
-                entity.rotationPitch = ((NBTTagFloat) rotation.tagAt(1)).data;
-                entity.fallDistance = nbt.getFloat("FallDistance");
-            }
-        }
     }
 
     public int getTime() {

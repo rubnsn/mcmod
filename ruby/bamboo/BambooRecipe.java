@@ -90,7 +90,8 @@ public class BambooRecipe {
         // ふとん
         addShapedOreRecipe(new ItemStack(hutonIID, 1, 0), " # ", "XXX", "XXX", '#', TUDURA, 'X', Block.cloth);
         // 茅葺屋根
-        addShapedOreRecipe(new ItemStack(Item.itemsList[rooftileBID], 6, 0), "#  ", "#X ", "###", 'X', TUDURA, '#', Item.wheat);
+        addStairRecipe(new ItemStack(rooftileBID, 6, 0), new ItemStack(dSquareBID, 1, 4));
+        addStairRecipe(new ItemStack(rooftileBID, 6, 0), Item.wheat, TUDURA);
         // 温泉ユニット
         addShapedOreRecipe(new ItemStack(spaunitBID, 1, 0), "#Z#", "#X#", "#Y#", 'Z', TUDURA, '#', Block.cobblestone, 'Y', Item.bucketLava, 'X', Item.bucketWater);
         // かき氷
@@ -164,8 +165,7 @@ public class BambooRecipe {
         addSlabRecipe(new ItemStack(halfTwoDirDecoBID, 6, 2), new ItemStack(twoDirDecoBID, 4, 2));
         // 瓦
         // 瓦階段
-        GameRegistry.addRecipe(new ItemStack(kawara_stairBID, 4, 0), "#  ", "## ", "###", '#', new ItemStack(decoBID, 1, 5));
-        GameRegistry.addRecipe(new ItemStack(kawara_stairBID, 4, 0), "  #", " ##", "###", '#', new ItemStack(decoBID, 1, 5));
+        addStairRecipe(new ItemStack(kawara_stairBID, 4, 0), new ItemStack(decoBID, 1, 5));
         // おぼん
         GameRegistry.addRecipe(new ItemStack(obonIID, 1, 0), "###", "# #", '#', new ItemStack(twoDirDecoBID, 4, 2));
         // 柱
@@ -203,6 +203,20 @@ public class BambooRecipe {
         OreDictionary.registerOre("treeSapling", getBlockInstance(sakuraBID));
         OreDictionary.registerOre("logWood", getBlockInstance(sakuraLogBID));
         OreDictionary.registerOre("plankWood", new ItemStack(twoDirDecoBID, 1, 2));
+    }
+
+    //1個目は主素材のみ、2個めはサブ素材、だいたいツヅラ
+    private void addStairRecipe(ItemStack output, Object... input) {
+        if (input.length == 0) {
+            throw new IllegalArgumentException();
+        }
+        if (input.length == 1) {
+            addShapedOreRecipe(output, "#  ", "## ", "###", '#', input[0]);
+            addShapedOreRecipe(output, "  #", " ##", "###", '#', input[0]);
+        } else {
+            addShapedOreRecipe(output, "#  ", "#X ", "###", '#', input[0], 'X', input[1]);
+            addShapedOreRecipe(output, "  #", " X#", "###", '#', input[0], 'X', input[1]);
+        }
     }
 
     private void addSlabRecipe(ItemStack output, ItemStack input) {

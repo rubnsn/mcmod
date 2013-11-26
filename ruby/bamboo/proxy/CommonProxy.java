@@ -16,10 +16,12 @@ import ruby.bamboo.entity.EntityWaterwheel;
 import ruby.bamboo.entity.EntityWind;
 import ruby.bamboo.entity.EntityWindChime;
 import ruby.bamboo.entity.EntityWindmill;
+import ruby.bamboo.entity.magatama.EntityDummy;
 import ruby.bamboo.entity.magatama.EntityFlareEffect;
 import ruby.bamboo.entity.magatama.EntityClock;
 import ruby.bamboo.entity.magatama.EntityGravityHole;
 import ruby.bamboo.entity.magatama.EntityMagatama;
+import ruby.bamboo.entity.magatama.EntityShield;
 import ruby.bamboo.tileentity.TileEntityAndon;
 import ruby.bamboo.tileentity.TileEntityCampfire;
 import ruby.bamboo.tileentity.TileEntityJPChest;
@@ -49,6 +51,8 @@ public class CommonProxy {
     private static final int flareEID = 14;
     private static final int gravityHoleEID = 15;
     private static final int goldenClockEID = 16;
+    private static final int shieldEID = 17;
+    private static final int dummyEID = 18;
 
     public void preInit() {
         // わーるどじぇねれーとはんどら
@@ -74,6 +78,8 @@ public class CommonProxy {
         registerEntity(EntityFlareEffect.class, "FlareEffect", flareEID, 80, 3, true);
         registerEntity(EntityGravityHole.class, "GravityHole", gravityHoleEID, 304, 3, true);
         registerEntity(EntityClock.class, "GoldenClock", goldenClockEID, 304, 3, true);
+        registerEntity(EntityShield.class, "Shield", shieldEID, 304, 3, true);
+        registerEntity(EntityDummy.class, "Dummy", dummyEID, 304, 3, true);
         GameRegistry.registerTileEntity(TileEntityJPChest.class, "JP Chest");
         GameRegistry.registerTileEntity(TileEntitySpaParent.class, "Tile Spa");
         GameRegistry.registerTileEntity(TileEntitySpaChild.class, "Tile SpaChild");
