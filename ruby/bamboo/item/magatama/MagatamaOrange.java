@@ -40,18 +40,25 @@ public class MagatamaOrange implements IMagatama {
     @Override
     public void holdingEffect(Entity entity, int invIndex) {
         if (hasExecution(entity, invIndex) && entity != null && entity.boundingBox != null) {
-
             for (Entity e : getEntityList(entity.worldObj, entity)) {
                 if (e instanceof EntityThrowable) {
                     if (isNotThrower(((EntityThrowable) e).getThrower(), entity)) {
                         spawnShield(e.worldObj, entity, ((EntityThrowable) e).getThrower(), e);
+                        useCost(entity);
                     }
                 } else if (e instanceof EntityArrow) {
                     if (isNotThrower(((EntityArrow) e).shootingEntity, entity)) {
                         spawnShield(e.worldObj, entity, ((EntityArrow) e).shootingEntity, e);
+                        useCost(entity);
                     }
                 }
             }
+        }
+    }
+
+    private void useCost(Entity entity) {
+        if (entity instanceof EntityPlayer) {
+            ((EntityPlayer) entity).getFoodStats().addExhaustion(50F);
         }
     }
 

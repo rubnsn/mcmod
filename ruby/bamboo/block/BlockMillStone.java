@@ -1,11 +1,14 @@
 package ruby.bamboo.block;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.CustomRenderHandler;
 import ruby.bamboo.gui.GuiHandler;
 import ruby.bamboo.tileentity.TileEntityMillStone;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -27,12 +30,6 @@ public class BlockMillStone extends BlockContainer {
     public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
         par5EntityPlayer.openGui(BambooCore.getInstance(), GuiHandler.GUI_MILLSTONE, par1World, par2, par3, par4);
         return true;
-        /*
-         * if (par1World.isRemote) { return true; } else {
-         * par1World.setBlockMetadataWithNotify(par2, par3, par4,
-         * par1World.getBlockMetadata(par2, par3, par4)==0?1:0, 3); return true;
-         * }
-         */
     }
 
     @Override
@@ -116,7 +113,13 @@ public class BlockMillStone extends BlockContainer {
             worldObj.setBlockTileEntity(xCoord, yCoord, zCoord, tileentity);
         }
     }
-
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IconRegister par1IconRegister) {
+        this.blockIcon = par1IconRegister.registerIcon("wool_colored_gray");
+    }
+    
     @Override
     public boolean hasComparatorInputOverride() {
         return true;
