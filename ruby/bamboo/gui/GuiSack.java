@@ -11,11 +11,12 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 
 import org.lwjgl.opengl.GL11;
 
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 
 @SideOnly(Side.CLIENT)
 public class GuiSack extends GuiContainer {
-    private static final ResourceLocation RESORCE = new ResourceLocation("textures/guis/guisack.png");
+    private static final ResourceLocation RESORCE = new ResourceLocation(BambooCore.resourceDomain + "textures/guis/guisack.png");
 
     public GuiSack(InventoryPlayer par1InventoryPlayer, ItemStack par2ItemStack) {
         super(new ContainerSack(par1InventoryPlayer, par2ItemStack));
