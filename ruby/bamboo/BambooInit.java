@@ -171,9 +171,6 @@ public class BambooInit {
             registerBlock(new BlockTwoDirections(twoDirDecoBID, Material.wood, false).addTexName("yoroiita", "sakuraplank"), ItemDecorationBlocks.class, TWO_DIR_DECO_SQUARE, tabBamboo);
             registerBlock(new BlockTwoDirections(halfTwoDirDecoBID, Material.wood, true).addTexName("yoroiita", "sakuraplank"), ItemDecorationBlocks.class, HALF_TWO_DIR_DECO_SQUARE, tabBamboo);
             registerBlock(new BlockKawaraStair(kawara_stairBID, getBlockInstance(decoBID), 5), KAWARA_ROOF, tabBamboo);
-            registerBlock(new BlockRiceField(riceFieldBID, Material.ground), RICE_FIELD);
-            registerBlock(new BlockRicePlant(ricePlantBID), RICE_PLANT);
-            registerBlock(new BlockMillStone(millStoneBID), MILLSTONE, tabBamboo);
             registerBlock(new BlockDecoCarpet(decoCarpetBID), ItemDecoCarpet.class, DECO_CARPET, tabBamboo);
             registerBlock(new BlockPillar(thickSakuraPillarBID, getBlockInstance(twoDirDecoBID), 2, 0.3F, 0.7F, 0.2F), ItemPillar.class, THICK_SAKURA_PILLAR, tabBamboo);
             registerBlock(new BlockPillar(thinSakuraPillarBID, getBlockInstance(twoDirDecoBID), 2, 0.4F, 0.6F, 0.15F), ItemPillar.class, THIN_SAKURA_PILLAR, tabBamboo);
@@ -182,10 +179,17 @@ public class BambooInit {
             registerBlock(new BlockPillar(thickSprucePillarBID, Block.wood, 1, 0.3F, 0.7F, 0.2F), ItemPillar.class, THICK_SPRUCE_PILLAR, tabBamboo);
             registerBlock(new BlockPillar(thinSprucePillarBID, Block.wood, 1, 0.4F, 0.6F, 0.15F), ItemPillar.class, THIN_SPRUCE_PILLAR, tabBamboo);
             registerBlock(new BlockDeludePressurePlate(delude_plateBID), DELUDE_PLATE, tabBamboo);
-            registerBlock(new BlockManeki(manekiBID, Material.ground), MANEKI, tabBamboo);
+            //workingBlock();
         } catch (IllegalArgumentException e) {
             slotOccupiedException(e);
         }
+    }
+
+    private void workingBlock() {
+        registerBlock(new BlockRiceField(riceFieldBID, Material.ground), RICE_FIELD);
+        registerBlock(new BlockRicePlant(ricePlantBID), RICE_PLANT);
+        registerBlock(new BlockMillStone(millStoneBID), MILLSTONE, tabBamboo);
+        registerBlock(new BlockManeki(manekiBID, Material.ground), MANEKI, tabBamboo);
     }
 
     public static Block getBlockInstance(int blockID) {
@@ -219,14 +223,18 @@ public class BambooInit {
         new ItemBamboo(bambooIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("itembamboo").setCreativeTab(tabBamboo);
         new ItemKaginawa(kaginawaIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("kaginawa").setCreativeTab(tabBamboo);
         new ItemBambooSword(bambooSwordIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("bamboosword").setCreativeTab(tabBamboo);
-        new ItemObon(obonIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("obon").setCreativeTab(tabBamboo);
+        new ItemObon(obonIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("obon").setCreativeTab(tabBamboo);  
+        new ItemMagatama(magatamaIID - ITEMID_OFFSET).setUnlocalizedName("magatama").setTextureName("magatama").setCreativeTab(tabBamboo);
+        //workingItem();
+    }
+
+    private void workingItem(){
+        new Item(strawIID - ITEMID_OFFSET).setUnlocalizedName("straw").setTextureName("straw").setCreativeTab(tabBamboo);
         new ItemBitchuHoe(bitchuHoeIID - ITEMID_OFFSET).setUnlocalizedName("bitchuhoe").setCreativeTab(tabBamboo);
         new ItemSeeds(seedRiceIID - ITEMID_OFFSET, ricePlantBID, riceFieldBID).setUnlocalizedName("seedrice").setTextureName("seedrice").setCreativeTab(tabBamboo);
         MinecraftForge.addGrassSeed(new ItemStack(seedRiceIID, 1, 0), 10);
-        new Item(strawIID - ITEMID_OFFSET).setUnlocalizedName("straw").setTextureName("straw").setCreativeTab(tabBamboo);
-        new ItemMagatama(magatamaIID - ITEMID_OFFSET).setUnlocalizedName("magatama").setTextureName("magatama").setCreativeTab(tabBamboo);
     }
-
+    
     private void registerBlock(Block block, String name) {
         this.registerBlock(block, ItemBlock.class, name, null);
     }
