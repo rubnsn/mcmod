@@ -6,7 +6,7 @@
   "url": "http://forum.minecraftuser.jp/viewtopic.php?f=13&t=172",
   "updateUrl": "http://forum.minecraftuser.jp/viewtopic.php?f=13&t=172",
   "logoFile": "",
-  "version": "2.6.3.3",
+  "version": "2.6.3.4",
   "parent": "",
   "authors": ["ruby"],
   "dependencies": ["mod_MinecraftForge"]
