@@ -16,12 +16,12 @@ import net.minecraft.item.ItemStack;
 public class BoilManager {
     private static final HashMap<Item, HashMap<Integer, IBoilItem>> boilMap = new HashMap<Item, HashMap<Integer, IBoilItem>>();
     static {
-        addBileItem(new BoilItem(new ItemStack(BambooInit.boiledEggIID, 1, 0), 3600), new ItemStack(Item.egg));
-        addBileItem(new BoilItem(new ItemStack(Item.axeGold), 5990), new ItemStack(Item.axeIron));
+        addSimpleBoilItem(Item.itemsList[BambooInit.boiledEggIID], 3600, Item.egg);
+        addSimpleBoilItem(Item.axeGold, 5990, Item.axeIron);
         ItemStack is = new ItemStack(Item.dyePowder);
         for (int i = 0; i < 15; i++) {
             is.setItemDamage(i);
-            addBileItem(new BoilDye(), is);
+            addBoilItem(new BoilDye(), is);
         }
     }
 
@@ -33,13 +33,32 @@ public class BoilManager {
     }
 
     private static IBoilItem search(Item item, int meta) {
-        if (boilMap.containsKey(item) && boilMap.get(item).containsKey(meta)) {
-            return boilMap.get(item).get(meta);
+        if (boilMap.containsKey(item)) {
+            if (boilMap.get(item).containsKey(Short.MAX_VALUE)) {
+                boilMap.get(item).get(Short.MAX_VALUE);
+            } else if (boilMap.get(item).containsKey(meta)) {
+                return boilMap.get(item).get(meta);
+            }
         }
         return null;
     }
 
-    public static void addBileItem(IBoilItem boilItem, ItemStack input) {
+    /**
+     * 単純に煮る
+     * 
+     * @param outPut 成果物
+     * @param boilTime 煮沸時間
+     * @param inPut 素材
+     */
+    public static void addSimpleBoilItem(Item outPut, int boilTime, Item inPut) {
+        addSimpleBoilItem(new ItemStack(outPut), boilTime, new ItemStack(inPut));
+    }
+
+    public static void addSimpleBoilItem(ItemStack outPut, int boilTime, ItemStack inPut) {
+        addBoilItem(new BoilItem(outPut, boilTime), inPut);
+    }
+
+    public static void addBoilItem(IBoilItem boilItem, ItemStack input) {
         if (boilItem != null && input != null) {
             if (!boilMap.containsKey(input.getItem())) {
                 boilMap.put(input.getItem(), new HashMap<Integer, IBoilItem>());
