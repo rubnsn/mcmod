@@ -179,7 +179,7 @@ public class BambooInit {
             registerBlock(new BlockPillar(thickSprucePillarBID, Block.wood, 1, 0.3F, 0.7F, 0.2F), ItemPillar.class, THICK_SPRUCE_PILLAR, tabBamboo);
             registerBlock(new BlockPillar(thinSprucePillarBID, Block.wood, 1, 0.4F, 0.6F, 0.15F), ItemPillar.class, THIN_SPRUCE_PILLAR, tabBamboo);
             registerBlock(new BlockDeludePressurePlate(delude_plateBID), DELUDE_PLATE, tabBamboo);
-            //workingBlock();
+            workingBlock();
         } catch (IllegalArgumentException e) {
             slotOccupiedException(e);
         }
@@ -225,7 +225,7 @@ public class BambooInit {
         new ItemBambooSword(bambooSwordIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("bamboosword").setCreativeTab(tabBamboo);
         new ItemObon(obonIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("obon").setCreativeTab(tabBamboo);  
         new ItemMagatama(magatamaIID - ITEMID_OFFSET).setUnlocalizedName("magatama").setTextureName("magatama").setCreativeTab(tabBamboo);
-        //workingItem();
+        workingItem();
     }
 
     private void workingItem(){

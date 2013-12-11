@@ -3,8 +3,13 @@ package ruby.bamboo.tileentity;
 import ruby.bamboo.GrindRecipe;
 import ruby.bamboo.GrindRegistory;
 import ruby.bamboo.block.BlockMillStone;
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -12,6 +17,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3;
 
 public class TileEntityMillStone extends TileEntity implements ISidedInventory {
     private static final int[] slots_top = new int[] { 0 };
@@ -72,6 +78,21 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
         } else {
             if (getBlockMetadata() == 1) {
                 roll = ++roll < 360 ? roll : 0;
+                if (Item.itemsList[nowGrindItemID] instanceof ItemBlock) {
+                    Block block = Block.blocksList[nowGrindItemID];
+                    float xRand = 0;
+                    float zRand = 0;
+                    if (((int) roll & 1) == 1) {
+                        xRand = this.worldObj.rand.nextFloat();
+                        zRand = this.worldObj.rand.nextInt(2);
+                    } else {
+                        xRand = this.worldObj.rand.nextInt(2);
+                        zRand = this.worldObj.rand.nextFloat();
+                    }
+                    Minecraft.getMinecraft().effectRenderer.addEffect((new EntityDiggingFX(this.worldObj, xCoord + xRand, yCoord + 0.5F, zCoord + zRand, 0.0D, 0.0D, 0.0D, block, nowGrindItemDmg)).applyRenderColor(block.getRenderColor(nowGrindItemDmg)).multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F));
+                } else {
+                    itemCrackParticle("iconcrack_" + nowGrindItemID + "_" + nowGrindItemDmg);
+                }
             } else {
                 roll = 0;
             }
@@ -79,6 +100,24 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
 
         if (flag1) {
             this.onInventoryChanged();
+        }
+    }
+
+    private void itemCrackParticle(String particleName) {
+        if (particleName != null) {
+            float pitch = 0;
+            float yaw = this.worldObj.rand.nextFloat() * 2 - 1;
+            for (int j = 0; j < 1; ++j) {
+                Vec3 vec3 = this.worldObj.getWorldVec3Pool().getVecFromPool(((double) this.worldObj.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
+                vec3.rotateAroundX(-pitch * (float) Math.PI / 180.0F);
+                vec3.rotateAroundY(-yaw * (float) Math.PI);
+                Vec3 vec31 = this.worldObj.getWorldVec3Pool().getVecFromPool(((double) this.worldObj.rand.nextFloat() - 0.5D) * 0.3D, (double) (-this.worldObj.rand.nextFloat()) * 0.6D - 0.3D, 0.6D);
+                vec31.rotateAroundX(-pitch * (float) Math.PI / 180.0F);
+                vec31.rotateAroundY(-yaw * (float) Math.PI);
+                vec31 = vec31.addVector(this.xCoord + 0.5F, this.yCoord + 1F, this.zCoord + 0.5F);
+                this.worldObj.spawnParticle(particleName, vec31.xCoord, vec31.yCoord, vec31.zCoord, vec3.xCoord, vec3.yCoord - 0.15D, vec3.zCoord);
+
+            }
         }
     }
 
