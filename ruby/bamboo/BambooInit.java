@@ -126,6 +126,7 @@ public class BambooInit {
     public static int seedRiceIID;
     public static int strawIID;
     public static int magatamaIID;
+    public static int soulMillerIID;
 
     private static CreativeTabs tabBamboo;
 
@@ -223,18 +224,19 @@ public class BambooInit {
         new ItemBamboo(bambooIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("itembamboo").setCreativeTab(tabBamboo);
         new ItemKaginawa(kaginawaIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("kaginawa").setCreativeTab(tabBamboo);
         new ItemBambooSword(bambooSwordIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("bamboosword").setCreativeTab(tabBamboo);
-        new ItemObon(obonIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("obon").setCreativeTab(tabBamboo);  
+        new ItemObon(obonIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("obon").setCreativeTab(tabBamboo);
         new ItemMagatama(magatamaIID - ITEMID_OFFSET).setUnlocalizedName("magatama").setTextureName("magatama").setCreativeTab(tabBamboo);
         workingItem();
     }
 
-    private void workingItem(){
+    private void workingItem() {
         new Item(strawIID - ITEMID_OFFSET).setUnlocalizedName("straw").setTextureName("straw").setCreativeTab(tabBamboo);
         new ItemBitchuHoe(bitchuHoeIID - ITEMID_OFFSET).setUnlocalizedName("bitchuhoe").setCreativeTab(tabBamboo);
         new ItemSeeds(seedRiceIID - ITEMID_OFFSET, ricePlantBID, riceFieldBID).setUnlocalizedName("seedrice").setTextureName("seedrice").setCreativeTab(tabBamboo);
         MinecraftForge.addGrassSeed(new ItemStack(seedRiceIID, 1, 0), 10);
+        new ItemSoulMiller(soulMillerIID - ITEMID_OFFSET).setUnlocalizedName("soulMiller").setTextureName("soulmiller").setCreativeTab(tabBamboo);
     }
-    
+
     private void registerBlock(Block block, String name) {
         this.registerBlock(block, ItemBlock.class, name, null);
     }
@@ -403,6 +405,7 @@ public class BambooInit {
         obonIID = getItemId(conf, "obon", 23561);
         bitchuHoeIID = getItemId(conf, "bitchuHoe", 23562);
         magatamaIID = getItemId(conf, "magatama", 23563);
+        soulMillerIID = getItemId(conf, "soulMiller", 23564);
     }
 
     private int getItemId(Configuration conf, String key, int defaultId) {

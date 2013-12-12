@@ -62,13 +62,12 @@ public class EntityDummy extends Entity {
     }
 
     @Override
-    protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
+    public void readEntityFromNBT(NBTTagCompound nbttagcompound) {
         this.setDead();
     }
 
     @Override
-    protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
+    public void writeEntityToNBT(NBTTagCompound nbttagcompound) {
 
     }
-
 }
