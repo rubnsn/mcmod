@@ -1,18 +1,29 @@
 package ruby.bamboo.item;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.List;
+
+import cpw.mods.fml.common.network.FMLNetworkHandler;
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import cpw.mods.fml.server.FMLServerHandler;
 import ruby.bamboo.render.magatama.RenderDummy;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -30,37 +41,51 @@ public class ItemSoulMiller extends Item {
     @Override
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par3World, EntityPlayer par2EntityPlayer) {
         if (par3World.isRemote) {
-            if (defaultPlayerRender == null) {
-                defaultPlayerRender = RenderManager.instance.getEntityRenderObject(par2EntityPlayer);
-            }
-            Entity entity = getPointedEntity(par3World, par2EntityPlayer);
-            if (entity == null) {
+            if (dummyEntity != null) {
                 if (RenderManager.instance.entityRenderMap.containsKey(par2EntityPlayer.getClass())) {
                     RenderManager.instance.entityRenderMap.remove(par2EntityPlayer.getClass());
                     RenderManager.instance.entityRenderMap.put(par2EntityPlayer.getClass(), defaultPlayerRender);
                     dummyEntity = null;
                 }
-            } else {
-                try {
-                    dummyEntity = entity.getClass().getConstructor(World.class).newInstance(par3World);
+            }
+        } else {
+            //Entity entity = getPointedEntity(par3World, par2EntityPlayer);
+            List<Entity> entityList = par3World.getEntitiesWithinAABBExcludingEntity(par2EntityPlayer, par2EntityPlayer.boundingBox.expand(4F, 2F, 4F));
+            if (!entityList.isEmpty()) {
+                Entity entity = entityList.get(par3World.rand.nextInt(entityList.size()));
+                if (entity != null) {
                     NBTTagCompound nbt = new NBTTagCompound();
                     entity.writeToNBT(nbt);
-                    dummyEntity.readFromNBT(nbt);
-
-                    dummyEntity.yOffset = par2EntityPlayer.yOffset;
-                    if (dummyEntity instanceof EntityLiving) {
-                        ((EntityLiving) dummyEntity).tasks.taskEntries.clear();
+                    nbt.setString("uniqueEntityName", (String) EntityList.classToStringMapping.get(entity.getClass()));
+                    try {
+                        PacketDispatcher.sendPacketToAllPlayers(new Packet250CustomPayload("soulMiller", new CompressedStreamTools().compress(nbt)));
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                    if (RenderManager.instance.entityRenderMap.containsKey(par2EntityPlayer.getClass())) {
-                        RenderManager.instance.entityRenderMap.remove(par2EntityPlayer.getClass());
-                        RenderManager.instance.entityRenderMap.put(par2EntityPlayer.getClass(), new RenderDummy(dummyEntity));
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
         }
         return par1ItemStack;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void createClientDummyEntity(NBTTagCompound nbt) {
+        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        if (defaultPlayerRender == null) {
+            defaultPlayerRender = RenderManager.instance.getEntityClassRenderObject(player.getClass());
+        }
+        dummyEntity = EntityList.createEntityByName(nbt.getString("uniqueEntityName"), player.worldObj);
+        if (dummyEntity != null) {
+            dummyEntity.readFromNBT(nbt);
+            dummyEntity.yOffset = player.yOffset;
+            if (dummyEntity instanceof EntityLiving) {
+                ((EntityLiving) dummyEntity).tasks.taskEntries.clear();
+            }
+            if (RenderManager.instance.entityRenderMap.containsKey(player.getClass())) {
+                RenderManager.instance.entityRenderMap.remove(player.getClass());
+                RenderManager.instance.entityRenderMap.put(player.getClass(), new RenderDummy(dummyEntity));
+            }
+        }
     }
 
     @Override
@@ -74,7 +99,7 @@ public class ItemSoulMiller extends Item {
             dummyEntity.prevRotationYaw = par3Entity.prevRotationYaw;
             dummyEntity.fallDistance = par3Entity.fallDistance;
             dummyEntity.onGround = par3Entity.onGround;
-            dummyEntity.fallDistance=par3Entity.fallDistance;
+            dummyEntity.fallDistance = par3Entity.fallDistance;
             if (dummyEntity instanceof EntityLivingBase && par3Entity instanceof EntityLivingBase) {
                 ((EntityLivingBase) dummyEntity).rotationYawHead = ((EntityLivingBase) par3Entity).rotationYawHead;
                 ((EntityLivingBase) dummyEntity).prevRotationYawHead = ((EntityLivingBase) par3Entity).prevRotationYawHead;
@@ -90,7 +115,7 @@ public class ItemSoulMiller extends Item {
         }
     }
 
-    //対象のEntityを取得
+    //直線上のEntityを取得、クライアント側のみ
     private Entity getPointedEntity(World world, EntityPlayer player) {
         double reachDistance = Minecraft.getMinecraft().playerController.getBlockReachDistance();
         Vec3 vec3 = player.getPosition(1.0F);

@@ -24,7 +24,7 @@ import ruby.bamboo.proxy.CommonProxy;
 
 @Mod(modid = "BambooMod", name = "BambooMod",
         version = "Minecraft1.6.4 ver2.6.3.4")
-@NetworkMod(channels = { "B_Entity", "bamboo", "bamboo2" },
+@NetworkMod(channels = { "B_Entity", "bamboo", "bamboo2","soulMiller" },
         packetHandler = NetworkHandler.class,
         connectionHandler = NetworkHandler.class)
 public class BambooCore {
