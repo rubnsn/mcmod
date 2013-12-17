@@ -14,6 +14,10 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.Event.Result;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.player.BonemealEvent;
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.CustomRenderHandler;
@@ -34,32 +38,22 @@ public class BlockBamboo extends Block {
         setTickRandomly(true);
         setHardness(0F);
         setResistance(0F);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
-    @Override
-    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
-        ItemStack is = par5EntityPlayer.getCurrentEquippedItem();
-
-        if (is != null && is.itemID == Item.dyePowder.itemID && is.getItemDamage() == 15) {
-            if (!par5EntityPlayer.capabilities.isCreativeMode) {
-                is.stackSize--;
-            }
-
-            if (!par1World.isRemote) {
-                par1World.playAuxSFX(2005, par2, par3, par4, 0);
-            }
-
-            int y = par3 + 1;
-
-            for (; par1World.getBlockId(par2, y, par4) == this.blockID; y++) {
-                ;
-            }
-
-            tryBambooGrowth(par1World, par2, y - 1, par4, 0.75F);
-            return true;
+    @ForgeSubscribe
+    public void onBonemealEvent(BonemealEvent event) {
+        if (event.entityPlayer.capabilities.isCreativeMode) {
+            event.setCanceled(true);
         }
-
-        return false;
+        if (!event.world.isRemote) {
+            event.world.playAuxSFX(2005, event.X, event.Y, event.Z, 0);
+        }
+        int y = event.Y + 1;
+        for (; event.world.getBlockId(event.X, y, event.Z) == this.blockID; y++) {
+        }
+        tryBambooGrowth(event.world, event.X, y - 1, event.Z, 0.75F);
+        event.setResult(Result.ALLOW);
     }
 
     @Override
@@ -108,8 +102,8 @@ public class BlockBamboo extends Block {
                 for (int j1 = -1; j1 <= 1; j1++) {
                     for (int k1 = -1; k1 <= 1; k1++) {
                         if (canChildSpawn(world, i + i1, j + j1, k + k1, world.rand)) {
-                            world.setBlock(i + i1, j + j1 - 1, k + k1, Block.dirt.blockID, 0,3);
-                            world.setBlock(i + i1, j + j1, k + k1, blockID, 15,3);
+                            world.setBlock(i + i1, j + j1 - 1, k + k1, Block.dirt.blockID, 0, 3);
+                            world.setBlock(i + i1, j + j1, k + k1, blockID, 15, 3);
                         }
                     }
                 }

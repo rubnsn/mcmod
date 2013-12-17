@@ -41,7 +41,7 @@ public class ItemSoulMiller extends Item {
     @Override
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par3World, EntityPlayer par2EntityPlayer) {
         if (par3World.isRemote) {
-            if (dummyEntity != null) {
+            if (defaultPlayerRender != null && dummyEntity != null) {
                 if (RenderManager.instance.entityRenderMap.containsKey(par2EntityPlayer.getClass())) {
                     RenderManager.instance.entityRenderMap.remove(par2EntityPlayer.getClass());
                     RenderManager.instance.entityRenderMap.put(par2EntityPlayer.getClass(), defaultPlayerRender);
@@ -106,7 +106,6 @@ public class ItemSoulMiller extends Item {
                 ((EntityLivingBase) dummyEntity).isSwingInProgress = ((EntityLivingBase) par3Entity).isSwingInProgress;
                 ((EntityLivingBase) dummyEntity).limbSwing = ((EntityLivingBase) par3Entity).limbSwing;
                 ((EntityLivingBase) dummyEntity).limbSwingAmount = ((EntityLivingBase) par3Entity).limbSwingAmount;
-                ;
                 ((EntityLivingBase) dummyEntity).prevLimbSwingAmount = ((EntityLivingBase) par3Entity).prevLimbSwingAmount;
                 ((EntityLivingBase) dummyEntity).renderYawOffset = ((EntityLivingBase) par3Entity).renderYawOffset;
                 ((EntityLivingBase) dummyEntity).prevRenderYawOffset = ((EntityLivingBase) par3Entity).prevRenderYawOffset;

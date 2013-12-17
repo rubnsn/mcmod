@@ -16,12 +16,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.Event.Result;
+import net.minecraftforge.event.entity.player.BonemealEvent;
 
 public class BlockSakura extends BlockFlower {
     public BlockSakura(int i) {
         super(i);
         float f = 0.4F;
         setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
@@ -29,7 +34,7 @@ public class BlockSakura extends BlockFlower {
         if (!par1World.isRemote) {
             ItemStack is = par5EntityPlayer.getCurrentEquippedItem();
 
-            if (is != null && is.itemID == Item.dyePowder.itemID) {
+            if (is != null && is.itemID == Item.dyePowder.itemID && is.getItemDamage() != 0x0F) {
                 if (!par5EntityPlayer.capabilities.isCreativeMode) {
                     is.stackSize--;
                 }
@@ -40,6 +45,15 @@ public class BlockSakura extends BlockFlower {
         }
 
         return false;
+    }
+
+    @ForgeSubscribe
+    public void onBonemealEvent(BonemealEvent event) {
+        if (event.entityPlayer.capabilities.isCreativeMode) {
+            event.setCanceled(true);
+        }
+        growTree(event.world, event.X, event.Y, event.Z, event.world.rand, 0x0F);
+        event.setResult(Result.ALLOW);
     }
 
     @Override
