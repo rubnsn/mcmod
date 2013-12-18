@@ -49,11 +49,13 @@ public class BlockSakura extends BlockFlower {
 
     @ForgeSubscribe
     public void onBonemealEvent(BonemealEvent event) {
-        if (event.entityPlayer.capabilities.isCreativeMode) {
-            event.setCanceled(true);
+        if (event.ID == this.blockID) {
+            if (event.entityPlayer.capabilities.isCreativeMode) {
+                event.setCanceled(true);
+            }
+            growTree(event.world, event.X, event.Y, event.Z, event.world.rand, 0x0F);
+            event.setResult(Result.ALLOW);
         }
-        growTree(event.world, event.X, event.Y, event.Z, event.world.rand, 0x0F);
-        event.setResult(Result.ALLOW);
     }
 
     @Override

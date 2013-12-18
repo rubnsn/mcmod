@@ -43,17 +43,19 @@ public class BlockBamboo extends Block {
 
     @ForgeSubscribe
     public void onBonemealEvent(BonemealEvent event) {
-        if (event.entityPlayer.capabilities.isCreativeMode) {
-            event.setCanceled(true);
+        if (event.ID == this.blockID) {
+            if (event.entityPlayer.capabilities.isCreativeMode) {
+                event.setCanceled(true);
+            }
+            if (!event.world.isRemote) {
+                event.world.playAuxSFX(2005, event.X, event.Y, event.Z, 0);
+            }
+            int y = event.Y + 1;
+            for (; event.world.getBlockId(event.X, y, event.Z) == this.blockID; y++) {
+            }
+            tryBambooGrowth(event.world, event.X, y - 1, event.Z, 0.75F);
+            event.setResult(Result.ALLOW);
         }
-        if (!event.world.isRemote) {
-            event.world.playAuxSFX(2005, event.X, event.Y, event.Z, 0);
-        }
-        int y = event.Y + 1;
-        for (; event.world.getBlockId(event.X, y, event.Z) == this.blockID; y++) {
-        }
-        tryBambooGrowth(event.world, event.X, y - 1, event.Z, 0.75F);
-        event.setResult(Result.ALLOW);
     }
 
     @Override
