@@ -7,14 +7,15 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemReed;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemBambooshoot extends Item {
+public class ItemBambooshoot extends ItemReed {
     private final int spawnID;
 
     public ItemBambooshoot(int i, int spawnID) {
-        super(i);
+        super(i, Block.blocksList[spawnID]);
         this.spawnID = spawnID;
     }
 
@@ -40,29 +41,14 @@ public class ItemBambooshoot extends Item {
             return false;
         }
 
-        /*
-         * if (par3World.canPlaceEntityOnSide(spawnID, par4,par5+1,par6, false,
-         * par7,par2EntityPlayer)) {
-         */
         Block block = Block.blocksList[spawnID];
 
         if (par3World.setBlock(par4, par5 + 1, par6, spawnID, 15, 3)) {
             if (par3World.getBlockId(par4, par5, par6) == spawnID) {
-                // Block.blocksList[spawnID].onBlockPlaced(par3World,
-                // par4,par5,par6, par7);
                 Block.blocksList[spawnID].onBlockPlacedBy(par3World, par4, par5, par6, par2EntityPlayer, par1ItemStack);
             }
-
-            // world.playSoundEffect((float)i + 0.5F, (float)j + 0.5F, (float)k
-            // + 0.5F, block.stepSound.stepSoundDir2(),
-            // (block.stepSound.getVolume() + 1.0F) / 2.0F,
-            // block.stepSound.getPitch() * 0.8F);
             par1ItemStack.stackSize--;
         }
-
-        /*
-         * } else { return false; }
-         */
         return true;
     }
 
