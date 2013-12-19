@@ -46,7 +46,7 @@ public class NetworkHandler implements IPacketHandler, IConnectionHandler {
             }
         }else if(packet.channel.equals("soulMiller")){
             try {
-                ItemSoulMiller.createClientDummyEntity(new CompressedStreamTools().decompress(packet.data));
+                ItemSoulMiller.createClientDummyEntity(new CompressedStreamTools().decompress(packet.data),(EntityClientPlayerMP)player);
             } catch (IOException e) {
                 e.printStackTrace();
             }

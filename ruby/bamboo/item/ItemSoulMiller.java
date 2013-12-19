@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
@@ -12,6 +13,7 @@ import cpw.mods.fml.server.FMLServerHandler;
 import ruby.bamboo.render.magatama.RenderDummy;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
@@ -30,7 +32,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class ItemSoulMiller extends Item {
-    private static Render defaultPlayerRender = null;
     private static Entity dummyEntity;
 
     public ItemSoulMiller(int par1) {
@@ -41,26 +42,25 @@ public class ItemSoulMiller extends Item {
     @Override
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par3World, EntityPlayer par2EntityPlayer) {
         if (par3World.isRemote) {
-            if (defaultPlayerRender != null && dummyEntity != null) {
-                if (RenderManager.instance.entityRenderMap.containsKey(par2EntityPlayer.getClass())) {
-                    RenderManager.instance.entityRenderMap.remove(par2EntityPlayer.getClass());
-                    RenderManager.instance.entityRenderMap.put(par2EntityPlayer.getClass(), defaultPlayerRender);
-                    dummyEntity = null;
-                }
+            if (dummyEntity != null) {
+                RenderDummy.removeEntityPlayerToDummyRender(par2EntityPlayer);
+                dummyEntity = null;
             }
         } else {
-            //Entity entity = getPointedEntity(par3World, par2EntityPlayer);
-            List<Entity> entityList = par3World.getEntitiesWithinAABBExcludingEntity(par2EntityPlayer, par2EntityPlayer.boundingBox.expand(4F, 2F, 4F));
-            if (!entityList.isEmpty()) {
-                Entity entity = entityList.get(par3World.rand.nextInt(entityList.size()));
-                if (entity != null) {
-                    NBTTagCompound nbt = new NBTTagCompound();
-                    entity.writeToNBT(nbt);
-                    nbt.setString("uniqueEntityName", (String) EntityList.classToStringMapping.get(entity.getClass()));
-                    try {
-                        PacketDispatcher.sendPacketToAllPlayers(new Packet250CustomPayload("soulMiller", new CompressedStreamTools().compress(nbt)));
-                    } catch (IOException e) {
-                        e.printStackTrace();
+            if (!FMLCommonHandler.instance().getMinecraftServerInstance().isDedicatedServer()) {
+                List<Entity> entityList = par3World.getEntitiesWithinAABBExcludingEntity(par2EntityPlayer, par2EntityPlayer.boundingBox.expand(4F, 2F, 4F));
+                if (!entityList.isEmpty()) {
+                    Entity entity = entityList.get(par3World.rand.nextInt(entityList.size()));
+                    if (entity != null && (String) EntityList.classToStringMapping.get(entity.getClass()) != null) {
+                        NBTTagCompound nbt = new NBTTagCompound();
+                        entity.writeToNBT(nbt);
+                        nbt.setString("uniqueEntityName", (String) EntityList.classToStringMapping.get(entity.getClass()));
+                        nbt.setString("playerName", par2EntityPlayer.getEntityName());
+                        try {
+                            PacketDispatcher.sendPacketToAllPlayers(new Packet250CustomPayload("soulMiller", new CompressedStreamTools().compress(nbt)));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -69,21 +69,22 @@ public class ItemSoulMiller extends Item {
     }
 
     @SideOnly(Side.CLIENT)
-    public static void createClientDummyEntity(NBTTagCompound nbt) {
-        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        if (defaultPlayerRender == null) {
-            defaultPlayerRender = RenderManager.instance.getEntityClassRenderObject(player.getClass());
-        }
+    public static void createClientDummyEntity(NBTTagCompound nbt, EntityClientPlayerMP player) {
+        EntityPlayer target = player.worldObj.getPlayerEntityByName(nbt.getString("playerName"));
         dummyEntity = EntityList.createEntityByName(nbt.getString("uniqueEntityName"), player.worldObj);
-        if (dummyEntity != null) {
+        if (dummyEntity != null && target != null) {
             dummyEntity.readFromNBT(nbt);
-            dummyEntity.yOffset = player.yOffset;
+            dummyEntity.yOffset = target.yOffset;
             if (dummyEntity instanceof EntityLiving) {
                 ((EntityLiving) dummyEntity).tasks.taskEntries.clear();
             }
-            if (RenderManager.instance.entityRenderMap.containsKey(player.getClass())) {
-                RenderManager.instance.entityRenderMap.remove(player.getClass());
-                RenderManager.instance.entityRenderMap.put(player.getClass(), new RenderDummy(dummyEntity));
+            if (RenderManager.instance.getEntityClassRenderObject(target.getClass()) instanceof RenderDummy) {
+                ((RenderDummy) RenderManager.instance.getEntityClassRenderObject(target.getClass())).setEntityPlayerToDummyRender(nbt.getString("playerName"), dummyEntity);
+            } else {
+                if (RenderManager.instance.entityRenderMap.containsKey(target.getClass())) {
+                    RenderManager.instance.entityRenderMap.remove(target.getClass());
+                    RenderManager.instance.entityRenderMap.put(target.getClass(), new RenderDummy(dummyEntity, nbt.getString("playerName")));
+                }
             }
         }
     }
