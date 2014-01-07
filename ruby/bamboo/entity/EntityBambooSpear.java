@@ -1,12 +1,13 @@
 package ruby.bamboo.entity;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import ruby.bamboo.BambooInit;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,6 +41,22 @@ public class EntityBambooSpear extends EntityArrow {
     private int explodeTimer;
 
     private int maxAge = 600;
+    private static final ArrayList<Class<Entity>> ignoreList = new ArrayList<Class<Entity>>();
+    static {
+        String[] ignoreEntitys = { "LittleMaid" };
+        for (String str : ignoreEntitys) {
+            if (EntityList.stringToClassMapping.containsKey(str)) {
+                ignoreList.add((Class<Entity>) EntityList.stringToClassMapping.get(str));
+            }
+        }
+
+        try {
+            Class fAva = Class.forName("LMM_EntityLittleMaidAvatar");
+            ignoreList.add(fAva);
+        } catch (ClassNotFoundException e) {
+            System.out.println("LMMを検知できませんでした");
+        }
+    }
 
     public EntityBambooSpear(World par1World) {
         super(par1World);
@@ -61,6 +78,27 @@ public class EntityBambooSpear extends EntityArrow {
         isBarrage = false;
         isDie = false;
         shootingEntity = par2EntityLiving;
+    }
+
+    public EntityBambooSpear(World par1World, EntityBambooSpear par2EntityBambooSpear, float par3, boolean canBePicedUp) {
+        super(par1World);
+        this.renderDistanceWeight = 10.0D;
+        this.shootingEntity = par2EntityBambooSpear;
+        if (canBePicedUp) {
+            this.canBePickedUp = 1;
+        }
+
+        this.setSize(0.5F, 0.5F);
+        this.setLocationAndAngles(par2EntityBambooSpear.posX, par2EntityBambooSpear.posY + (double) par2EntityBambooSpear.getEyeHeight(), par2EntityBambooSpear.posZ, par2EntityBambooSpear.rotationYaw, par2EntityBambooSpear.rotationPitch);
+        this.posX -= (double) (MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
+        this.posY -= 0.10000000149011612D;
+        this.posZ -= (double) (MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
+        this.setPosition(this.posX, this.posY, this.posZ);
+        this.yOffset = 0.0F;
+        this.motionX = (double) (-MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI));
+        this.motionZ = (double) (MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI));
+        this.motionY = (double) (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
+        this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, par3 * 1.5F, 1.0F);
     }
 
     // ばくはつ
@@ -93,7 +131,12 @@ public class EntityBambooSpear extends EntityArrow {
             worldObj.playSoundAtEntity(shootingEntity, "random.bow", 1.0F, 1.0F / (rand.nextFloat() * 0.4F + 1.2F) + power * 0.5F);
 
             if (!worldObj.isRemote) {
-                EntityBambooSpear ebs = new EntityBambooSpear(worldObj, (EntityLivingBase) shootingEntity, power);
+                EntityBambooSpear ebs;
+                if (ignoreList.contains(shootingEntity.getClass())) {
+                    ebs = new EntityBambooSpear(worldObj, this, power, true);
+                } else {
+                    ebs = new EntityBambooSpear(worldObj, (EntityLivingBase) shootingEntity, power);
+                }
 
                 if (this.isExplode) {
                     ebs.setExplode();
@@ -209,52 +252,54 @@ public class EntityBambooSpear extends EntityArrow {
 
             if (var4 != null) {
                 if (var4.entityHit != null) {
-                    var20 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
-                    int var24 = MathHelper.ceiling_double_int(var20 * 0.7 * getDamage());
+                    if (!ignoreList.contains(var4.entityHit.getClass())) {
+                        var20 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
+                        int var24 = MathHelper.ceiling_double_int(var20 * 0.7 * getDamage());
 
-                    if (this.getIsCritical()) {
-                        var24 += this.rand.nextInt(var24 / 2 + 2);
-                    }
-
-                    DamageSource var22 = null;
-
-                    if (this.shootingEntity == null) {
-                        var22 = DamageSource.causeArrowDamage(this, this);
-                    } else {
-                        var22 = DamageSource.causeArrowDamage(this, this.shootingEntity);
-                    }
-
-                    if (this.isBurning()) {
-                        var4.entityHit.setFire(5);
-                    }
-
-                    if (var4.entityHit.attackEntityFrom(var22, var24)) {
-                        if (var4.entityHit instanceof EntityLiving) {
-                            // 対象セット
-                            if (isExplode) {
-                                this.hitEntity = var4.entityHit;
-                            }
-
-                            // 連射による無敵時間削除
-                            if (isBarrage) {
-                                var4.entityHit.hurtResistantTime = 0;
-                            }
-
-                            ++((EntityLiving) var4.entityHit).arrowHitTimer;
-
-                            if (this.knockbackStrength > 0) {
-                                float var25 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-
-                                if (var25 > 0.0F) {
-                                    var4.entityHit.addVelocity(this.motionX * this.knockbackStrength * 0.6000000238418579D / var25, 0.1D, this.motionZ * this.knockbackStrength * 0.6000000238418579D / var25);
-                                }
-                            }
+                        if (this.getIsCritical()) {
+                            var24 += this.rand.nextInt(var24 / 2 + 2);
                         }
 
-                        this.worldObj.playSoundAtEntity(this, "random.bowhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
+                        DamageSource var22 = null;
 
-                        if (!isExplode) {
-                            this.setDead();
+                        if (this.shootingEntity == null) {
+                            var22 = DamageSource.causeArrowDamage(this, this);
+                        } else {
+                            var22 = DamageSource.causeArrowDamage(this, this.shootingEntity);
+                        }
+
+                        if (this.isBurning()) {
+                            var4.entityHit.setFire(5);
+                        }
+
+                        if (var4.entityHit.attackEntityFrom(var22, var24)) {
+                            if (var4.entityHit instanceof EntityLiving) {
+                                // 対象セット
+                                if (isExplode) {
+                                    this.hitEntity = var4.entityHit;
+                                }
+
+                                // 連射による無敵時間削除
+                                if (isBarrage) {
+                                    var4.entityHit.hurtResistantTime = 0;
+                                }
+
+                                ++((EntityLiving) var4.entityHit).arrowHitTimer;
+
+                                if (this.knockbackStrength > 0) {
+                                    float var25 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+
+                                    if (var25 > 0.0F) {
+                                        var4.entityHit.addVelocity(this.motionX * this.knockbackStrength * 0.6000000238418579D / var25, 0.1D, this.motionZ * this.knockbackStrength * 0.6000000238418579D / var25);
+                                    }
+                                }
+                            }
+
+                            this.worldObj.playSoundAtEntity(this, "random.bowhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
+
+                            if (!isExplode) {
+                                this.setDead();
+                            }
                         }
                     }
                 } else {
