@@ -49,7 +49,6 @@ public class BambooInit {
     public static final String TWO_DIR_DECO_SQUARE = "twoDirDeco";
     public static final String HALF_TWO_DIR_DECO_SQUARE = "halfTwoDirDeco";
     public static final String KAWARA_ROOF = "kawara_stair";
-    public static final String RICE_FIELD = "riceField";
     public static final String RICE_PLANT = "ricePlant";
     public static final String MILLSTONE = "millStone";
     public static final String DECO_CARPET = "decoCarpet";
@@ -86,7 +85,6 @@ public class BambooInit {
     public static int halfTwoDirDecoBID;
     public static int kawara_stairBID;
     public static int halfKawaraBID;
-    public static int riceFieldBID;
     public static int ricePlantBID;
     public static int millStoneBID;
     public static int decoCarpetBID;
@@ -122,7 +120,6 @@ public class BambooInit {
     public static int kaginawaIID;
     public static int bambooSwordIID;
     public static int obonIID;
-    public static int bitchuHoeIID;
     public static int seedRiceIID;
     public static int strawIID;
     public static int magatamaIID;
@@ -187,8 +184,7 @@ public class BambooInit {
     }
 
     private void workingBlock() {
-        registerBlock(new BlockRiceField(riceFieldBID, Material.ground), RICE_FIELD);
-        registerBlock(new BlockRicePlant(ricePlantBID), RICE_PLANT);
+        registerBlock(new BlockRicePlant(ricePlantBID).setTextureName(BambooCore.resourceDomain +"riceplant"), RICE_PLANT);
         registerBlock(new BlockMillStone(millStoneBID), MILLSTONE, tabBamboo);
         registerBlock(new BlockManeki(manekiBID, Material.ground), MANEKI, tabBamboo);
     }
@@ -231,8 +227,7 @@ public class BambooInit {
 
     private void workingItem() {
         new Item(strawIID - ITEMID_OFFSET).setUnlocalizedName("straw").setTextureName("straw").setCreativeTab(tabBamboo);
-        new ItemBitchuHoe(bitchuHoeIID - ITEMID_OFFSET).setUnlocalizedName("bitchuhoe").setCreativeTab(tabBamboo);
-        new ItemSeeds(seedRiceIID - ITEMID_OFFSET, ricePlantBID, riceFieldBID).setUnlocalizedName("seedrice").setTextureName("seedrice").setCreativeTab(tabBamboo);
+        new ItemSeeds(seedRiceIID - ITEMID_OFFSET, ricePlantBID, Block.tilledField.blockID).setUnlocalizedName("seedrice").setTextureName("seedrice").setCreativeTab(tabBamboo);
         MinecraftForge.addGrassSeed(new ItemStack(seedRiceIID, 1, 0), 10);
         new ItemSoulMiller(soulMillerIID - ITEMID_OFFSET).setUnlocalizedName("soulMiller").setTextureName("soulmiller").setCreativeTab(tabBamboo);
     }
@@ -359,7 +354,7 @@ public class BambooInit {
         twoDirDecoBID = getBlockId(conf, "twoDirDeco", 3258);
         halfTwoDirDecoBID = getBlockId(conf, "halfTwoDirDeco", 3259);
         kawara_stairBID = getBlockId(conf, "kawara_stair", 3260);
-        riceFieldBID = getBlockId(conf, "riceField", 3261);
+        //3261
         ricePlantBID = getBlockId(conf, "ricePlant", 3262);
         millStoneBID = getBlockId(conf, "millStone", 3263);
         decoCarpetBID = getBlockId(conf, "decoCarpet", 3264);
@@ -403,7 +398,7 @@ public class BambooInit {
         kaginawaIID = getItemId(conf, "kaginawa", 23559);
         bambooSwordIID = getItemId(conf, "bambooSword", 23560);
         obonIID = getItemId(conf, "obon", 23561);
-        bitchuHoeIID = getItemId(conf, "bitchuHoe", 23562);
+        //23562
         magatamaIID = getItemId(conf, "magatama", 23563);
         soulMillerIID = getItemId(conf, "soulMiller", 23564);
     }

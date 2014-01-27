@@ -54,7 +54,7 @@ public class EntityBambooSpear extends EntityArrow {
             Class fAva = Class.forName("LMM_EntityLittleMaidAvatar");
             ignoreList.add(fAva);
         } catch (ClassNotFoundException e) {
-            System.out.println("LMMを検知できませんでした");
+            System.out.println("LMMを検知しませんでした");
         }
     }
 

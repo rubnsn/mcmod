@@ -7,7 +7,6 @@ import org.lwjgl.opengl.GL11;
 import ruby.bamboo.block.BlockBambooPane;
 import ruby.bamboo.block.BlockKitunebi;
 import ruby.bamboo.block.BlockPillar;
-import ruby.bamboo.block.BlockRiceField;
 import ruby.bamboo.block.IDelude;
 import ruby.bamboo.render.RenderAndon;
 import ruby.bamboo.render.RenderCampfire;
@@ -20,7 +19,6 @@ import ruby.bamboo.render.block.RenderBambooPane;
 import ruby.bamboo.render.block.RenderDelude;
 import ruby.bamboo.render.block.RenderKitunebi;
 import ruby.bamboo.render.block.RenderPillar;
-import ruby.bamboo.render.block.RenderRiceField;
 import ruby.bamboo.render.inventory.IRenderInventory;
 import ruby.bamboo.render.inventory.RenderInvAndon;
 import ruby.bamboo.render.inventory.RenderInvBambooBlock;
@@ -78,7 +76,6 @@ public class CustomRenderHandler {
         customRenderMap.put(bambooUID, new RenderBamboo());
         customRenderMap.put(bambooBlockUID, new RenderBambooBlock());
         customRenderMap.put(bambooPaneUID, new RenderBambooPane());
-        customRenderMap.put(riceFieldUID, new RenderRiceField());
         customRenderMap.put(pillarUID, new RenderPillar());
         customRenderMap.put(deludeUID, new RenderDelude());
         //Inventory
