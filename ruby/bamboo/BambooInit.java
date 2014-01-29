@@ -184,7 +184,7 @@ public class BambooInit {
     }
 
     private void workingBlock() {
-        registerBlock(new BlockRicePlant(ricePlantBID).setTextureName(BambooCore.resourceDomain +"riceplant"), RICE_PLANT);
+        registerBlock(new BlockRicePlant(ricePlantBID).setTextureName(BambooCore.resourceDomain + "riceplant"), RICE_PLANT);
         registerBlock(new BlockMillStone(millStoneBID), MILLSTONE, tabBamboo);
         registerBlock(new BlockManeki(manekiBID, Material.ground), MANEKI, tabBamboo);
     }
@@ -226,8 +226,8 @@ public class BambooInit {
     }
 
     private void workingItem() {
-        new Item(strawIID - ITEMID_OFFSET).setUnlocalizedName("straw").setTextureName("straw").setCreativeTab(tabBamboo);
-        new ItemSeeds(seedRiceIID - ITEMID_OFFSET, ricePlantBID, Block.tilledField.blockID).setUnlocalizedName("seedrice").setTextureName("seedrice").setCreativeTab(tabBamboo);
+        new Item(strawIID - ITEMID_OFFSET).setUnlocalizedName("straw").setTextureName(BambooCore.resourceDomain + "straw").setCreativeTab(tabBamboo);
+        new ItemSeeds(seedRiceIID - ITEMID_OFFSET, ricePlantBID, Block.tilledField.blockID).setUnlocalizedName("seedrice").setTextureName(BambooCore.resourceDomain + "seedrice").setCreativeTab(tabBamboo);
         MinecraftForge.addGrassSeed(new ItemStack(seedRiceIID, 1, 0), 10);
         new ItemSoulMiller(soulMillerIID - ITEMID_OFFSET).setUnlocalizedName("soulMiller").setTextureName("soulmiller").setCreativeTab(tabBamboo);
     }
