@@ -273,7 +273,9 @@ public class BambooInit {
             break;
 
         case Calendar.FEBRUARY:
-            chiledName = "bambooshoot0214";
+            if (date == 14) {
+                chiledName = "bambooshoot0214";
+            }
             break;
 
         case Calendar.MARCH:
