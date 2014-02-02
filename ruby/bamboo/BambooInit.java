@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
@@ -123,6 +124,7 @@ public class BambooInit {
     public static int seedRiceIID;
     public static int strawIID;
     public static int magatamaIID;
+    public static int rawriceIID;
     public static int soulMillerIID;
 
     private static CreativeTabs tabBamboo;
@@ -177,6 +179,8 @@ public class BambooInit {
             registerBlock(new BlockPillar(thickSprucePillarBID, Block.wood, 1, 0.3F, 0.7F, 0.2F), ItemPillar.class, THICK_SPRUCE_PILLAR, tabBamboo);
             registerBlock(new BlockPillar(thinSprucePillarBID, Block.wood, 1, 0.4F, 0.6F, 0.15F), ItemPillar.class, THIN_SPRUCE_PILLAR, tabBamboo);
             registerBlock(new BlockDeludePressurePlate(delude_plateBID), DELUDE_PLATE, tabBamboo);
+            registerBlock(new BlockRicePlant(ricePlantBID).setTextureName(BambooCore.resourceDomain + "riceplant"), RICE_PLANT);
+            registerBlock(new BlockMillStone(millStoneBID), MILLSTONE, tabBamboo);
             workingBlock();
         } catch (IllegalArgumentException e) {
             slotOccupiedException(e);
@@ -184,8 +188,6 @@ public class BambooInit {
     }
 
     private void workingBlock() {
-        registerBlock(new BlockRicePlant(ricePlantBID).setTextureName(BambooCore.resourceDomain + "riceplant"), RICE_PLANT);
-        registerBlock(new BlockMillStone(millStoneBID), MILLSTONE, tabBamboo);
         registerBlock(new BlockManeki(manekiBID, Material.ground), MANEKI, tabBamboo);
     }
 
@@ -222,13 +224,14 @@ public class BambooInit {
         new ItemBambooSword(bambooSwordIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("bamboosword").setCreativeTab(tabBamboo);
         new ItemObon(obonIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("obon").setCreativeTab(tabBamboo);
         new ItemMagatama(magatamaIID - ITEMID_OFFSET).setUnlocalizedName("magatama").setTextureName("magatama").setCreativeTab(tabBamboo);
+        new Item(strawIID - ITEMID_OFFSET).setUnlocalizedName("straw").setTextureName(BambooCore.resourceDomain + "straw").setCreativeTab(tabBamboo);
+        new ItemSeeds(seedRiceIID - ITEMID_OFFSET, ricePlantBID, Block.tilledField.blockID).setUnlocalizedName("seedrice").setTextureName(BambooCore.resourceDomain + "seedrice").setCreativeTab(tabBamboo);
+        new ItemFood(rawriceIID - ITEMID_OFFSET, 1, false).setUnlocalizedName("rawrice").setTextureName(BambooCore.resourceDomain + "rawrice").setCreativeTab(tabBamboo);
+        MinecraftForge.addGrassSeed(new ItemStack(seedRiceIID, 1, 0), 10);
         workingItem();
     }
 
     private void workingItem() {
-        new Item(strawIID - ITEMID_OFFSET).setUnlocalizedName("straw").setTextureName(BambooCore.resourceDomain + "straw").setCreativeTab(tabBamboo);
-        new ItemSeeds(seedRiceIID - ITEMID_OFFSET, ricePlantBID, Block.tilledField.blockID).setUnlocalizedName("seedrice").setTextureName(BambooCore.resourceDomain + "seedrice").setCreativeTab(tabBamboo);
-        MinecraftForge.addGrassSeed(new ItemStack(seedRiceIID, 1, 0), 10);
         new ItemSoulMiller(soulMillerIID - ITEMID_OFFSET).setUnlocalizedName("soulMiller").setTextureName("soulmiller").setCreativeTab(tabBamboo);
     }
 
@@ -400,7 +403,7 @@ public class BambooInit {
         kaginawaIID = getItemId(conf, "kaginawa", 23559);
         bambooSwordIID = getItemId(conf, "bambooSword", 23560);
         obonIID = getItemId(conf, "obon", 23561);
-        //23562
+        rawriceIID = getItemId(conf, "rawrice", 23562);//
         magatamaIID = getItemId(conf, "magatama", 23563);
         soulMillerIID = getItemId(conf, "soulMiller", 23564);
     }

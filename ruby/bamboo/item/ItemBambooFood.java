@@ -76,14 +76,6 @@ public class ItemBambooFood extends ItemFood {
         if (!par2World.isRemote) {
             heal = foodMap.get(par1ItemStack.getItemDamage() % MAX_ELEMENT_COUNT).getHeal();
             int dmg = par1ItemStack.getItemDamage();
-
-            if (BambooCore.getConf().returnBowl) {
-                if (EnumFood.GYUKUSI.getId() == dmg || EnumFood.BUTAKUSI.getId() == dmg || EnumFood.TORIKUSI.getId() == dmg) {
-                    returnItem(par3EntityPlayer, new ItemStack(Item.stick));
-                } else {
-                    returnItem(par3EntityPlayer, new ItemStack(BambooInit.bambooBasketIID, 1, 0));
-                }
-            }
         }
 
         return super.onEaten(par1ItemStack, par2World, par3EntityPlayer);

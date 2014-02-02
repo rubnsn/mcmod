@@ -16,7 +16,6 @@ public class Config {
     public boolean windPushPlayer;
     public boolean timeAccel;
     public int maxExplosionLv;
-    public boolean returnBowl;
     public boolean exRecipe;
     public int deludeTexMaxReference;
     public int deludeMaxReference;
@@ -27,7 +26,6 @@ public class Config {
         windPushPlayer = true;
         timeAccel = true;
         maxExplosionLv = 3;
-        returnBowl = true;
         exRecipe = false;
         deludeTexMaxReference = 2;
         deludeMaxReference = 2;
@@ -55,10 +53,6 @@ public class Config {
         prop = conf.get("BambooSettings", "ExRecipe", false);
         prop.comment = "Extra recipes true:false";
         exRecipe = prop.getBoolean(false);
-        // ボウルの返却
-        prop = conf.get("BambooSettings", "ReturnBowl", true);
-        prop.comment = "ReturnBowl true:false";
-        returnBowl = prop.getBoolean(true);
         // 雪を溶かさない
         prop = conf.get("BambooSettings", "UpdateStopSnow", false);
         prop.comment = "Not melt snow with light true:false";

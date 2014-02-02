@@ -55,7 +55,6 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(firecrackerIID, 1, 1), " # ", "XYX", " # ", '#', BUSKET, 'X', Item.gunpowder, 'Y', new ItemStack(firecrackerIID, 1, 0));
         addShapedOreRecipe(new ItemStack(firecrackerIID, 1, 2), " # ", "XYX", " # ", '#', BUSKET, 'X', Item.gunpowder, 'Y', new ItemStack(firecrackerIID, 1, 1));
         // 飯類
-        addShapelessOreRecipe(new ItemStack(foodsIID, 1, 0), Item.wheat, BUSKET);
         addShapelessOreRecipe(new ItemStack(foodsIID, 1, 1), Item.beefCooked, WHEAT_RICE);
         addShapelessOreRecipe(new ItemStack(foodsIID, 1, 2), Item.porkCooked, WHEAT_RICE);
         addShapelessOreRecipe(new ItemStack(foodsIID, 1, 3), Block.mushroomRed, WHEAT_RICE);
@@ -182,16 +181,18 @@ public class BambooRecipe {
         // やきもの
         GameRegistry.addSmelting(bambooBlockBID, new ItemStack(Item.coal, 1, 1), 0.15F);
         GameRegistry.addSmelting(sakuraLogBID, new ItemStack(Item.coal, 1, 1), 0.15F);
+        GameRegistry.addSmelting(rawriceIID, new ItemStack(foodsIID, 1, 0), 0.15F);
     }
 
     private void addGrindRecipe() {
-        GrindRegistory.addRecipe(new ItemStack(Block.gravel), new ItemStack(Block.sand), Block.stone, 5);
+        GrindRegistory.addRecipe(new ItemStack(Block.gravel), new ItemStack(Block.sand), new ItemStack(Block.stone, 3), 5);
         GrindRegistory.addRecipe(new ItemStack(Block.gravel), new ItemStack(Block.sand), Block.cobblestone, 10);
         GrindRegistory.addRecipe(new ItemStack(Block.sand), new ItemStack(Item.flint), Block.gravel, 7);
         GrindRegistory.addRecipe(new ItemStack(Item.dyePowder, 3, 15), new ItemStack(Item.dyePowder, 2, 15), Item.bone, 2);
         GrindRegistory.addRecipe(new ItemStack(Item.blazePowder, 2, 0), new ItemStack(Item.blazePowder, 1, 0), Item.blazeRod, 2);
         GrindRegistory.addRecipe(new ItemStack(Item.clay, 4, 0), new ItemStack(Block.hardenedClay, 1, GrindRegistory.WILD_CARD));
         GrindRegistory.addRecipe(new ItemStack(Item.clay, 4, 0), new ItemStack(Block.stainedClay, 1, GrindRegistory.WILD_CARD));
+        GrindRegistory.addRecipe(new ItemStack(rawriceIID, 1, 0), new ItemStack(seedRiceIID, 6, 0));
     }
 
     private void addOreDictionary() {
