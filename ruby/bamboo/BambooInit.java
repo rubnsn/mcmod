@@ -125,7 +125,6 @@ public class BambooInit {
     public static int strawIID;
     public static int magatamaIID;
     public static int rawriceIID;
-    public static int soulMillerIID;
 
     private static CreativeTabs tabBamboo;
 
@@ -232,7 +231,7 @@ public class BambooInit {
     }
 
     private void workingItem() {
-        new ItemSoulMiller(soulMillerIID - ITEMID_OFFSET).setUnlocalizedName("soulMiller").setTextureName("soulmiller").setCreativeTab(tabBamboo);
+
     }
 
     private void registerBlock(Block block, String name) {
@@ -405,7 +404,6 @@ public class BambooInit {
         obonIID = getItemId(conf, "obon", 23561);
         rawriceIID = getItemId(conf, "rawrice", 23562);//
         magatamaIID = getItemId(conf, "magatama", 23563);
-        soulMillerIID = getItemId(conf, "soulMiller", 23564);
     }
 
     private int getItemId(Configuration conf, String key, int defaultId) {
