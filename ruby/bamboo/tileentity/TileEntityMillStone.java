@@ -184,7 +184,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
 
     /**
      * Slot数
-     * 
+     *
      * @return
      */
     @Override
@@ -194,7 +194,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
 
     /**
      * 指定したスロットから指定した数のアイテムを取得する(不足分は全て)
-     * 
+     *
      * @param スロットID
      * @param 取得数
      * @return ItemStack
@@ -224,7 +224,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
 
     /**
      * 指定したスロットを空にし、ItemStackを取得する
-     * 
+     *
      * @param スロットID
      * @return スロットに入っていたItemStack
      */
@@ -241,7 +241,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
 
     /**
      * 指定したスロットに引数のItemStackを投入する、但し上限を超えたstackはトリミングされる
-     * 
+     *
      * @param スロットID
      * @param 格納物
      */
@@ -256,7 +256,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
 
     /**
      * grind実行可能か(出力欄に格納可能か)
-     * 
+     *
      * @return
      */
     private boolean canGrind() {
@@ -302,7 +302,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
     private void decrementSlot0() {
         nowGrindItemID = slot[0].getItem().itemID;
         nowGrindItemDmg = slot[0].getItemDamage();
-        --this.slot[0].stackSize;
+        this.slot[0].stackSize -= GrindRegistory.getOutput(slot[0]).getInput().stackSize;
 
         if (this.slot[0].stackSize <= 0) {
             this.slot[0] = null;
@@ -314,7 +314,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
      */
     private void grindItem() {
         if (nowGrindItemID != 0) {
-            GrindRecipe gr = GrindRegistory.getOutput(new ItemStack(nowGrindItemID, 1, nowGrindItemDmg));
+            GrindRecipe gr = GrindRegistory.getOutput(new ItemStack(nowGrindItemID, 64, nowGrindItemDmg));
             ItemStack output = gr.getOutput();
             ItemStack bonus = worldObj.rand.nextInt(gr.getBonusWeight() + 1) == 0 ? gr.getBonus() : null;
 

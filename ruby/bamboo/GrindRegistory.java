@@ -48,7 +48,7 @@ public class GrindRegistory {
         GrindRecipe result = null;
 
         for (GrindRecipe gr : recipe) {
-            if (input.itemID == gr.getInput().itemID) {
+            if (input.itemID == gr.getInput().itemID && gr.getInput().stackSize <= input.stackSize) {
                 if (gr.getInput().getItemDamage() == WILD_CARD || input.getItemDamage() == gr.getInput().getItemDamage()) {
                     result = gr;
                     break;
