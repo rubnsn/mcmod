@@ -2,16 +2,11 @@ package ruby.bamboo;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
 
-import ruby.bamboo.item.ItemSoulMiller;
-
 import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.NetLoginHandler;
 import net.minecraft.network.packet.NetHandler;
@@ -43,12 +38,6 @@ public class NetworkHandler implements IPacketHandler, IConnectionHandler {
                 if (player instanceof EntityClientPlayerMP) {
                     ((EntityClientPlayerMP) player).addChatMessage("[bamboo] I hate offline mode server");
                 }
-            }
-        }else if(packet.channel.equals("soulMiller")){
-            try {
-                ItemSoulMiller.createClientDummyEntity(new CompressedStreamTools().decompress(packet.data),(EntityClientPlayerMP)player);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }
