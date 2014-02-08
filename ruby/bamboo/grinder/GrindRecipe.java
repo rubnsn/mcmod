@@ -1,4 +1,4 @@
-package ruby.bamboo;
+package ruby.bamboo.grinder;
 
 import net.minecraft.item.ItemStack;
 

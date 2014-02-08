@@ -51,7 +51,7 @@ public class BambooInit {
     public static final String HALF_TWO_DIR_DECO_SQUARE = "halfTwoDirDeco";
     public static final String KAWARA_ROOF = "kawara_stair";
     public static final String RICE_PLANT = "ricePlant";
-    public static final String MILLSTONE = "millStone";
+    public static final String MILLSTONE = "bambooMillStone";
     public static final String DECO_CARPET = "decoCarpet";
     public static final String THICK_SAKURA_PILLAR = "thickSakuraPillar";
     public static final String THIN_SAKURA_PILLAR = "thinSakuraPillar";

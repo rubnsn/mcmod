@@ -1,4 +1,4 @@
-package ruby.bamboo;
+package ruby.bamboo.grinder;
 
 import java.util.ArrayList;
 import net.minecraft.block.Block;

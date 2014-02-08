@@ -3,6 +3,7 @@ package ruby.bamboo;
 import static ruby.bamboo.BambooInit.*;
 import cpw.mods.fml.common.registry.GameRegistry;
 import ruby.bamboo.entity.EnumSlideDoor;
+import ruby.bamboo.grinder.GrindRegistory;
 import ruby.bamboo.item.EnumShavedIce;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -174,6 +175,8 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(thinOrcPillarBID, 4, 0), "#", "X", "#", '#', new ItemStack(thickOrcPillarBID, 1, 0), 'X', TUDURA);
         addShapedOreRecipe(new ItemStack(thickSprucePillarBID, 4, 0), "#", "X", "#", '#', new ItemStack(Block.wood, 1, 1), 'X', TUDURA);
         addShapedOreRecipe(new ItemStack(thinSprucePillarBID, 4, 0), "#", "X", "#", '#', new ItemStack(thickSprucePillarBID, 1, 0), 'X', TUDURA);
+        //石臼
+        addShapedOreRecipe(new ItemStack(millStoneBID,1, 0), "###", "X#X", "###", '#', new ItemStack(Block.cobblestone), 'X', TUDURA);
         // 鉱石辞書
         addOreDictionary();
         // 粉砕レシピ

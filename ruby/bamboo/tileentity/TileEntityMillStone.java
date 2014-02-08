@@ -1,8 +1,8 @@
 package ruby.bamboo.tileentity;
 
-import ruby.bamboo.GrindRecipe;
-import ruby.bamboo.GrindRegistory;
 import ruby.bamboo.block.BlockMillStone;
+import ruby.bamboo.grinder.GrindRecipe;
+import ruby.bamboo.grinder.GrindRegistory;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityDiggingFX;

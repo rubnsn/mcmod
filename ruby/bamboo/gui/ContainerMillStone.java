@@ -2,7 +2,7 @@ package ruby.bamboo.gui;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ruby.bamboo.GrindRegistory;
+import ruby.bamboo.grinder.GrindRegistory;
 import ruby.bamboo.tileentity.TileEntityMillStone;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
