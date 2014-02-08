@@ -33,8 +33,8 @@ public class BlockJpchest extends BlockContainer {
         super(i, Material.wood);
         random = new Random();
         setStepSound(Block.soundWoodFootstep);
-        setHardness(0.2F);
-        setResistance(0.0F);
+        setHardness(2.0F);
+        setResistance(1.0F);
         this.setBlockBounds(0, 0, 0, 1, 1, 1);
     }
 
