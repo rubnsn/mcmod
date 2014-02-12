@@ -20,7 +20,7 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.ReflectionHelper.UnableToAccessFieldException;
 
 @Mod(modid = "BambooMod", name = "BambooMod",
-        version = "Minecraft1.6.4 ver2.6.3.4")
+        version = "Minecraft1.7.2 ver2.6.4")
 /*@NetworkMod(channels = { "B_Entity", "bamboo", "bamboo2" },
         packetHandler = NetworkHandler.class,
         connectionHandler = NetworkHandler.class)*/
@@ -91,7 +91,7 @@ public class BambooCore {
         try {
             result = ReflectionHelper.getPrivateValue(CoreModManager.class, null, "deobfuscatedEnvironment");
         } catch (UnableToAccessFieldException e) {
-            FMLLog.warning("Debug mode forced false!", null);
+            FMLLog.warning("Debug mode forced false!");
             result = false;
         }
         return result;
