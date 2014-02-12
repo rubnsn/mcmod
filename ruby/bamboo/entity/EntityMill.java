@@ -26,7 +26,7 @@ public class EntityMill extends Entity {
     }
 
     public byte getDir() {
-        return dataWatcher.getIsBlank() ? 0 : dataWatcher.getWatchableObjectByte(DIR);
+        return dataWatcher != null ? dataWatcher.getWatchableObjectByte(DIR) : 0;
     }
 
     public void setDir(int dir) {

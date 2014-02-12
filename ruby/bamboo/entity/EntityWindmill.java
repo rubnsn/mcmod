@@ -71,15 +71,15 @@ public class EntityWindmill extends EntityMill {
 
     // render呼び出し
     public int getBladeNum() {
-        return 4 + (dataWatcher.getIsBlank() ? 0 : dataWatcher.getWatchableObjectByte(BLADE));
+        return 4 + (dataWatcher != null ? dataWatcher.getWatchableObjectByte(BLADE) : 0);
     }
 
     public byte getTexNum() {
-        return dataWatcher.getIsBlank() ? 0 : dataWatcher.getWatchableObjectByte(TEXNUM);
+        return dataWatcher != null ? dataWatcher.getWatchableObjectByte(TEXNUM) : 0;
     }
 
     public byte getSize() {
-        return dataWatcher.getIsBlank() ? 0 : dataWatcher.getWatchableObjectByte(SIZE);
+        return dataWatcher != null ? dataWatcher.getWatchableObjectByte(SIZE) : 0;
     }
 
     public void setBlade(byte i) {

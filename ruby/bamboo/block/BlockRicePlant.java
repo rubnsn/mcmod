@@ -12,7 +12,7 @@ public class BlockRicePlant extends BlockCrops {
 
     @Override
     protected Item func_149866_i() {
-        return BambooInit.seedRice;
+        return BambooInit.riceSeed;
     }
 
     @Override
