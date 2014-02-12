@@ -24,7 +24,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
     private static final int[] slots_top = new int[] { 0 };
     private static final int[] slots_bottom = new int[] { 2, 1 };
     private static final int[] slots_sides = new int[] { 0 };
-    private String nowGrindItemName;
+    private String nowGrindItemName = Block.blockRegistry.getNameForObject(Blocks.air);
     private int nowGrindItemDmg;
     private float roll;
     private ItemStack[] slot = new ItemStack[3];
@@ -93,7 +93,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
                     }
                     Minecraft.getMinecraft().effectRenderer.addEffect((new EntityDiggingFX(this.worldObj, xCoord + xRand, yCoord + 0.5F, zCoord + zRand, 0.0D, 0.0D, 0.0D, block, nowGrindItemDmg)).applyRenderColor(block.getRenderColor(nowGrindItemDmg)).multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F));
                 } else {
-                    itemCrackParticle("iconcrack_" + nowGrindItemName + "_" + nowGrindItemDmg);
+                    itemCrackParticle("iconcrack_" + Item.itemRegistry.getIDForObject(nowgi) + "_" + nowGrindItemDmg);
                 }
             } else {
                 roll = 0;
@@ -153,7 +153,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
     public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
         super.writeToNBT(par1NBTTagCompound);
         par1NBTTagCompound.setInteger("grindTime", grindTime);
-        par1NBTTagCompound.setString("grindItemName", nowGrindItemName);
+        par1NBTTagCompound.setString("grindItemName", nowGrindItemName == null ? Block.blockRegistry.getNameForObject(Blocks.air) : nowGrindItemName);
         par1NBTTagCompound.setInteger("grindItemDmg", nowGrindItemDmg);
         NBTTagList nbttaglist = new NBTTagList();
 
@@ -305,6 +305,9 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
 
     private void decrementSlot0() {
         nowGrindItemName = Item.itemRegistry.getNameForObject(slot[0].getItem());
+        if (nowGrindItemName == null) {
+            nowGrindItemName = Block.blockRegistry.getNameForObject(Blocks.air);
+        }
         nowGrindItemDmg = slot[0].getItemDamage();
         this.slot[0].stackSize -= GrindRegistory.getOutput(slot[0]).getInput().stackSize;
 
@@ -336,7 +339,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
                 }
             }
 
-            nowGrindItemName = Item.itemRegistry.getNameForObject(Blocks.air);
+            nowGrindItemName = Block.blockRegistry.getNameForObject(Blocks.air);
         }
     }
 

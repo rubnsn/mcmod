@@ -1,8 +1,10 @@
 package ruby.bamboo.entity;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -13,9 +15,9 @@ import net.minecraft.world.World;
 import ruby.bamboo.BambooInit;
 
 public class EntityObon extends Entity {
-    private static final byte ITEMID = 17;
-    private static final byte ITEMDMG = 18;
-    private static final String NOTHING = "";
+    private static final byte ITEM_NAME = 17;
+    private static final byte ITEM_DMG = 18;
+    private static final String NOTHING = Block.blockRegistry.getNameForObject(Blocks.air);
     private EntityItem entityItem;
 
     public EntityObon(World par1World) {
@@ -100,8 +102,8 @@ public class EntityObon extends Entity {
 
     @Override
     protected void entityInit() {
-        dataWatcher.addObject(ITEMID, 0);
-        dataWatcher.addObject(ITEMDMG, 0);
+        dataWatcher.addObject(ITEM_NAME, NOTHING);
+        dataWatcher.addObject(ITEM_DMG, 0);
     }
 
     @Override
@@ -118,20 +120,20 @@ public class EntityObon extends Entity {
         nbttagcompound.setInteger("displayItemDmg", getItemDmg());
     }
 
-    private void setItemName(String itemID) {
-        dataWatcher.updateObject(ITEMID, itemID);
+    private void setItemName(String itemName) {
+        dataWatcher.updateObject(ITEM_NAME, itemName);
     }
 
     private String getItemName() {
-        return dataWatcher.getWatchableObjectString(ITEMID);
+        return dataWatcher.getWatchableObjectString(ITEM_NAME);
     }
 
     private void setItemDmg(int itemDmg) {
-        dataWatcher.updateObject(ITEMDMG, itemDmg);
+        dataWatcher.updateObject(ITEM_DMG, itemDmg);
     }
 
     private int getItemDmg() {
-        return dataWatcher.getWatchableObjectInt(ITEMDMG);
+        return dataWatcher.getWatchableObjectInt(ITEM_DMG);
     }
 
     public EntityItem getEntityItem() {

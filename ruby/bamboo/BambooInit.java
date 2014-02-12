@@ -90,7 +90,6 @@ public class BambooInit {
     public static Block delude_width;
     public static Block delude_plate;
     public static Block dHalfSquare;
-    public static Block bambooBlock;
     public static Block bamboopane;
     public static Block jpchest;
     public static Block decoCarpet;
@@ -111,7 +110,6 @@ public class BambooInit {
 
     public static Item takenoko;
     public static Item itembamboo;
-    public static Item seedRice;
     public static Item straw;
     public static Item bambooBasket;
     public static Item foods;

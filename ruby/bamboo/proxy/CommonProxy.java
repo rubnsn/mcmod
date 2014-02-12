@@ -2,6 +2,7 @@ package ruby.bamboo.proxy;
 
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
+import ruby.bamboo.BambooRecipe;
 import ruby.bamboo.CraftingHandler;
 import ruby.bamboo.entity.EntityBambooSpear;
 import ruby.bamboo.entity.EntityDirtySnowball;
@@ -92,7 +93,7 @@ public class CommonProxy {
     }
 
     public void init() {
-        //new BambooRecipe();
+        new BambooRecipe();
     }
 
     private void registerEntity(Class entityClass, String entityName, int id, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {

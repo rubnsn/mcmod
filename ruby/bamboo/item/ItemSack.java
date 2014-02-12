@@ -155,9 +155,9 @@ public class ItemSack extends Item {
     private boolean canPlaceItemBlockOnSide(World par1World, int par2, int par3, int par4, int par5, EntityPlayer par6EntityPlayer, ItemStack par7ItemStack) {
         Block var8 = par1World.getBlock(par2, par3, par4);
 
-        if (var8 == Blocks.snow) {
+        if (var8 == Blocks.snow_layer) {
             par5 = 1;
-        } else if (var8 != Blocks.vine && var8 != Blocks.tallgrass && var8 != Blocks.deadbush && (var8 == null || var8.isReplaceable(par1World, par2, par3, par4))) {
+        } else if (var8 != Blocks.vine && var8 != Blocks.tallgrass && var8 != Blocks.deadbush && (var8 == null || !var8.isReplaceable(par1World, par2, par3, par4))) {
             if (par5 == 0) {
                 --par3;
             }

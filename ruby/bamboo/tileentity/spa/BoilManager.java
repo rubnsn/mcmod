@@ -10,6 +10,7 @@ import ruby.bamboo.BambooInit;
 
 public class BoilManager {
     private static final HashMap<Item, HashMap<Integer, IBoilItem>> boilMap = new HashMap<Item, HashMap<Integer, IBoilItem>>();
+    //クリエイティブはアイテムの消滅時間が短いため、卵は一瞬で煮える、通常は問題なし
     static {
         addSimpleBoilItem(BambooInit.boiledEgg, 3600, Items.egg);
         addSimpleBoilItem(Items.golden_axe, 5990, Items.iron_axe);

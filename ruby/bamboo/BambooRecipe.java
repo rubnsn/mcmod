@@ -27,7 +27,7 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(tudura, 1, 0), " # ", "# #", " # ", '#', BAMBOO);
         addShapedOreRecipe(new ItemStack(Items.paper, 1), "###", '#', BAMBOO);
         addShapedOreRecipe(new ItemStack(Items.stick, 2), "#", "#", '#', BAMBOO);
-        addShapedOreRecipe(new ItemStack(bambooBlock, 2, 0), "##", "##", '#', BAMBOO);
+        addShapedOreRecipe(new ItemStack(singleTexDeco, 2, 0), "##", "##", '#', BAMBOO);
         // きつねび
         addShapedOreRecipe(new ItemStack(kitunebi, 6, 0), "YYY", "#X#", "YYY", 'Y', "dyeBlue", '#', TUDURA, 'X', Blocks.pumpkin_stem);
         addShapedOreRecipe(new ItemStack(kitunebi, 6, 0), "Y#Y", "YXY", "Y#Y", 'Y', "dyeBlue", '#', TUDURA, 'X', Blocks.pumpkin_stem);
@@ -36,7 +36,7 @@ public class BambooRecipe {
         // うつわ
         addShapedOreRecipe(new ItemStack(bambooBasket, 1, 0), "# #", " # ", '#', BAMBOO);
         // 竹槍
-        GameRegistry.addRecipe(new ItemStack(bambooSpear, 2, 0), "##", '#', new ItemStack(bambooBlock, 1, 32767));
+        GameRegistry.addRecipe(new ItemStack(bambooSpear, 2, 0), "##", '#', new ItemStack(singleTexDeco, 1, 32767));
         // 引き戸類
         addShapedOreRecipe(new ItemStack(slideDoors, 2, EnumSlideDoor.HUSUMA.getId()), "XYX", "X#X", "XYX", 'X', Items.stick, 'Y', Items.paper, '#', TUDURA);
         addShapedOreRecipe(new ItemStack(slideDoors, 2, EnumSlideDoor.SHOZI.getId()), "XYX", "Y#Y", "XYX", '#', TUDURA, 'X', Items.stick, 'Y', Items.paper);
@@ -128,7 +128,7 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(fan, 1, 0), "XYY", "XYY", "XXX", 'X', BAMBOO, 'Y', Items.paper);
         // 武器
         addShapedOreRecipe(new ItemStack(katana, 1, 0), "X", "X", "Y", 'X', Items.iron_ingot, 'Y', TUDURA);
-        GameRegistry.addRecipe(new ItemStack(bambooBow, 1, 0), " XY", "X Y", " XY", 'X', bambooBlock, 'Y', Items.string);
+        GameRegistry.addRecipe(new ItemStack(bambooBow, 1, 0), " XY", "X Y", " XY", 'X', singleTexDeco, 'Y', Items.string);
         addShapedOreRecipe(new ItemStack(bambooSword, 1, 0), " X ", " X ", " Y ", 'X', BAMBOO, 'Y', TUDURA);
         // サクラから桜木材
         GameRegistry.addShapelessRecipe(new ItemStack(decoration_dir, 4, 2), sakuralog);
@@ -141,7 +141,7 @@ public class BambooRecipe {
         // いろり
         addShapedOreRecipe(new ItemStack(campfire, 1, 0), " # ", "ZXZ", "YYY", '#', TUDURA, 'Z', Blocks.iron_bars, 'X', Items.flint_and_steel, 'Y', new ItemStack(Items.coal, 1, 1));
         // 風車水車
-        addShapedOreRecipe(new ItemStack(windmill, 1, 0), "YXY", "X#X", "YXY", '#', TUDURA, 'X', BAMBOO, 'Y', bambooBlock);
+        addShapedOreRecipe(new ItemStack(windmill, 1, 0), "YXY", "X#X", "YXY", '#', TUDURA, 'X', BAMBOO, 'Y', singleTexDeco);
         addShapedOreRecipe(new ItemStack(windmill, 1, 1), "YXY", "X#X", "YXY", '#', TUDURA, 'X', BAMBOO, 'Y', Blocks.wool);
         addShapedOreRecipe(new ItemStack(waterWheel, 1, 0), "YXY", "X#X", "YXY", '#', TUDURA, 'X', BAMBOO, 'Y', Blocks.planks);
         // 方向なしデコブロック
@@ -182,7 +182,7 @@ public class BambooRecipe {
         // 粉砕レシピ
         addGrindRecipe();
         // やきもの
-        GameRegistry.addSmelting(bambooBlock, new ItemStack(Items.coal, 1, 1), 0.15F);
+        GameRegistry.addSmelting(singleTexDeco, new ItemStack(Items.coal, 1, 1), 0.15F);
         GameRegistry.addSmelting(sakuralog, new ItemStack(Items.coal, 1, 1), 0.15F);
         GameRegistry.addSmelting(rawrice, new ItemStack(foods, 1, 0), 0.15F);
     }
@@ -195,7 +195,7 @@ public class BambooRecipe {
         GrindRegistory.addRecipe(new ItemStack(Items.blaze_powder, 2, 0), new ItemStack(Items.blaze_powder, 1, 0), Items.blaze_rod, 2);
         GrindRegistory.addRecipe(new ItemStack(Items.clay_ball, 4, 0), new ItemStack(Blocks.hardened_clay, 1, GrindRegistory.WILD_CARD));
         GrindRegistory.addRecipe(new ItemStack(Items.clay_ball, 4, 0), new ItemStack(Blocks.stained_hardened_clay, 1, GrindRegistory.WILD_CARD));
-        GrindRegistory.addRecipe(new ItemStack(rawrice, 1, 0), new ItemStack(seedRice, 6, 0));
+        GrindRegistory.addRecipe(new ItemStack(rawrice, 1, 0), new ItemStack(riceSeed, 6, 0));
     }
 
     private void addOreDictionary() {

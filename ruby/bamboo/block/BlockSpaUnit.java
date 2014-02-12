@@ -68,7 +68,7 @@ public class BlockSpaUnit extends BlockContainer implements ITileEntityProvider 
             if (world.isAirBlock(posX, posY + 1, posZ)) {
                 this.setThisChildBlock(world, posX, posY, posZ, ForgeDirection.UP);
                 ((TileEntitySpaParent) world.getTileEntity(posX, posY, posZ)).setStay(true);
-            } else if (world.getBlock(posX, posY + 1, posZ) == BambooInit.spa && world.getBlockMetadata(posX, posY + 1, posZ) > 0) {
+            } else if (world.getBlock(posX, posY + 1, posZ) == BambooInit.spa_water && world.getBlockMetadata(posX, posY + 1, posZ) > 0) {
                 world.setBlockMetadataWithNotify(posX, posY + 1, posZ, world.getBlockMetadata(posX, posY + 1, posZ) - 1, 3);
             }
         } else {
@@ -80,13 +80,13 @@ public class BlockSpaUnit extends BlockContainer implements ITileEntityProvider 
 
         world.setBlockMetadataWithNotify(posX, posY, posZ, isEnable ? 8 : 0, 0);
 
-        if (world.getBlock(posX, posY + 1, posZ) == BambooInit.spa) {
+        if (world.getBlock(posX, posY + 1, posZ) == BambooInit.spa_water) {
             world.scheduleBlockUpdate(posX, posY, posZ, this, this.tickRate(world));
         }
     }
 
     private void setThisChildBlock(World world, int posX, int posY, int posZ, ForgeDirection dir) {
-        world.setBlock(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ, BambooInit.spa, 7, 3);
+        world.setBlock(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ, BambooInit.spa_water, 7, 3);
         ((TileEntitySpaChild) world.getTileEntity(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ)).setParentPosition(((ITileEntitySpa) world.getTileEntity(posX, posY, posZ)).getParentPosition());
     }
 
