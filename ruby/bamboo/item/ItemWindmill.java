@@ -2,33 +2,30 @@ package ruby.bamboo.item;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import ruby.bamboo.BambooCore;
-import ruby.bamboo.BambooUtil;
-import ruby.bamboo.entity.EntityWindmill;
-
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumMovingObjectType;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
+import ruby.bamboo.BambooUtil;
+import ruby.bamboo.entity.EntityWindmill;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemWindmill extends Item {
-    private static Icon icons[] = new Icon[2];
+    private static IIcon icons[] = new IIcon[2];
 
-    public ItemWindmill(int par1) {
-        super(par1);
+    public ItemWindmill() {
+        super();
         setHasSubtypes(true);
     }
 
     @Override
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List) {
+    public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
         par3List.add(new ItemStack(par1, 1, 0));
         par3List.add(new ItemStack(par1, 1, 1));
     }
@@ -42,7 +39,7 @@ public class ItemWindmill extends Item {
                 return false;
             }
 
-            if (movingobjectposition.typeOfHit == EnumMovingObjectType.TILE) {
+            if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
                 int i = movingobjectposition.blockX;
                 int j = movingobjectposition.blockY;
                 int k = movingobjectposition.blockZ;
@@ -97,14 +94,14 @@ public class ItemWindmill extends Item {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerIcons(IIconRegister par1IconRegister) {
         icons[0] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "windmill");
         icons[1] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "windmill_cloth");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIconFromDamage(int par1) {
+    public IIcon getIconFromDamage(int par1) {
         return icons[par1];
     }
 }

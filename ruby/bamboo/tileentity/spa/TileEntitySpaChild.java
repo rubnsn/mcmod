@@ -3,9 +3,9 @@ package ruby.bamboo.tileentity.spa;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntitySpaChild extends TileEntity implements ITileEntitySpa {
@@ -57,7 +57,7 @@ public class TileEntitySpaChild extends TileEntity implements ITileEntitySpa {
     }
 
     private boolean isParentExist() {
-        TileEntity tileEntity = worldObj.getBlockTileEntity(parentX, parentY, parentZ);
+        TileEntity tileEntity = worldObj.getTileEntity(parentX, parentY, parentZ);
         if (tileEntity != null && tileEntity instanceof ITileEntitySpa) {
             return true;
         }
@@ -65,7 +65,7 @@ public class TileEntitySpaChild extends TileEntity implements ITileEntitySpa {
     }
 
     private ITileEntitySpa getParent() {
-        TileEntity tileEntity = worldObj.getBlockTileEntity(parentX, parentY, parentZ);
+        TileEntity tileEntity = worldObj.getTileEntity(parentX, parentY, parentZ);
         return (ITileEntitySpa) tileEntity;
     }
 
@@ -103,12 +103,12 @@ public class TileEntitySpaChild extends TileEntity implements ITileEntitySpa {
     public Packet getDescriptionPacket() {
         NBTTagCompound var1 = new NBTTagCompound();
         this.writeToNBT(var1);
-        return new Packet132TileEntityData(this.xCoord, this.yCoord, this.zCoord, 1, var1);
+        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, var1);
     }
 
     @Override
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt) {
-        this.readFromNBT(pkt.data);
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+        this.readFromNBT(pkt.func_148857_g());
     }
 
     @Override

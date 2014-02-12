@@ -2,11 +2,8 @@ package ruby.bamboo.item.magatama;
 
 import java.util.HashMap;
 import java.util.List;
-import ruby.bamboo.BambooCore;
-import ruby.bamboo.entity.magatama.EntityMagatama;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IconRegister;
+
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +12,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
+import ruby.bamboo.BambooCore;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemMagatama extends Item {
     private static final HashMap<Integer, IMagatama> magatamaMap;
@@ -28,8 +28,8 @@ public class ItemMagatama extends Item {
         magatamaMap = new HashMap<Integer, IMagatama>();
     }
 
-    public ItemMagatama(int par1) {
-        super(par1);
+    public ItemMagatama() {
+        super();
         setMaxStackSize(1);
         setMaxDamage(0);
         setHasSubtypes(true);
@@ -102,7 +102,7 @@ public class ItemMagatama extends Item {
     }
 
     @Override
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List) {
+    public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
         for (int i : magatamaMap.keySet()) {
             par3List.add(new ItemStack(par1, 1, i));
         }
@@ -115,7 +115,7 @@ public class ItemMagatama extends Item {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerIcons(IIconRegister par1IconRegister) {
         this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "magatama");
     }
 }

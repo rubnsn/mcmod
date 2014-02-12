@@ -2,17 +2,10 @@ package ruby.bamboo.block;
 
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import ruby.bamboo.BambooCore;
-import ruby.bamboo.BambooUtil;
-import ruby.bamboo.tileentity.TileEntityJPChest;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,25 +14,30 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
+import ruby.bamboo.BambooUtil;
+import ruby.bamboo.tileentity.TileEntityJPChest;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockJpchest extends BlockContainer {
-    private Icon front;
-    private Icon other;
+    private IIcon front;
+    private IIcon other;
 
-    public BlockJpchest(int i) {
-        super(i, Material.wood);
+    public BlockJpchest() {
+        super(Material.wood);
         random = new Random();
-        setStepSound(Block.soundWoodFootstep);
+        setStepSound(Block.soundTypeWood);
         setHardness(2.0F);
         setResistance(1.0F);
         this.setBlockBounds(0, 0, 0, 1, 1, 1);
     }
 
     @Override
-    public Icon getBlockTexture(IBlockAccess iblockaccess, int i, int j, int k, int l) {
+    public IIcon getIcon(IBlockAccess iblockaccess, int i, int j, int k, int l) {
         int m = iblockaccess.getBlockMetadata(i, j, k);
 
         if (m == 0 && l == 2) {
@@ -56,7 +54,7 @@ public class BlockJpchest extends BlockContainer {
     }
 
     @Override
-    public Icon getIcon(int i, int j) {
+    public IIcon getIcon(int i, int j) {
         if (i == 3) {
             return front;
         }
@@ -84,8 +82,8 @@ public class BlockJpchest extends BlockContainer {
     }
 
     @Override
-    public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6) {
-        TileEntityJPChest tileentitychest = (TileEntityJPChest) par1World.getBlockTileEntity(par2, par3, par4);
+    public void breakBlock(World par1World, int par2, int par3, int par4, Block par5, int par6) {
+        TileEntityJPChest tileentitychest = (TileEntityJPChest) par1World.getTileEntity(par2, par3, par4);
 
         if (tileentitychest != null) {
             for (int l = 0; l < tileentitychest.getSizeInventory(); l++) {
@@ -107,7 +105,7 @@ public class BlockJpchest extends BlockContainer {
                     }
 
                     itemstack.stackSize -= i1;
-                    EntityItem entityitem = new EntityItem(par1World, par2 + f, par3 + f1, par4 + f2, new ItemStack(itemstack.itemID, i1, itemstack.getItemDamage()));
+                    EntityItem entityitem = new EntityItem(par1World, par2 + f, par3 + f1, par4 + f2, new ItemStack(itemstack.getItem(), i1, itemstack.getItemDamage()));
                     float f3 = 0.05F;
                     entityitem.motionX = (float) random.nextGaussian() * f3;
                     entityitem.motionY = (float) random.nextGaussian() * f3 + 0.2F;
@@ -122,11 +120,11 @@ public class BlockJpchest extends BlockContainer {
             }
         }
 
-        par1World.removeBlockTileEntity(par2, par3, par4);
+        par1World.removeTileEntity(par2, par3, par4);
     }
 
     @Override
-    public void onNeighborBlockChange(World world, int i, int j, int k, int l) {
+    public void onNeighborBlockChange(World world, int i, int j, int k, Block l) {
     }
 
     @Override
@@ -135,7 +133,7 @@ public class BlockJpchest extends BlockContainer {
             return false;
         }
 
-        Object obj = par1World.getBlockTileEntity(par2, par3, par4);
+        Object obj = par1World.getTileEntity(par2, par3, par4);
 
         if (obj == null) {
             return true;
@@ -166,20 +164,20 @@ public class BlockJpchest extends BlockContainer {
 
     @Override
     public int getComparatorInputOverride(World par1World, int par2, int par3, int par4, int par5) {
-        return Container.calcRedstoneFromInventory((IInventory) par1World.getBlockTileEntity(par2, par3, par4));
+        return Container.calcRedstoneFromInventory((IInventory) par1World.getTileEntity(par2, par3, par4));
     }
 
     private final Random random;
 
     @Override
-    public TileEntity createNewTileEntity(World var1) {
-        return new TileEntityJPChest();
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister par1IIconRegister) {
+        this.front = par1IIconRegister.registerIcon(BambooCore.resourceDomain + "jpchest_f");
+        this.other = par1IIconRegister.registerIcon(BambooCore.resourceDomain + "jpchest_o");
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
-        this.front = par1IconRegister.registerIcon(BambooCore.resourceDomain + "jpchest_f");
-        this.other = par1IconRegister.registerIcon(BambooCore.resourceDomain + "jpchest_o");
+    public TileEntity createNewTileEntity(World var1, int var2) {
+        return new TileEntityJPChest();
     }
 }

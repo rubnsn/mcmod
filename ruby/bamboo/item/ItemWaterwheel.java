@@ -1,22 +1,18 @@
 package ruby.bamboo.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import ruby.bamboo.BambooCore;
-import ruby.bamboo.BambooUtil;
-import ruby.bamboo.entity.EntityWaterwheel;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
+import ruby.bamboo.BambooUtil;
+import ruby.bamboo.entity.EntityWaterwheel;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemWaterwheel extends Item {
-    public ItemWaterwheel(int par1) {
-        super(par1);
-    }
 
     @Override
     public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10) {
@@ -27,7 +23,7 @@ public class ItemWaterwheel extends Item {
                 return false;
             }
 
-            if (movingobjectposition.typeOfHit == EnumMovingObjectType.TILE) {
+            if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
                 int i = movingobjectposition.blockX;
                 int j = movingobjectposition.blockY;
                 int k = movingobjectposition.blockZ;
@@ -76,7 +72,7 @@ public class ItemWaterwheel extends Item {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerIcons(IIconRegister par1IconRegister) {
         this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "waterwheel");
     }
 }

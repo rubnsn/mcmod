@@ -5,12 +5,12 @@ import java.util.List;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -104,19 +104,19 @@ public class TileEntitySpaParent extends TileEntity implements ITileEntitySpa {
                         entity.heal(1);
                         bathingTime = 180;
                     } else if (effectNum == 1) {
-                        onFoodEaten(new ItemStack(373, 1, 8289), entity.worldObj, entity);
+                        onFoodEaten(new ItemStack(Items.potionitem, 1, 8289), entity.worldObj, entity);
                         bathingTime = 0;
                     } else if (effectNum == 2) {
-                        onFoodEaten(new ItemStack(373, 1, 8297), entity.worldObj, entity);
+                        onFoodEaten(new ItemStack(Items.potionitem, 1, 8297), entity.worldObj, entity);
                         bathingTime = 0;
                     } else if (effectNum == 4) {
-                        onFoodEaten(new ItemStack(373, 1, 8195), entity.worldObj, entity);
+                        onFoodEaten(new ItemStack(Items.potionitem, 1, 8195), entity.worldObj, entity);
                         bathingTime = 0;
                     } else if (effectNum == 8) {
-                        onFoodEaten(new ItemStack(373, 1, 8290), entity.worldObj, entity);
+                        onFoodEaten(new ItemStack(Items.potionitem, 1, 8290), entity.worldObj, entity);
                         bathingTime = 0;
                     } else if (effectNum == 15) {
-                        onFoodEaten(new ItemStack(373, 1, 8292), entity.worldObj, entity);
+                        onFoodEaten(new ItemStack(Items.potionitem, 1, 8292), entity.worldObj, entity);
                     }
                 }
             }
@@ -129,7 +129,7 @@ public class TileEntitySpaParent extends TileEntity implements ITileEntitySpa {
     }
 
     private void onFoodEaten(ItemStack par1ItemStack, World par2World, EntityLivingBase par3EntityPlayer) {
-        List var4 = Item.potion.getEffects(par1ItemStack);
+        List var4 = Items.potionitem.getEffects(par1ItemStack);
 
         if (var4 != null) {
             Iterator var5 = var4.iterator();
@@ -169,13 +169,13 @@ public class TileEntitySpaParent extends TileEntity implements ITileEntitySpa {
     @Override
     public Packet getDescriptionPacket() {
         NBTTagCompound var1 = new NBTTagCompound();
-        writeToParentNBT(var1);
-        return new Packet132TileEntityData(this.xCoord, this.yCoord, this.zCoord, 1, var1);
+        this.writeToNBT(var1);
+        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, var1);
     }
 
     @Override
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt) {
-        this.readFromNBT(pkt.data);
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+        this.readFromNBT(pkt.func_148857_g());
     }
 
     @Override

@@ -2,17 +2,13 @@ package ruby.bamboo.item;
 
 import java.lang.reflect.Field;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import ruby.bamboo.BambooCore;
-import ruby.bamboo.gui.GuiHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemSeedFood;
@@ -21,13 +17,18 @@ import net.minecraft.item.ItemSlab;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
+import ruby.bamboo.gui.GuiHandler;
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSack extends Item {
     // private static ItemStack backkup;
     private Field remainingHighlightTicks;
 
-    public ItemSack(int par1) {
-        super(par1);
+    public ItemSack() {
+        super();
         setHasSubtypes(true);
         setMaxDamage(1025);
         setMaxStackSize(1);
@@ -41,10 +42,10 @@ public class ItemSack extends Item {
         }
 
         short count = par1ItemStack.getTagCompound().getShort("count");
-        short type = par1ItemStack.getTagCompound().getShort("type");
+        String type = par1ItemStack.getTagCompound().getString("type");
         short meta = par1ItemStack.getTagCompound().getShort("meta");
 
-        if (!isStorage(Item.itemsList[type])) {
+        if (!isStorage(getItem(type))) {
             return par1ItemStack;
         }
 
@@ -58,7 +59,7 @@ public class ItemSack extends Item {
                     continue;
                 }
 
-                if (is[i].itemID == type && is[i].getItemDamage() == meta) {
+                if (is[i].getItem() == getItem(type) && is[i].getItemDamage() == meta) {
                     if ((count + is[i].stackSize) < getMaxDamage()) {
                         count += is[i].stackSize;
                         is[i] = null;
@@ -72,7 +73,7 @@ public class ItemSack extends Item {
             par1ItemStack.getTagCompound().setShort("count", count);
             par1ItemStack.setItemDamage(getMaxDamage() - count);
         } else {
-            int stacksize = Item.itemsList[type].onItemRightClick(new ItemStack(type, count, meta), par3World, par2EntityPlayer).stackSize;
+            int stacksize = getItem(type).onItemRightClick(new ItemStack(getItem(type), count, meta), par3World, par2EntityPlayer).stackSize;
 
             if (stacksize < count) {
                 par1ItemStack.setItemDamage(par1ItemStack.getItemDamage() + count + stacksize);
@@ -82,6 +83,10 @@ public class ItemSack extends Item {
         }
 
         return par1ItemStack;
+    }
+
+    private Item getItem(String str) {
+        return (Item) Item.itemRegistry.getObject(str);
     }
 
     private boolean isStorage(Item item) {
@@ -95,10 +100,10 @@ public class ItemSack extends Item {
         }
 
         short count = par1ItemStack.getTagCompound().getShort("count");
-        short type = par1ItemStack.getTagCompound().getShort("type");
+        String type = par1ItemStack.getTagCompound().getString("type");
         short meta = par1ItemStack.getTagCompound().getShort("meta");
 
-        if (!isStorage(Item.itemsList[type])) {
+        if (!isStorage(getItem(type))) {
             return false;
         }
 
@@ -106,10 +111,10 @@ public class ItemSack extends Item {
             return false;
         }
 
-        if (count != 0 && type != 0) {
-            ItemStack is = new ItemStack(type, 1, meta);
+        if (count != 0 && Block.getBlockFromItem(getItem(type)) != Blocks.air) {
+            ItemStack is = new ItemStack(getItem(type), 1, meta);
 
-            if (Item.itemsList[type] instanceof ItemSlab) {
+            if (getItem(type) instanceof ItemSlab) {
                 if (!canPlaceItemBlockSlabOnSide(par3World, par4, par5, par6, par7, par2EntityPlayer, is)) {
                     return false;
                 }
@@ -118,18 +123,17 @@ public class ItemSack extends Item {
                     return false;
                 }
             }
-
-            if (Item.itemsList[type] instanceof ItemBlock) {
-                if (Item.itemsList[type].onItemUse(is, par2EntityPlayer, par3World, par4, par5, par6, par7, par8, par9, par10)) {
+            if (getItem(type) instanceof ItemBlock) {
+                if (getItem(type).onItemUse(is, par2EntityPlayer, par3World, par4, par5, par6, par7, par8, par9, par10)) {
                     par1ItemStack.setItemDamage(par1ItemStack.getItemDamage() + 1);
                     count--;
                     par1ItemStack.getTagCompound().setShort("count", count);
                     par2EntityPlayer.swingItem();
                 }
-            } else if (Item.itemsList[type] instanceof ItemSeeds || Item.itemsList[type] instanceof ItemSeedFood) {
+            } else if (getItem(type) instanceof ItemSeeds || getItem(type) instanceof ItemSeedFood) {
                 for (int i = -2; i <= 2; i++) {
                     for (int j = -2; j <= 2; j++) {
-                        if (Item.itemsList[type].onItemUse(is, par2EntityPlayer, par3World, par4 + i, par5, par6 + j, par7, par8, par9, par10)) {
+                        if (getItem(type).onItemUse(is, par2EntityPlayer, par3World, par4 + i, par5, par6 + j, par7, par8, par9, par10)) {
                             par1ItemStack.setItemDamage(par1ItemStack.getItemDamage() + 1);
                             count--;
                             par1ItemStack.getTagCompound().setShort("count", count);
@@ -149,11 +153,11 @@ public class ItemSack extends Item {
 
     // ItemBlockに存在するが、ItemBlockを継承しないと参照されないため
     private boolean canPlaceItemBlockOnSide(World par1World, int par2, int par3, int par4, int par5, EntityPlayer par6EntityPlayer, ItemStack par7ItemStack) {
-        int var8 = par1World.getBlockId(par2, par3, par4);
+        Block var8 = par1World.getBlock(par2, par3, par4);
 
-        if (var8 == Block.snow.blockID) {
+        if (var8 == Blocks.snow) {
             par5 = 1;
-        } else if (var8 != Block.vine.blockID && var8 != Block.tallGrass.blockID && var8 != Block.deadBush.blockID && (Block.blocksList[var8] == null || !Block.blocksList[var8].isBlockReplaceable(par1World, par2, par3, par4))) {
+        } else if (var8 != Blocks.vine && var8 != Blocks.tallgrass && var8 != Blocks.deadbush && (var8 == null || var8.isReplaceable(par1World, par2, par3, par4))) {
             if (par5 == 0) {
                 --par3;
             }
@@ -178,20 +182,18 @@ public class ItemSack extends Item {
                 ++par2;
             }
         }
-
-        return par1World.canPlaceEntityOnSide(par7ItemStack.itemID, par2, par3, par4, false, par5, (Entity) null, par7ItemStack);
+        return par1World.canPlaceEntityOnSide(Block.getBlockFromItem(par7ItemStack.getItem()), par2, par3, par4, false, par5, (Entity) null, par7ItemStack);
     }
 
     private boolean canPlaceItemBlockSlabOnSide(World par1World, int par2, int par3, int par4, int par5, EntityPlayer par6EntityPlayer, ItemStack par7ItemStack) {
         int var8 = par2;
         int var9 = par3;
         int var10 = par4;
-        int var11 = par1World.getBlockId(par2, par3, par4);
+        Block var11 = par1World.getBlock(par2, par3, par4);
         int var12 = par1World.getBlockMetadata(par2, par3, par4);
         int var13 = var12 & 7;
         boolean var14 = (var12 & 8) != 0;
-
-        if ((par5 == 1 && !var14 || par5 == 0 && var14) && var11 == par7ItemStack.itemID && var13 == par7ItemStack.getItemDamage()) {
+        if ((par5 == 1 && !var14 || par5 == 0 && var14) && var11 == Block.getBlockFromItem(par7ItemStack.getItem()) && var13 == par7ItemStack.getItemDamage()) {
             return true;
         } else {
             if (par5 == 0) {
@@ -218,27 +220,27 @@ public class ItemSack extends Item {
                 ++par2;
             }
 
-            var11 = par1World.getBlockId(par2, par3, par4);
+            var11 = par1World.getBlock(par2, par3, par4);
             var12 = par1World.getBlockMetadata(par2, par3, par4);
             var13 = var12 & 7;
             var14 = (var12 & 8) != 0;
-            return var11 == par7ItemStack.itemID && var13 == par7ItemStack.getItemDamage() ? true : canPlaceItemBlockOnSide(par1World, var8, var9, var10, par5, par6EntityPlayer, par7ItemStack);
+            return var11 == Block.getBlockFromItem(par7ItemStack.getItem()) && var13 == par7ItemStack.getItemDamage() ? true : canPlaceItemBlockOnSide(par1World, var8, var9, var10, par5, par6EntityPlayer, par7ItemStack);
         }
     }
 
     public void release(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
         if (par1ItemStack.getTagCompound() != null && !par2World.isRemote) {
             short count = par1ItemStack.getTagCompound().getShort("count");
-            short type = par1ItemStack.getTagCompound().getShort("type");
+            String type = par1ItemStack.getTagCompound().getString("type");
             short meta = par1ItemStack.getTagCompound().getShort("meta");
             double x = par3EntityPlayer.posX;
             double y = par3EntityPlayer.posY;
             double z = par3EntityPlayer.posZ;
 
             if (count > 0) {
-                par2World.spawnEntityInWorld(new EntityItem(par2World, x, y, z, new ItemStack(Item.itemsList[type], count, meta)));
+                par2World.spawnEntityInWorld(new EntityItem(par2World, x, y, z, new ItemStack(getItem(type), count, meta)));
                 // returnItem(par3EntityPlayer, new
-                // ItemStack(Item.itemsList[type],count,meta));
+                // ItemStack(getItem(type),count,meta));
                 count = 0;
             }
 
@@ -249,7 +251,7 @@ public class ItemSack extends Item {
     // 負荷はこっちのほうが低いだろうけども、挙動が気に入らない
     private void returnItem(EntityPlayer entity, ItemStack is) {
         if (!entity.inventory.addItemStackToInventory(is)) {
-            entity.dropPlayerItem(is);
+            entity.entityDropItem(is, 0.5F);
         }
     }
 
@@ -279,11 +281,10 @@ public class ItemSack extends Item {
     }
 
     @Override
-    public String getItemDisplayName(ItemStack par1ItemStack) {
-        String name = super.getItemDisplayName(par1ItemStack);
-
-        if (par1ItemStack.getTagCompound() != null && Item.itemsList[par1ItemStack.getTagCompound().getShort("type")] != null) {
-            name += (":" + Item.itemsList[par1ItemStack.getTagCompound().getShort("type")].getItemDisplayName(new ItemStack(par1ItemStack.getTagCompound().getShort("type"), 1, par1ItemStack.getTagCompound().getShort("meta"))) + ":" + par1ItemStack.getTagCompound().getShort("count")).trim();
+    public String getItemStackDisplayName(ItemStack par1ItemStack) {
+        String name = super.getItemStackDisplayName(par1ItemStack);
+        if (par1ItemStack.getTagCompound() != null && getItem(par1ItemStack.getTagCompound().getString("type")) != null) {
+            name += (":" + getItem(par1ItemStack.getTagCompound().getString("type")).getItemStackDisplayName(new ItemStack(getItem(par1ItemStack.getTagCompound().getString("type")), 1, par1ItemStack.getTagCompound().getShort("meta"))) + ":" + par1ItemStack.getTagCompound().getShort("count")).trim();
         }
 
         return name;
@@ -298,7 +299,7 @@ public class ItemSack extends Item {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerIcons(IIconRegister par1IconRegister) {
         this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "itemsack");
     }
 

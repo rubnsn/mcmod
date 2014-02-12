@@ -2,23 +2,24 @@ package ruby.bamboo.block;
 
 import java.util.List;
 
-import ruby.bamboo.BambooInit;
-import ruby.bamboo.BambooUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCarpet;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooInit;
+import ruby.bamboo.BambooUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockDecoCarpet extends BlockCarpet {
-    public BlockDecoCarpet(int par1) {
-        super(par1);
+    public BlockDecoCarpet() {
+        super();
         setTickRandomly(false);
-        setStepSound(Block.soundSandFootstep);
+        setStepSound(Block.soundTypeSand);
     }
 
     @Override
@@ -34,46 +35,46 @@ public class BlockDecoCarpet extends BlockCarpet {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIcon(int par1, int par2) {
+    public IIcon getIcon(int par1, int par2) {
         switch (par2) {
         case 0:
-            return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 0);
+            return BambooInit.dSquare.getIcon(par1, 0);
 
         case 1:
-            return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 1);
+            return BambooInit.dSquare.getIcon(par1, 1);
 
         case 2:
-            return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 4);
+            return BambooInit.dSquare.getIcon(par1, 4);
 
         case 3:
-            return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 5);
+            return BambooInit.dSquare.getIcon(par1, 5);
 
         case 4:
-            return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 8);
+            return BambooInit.dSquare.getIcon(par1, 8);
 
         case 5:
-            return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 9);
+            return BambooInit.dSquare.getIcon(par1, 9);
 
         case 6:
-            return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 10);
+            return BambooInit.dSquare.getIcon(par1, 10);
 
         case 7:
-            return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 11);
+            return BambooInit.dSquare.getIcon(par1, 11);
 
         case 8:
-            return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 12);
+            return BambooInit.dSquare.getIcon(par1, 12);
 
         case 9:
-            return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 13);
+            return BambooInit.dSquare.getIcon(par1, 13);
 
         default:
-            return Block.blocksList[BambooInit.dSquareBID].getIcon(par1, 0);
+            return BambooInit.dSquare.getIcon(par1, 0);
         }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
+    public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
         for (int i = 0; i < 10; i += 2) {
             par3List.add(new ItemStack(par1, 1, i));
         }

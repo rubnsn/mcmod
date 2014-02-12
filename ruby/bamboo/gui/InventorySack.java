@@ -2,6 +2,7 @@ package ruby.bamboo.gui;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -42,7 +43,7 @@ public class InventorySack implements IInventory {
         if (sack != null && slot0 != null) {
             sack.setTagCompound(new NBTTagCompound());
             NBTTagCompound var4 = sack.getTagCompound();
-            var4.setShort("type", (short) slot0.getItem().itemID);
+            var4.setString("type", Item.itemRegistry.getNameForObject(slot0.getItem()));
             var4.setShort("count", (short) slot0.stackSize);
             var4.setShort("meta", (short) slot0.getItemDamage());
             sack.setItemDamage(sack.getMaxDamage() - 1);
@@ -59,22 +60,8 @@ public class InventorySack implements IInventory {
     }
 
     @Override
-    public String getInvName() {
-        return null;
-    }
-
-    @Override
-    public boolean isInvNameLocalized() {
-        return false;
-    }
-
-    @Override
     public int getInventoryStackLimit() {
         return 64;
-    }
-
-    @Override
-    public void onInventoryChanged() {
     }
 
     @Override
@@ -83,15 +70,31 @@ public class InventorySack implements IInventory {
     }
 
     @Override
-    public void openChest() {
-    }
-
-    @Override
-    public void closeChest() {
-    }
-
-    @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack) {
         return false;
+    }
+
+    @Override
+    public String getInventoryName() {
+        return null;
+    }
+
+    @Override
+    public boolean hasCustomInventoryName() {
+        return false;
+    }
+
+    @Override
+    public void markDirty() {
+    }
+
+    @Override
+    public void openInventory() {
+
+    }
+
+    @Override
+    public void closeInventory() {
+
     }
 }

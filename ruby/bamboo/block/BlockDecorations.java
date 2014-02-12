@@ -2,30 +2,31 @@ package ruby.bamboo.block;
 
 import java.util.List;
 
-import ruby.bamboo.BambooCore;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Facing;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockDecorations extends Block {
     private final boolean isHalf;
     String[] texNames;
-    Icon[] icons;
+    IIcon[] icons;
     private Block upper;
 
-    public BlockDecorations(int par1, Material par2Material, boolean isHalf) {
-        super(par1, par2Material);
+    public BlockDecorations(Material material, boolean isHalf) {
+        super(material);
         this.isHalf = isHalf;
         setHardness(0.2F);
         setResistance(1.0F);
@@ -41,7 +42,7 @@ public class BlockDecorations extends Block {
     // 最上位は半ブロックの上下判定で使用する,バニラの半ブロと同じ仕様
     public BlockDecorations addTexName(String... name) {
         texNames = name;
-        icons = new Icon[name.length & 7];
+        icons = new IIcon[name.length & 7];
         return this;
     }
 
@@ -57,7 +58,7 @@ public class BlockDecorations extends Block {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerBlockIcons(IIconRegister par1IconRegister) {
         for (int i = 0; i < icons.length; i++) {
             this.icons[i] = par1IconRegister.registerIcon(BambooCore.resourceDomain + texNames[i]);
         }
@@ -65,7 +66,7 @@ public class BlockDecorations extends Block {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public Icon getIcon(int side, int meta) {
+    public IIcon getIcon(int side, int meta) {
         return icons[meta & 7];
     }
 
@@ -76,7 +77,7 @@ public class BlockDecorations extends Block {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
+    public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
         for (int i = 0; i < icons.length; i++) {
             par3List.add(new ItemStack(par1, 1, i));
         }
@@ -120,12 +121,12 @@ public class BlockDecorations extends Block {
             int j1 = par3 + Facing.offsetsYForSide[Facing.oppositeSide[par5]];
             int k1 = par4 + Facing.offsetsZForSide[Facing.oppositeSide[par5]];
             boolean flag = (par1IBlockAccess.getBlockMetadata(i1, j1, k1) & 8) != 0;
-            return flag ? (par5 == 0 ? true : (par5 == 1 && super.shouldSideBeRendered(par1IBlockAccess, par2, par3, par4, par5) ? true : !isBlockSingleSlab(par1IBlockAccess.getBlockId(par2, par3, par4)) || (par1IBlockAccess.getBlockMetadata(par2, par3, par4) & 8) == 0)) : (par5 == 1 ? true : (par5 == 0 && super.shouldSideBeRendered(par1IBlockAccess, par2, par3, par4, par5) ? true : !isBlockSingleSlab(par1IBlockAccess.getBlockId(par2, par3, par4)) || (par1IBlockAccess.getBlockMetadata(par2, par3, par4) & 8) != 0));
+            return flag ? (par5 == 0 ? true : (par5 == 1 && super.shouldSideBeRendered(par1IBlockAccess, par2, par3, par4, par5) ? true : !isBlockSingleSlab(par1IBlockAccess.getBlock(par2, par3, par4)) || (par1IBlockAccess.getBlockMetadata(par2, par3, par4) & 8) == 0)) : (par5 == 1 ? true : (par5 == 0 && super.shouldSideBeRendered(par1IBlockAccess, par2, par3, par4, par5) ? true : !isBlockSingleSlab(par1IBlockAccess.getBlock(par2, par3, par4)) || (par1IBlockAccess.getBlockMetadata(par2, par3, par4) & 8) != 0));
         }
     }
 
-    private boolean isBlockSingleSlab(int par0) {
-        return par0 == Block.stoneSingleSlab.blockID || par0 == Block.woodSingleSlab.blockID || par0 == blockID;
+    private boolean isBlockSingleSlab(Block par0) {
+        return par0 == Blocks.stone_slab || par0 == Blocks.wooden_slab || par0 == this;
     }
 
     @Override

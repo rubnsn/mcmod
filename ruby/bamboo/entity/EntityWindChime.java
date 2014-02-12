@@ -1,6 +1,5 @@
 package ruby.bamboo.entity;
 
-import ruby.bamboo.BambooInit;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -8,6 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooInit;
 
 public class EntityWindChime extends Entity {
     public float rotx;
@@ -76,7 +76,7 @@ public class EntityWindChime extends Entity {
                 return true;
             }
 
-            this.entityDropItem(new ItemStack(BambooInit.windChimeIID, 1, 0), 1F);
+            this.entityDropItem(new ItemStack(BambooInit.windChime, 1, 0), 1F);
         }
 
         return true;

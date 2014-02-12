@@ -1,7 +1,5 @@
 package ruby.bamboo.entity.magatama;
 
-import java.lang.reflect.InvocationTargetException;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;

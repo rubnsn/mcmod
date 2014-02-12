@@ -1,18 +1,12 @@
 package ruby.bamboo.entity.magatama;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-
-import cpw.mods.fml.common.FMLLog;
-
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.FMLLog;
 
 public class EntityDummy extends Entity {
     private Entity entity;
@@ -25,7 +19,7 @@ public class EntityDummy extends Entity {
         this.entity = entity;
         this.setPositionAndRotation(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
         dataWatcher.updateObject(10, EntityList.getEntityString(entity));
-        ItemStack is = new ItemStack(Block.dirt);
+        ItemStack is = new ItemStack(Blocks.dirt);
         is.stackTagCompound = new NBTTagCompound();
         entity.writeToNBT(is.stackTagCompound);
         dataWatcher.updateObject(11, is);
@@ -45,7 +39,7 @@ public class EntityDummy extends Entity {
                 try {
                     entity = (Entity) ((Class) EntityList.stringToClassMapping.get(name)).getConstructor(World.class).newInstance(worldObj);
                 } catch (Exception e) {
-                    FMLLog.log(Level.WARNING, "Invalid entity name:" + name);
+                    FMLLog.warning("Invalid entity name:" + name);
                 }
                 if (entity != null) {
                     entity.readFromNBT(is.stackTagCompound);

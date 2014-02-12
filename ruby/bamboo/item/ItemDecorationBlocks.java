@@ -5,8 +5,8 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
 public class ItemDecorationBlocks extends ItemBlock {
-    public ItemDecorationBlocks(int par1) {
-        super(par1);
+    public ItemDecorationBlocks(Block block) {
+        super(block);
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
     }
@@ -19,6 +19,6 @@ public class ItemDecorationBlocks extends ItemBlock {
     @Override
     public String getUnlocalizedName(ItemStack itemstack) {
         int i = itemstack.getItemDamage();
-        return Block.blocksList[this.getBlockID()].getUnlocalizedName() + "." + i;
+        return field_150939_a.getUnlocalizedName() + "." + i;
     }
 }

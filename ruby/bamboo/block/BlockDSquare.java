@@ -3,6 +3,16 @@ package ruby.bamboo.block;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.BambooUtil;
@@ -10,32 +20,22 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
-import net.minecraft.world.World;
-
 public class BlockDSquare extends Block {
     private final boolean isHalf;
     private String[] texNameList;
-    private final Icon[] icons;
+    private final IIcon[] icons;
 
-    public BlockDSquare(int itemID, boolean isHalf) {
-        super(itemID, Material.ground);
+    public BlockDSquare(boolean isHalf) {
+        super(Material.ground);
         // texList=new ArrayList<Integer>();
         this.isHalf = isHalf;
-        icons = new Icon[16];
+        icons = new IIcon[16];
 
         if (isHalf) {
             setBlockBounds(0, 0, 0, 1, 0.5F, 1);
         }
 
-        setStepSound(Block.soundSandFootstep);
+        setStepSound(Block.soundTypeSand);
         setHardness(0.2F);
         setResistance(0.0F);
         setTickRandomly(true);
@@ -80,18 +80,18 @@ public class BlockDSquare extends Block {
         switch (l) {
         case 10:
         case 11:
-            is = new ItemStack(isHalf ? BambooInit.dHalfSquareBID : BambooInit.dSquareBID, 1, 10);
+            is = new ItemStack(isHalf ? BambooInit.dHalfSquare : BambooInit.dSquare, 1, 10);
             break;
 
         default:
-            is = new ItemStack(isHalf ? BambooInit.dHalfSquareBID : BambooInit.dSquareBID, 1, l & 12);
+            is = new ItemStack(isHalf ? BambooInit.dHalfSquare : BambooInit.dSquare, 1, l & 12);
         }
 
-        dropBlockAsItem_do(world, i, j, k, is);
+        dropBlockAsItem(world, i, j, k, is);
     }
 
     @Override
-    public Icon getIcon(int side, int meta) {
+    public IIcon getIcon(int side, int meta) {
         meta &= 0xf;
         return meta < icons.length ? icons[meta] : icons[0];
     }
@@ -124,7 +124,7 @@ public class BlockDSquare extends Block {
     }
 
     @Override
-    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
+    public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
         par3List.add(new ItemStack(par1, 1, 0));
         par3List.add(new ItemStack(par1, 1, 4));
         par3List.add(new ItemStack(par1, 1, 8));
@@ -161,7 +161,7 @@ public class BlockDSquare extends Block {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerBlockIcons(IIconRegister par1IconRegister) {
         for (int i = 0; i < texNameList.length; i++) {
             icons[i] = par1IconRegister.registerIcon(BambooCore.resourceDomain + texNameList[i]);
         }

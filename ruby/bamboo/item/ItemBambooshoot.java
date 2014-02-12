@@ -1,29 +1,29 @@
 package ruby.bamboo.item;
 
-import ruby.bamboo.BambooCore;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemReed;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemBambooshoot extends ItemReed {
-    private final int spawnID;
+    private final Block block;
 
-    public ItemBambooshoot(int i, int spawnID) {
-        super(i, Block.blocksList[spawnID]);
-        this.spawnID = spawnID;
+    public ItemBambooshoot(Block block) {
+        super(block);
+        this.block = block;
     }
 
     @Override
     public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10) {
-        int blockid = par3World.getBlockId(par4, par5, par6);
+        Block block = par3World.getBlock(par4, par5, par6);
 
-        if (blockid == Block.snow.blockID) {
+        if (block == Blocks.snow) {
             par5 -= 1;
         }
 
@@ -31,9 +31,9 @@ public class ItemBambooshoot extends ItemReed {
             return false;
         }
 
-        blockid = par3World.getBlockId(par4, par5, par6);
+        block = par3World.getBlock(par4, par5, par6);
 
-        if (blockid != Block.grass.blockID && blockid != Block.dirt.blockID) {
+        if (block != Blocks.grass && block != Blocks.dirt) {
             return false;
         }
 
@@ -41,11 +41,9 @@ public class ItemBambooshoot extends ItemReed {
             return false;
         }
 
-        Block block = Block.blocksList[spawnID];
-
-        if (par3World.setBlock(par4, par5 + 1, par6, spawnID, 15, 3)) {
-            if (par3World.getBlockId(par4, par5, par6) == spawnID) {
-                Block.blocksList[spawnID].onBlockPlacedBy(par3World, par4, par5, par6, par2EntityPlayer, par1ItemStack);
+        if (par3World.setBlock(par4, par5 + 1, par6, this.block, 15, 3)) {
+            if (par3World.getBlock(par4, par5, par6) == this.block) {
+                this.block.onBlockPlacedBy(par3World, par4, par5, par6, par2EntityPlayer, par1ItemStack);
             }
             par1ItemStack.stackSize--;
         }
@@ -54,7 +52,7 @@ public class ItemBambooshoot extends ItemReed {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerIcons(IIconRegister par1IconRegister) {
         this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bambooshoot");
     }
 }

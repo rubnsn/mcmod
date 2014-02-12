@@ -5,9 +5,9 @@ import java.util.Iterator;
 
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.Event.Result;
-import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class ManekiHandler {
     private final ArrayList<Coordinate> manekiList = new ArrayList<Coordinate>();
@@ -17,7 +17,7 @@ public class ManekiHandler {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    @ForgeSubscribe
+    @SubscribeEvent
     public void livingSpawn(LivingSpawnEvent event) {
         if (event.entityLiving instanceof EntityMob) {
             if (isManekiRange((int) event.x, (int) event.z)) {

@@ -2,11 +2,11 @@ package ruby.bamboo.worldgen;
 
 import java.util.Random;
 
-import ruby.bamboo.BambooInit;
-
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import ruby.bamboo.BambooInit;
 
 public class WorldGenBamboo extends WorldGenerator {
     @Override
@@ -15,11 +15,11 @@ public class WorldGenBamboo extends WorldGenerator {
             int var7 = par3 + par2Random.nextInt(8) - par2Random.nextInt(8);
             int var8 = par4 + par2Random.nextInt(4) - par2Random.nextInt(4);
             int var9 = par5 + par2Random.nextInt(8) - par2Random.nextInt(8);
-            int blockid = par1World.getBlockId(var7, var8 - 1, var9);
+            Block blockid = par1World.getBlock(var7, var8 - 1, var9);
 
             if (par1World.isAirBlock(var7, var8, var9)) {
-                if (blockid == Block.grass.blockID || blockid == Block.dirt.blockID) {
-                    par1World.setBlock(var7, var8, var9, BambooInit.bambooBID, 15, 0);
+                if (blockid == Blocks.grass || blockid == Blocks.dirt) {
+                    par1World.setBlock(var7, var8, var9, BambooInit.bamboo, 15, 0);
                 }
             }
         }

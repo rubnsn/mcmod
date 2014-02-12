@@ -2,12 +2,12 @@ package ruby.bamboo.worldgen;
 
 import java.util.Random;
 
-import ruby.bamboo.BambooInit;
-
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import ruby.bamboo.BambooInit;
 
 public class WorldGenBigSakura extends WorldGenerator {
     /**
@@ -130,7 +130,7 @@ public class WorldGenBigSakura extends WorldGenerator {
         System.arraycopy(var2, 0, this.leafNodes, 0, var4);
     }
 
-    void genTreeLayer(int par1, int par2, int par3, float par4, byte par5, int par6) {
+    void genTreeLayer(int par1, int par2, int par3, float par4, byte par5, Block par6) {
         int var7 = (int) (par4 + 0.618D);
         byte var8 = otherCoordPairs[par5];
         byte var9 = otherCoordPairs[par5 + 3];
@@ -150,12 +150,12 @@ public class WorldGenBigSakura extends WorldGenerator {
                     ++var13;
                 } else {
                     var11[var9] = var10[var9] + var13;
-                    int var14 = this.worldObj.getBlockId(var11[0], var11[1], var11[2]);
+                    Block var14 = this.worldObj.getBlock(var11[0], var11[1], var11[2]);
 
-                    if (var14 != 0 && var14 != Block.leaves.blockID) {
+                    if (var14 != Blocks.air && var14 != Blocks.leaves) {
                         ++var13;
                     } else {
-                        this.setBlockAndMetadata(this.worldObj, var11[0], var11[1], var11[2], par6, type);
+                        this.setBlockAndNotifyAdequately(this.worldObj, var11[0], var11[1], var11[2], par6, type);
                         ++var13;
                     }
                 }
@@ -200,7 +200,7 @@ public class WorldGenBigSakura extends WorldGenerator {
 
         for (int var5 = par2 + this.leafDistanceLimit; var4 < var5; ++var4) {
             float var6 = this.leafSize(var4 - par2);
-            this.genTreeLayer(par1, var4, par3, var6, (byte) 1, BambooInit.sakuraleavsBID);
+            this.genTreeLayer(par1, var4, par3, var6, (byte) 1, BambooInit.sakuraleavs);
         }
     }
 
@@ -208,7 +208,7 @@ public class WorldGenBigSakura extends WorldGenerator {
      * Places a line of the specified block ID into the world from the first
      * coordinate triplet to the second.
      */
-    void placeBlockLine(int[] par1ArrayOfInteger, int[] par2ArrayOfInteger, int par3) {
+    void placeBlockLine(int[] par1ArrayOfInteger, int[] par2ArrayOfInteger, Block par3) {
         int[] var4 = new int[] { 0, 0, 0 };
         byte var5 = 0;
         byte var6;
@@ -254,7 +254,7 @@ public class WorldGenBigSakura extends WorldGenerator {
                     }
                 }
 
-                this.setBlockAndMetadata(this.worldObj, var14[0], var14[1], var14[2], par3, var17);
+                this.setBlockAndNotifyAdequately(this.worldObj, var14[0], var14[1], var14[2], par3, var17);
             }
         }
     }
@@ -293,18 +293,18 @@ public class WorldGenBigSakura extends WorldGenerator {
         int var4 = this.basePos[2];
         int[] var5 = new int[] { var1, var2, var4 };
         int[] var6 = new int[] { var1, var3, var4 };
-        this.placeBlockLine(var5, var6, BambooInit.sakuraLogBID);
+        this.placeBlockLine(var5, var6, BambooInit.sakuralog);
 
         if (this.trunkSize == 2) {
             ++var5[0];
             ++var6[0];
-            this.placeBlockLine(var5, var6, BambooInit.sakuraLogBID);
+            this.placeBlockLine(var5, var6, BambooInit.sakuralog);
             ++var5[2];
             ++var6[2];
-            this.placeBlockLine(var5, var6, BambooInit.sakuraLogBID);
+            this.placeBlockLine(var5, var6, BambooInit.sakuralog);
             var5[0] += -1;
             var6[0] += -1;
-            this.placeBlockLine(var5, var6, BambooInit.sakuraLogBID);
+            this.placeBlockLine(var5, var6, BambooInit.sakuralog);
         }
     }
 
@@ -323,7 +323,7 @@ public class WorldGenBigSakura extends WorldGenerator {
             int var6 = var3[1] - this.basePos[1];
 
             if (this.leafNodeNeedsBase(var6)) {
-                this.placeBlockLine(var3, var5, BambooInit.sakuraLogBID);
+                this.placeBlockLine(var3, var5, BambooInit.sakuralog);
             }
         }
     }
@@ -369,9 +369,9 @@ public class WorldGenBigSakura extends WorldGenerator {
                 var13[var5] = par1ArrayOfInteger[var5] + var14;
                 var13[var6] = MathHelper.floor_double(par1ArrayOfInteger[var6] + var14 * var9);
                 var13[var7] = MathHelper.floor_double(par1ArrayOfInteger[var7] + var14 * var11);
-                int var16 = this.worldObj.getBlockId(var13[0], var13[1], var13[2]);
+                Block var16 = this.worldObj.getBlock(var13[0], var13[1], var13[2]);
 
-                if (var16 != 0 && var16 != BambooInit.sakuraleavsBID) {
+                if (var16 != Blocks.air && var16 != BambooInit.sakuraleavs) {
                     break;
                 }
             }
@@ -387,9 +387,9 @@ public class WorldGenBigSakura extends WorldGenerator {
     boolean validTreeLocation() {
         int[] var1 = new int[] { this.basePos[0], this.basePos[1], this.basePos[2] };
         int[] var2 = new int[] { this.basePos[0], this.basePos[1] + this.heightLimit - 1, this.basePos[2] };
-        int var3 = this.worldObj.getBlockId(this.basePos[0], this.basePos[1] - 1, this.basePos[2]);
+        Block var3 = this.worldObj.getBlock(this.basePos[0], this.basePos[1] - 1, this.basePos[2]);
 
-        if (var3 != 2 && var3 != 3) {
+        if (var3 != Blocks.dirt && var3 != Blocks.grass) {
             return false;
         } else {
             int var4 = this.checkBlockLine(var1, var2);

@@ -1,10 +1,10 @@
 package ruby.bamboo.entity;
 
-import ruby.bamboo.BambooInit;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooInit;
 
 public class EntityWindmill extends EntityMill {
     private final static int BLADE = 17;
@@ -21,21 +21,21 @@ public class EntityWindmill extends EntityMill {
 
         if (useItem != null) {
             if (par1EntityPlayer.isSneaking()) {
-                if (useItem.getItem().itemID == BambooInit.bambooIID) {
+                if (useItem.getItem() == BambooInit.itembamboo) {
                     if (dataWatcher.getWatchableObjectByte(BLADE) > 0) {
                         dataWatcher.updateObject(BLADE, (byte) (dataWatcher.getWatchableObjectByte(BLADE) - 1));
                     }
-                } else if (useItem.getItem().itemID == BambooInit.tuduraIID) {
+                } else if (useItem.getItem() == BambooInit.tudura) {
                     if (dataWatcher.getWatchableObjectByte(SIZE) > 1) {
                         dataWatcher.updateObject(SIZE, (byte) (dataWatcher.getWatchableObjectByte(SIZE) - 1));
                     }
                 }
             } else {
-                if (useItem.getItem().itemID == BambooInit.bambooIID) {
+                if (useItem.getItem() == BambooInit.itembamboo) {
                     if (dataWatcher.getWatchableObjectByte(BLADE) < 4) {
                         dataWatcher.updateObject(BLADE, (byte) (dataWatcher.getWatchableObjectByte(BLADE) + 1));
                     }
-                } else if (useItem.getItem().itemID == BambooInit.tuduraIID) {
+                } else if (useItem.getItem() == BambooInit.tudura) {
                     if (dataWatcher.getWatchableObjectByte(SIZE) < 5) {
                         dataWatcher.updateObject(SIZE, (byte) (dataWatcher.getWatchableObjectByte(SIZE) + 1));
                     }
@@ -66,7 +66,7 @@ public class EntityWindmill extends EntityMill {
 
     @Override
     public ItemStack getItem() {
-        return new ItemStack(BambooInit.windmillIID, 1, getTexNum());
+        return new ItemStack(BambooInit.windmill, 1, getTexNum());
     }
 
     // render呼び出し

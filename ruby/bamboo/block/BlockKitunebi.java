@@ -2,31 +2,29 @@ package ruby.bamboo.block;
 
 import java.util.Random;
 
-import ruby.bamboo.BambooCore;
-import ruby.bamboo.CustomRenderHandler;
-
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
+import ruby.bamboo.CustomRenderHandler;
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockKitunebi extends Block {
     // Client only
     private boolean isVisible = false;
 
-    public BlockKitunebi(int id) {
-        super(id, Material.air);
+    public BlockKitunebi() {
+        super(Material.grass);
         setTickRandomly(true);
         setHardness(0.0F);
-        setLightValue(1F);
+        setLightLevel(1F);
     }
 
     @Override
@@ -64,7 +62,7 @@ public class BlockKitunebi extends Block {
                 Item item = is.getItem();
 
                 if (item instanceof ItemBlock) {
-                    if (((ItemBlock) item).getBlockID() == this.blockID) {
+                    if (Block.getBlockFromItem(item) == this) {
                         isVisible = true;
                     }
                 }
@@ -74,10 +72,10 @@ public class BlockKitunebi extends Block {
             // false;
 
             if (isVisible) {
-                world.setBlock(i, j, k, blockID, world.getBlockMetadata(i, j, k) | 8, 3);
+                world.setBlock(i, j, k, this, world.getBlockMetadata(i, j, k) | 8, 3);
                 setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
             } else {
-                world.setBlock(i, j, k, blockID, world.getBlockMetadata(i, j, k) & 7, 3);
+                world.setBlock(i, j, k, this, world.getBlockMetadata(i, j, k) & 7, 3);
                 setBlockBounds(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
             }
         }
@@ -85,7 +83,7 @@ public class BlockKitunebi extends Block {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerBlockIcons(IIconRegister par1IconRegister) {
         this.blockIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + this.getTextureName());
     }
 

@@ -1,44 +1,38 @@
 package ruby.bamboo;
 
-import ruby.bamboo.item.ItemSack;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.ICraftingHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.common.MinecraftForge;
+import ruby.bamboo.item.ItemSack;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 
-public class CraftingHandler implements ICraftingHandler {
+public class CraftingHandler {
     private static CraftingHandler instance = new CraftingHandler();
 
     public static void init() {
-        GameRegistry.registerCraftingHandler(instance);
+        MinecraftForge.EVENT_BUS.register(instance);
     }
 
-    @Override
-    public void onCrafting(EntityPlayer player, ItemStack item, IInventory craftMatrix) {
-        if (player.worldObj.isRemote) {
+    @SubscribeEvent
+    public void onCrafting(ItemCraftedEvent event) {
+        if (event.player.worldObj.isRemote) {
             return;
         }
 
-        if (item.getItem() instanceof ItemSack) {
-            int lim = craftMatrix.getSizeInventory();
+        if (event.crafting.getItem() instanceof ItemSack) {
+            int lim = event.craftMatrix.getSizeInventory();
 
             while (lim-- > 0) {
-                if (craftMatrix.getStackInSlot(lim) == null) {
+                if (event.craftMatrix.getStackInSlot(lim) == null) {
                     continue;
                 }
 
-                Item target = craftMatrix.getStackInSlot(lim).getItem();
+                Item target = event.craftMatrix.getStackInSlot(lim).getItem();
 
                 if (target instanceof ItemSack) {
-                    ((ItemSack) target).release(craftMatrix.getStackInSlot(lim), player.worldObj, player);
+                    ((ItemSack) target).release(event.craftMatrix.getStackInSlot(lim), event.player.worldObj, event.player);
                 }
             }
         }
-    }
-
-    @Override
-    public void onSmelting(EntityPlayer player, ItemStack item) {
     }
 }

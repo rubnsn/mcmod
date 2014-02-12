@@ -1,19 +1,18 @@
 package ruby.bamboo.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemBoiledEgg extends ItemFood {
     private int[] potions = new int[] { 0, 8289, 8297, 0, 8195, 0, 0, 0, 8290, 0, 0, 0, 0, 0, 0, 8292 };
 
-    public ItemBoiledEgg(int par1) {
-        super(par1, 4, false);
+    public ItemBoiledEgg() {
+        super(4, false);
         setHasSubtypes(true);
         setMaxStackSize(16);
         setMaxDamage(0);
@@ -35,7 +34,7 @@ public class ItemBoiledEgg extends ItemFood {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerIcons(IIconRegister par1IconRegister) {
         this.itemIcon = par1IconRegister.registerIcon("egg");
     }
 }

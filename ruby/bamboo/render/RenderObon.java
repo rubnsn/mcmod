@@ -2,12 +2,6 @@ package ruby.bamboo.render;
 
 import java.util.Random;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import ruby.bamboo.BambooCore;
-import ruby.bamboo.entity.EntityObon;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
@@ -17,10 +11,15 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
+import ruby.bamboo.BambooCore;
+import ruby.bamboo.entity.EntityObon;
 
 public class RenderObon extends Render {
     private static final ResourceLocation res = new ResourceLocation(BambooCore.resourceDomain + "textures/entitys/obon.png");
@@ -77,9 +76,9 @@ public class RenderObon extends Render {
 
                 for (int k = 0; k < itemstack.getItem().getRenderPasses(itemstack.getItemDamage()); ++k) {
                     this.random.setSeed(187L);
-                    Icon icon = itemstack.getItem().getIcon(itemstack, k);
+                    IIcon icon = itemstack.getItem().getIcon(itemstack, k);
                     f8 = 1.0F;
-                    i = Item.itemsList[itemstack.itemID].getColorFromItemStack(itemstack, k);
+                    i = itemstack.getItem().getColorFromItemStack(itemstack, k);
                     f5 = (i >> 16 & 255) / 255.0F;
                     f4 = (i >> 8 & 255) / 255.0F;
                     f6 = (i & 255) / 255.0F;
@@ -89,8 +88,8 @@ public class RenderObon extends Render {
             } else {
                 GL11.glScalef(0.5128205F, 0.5128205F, 0.5128205F);
                 GL11.glTranslatef(0.0F, -0.05F, 0.0F);
-                Icon icon1 = itemstack.getIconIndex();
-                int l = Item.itemsList[itemstack.itemID].getColorFromItemStack(itemstack, 0);
+                IIcon icon1 = itemstack.getIconIndex();
+                int l = itemstack.getItem().getColorFromItemStack(itemstack, 0);
                 f8 = (l >> 16 & 255) / 255.0F;
                 float f9 = (l >> 8 & 255) / 255.0F;
                 f5 = (l & 255) / 255.0F;
@@ -125,11 +124,11 @@ public class RenderObon extends Render {
         return ret;
     }
 
-    private void renderDroppedItem(EntityItem par1EntityItem, Icon par2Icon, int par3, float par4, float par5, float par6, float par7) {
+    private void renderDroppedItem(EntityItem par1EntityItem, IIcon par2Icon, int par3, float par4, float par5, float par6, float par7) {
         renderDroppedItem(par1EntityItem, par2Icon, par3, par4, par5, par6, par7, 0);
     }
 
-    private void renderDroppedItem(EntityItem par1EntityItem, Icon par2Icon, int par3, float par4, float par5, float par6, float par7, int pass) {
+    private void renderDroppedItem(EntityItem par1EntityItem, IIcon par2Icon, int par3, float par4, float par5, float par6, float par7, int pass) {
         Tessellator tessellator = Tessellator.instance;
 
         if (par2Icon == null) {

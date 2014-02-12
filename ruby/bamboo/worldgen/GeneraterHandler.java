@@ -2,17 +2,14 @@ package ruby.bamboo.worldgen;
 
 import java.util.Random;
 
-import ruby.bamboo.BambooInit;
-import ruby.bamboo.block.BlockSakura;
-
-import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.biome.BiomeGenForest;
-import net.minecraft.world.biome.BiomeGenHills;
 import net.minecraft.world.biome.WorldChunkManager;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.common.BiomeDictionary;
+import ruby.bamboo.BambooInit;
+import ruby.bamboo.block.BlockSakura;
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -20,7 +17,7 @@ public class GeneraterHandler implements IWorldGenerator {
     private static GeneraterHandler instance = new GeneraterHandler();
 
     public static void init() {
-        GameRegistry.registerWorldGenerator(instance);
+        GameRegistry.registerWorldGenerator(instance, 1);
     }
 
     private final static byte BAMBOO = 0;
@@ -68,8 +65,8 @@ public class GeneraterHandler implements IWorldGenerator {
                 int var8 = y + random.nextInt(4) - random.nextInt(4);
                 int var9 = z + random.nextInt(8) - random.nextInt(8);
 
-                if (world.isAirBlock(var7, var8, var9) && world.getBlockId(var7, var8 - 1, var9) == Block.grass.blockID && Block.pumpkin.canPlaceBlockAt(world, var7, var8, var9)) {
-                    ((BlockSakura) Block.blocksList[BambooInit.sakuraBID]).growTree(world, var7, var8, var9, random, 0x0f);
+                if (world.isAirBlock(var7, var8, var9) && world.getBlock(var7, var8 - 1, var9) == Blocks.grass && Blocks.pumpkin.canPlaceBlockAt(world, var7, var8, var9)) {
+                    ((BlockSakura) BambooInit.sakura).growTree(world, var7, var8, var9, random, 0x0f);
                     return;
                 }
             }

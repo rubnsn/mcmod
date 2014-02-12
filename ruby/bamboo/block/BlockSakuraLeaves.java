@@ -3,51 +3,39 @@ package ruby.bamboo.block;
 import java.util.List;
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import ruby.bamboo.BambooCore;
-import ruby.bamboo.BambooInit;
-import ruby.bamboo.entity.EntitySakuraPetal;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeavesBase;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatList;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
+import ruby.bamboo.BambooInit;
+import ruby.bamboo.entity.EntitySakuraPetal;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal {
-    private Icon sakurapetal;
-    private Icon broadleaf;
+    private IIcon sakurapetal;
+    private IIcon broadleaf;
 
     private static int[] color = new int[] { 0x191919, 0xCC4C4C, 0x667F33, 0x7F664C, 0x3366CC, 0xB266E5, 0x4C99B2, 0x999999, 0x4C4C4C, 0xF2B2CC, 0x7FCC19, 0xE5E533, 0x99B2F2, 0xE57FD8, 0xF2B233, 0xfbedf0 };
     private static String[] path = new String[] { "petal", "petal_0", "petal", "petal", "petal", "petal", "petal", "petal", "petal", "petal", "petal", "petal_1", "petal", "petal", "petal_1", "petal" };
 
-    /*
-     * カラーデバッグ用
-     * 
-     * @Override public boolean onBlockActivated(World par1World, int par2, int
-     * par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7,
-     * float par8, float par9) { int meta=par1World.getBlockMetadata(par2, par3,
-     * par4); meta=meta!=0x0f?meta+1:0;
-     * par1World.setBlockMetadataWithNotify(par2, par3, par4, meta);
-     * System.out.println(meta); return true; }
-     */
-    public BlockSakuraLeaves(int id) {
-        super(id, Material.leaves, true);
+    public BlockSakuraLeaves() {
+        super(Material.leaves, true);
         // setTickRandomly(true);
         setHardness(0.0F);
         setLightOpacity(1);
-        setLightValue(0.7F);
-        setStepSound(Block.soundGrassFootstep);
+        setLightLevel(0.7F);
+        setStepSound(Block.soundTypeGrass);
     }
 
     @Override
@@ -56,7 +44,7 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal {
     }
 
     @Override
-    public Icon getIcon(int i, int j) {
+    public IIcon getIcon(int i, int j) {
         if (j == 1 || j == 11 || j == 14) {
             return broadleaf;
         }
@@ -72,11 +60,6 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal {
     @Override
     public int colorMultiplier(IBlockAccess iblockaccess, int i, int j, int k) {
         return color[iblockaccess.getBlockMetadata(i, j, k)];
-    }
-
-    @Override
-    public int idDropped(int i, Random random, int j) {
-        return this.blockID;
     }
 
     @Override
@@ -96,7 +79,7 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal {
             return;
         }
 
-        if (par1World.getBlockId(par2, par3 - 1, par4) == 0) {
+        if (par1World.isAirBlock(par2, par3 - 1, par4)) {
             par1World.spawnEntityInWorld(new EntitySakuraPetal(par1World, par2 + par5Random.nextFloat(), par3, par4 + par5Random.nextFloat(), 0, 0, 0, color[par1World.getBlockMetadata(par2, par3, par4)]).setCustomPetal(getCustomPetal(par1World.getBlockMetadata(par2, par3, par4))));
         }
     }
@@ -105,10 +88,10 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal {
         int var8 = quantityDropped(world.rand);
 
         if (var8 > 0) {
-            this.dropBlockAsItem_do(world, i, j, k, new ItemStack(BambooInit.sakuraBID, var8, 0));
+            this.dropBlockAsItem(world, i, j, k, new ItemStack(BambooInit.sakura, var8, 0));
         }
 
-        world.setBlock(i, j, k, 0, 0, 3);
+        world.setBlockToAir(i, j, k);
     }
 
     @Override
@@ -126,53 +109,38 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal {
         int var8 = quantityDropped(par1World.rand);
 
         if (var8 > 0) {
-            this.dropBlockAsItem_do(par1World, par2, par3, par4, new ItemStack(BambooInit.sakuraBID, var8, 0));
+            this.dropBlockAsItem(par1World, par2, par3, par4, new ItemStack(BambooInit.sakura, var8, 0));
         }
     }
 
     @Override
     public void harvestBlock(World world, EntityPlayer entityplayer, int i, int j, int k, int l) {
-        if (!world.isRemote && entityplayer.getCurrentEquippedItem() != null && entityplayer.getCurrentEquippedItem().itemID == Item.shears.itemID) {
-            entityplayer.addStat(StatList.mineBlockStatArray[blockID], 1);
+        if (!world.isRemote && entityplayer.getCurrentEquippedItem() != null && entityplayer.getCurrentEquippedItem().getItem() == Items.shears) {
             entityplayer.getCurrentEquippedItem().damageItem(1, entityplayer);
-            dropBlockAsItem_do(world, i, j, k, new ItemStack(this, 1, l));
+            dropBlockAsItem(world, i, j, k, new ItemStack(this, 1, l));
         } else {
             int var8 = quantityDropped(world.rand);
 
             if (var8 > 0) {
-                this.dropBlockAsItem_do(world, i, j, k, new ItemStack(BambooInit.sakuraBID, var8, 0));
+                this.dropBlockAsItem(world, i, j, k, new ItemStack(BambooInit.sakura, var8, 0));
             }
         }
     }
 
     @Override
     public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int posX, int posY, int posZ, int side) {
-        /*
-         * int i1 = iblockaccess.getBlockId(i, j, k); if(!graphicsLevel && i1 ==
-         * blockID) { return false; } else { return
-         * super.shouldSideBeRendered(iblockaccess, i, j, k, l); }
-         */
         return true;
-        /*
-         * if(iblockaccess.getBlockMaterial(posX, posY,
-         * posZ)==this.blockMaterial){ return false; }else{ return true; }
-         */
-        // return side == 0 && this.minY > 0.0D ? true : (side == 1 && this.maxY
-        // < 1.0D ? true : (side == 2 && this.minZ > 0.0D ? true : (side == 3 &&
-        // this.maxZ < 1.0D ? true : (side == 4 && this.minX > 0.0D ? true :
-        // (side == 5 && this.maxX < 1.0D ? true :
-        // !iblockaccess.isBlockOpaqueCube(posX, posY, posZ))))));
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerBlockIcons(IIconRegister par1IconRegister) {
         this.sakurapetal = par1IconRegister.registerIcon(BambooCore.resourceDomain + "sakurapetal");
         this.broadleaf = par1IconRegister.registerIcon(BambooCore.resourceDomain + "broadleaf");
     }
 
     @Override
-    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
+    public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
         for (int i = 0; i < color.length; i++) {
             par3List.add(new ItemStack(par1, 1, i));
         }

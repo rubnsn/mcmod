@@ -3,9 +3,6 @@ package ruby.bamboo.entity;
 import java.util.Iterator;
 import java.util.List;
 
-import ruby.bamboo.BambooInit;
-import ruby.bamboo.BambooUtil;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +11,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooInit;
+import ruby.bamboo.BambooUtil;
 
 public class EntitySlideDoor extends Entity {
     private byte closeTimer;
@@ -78,7 +77,7 @@ public class EntitySlideDoor extends Entity {
     }
 
     @Override
-    protected boolean pushOutOfBlocks(double par1, double par3, double par5) {
+    protected boolean func_145771_j(double par1, double par3, double par5) {
         return false;
     }
 
@@ -182,7 +181,7 @@ public class EntitySlideDoor extends Entity {
     }
 
     private void dropItem(short damage) {
-        this.entityDropItem(new ItemStack(BambooInit.slideDoorsIID, 1, damage), 1F);
+        this.entityDropItem(new ItemStack(BambooInit.slideDoors, 1, damage), 1F);
     }
 
     @Override
@@ -294,7 +293,7 @@ public class EntitySlideDoor extends Entity {
      * nbttagcompound.setString("bottomtex", bottomtex);
      * nbttagcompound.setInteger("itemid", itemID);
      * nbttagcompound.setBoolean("isStop",isStop);(非 Javadoc)
-     * 
+     *
      * @see net.minecraft.src.Entity#entityInit()
      */
 

@@ -1,26 +1,63 @@
 package ruby.bamboo.proxy;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
 import ruby.bamboo.BambooInit;
-import ruby.bamboo.BambooUtil;
 import ruby.bamboo.CustomRenderHandler;
-import ruby.bamboo.entity.*;
-import ruby.bamboo.entity.magatama.*;
-import ruby.bamboo.render.*;
-import ruby.bamboo.render.magatama.*;
+import ruby.bamboo.entity.EntityBambooSpear;
+import ruby.bamboo.entity.EntityFirecracker;
+import ruby.bamboo.entity.EntityHuton;
+import ruby.bamboo.entity.EntityKaginawa;
+import ruby.bamboo.entity.EntityKakeziku;
+import ruby.bamboo.entity.EntityObon;
+import ruby.bamboo.entity.EntitySakuraPetal;
+import ruby.bamboo.entity.EntitySlideDoor;
+import ruby.bamboo.entity.EntityWaterwheel;
+import ruby.bamboo.entity.EntityWind;
+import ruby.bamboo.entity.EntityWindChime;
+import ruby.bamboo.entity.EntityWindmill;
+import ruby.bamboo.entity.magatama.EntityClock;
+import ruby.bamboo.entity.magatama.EntityDummy;
+import ruby.bamboo.entity.magatama.EntityFlareEffect;
+import ruby.bamboo.entity.magatama.EntityGravityHole;
+import ruby.bamboo.entity.magatama.EntityMagatama;
+import ruby.bamboo.entity.magatama.EntityRuneEffect;
+import ruby.bamboo.entity.magatama.EntityShield;
+import ruby.bamboo.entity.magatama.EntityThunderEffect;
+import ruby.bamboo.render.RenderAndon;
+import ruby.bamboo.render.RenderBSpear;
+import ruby.bamboo.render.RenderCampfire;
+import ruby.bamboo.render.RenderFirecracker;
+import ruby.bamboo.render.RenderHuton;
+import ruby.bamboo.render.RenderKaginawa;
+import ruby.bamboo.render.RenderKakeziku;
+import ruby.bamboo.render.RenderManeki;
+import ruby.bamboo.render.RenderMillStone;
+import ruby.bamboo.render.RenderObon;
+import ruby.bamboo.render.RenderPetal;
+import ruby.bamboo.render.RenderSlideDoor;
+import ruby.bamboo.render.RenderWaterwheel;
+import ruby.bamboo.render.RenderWindBell;
+import ruby.bamboo.render.RenderWindmill;
+import ruby.bamboo.render.magatama.RenderClock;
+import ruby.bamboo.render.magatama.RenderDummy;
+import ruby.bamboo.render.magatama.RenderFlareEffect;
+import ruby.bamboo.render.magatama.RenderGravityHole;
+import ruby.bamboo.render.magatama.RenderMagatama;
+import ruby.bamboo.render.magatama.RenderRuneEffect;
+import ruby.bamboo.render.magatama.RenderShield;
+import ruby.bamboo.render.magatama.RenderThunderEffect;
 import ruby.bamboo.tileentity.TileEntityAndon;
 import ruby.bamboo.tileentity.TileEntityCampfire;
 import ruby.bamboo.tileentity.TileEntityManeki;
 import ruby.bamboo.tileentity.TileEntityMillStone;
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
@@ -41,7 +78,7 @@ public class ClientProxy extends CommonProxy {
 
     private void addRenderer() {
 
-        MinecraftForgeClient.registerItemRenderer(BambooInit.bambooBowIID, (IItemRenderer) BambooUtil.getItemInstance(BambooInit.bambooBowIID));
+        MinecraftForgeClient.registerItemRenderer(BambooInit.bambooBow, (IItemRenderer) BambooInit.bambooBow);
         RenderingRegistry.registerEntityRenderingHandler(EntityBambooSpear.class, new RenderBSpear());
         RenderingRegistry.registerEntityRenderingHandler(EntitySlideDoor.class, new RenderSlideDoor());
         RenderingRegistry.registerEntityRenderingHandler(EntityKakeziku.class, new RenderKakeziku());

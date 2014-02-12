@@ -2,7 +2,6 @@ package ruby.bamboo.proxy;
 
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
-import ruby.bamboo.BambooRecipe;
 import ruby.bamboo.CraftingHandler;
 import ruby.bamboo.entity.EntityBambooSpear;
 import ruby.bamboo.entity.EntityDirtySnowball;
@@ -16,9 +15,9 @@ import ruby.bamboo.entity.EntityWaterwheel;
 import ruby.bamboo.entity.EntityWind;
 import ruby.bamboo.entity.EntityWindChime;
 import ruby.bamboo.entity.EntityWindmill;
+import ruby.bamboo.entity.magatama.EntityClock;
 import ruby.bamboo.entity.magatama.EntityDummy;
 import ruby.bamboo.entity.magatama.EntityFlareEffect;
-import ruby.bamboo.entity.magatama.EntityClock;
 import ruby.bamboo.entity.magatama.EntityGravityHole;
 import ruby.bamboo.entity.magatama.EntityMagatama;
 import ruby.bamboo.entity.magatama.EntityShield;
@@ -93,7 +92,7 @@ public class CommonProxy {
     }
 
     public void init() {
-        new BambooRecipe();
+        //new BambooRecipe();
     }
 
     private void registerEntity(Class entityClass, String entityName, int id, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {

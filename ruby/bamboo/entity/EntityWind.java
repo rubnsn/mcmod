@@ -1,15 +1,16 @@
 package ruby.bamboo.entity;
 
-import ruby.bamboo.BambooCore;
-import ruby.bamboo.block.ICustomPetal;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
+import ruby.bamboo.block.ICustomPetal;
 
 public class EntityWind extends EntityThrowable {
     private int age;
@@ -29,7 +30,7 @@ public class EntityWind extends EntityThrowable {
 
     /*
      * @Override public boolean canBeCollidedWith() { return !isDead; }
-     * 
+     *
      * @Override public AxisAlignedBB getBoundingBox() { return boundingBox; }
      */
     @Override
@@ -56,12 +57,12 @@ public class EntityWind extends EntityThrowable {
         }
 
         if ((age & 1) == 0) {
-            doBlockCollisions();
+            func_145775_I();
         }
     }
 
     @Override
-    protected void doBlockCollisions() {
+    protected void func_145775_I() {
         int var1 = MathHelper.floor_double(this.boundingBox.minX + 0.001D);
         int var2 = MathHelper.floor_double(this.boundingBox.minY + 0.001D);
         int var3 = MathHelper.floor_double(this.boundingBox.minZ + 0.001D);
@@ -73,11 +74,11 @@ public class EntityWind extends EntityThrowable {
             for (int var7 = var1; var7 <= var4; ++var7) {
                 for (int var8 = var2; var8 <= var5; ++var8) {
                     for (int var9 = var3; var9 <= var6; ++var9) {
-                        int var10 = this.worldObj.getBlockId(var7, var8, var9);
+                        Block var10 = this.worldObj.getBlock(var7, var8, var9);
 
-                        if (var10 > 0) {
-                            if (Block.blocksList[var10].blockMaterial == Material.leaves || Block.blocksList[var10].blockMaterial == Material.vine) {
-                                removeLeaves(this.worldObj, var7, var8, var9, this, Block.blocksList[var10]);
+                        if (var10 != Blocks.air) {
+                            if (var10.getMaterial() == Material.leaves || var10.getMaterial() == Material.vine) {
+                                removeLeaves(this.worldObj, var7, var8, var9, this, var10);
                             }
                         }
                     }
@@ -98,7 +99,7 @@ public class EntityWind extends EntityThrowable {
             // par1World.setBlockWithNotify(par2, par3, par4, 0);
         } else {
             block.dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
-            par1World.setBlock(par2, par3, par4, 0, 0, 3);
+            par1World.setBlockToAir(par2, par3, par4);
         }
     }
 }

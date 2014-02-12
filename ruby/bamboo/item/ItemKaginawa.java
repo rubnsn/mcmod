@@ -1,19 +1,20 @@
 package ruby.bamboo.item;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import ruby.bamboo.KaginawaHandler;
 import ruby.bamboo.entity.EntityKaginawa;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 
 public class ItemKaginawa extends Item {
-    public ItemKaginawa(int par1) {
-        super(par1);
+    public ItemKaginawa() {
+        super();
         setMaxDamage(0);
         setMaxStackSize(1);
     }
@@ -49,7 +50,7 @@ public class ItemKaginawa extends Item {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
-        this.itemIcon = Item.silk.getIconFromDamage(0);
+    public void registerIcons(IIconRegister par1IconRegister) {
+        this.itemIcon = Items.string.getIconFromDamage(0);
     }
 }

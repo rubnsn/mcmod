@@ -1,14 +1,15 @@
 package ruby.bamboo.entity.magatama;
 
-import ruby.bamboo.item.magatama.ItemMagatama;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import ruby.bamboo.item.magatama.ItemMagatama;
 
 public class EntityMagatama extends EntityThrowable {
     private ItemStack itemStack;
@@ -26,7 +27,7 @@ public class EntityMagatama extends EntityThrowable {
         setItemStack(itemStack);
     }
 
-    public Icon getThrowableIcon() {
+    public IIcon getThrowableIcon() {
         return this.getItemStack().getIconIndex();
     }
 
@@ -70,7 +71,7 @@ public class EntityMagatama extends EntityThrowable {
     @Override
     protected void entityInit() {
         super.entityInit();
-        this.dataWatcher.addObject(ICON, new ItemStack(0, 0, 0));
+        this.dataWatcher.addObject(ICON, new ItemStack(Blocks.air, 0, 0));
     }
 
     @Override
@@ -84,7 +85,7 @@ public class EntityMagatama extends EntityThrowable {
     @Override
     public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {
         super.readEntityFromNBT(par1NBTTagCompound);
-        itemStack = new ItemStack(0, 0, 0);
+        itemStack = new ItemStack(Blocks.air, 0, 0);
         itemStack.readFromNBT(par1NBTTagCompound);
         setItemStack(itemStack);
     }

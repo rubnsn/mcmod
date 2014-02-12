@@ -1,29 +1,27 @@
 package ruby.bamboo.block;
 
+import net.minecraft.block.BlockStairs;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.CustomRenderHandler;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockStairs;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Icon;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 
 public class BlockDeludeStair extends BlockStairs implements IDelude {
     private boolean isIcongrass = false;
 
-    public BlockDeludeStair(int par1) {
-        super(par1, Block.blocksList[BambooInit.delude_widthBID], 0);
-        useNeighborBrightness[par1] = true;
+    public BlockDeludeStair() {
+        super(BambooInit.delude_width, 0);
+        useNeighborBrightness = true;
     }
 
     @Override
@@ -90,17 +88,17 @@ public class BlockDeludeStair extends BlockStairs implements IDelude {
         if (isDeludeBlock(par1IBlockAccess, par2, par3, par4)) {
             return loop < BambooCore.getConf().deludeTexMaxReference ? colorMultiplier(par1IBlockAccess, par2, par3, par4, loop + 1) : 0xFFFFFF;
         } else {
-            return Block.blocksList[par1IBlockAccess.getBlockId(par2, par3, par4)] != null ? Block.blocksList[par1IBlockAccess.getBlockId(par2, par3, par4)].colorMultiplier(par1IBlockAccess, par2, par3, par4) : 0xFFFFFF;
+            return par1IBlockAccess.getBlock(par2, par3, par4) != null ? par1IBlockAccess.getBlock(par2, par3, par4).colorMultiplier(par1IBlockAccess, par2, par3, par4) : 0xFFFFFF;
         }
     }
 
     @Override
-    public Icon getBlockTexture(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
-        Icon tex = getBlockTexture(par1IBlockAccess, par2, par3, par4, par5, 0);
+    public IIcon getIcon(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
+        IIcon tex = getIcon(par1IBlockAccess, par2, par3, par4, par5, 0);
         return tex != null ? (!tex.getIconName().equals("water") && !tex.getIconName().equals("water_flow")) ? tex : getDefaultIcon() : getDefaultIcon();
     }
 
-    private Icon getBlockTexture(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5, int loop) {
+    private IIcon getIcon(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5, int loop) {
         switch (getBlockMetadata(par1IBlockAccess, par2, par3, par4)) {
         case 0:
             par2++;
@@ -128,26 +126,26 @@ public class BlockDeludeStair extends BlockStairs implements IDelude {
         }
 
         if (isDeludeBlock(par1IBlockAccess, par2, par3, par4)) {
-            return loop < BambooCore.getConf().deludeTexMaxReference ? getBlockTexture(par1IBlockAccess, par2, par3, par4, par5, loop + 1) : getDefaultIcon();
+            return loop < BambooCore.getConf().deludeTexMaxReference ? getIcon(par1IBlockAccess, par2, par3, par4, par5, loop + 1) : getDefaultIcon();
         } else {
-            return Block.blocksList[par1IBlockAccess.getBlockId(par2, par3, par4)] != null ? Block.blocksList[par1IBlockAccess.getBlockId(par2, par3, par4)].getBlockTexture(par1IBlockAccess, par2, par3, par4, par5) : getDefaultIcon();
+            return par1IBlockAccess.getBlock(par2, par3, par4) != null ? par1IBlockAccess.getBlock(par2, par3, par4).getIcon(par1IBlockAccess, par2, par3, par4, par5) : getDefaultIcon();
         }
     }
 
-    private Icon getDefaultIcon() {
+    private IIcon getDefaultIcon() {
         return blockIcon;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerBlockIcons(IIconRegister par1IconRegister) {
         this.blockIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "delude");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIcon(int par1, int par2) {
-        return !isIcongrass ? getDefaultIcon() : Block.grass.getIcon(par1, par2);
+    public IIcon getIcon(int par1, int par2) {
+        return !isIcongrass ? getDefaultIcon() : Blocks.grass.getIcon(par1, par2);
     }
 
     @Override
@@ -185,12 +183,12 @@ public class BlockDeludeStair extends BlockStairs implements IDelude {
         if (isDeludeBlock(par1World, par2, par3, par4)) {
             return loop < BambooCore.getConf().deludeMaxReference ? onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9, loop + 1) : false;
         } else {
-            return Block.blocksList[par1World.getBlockId(par2, par3, par4)] != null ? Block.blocksList[par1World.getBlockId(par2, par3, par4)].onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9) : false;
+            return par1World.getBlock(par2, par3, par4) != null ? par1World.getBlock(par2, par3, par4).onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9) : false;
         }
     }
 
     private int getBlockMetadata(IBlockAccess par1IBlockAccess, int par2, int par3, int par4) {
-        if (par1IBlockAccess.getBlockId(par2, par3, par4) != this.blockID && isDeludeBlock(par1IBlockAccess, par2, par3, par4)) {
+        if (par1IBlockAccess.getBlock(par2, par3, par4) != this && isDeludeBlock(par1IBlockAccess, par2, par3, par4)) {
             return par1IBlockAccess.getBlockMetadata(par2, par3, par4) & 7;
         } else {
             int meta = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
@@ -199,7 +197,7 @@ public class BlockDeludeStair extends BlockStairs implements IDelude {
     }
 
     private boolean isDeludeBlock(IBlockAccess iba, int x, int y, int z) {
-        return Block.blocksList[iba.getBlockId(x, y, z)] instanceof IDelude;
+        return iba.getBlock(x, y, z) instanceof IDelude;
     }
 
     @Override

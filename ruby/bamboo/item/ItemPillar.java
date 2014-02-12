@@ -1,14 +1,15 @@
 package ruby.bamboo.item;
 
-import ruby.bamboo.block.BlockPillar;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import ruby.bamboo.block.BlockPillar;
 
 public class ItemPillar extends ItemBlock {
-    public ItemPillar(int par1) {
-        super(par1);
+    public ItemPillar(Block block) {
+        super(block);
     }
 
     @Override

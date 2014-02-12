@@ -1,8 +1,8 @@
 package ruby.bamboo.gui;
 
-import ruby.bamboo.tileentity.TileEntityMillStone;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import ruby.bamboo.tileentity.TileEntityMillStone;
 import cpw.mods.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler {
@@ -16,7 +16,7 @@ public class GuiHandler implements IGuiHandler {
             return new ContainerSack(player.inventory, player.getCurrentEquippedItem());
 
         case GUI_MILLSTONE:
-            return new ContainerMillStone(player.inventory, (TileEntityMillStone) world.getBlockTileEntity(x, y, z));
+            return new ContainerMillStone(player.inventory, (TileEntityMillStone) world.getTileEntity(x, y, z));
 
         default:
             return null;
@@ -30,7 +30,7 @@ public class GuiHandler implements IGuiHandler {
             return new GuiSack(player.inventory, player.getCurrentEquippedItem());
 
         case GUI_MILLSTONE:
-            return new GuiMillStone(player.inventory, world.getBlockTileEntity(x, y, z));
+            return new GuiMillStone(player.inventory, world.getTileEntity(x, y, z));
 
         default:
             return null;

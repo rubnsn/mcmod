@@ -4,20 +4,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import ruby.bamboo.BambooInit;
-import ruby.bamboo.BambooCore;
-
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemBambooFood extends ItemFood {
     private static Map<Integer, EnumFood> foodMap;
@@ -33,19 +30,19 @@ public class ItemBambooFood extends ItemFood {
         MAX_ELEMENT_COUNT = foodMap.size();
     }
 
-    public ItemBambooFood(int id) {
-        super(id, 0, false);
+    public ItemBambooFood() {
+        super(0, false);
         setMaxDamage(0);
         setHasSubtypes(true);
     }
 
     @Override
-    public int getHealAmount() {
+    public int func_150905_g(ItemStack itemstack) {
         return heal;
     }
 
     @Override
-    public Icon getIconFromDamage(int par1) {
+    public IIcon getIconFromDamage(int par1) {
         return foodMap.get(par1 % MAX_ELEMENT_COUNT).getTex();
     }
 
@@ -55,7 +52,7 @@ public class ItemBambooFood extends ItemFood {
     }
 
     @Override
-    public float getSaturationModifier() {
+    public float func_150906_h(ItemStack itemstack) {
         return 1;
     }
 
@@ -65,7 +62,7 @@ public class ItemBambooFood extends ItemFood {
     }
 
     @Override
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List) {
+    public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
         for (int i = 0; i < MAX_ELEMENT_COUNT; i++) {
             par3List.add(new ItemStack(par1, 1, i));
         }
@@ -83,13 +80,13 @@ public class ItemBambooFood extends ItemFood {
 
     private void returnItem(EntityPlayer entity, ItemStack is) {
         if (!entity.inventory.addItemStackToInventory(is)) {
-            entity.dropPlayerItem(is);
+            entity.entityDropItem(is, 0.5F);
         }
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerIcons(IIconRegister par1IconRegister) {
         for (EnumFood ef : EnumFood.values()) {
             ef.setTex(par1IconRegister.registerIcon(BambooCore.resourceDomain + ef.name().toLowerCase()));
         }

@@ -1,23 +1,21 @@
 package ruby.bamboo.block;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockStairs;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockStairs;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
 
 public class BlockKayabukiRoof extends BlockStairs {
-    /** The block that is used as model for the stair. */
-
-    public BlockKayabukiRoof(int par1) {
-        super(par1, Block.blocksList[BambooInit.dSquareBID], 4);
-        this.setStepSound(Block.soundSandFootstep);
+    public BlockKayabukiRoof() {
+        super(BambooInit.dSquare, 4);
+        this.setStepSound(Block.soundTypeSand);
         setHardness(1.0F);
-        useNeighborBrightness[par1] = true;
+        useNeighborBrightness = true;
     }
 
     @Override
@@ -37,7 +35,7 @@ public class BlockKayabukiRoof extends BlockStairs {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerBlockIcons(IIconRegister par1IconRegister) {
         this.blockIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "kaya_y");
     }
 

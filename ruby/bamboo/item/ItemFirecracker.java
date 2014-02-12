@@ -2,26 +2,25 @@ package ruby.bamboo.item;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import ruby.bamboo.BambooCore;
-import ruby.bamboo.entity.EntityFirecracker;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
+import ruby.bamboo.entity.EntityFirecracker;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemFirecracker extends Item {
     private static int LV[] = new int[] { 1, 2, 3 };
-    private static Icon icons[] = new Icon[3];
+    private static IIcon icons[] = new IIcon[3];
     private int j;
 
-    public ItemFirecracker(int id) {
-        super(id);
+    public ItemFirecracker() {
+        super();
         setHasSubtypes(true);
     }
 
@@ -50,20 +49,20 @@ public class ItemFirecracker extends Item {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIconFromDamage(int par1) {
+    public IIcon getIconFromDamage(int par1) {
         return icons[par1 < 0 ? 0 : par1];
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerIcons(IIconRegister par1IconRegister) {
         icons[0] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "firecracker_s");
         icons[1] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "firecracker_m");
         icons[2] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "firecracker_l");
     }
 
     @Override
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List) {
+    public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
         for (int i = 0; i < LV.length; i++) {
             par3List.add(new ItemStack(par1, 1, i));
         }

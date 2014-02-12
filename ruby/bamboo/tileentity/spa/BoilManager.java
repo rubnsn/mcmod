@@ -1,24 +1,19 @@
 package ruby.bamboo.tileentity.spa;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
-
-import ruby.bamboo.BambooInit;
-
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
 
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import ruby.bamboo.BambooInit;
 
 public class BoilManager {
     private static final HashMap<Item, HashMap<Integer, IBoilItem>> boilMap = new HashMap<Item, HashMap<Integer, IBoilItem>>();
     static {
-        addSimpleBoilItem(Item.itemsList[BambooInit.boiledEggIID], 3600, Item.egg);
-        addSimpleBoilItem(Item.axeGold, 5990, Item.axeIron);
-        ItemStack is = new ItemStack(Item.dyePowder);
+        addSimpleBoilItem(BambooInit.boiledEgg, 3600, Items.egg);
+        addSimpleBoilItem(Items.golden_axe, 5990, Items.iron_axe);
+        ItemStack is = new ItemStack(Items.dye);
         for (int i = 0; i < 15; i++) {
             is.setItemDamage(i);
             addBoilItem(new BoilDye(), is);
