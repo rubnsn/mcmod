@@ -30,6 +30,7 @@ import ruby.bamboo.tileentity.TileEntityMillStone;
 import ruby.bamboo.tileentity.spa.TileEntitySpaChild;
 import ruby.bamboo.tileentity.spa.TileEntitySpaParent;
 import ruby.bamboo.worldgen.GeneraterHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -58,7 +59,7 @@ public class CommonProxy {
         // わーるどじぇねれーとはんどら
         GeneraterHandler.init();
         // くらふとはんどら
-        CraftingHandler.init();
+        FMLCommonHandler.instance().bus().register(new CraftingHandler());
         // block & item init 分割1
         BambooInit.init();
         // name init 分割2

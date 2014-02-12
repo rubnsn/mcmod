@@ -1,17 +1,11 @@
 package ruby.bamboo;
 
 import net.minecraft.item.Item;
-import net.minecraftforge.common.MinecraftForge;
 import ruby.bamboo.item.ItemSack;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 
 public class CraftingHandler {
-    private static CraftingHandler instance = new CraftingHandler();
-
-    public static void init() {
-        MinecraftForge.EVENT_BUS.register(instance);
-    }
 
     @SubscribeEvent
     public void onCrafting(ItemCraftedEvent event) {
