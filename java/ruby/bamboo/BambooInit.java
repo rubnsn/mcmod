@@ -99,6 +99,7 @@ public class BambooInit {
     public static Block sakuraleavs;
     public static Block sakuralog;
     public static Block kawara_stair;
+    public static Block wara_stair;
     public static Block thickSakuraPillar;
     public static Block thinSakuraPillar;
     public static Block thickOrcPillar;
@@ -180,9 +181,10 @@ public class BambooInit {
         campfire = registerBlock(new BlockCampfire(), "campfire", tabBamboo);
         decoration = registerBlock(new BlockDecorations(Material.ground, false).addTexName("plaster", "namako", "check_oak", "check_pine", "check_birch", "kawara"), ItemDecorationBlocks.class, "deco", tabBamboo);
         decoration_half = registerBlock(new BlockDecorations(Material.ground, true).addTexName("plaster", "namako", "check_oak", "check_pine", "check_birch", "kawara"), ItemDecorationBlocks.class, "halfDeco", tabBamboo);
-        decoration_dir = registerBlock(new BlockTwoDirections(Material.wood, false).addTexName("yoroiita", "sakuraplank"), ItemDecorationBlocks.class, "twoDirDeco", tabBamboo);
-        decoration_dir_half = registerBlock(new BlockTwoDirections(Material.wood, true).addTexName("yoroiita", "sakuraplank"), ItemDecorationBlocks.class, "halfTwoDirDeco", tabBamboo);
+        decoration_dir = registerBlock(new BlockTwoDirections(Material.wood, false).addTexName("yoroiita", "sakuraplank", "wara"), ItemDecorationBlocks.class, "twoDirDeco", tabBamboo);
+        decoration_dir_half = registerBlock(new BlockTwoDirections(Material.wood, true).addTexName("yoroiita", "sakuraplank", "wara"), ItemDecorationBlocks.class, "halfTwoDirDeco", tabBamboo);
         kawara_stair = registerBlock(new BlockKawaraStair(decoration, 5), "kawara_stair", tabBamboo);
+        wara_stair = registerBlock(new BlockKawaraStair(decoration_dir, 5), "wara_stair", tabBamboo);
         decoCarpet = registerBlock(new BlockDecoCarpet(), ItemDecoCarpet.class, "decoCarpet", tabBamboo);
         thickSakuraPillar = registerBlock(new BlockPillar(decoration_dir, 2, 0.3F, 0.7F, 0.2F), ItemPillar.class, "thickSakuraPillar", tabBamboo);
         thinSakuraPillar = registerBlock(new BlockPillar(decoration_dir, 2, 0.4F, 0.6F, 0.15F), ItemPillar.class, "thinSakuraPillar", tabBamboo);

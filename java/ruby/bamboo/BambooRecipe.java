@@ -132,7 +132,6 @@ public class BambooRecipe {
         GameRegistry.addRecipe(new ItemStack(bambooBow, 1, 0), " XY", "X Y", " XY", 'X', singleTexDeco, 'Y', Items.string);
         addShapedOreRecipe(new ItemStack(bambooSword, 1, 0), " X ", " X ", " Y ", 'X', BAMBOO, 'Y', TUDURA);
         // サクラから桜木材
-        GameRegistry.addShapelessRecipe(new ItemStack(decoration_dir, 4, 2), sakuralog);
         // カメレオン類
         addShapedOreRecipe(new ItemStack(delude_width, 6, 0), " # ", "YXY", " # ", '#', TUDURA, 'X', Blocks.pumpkin_stem, 'Y', Blocks.soul_sand);
         addShapedOreRecipe(new ItemStack(delude_height, 6, 0), " Y ", "#X#", " Y ", '#', TUDURA, 'X', Blocks.pumpkin_stem, 'Y', Blocks.soul_sand);
@@ -159,11 +158,16 @@ public class BambooRecipe {
         addSlabRecipe(new ItemStack(decoration_half, 6, 3), new ItemStack(decoration, 8, 3));
         addSlabRecipe(new ItemStack(decoration_half, 6, 4), new ItemStack(decoration, 8, 4));
         addSlabRecipe(new ItemStack(decoration_half, 6, 5), new ItemStack(decoration, 8, 5));
-        // 方向付きデコ（桜木材）
+        // 方向付きデコ（桜木材等）
         addShapedOreRecipe(new ItemStack(decoration_dir, 8, 0), "###", "#X#", "###", '#', new ItemStack(decoration_dir, 8, 2), 'X', TUDURA);
+        GameRegistry.addShapelessRecipe(new ItemStack(decoration_dir, 4, 2), sakuralog);
+        GameRegistry.addShapedRecipe(new ItemStack(decoration_dir, 4, 4), "###", "###", "###", '#', straw);
         // 方向付きデコハーフ
-        addSlabRecipe(new ItemStack(decoration_dir_half, 6, 0), new ItemStack(decoration_dir, 4, 0));
-        addSlabRecipe(new ItemStack(decoration_dir_half, 6, 2), new ItemStack(decoration_dir, 4, 2));
+        addSlabRecipe(new ItemStack(decoration_dir_half, 6, 0), new ItemStack(decoration_dir, 1, 0));
+        addSlabRecipe(new ItemStack(decoration_dir_half, 6, 2), new ItemStack(decoration_dir, 1, 2));
+        addSlabRecipe(new ItemStack(decoration_dir_half, 6, 4), new ItemStack(decoration_dir, 1, 4));
+        //藁葺階段
+        addStairRecipe(new ItemStack(wara_stair, 4, 0), new ItemStack(decoration_dir, 1, 4));
         // 瓦
         // 瓦階段
         addStairRecipe(new ItemStack(kawara_stair, 4, 0), new ItemStack(decoration, 1, 5));
