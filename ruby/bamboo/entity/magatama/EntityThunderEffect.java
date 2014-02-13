@@ -2,7 +2,6 @@ package ruby.bamboo.entity.magatama;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class EntityThunderEffect extends Entity {
@@ -39,7 +38,7 @@ public class EntityThunderEffect extends Entity {
     }
 
     @Override
-    public boolean isInRangeToRenderVec3D(Vec3 par1Vec3) {
+    public boolean isInRangeToRender3d(double dx, double dy, double dz) {
         return this.lightningState >= 0;
     }
 

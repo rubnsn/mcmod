@@ -2,9 +2,10 @@ package ruby.bamboo.tileentity;
 
 import java.util.Random;
 
-import ruby.bamboo.block.BlockManeki;
+import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import ruby.bamboo.block.BlockManeki;
 
 public class TileEntityManeki extends TileEntity {
     private boolean isInitialized = false;
@@ -39,7 +40,7 @@ public class TileEntityManeki extends TileEntity {
         if (!worldObj.isRemote && !isInitialized) {
             if (!((BlockManeki) this.getBlockType()).addManeki(xCoord, zCoord)) {
                 isDestry = true;
-                worldObj.destroyBlock(xCoord, yCoord, zCoord, true);
+                worldObj.func_147480_a(xCoord, yCoord, zCoord, true);
             }
 
             isInitialized = true;
@@ -47,7 +48,7 @@ public class TileEntityManeki extends TileEntity {
     }
 
     @Override
-    public boolean shouldRefresh(int oldID, int newID, int oldMeta, int newMeta, World world, int x, int y, int z) {
-        return oldID == newID;
+    public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int newMeta, World world, int x, int y, int z) {
+        return oldBlock == newBlock;
     }
 }

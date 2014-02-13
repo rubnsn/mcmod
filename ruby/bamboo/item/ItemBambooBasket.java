@@ -1,19 +1,16 @@
 package ruby.bamboo.item;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.item.Item;
 import ruby.bamboo.BambooCore;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.item.Item;
 
 public class ItemBambooBasket extends Item {
-    public ItemBambooBasket(int par1) {
-        super(par1);
-    }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerIcons(IIconRegister par1IconRegister) {
         this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bamboobasket");
     }
 }

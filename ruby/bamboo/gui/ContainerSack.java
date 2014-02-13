@@ -1,6 +1,5 @@
 package ruby.bamboo.gui;
 
-import ruby.bamboo.BambooInit;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -11,6 +10,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemSeedFood;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
+import ruby.bamboo.BambooInit;
 
 public class ContainerSack extends Container {
     private ItemStack itemStack;
@@ -35,7 +35,7 @@ public class ContainerSack extends Container {
 
     @Override
     public boolean canInteractWith(EntityPlayer entityplayer) {
-        return entityplayer.getCurrentEquippedItem() != null && entityplayer.getCurrentEquippedItem().itemID == BambooInit.itemSackIID;
+        return entityplayer.getCurrentEquippedItem() != null && entityplayer.getCurrentEquippedItem().getItem() == BambooInit.itemSack;
     }
 
     @Override
@@ -65,11 +65,11 @@ public class ContainerSack extends Container {
 
     @Override
     public void onContainerClosed(EntityPlayer par1EntityPlayer) {
-        if (par1EntityPlayer.getCurrentEquippedItem() != null && par1EntityPlayer.getCurrentEquippedItem().itemID == BambooInit.itemSackIID) {
+        if (par1EntityPlayer.getCurrentEquippedItem() != null && par1EntityPlayer.getCurrentEquippedItem().getItem() == BambooInit.itemSack) {
             ItemStack item = inventry.getStackInSlotOnClosing(0);
 
             if (item != null && item.getTagCompound() != null) {
-                if (isStorage(Item.itemsList[item.getTagCompound().getShort("type")])) {
+                if (isStorage(Item.itemRegistry.getObject(item.getTagCompound().getString("type")))) {
                     par1EntityPlayer.getCurrentEquippedItem().setTagCompound(item.getTagCompound());
                 } else {
                     if (!par1EntityPlayer.worldObj.isRemote) {
@@ -88,7 +88,7 @@ public class ContainerSack extends Container {
         super.onContainerClosed(par1EntityPlayer);
     }
 
-    private boolean isStorage(Item item) {
-        return item instanceof ItemBlock ? true : item instanceof ItemSeeds ? true : item instanceof ItemSeedFood ? true : false;
+    private boolean isStorage(Object object) {
+        return object instanceof ItemBlock ? true : object instanceof ItemSeeds ? true : object instanceof ItemSeedFood ? true : false;
     }
 }

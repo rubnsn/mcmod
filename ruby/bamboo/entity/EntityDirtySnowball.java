@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntitySnowball;
+import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
@@ -99,15 +100,15 @@ public class EntityDirtySnowball extends EntitySnowball {
         int var14 = MathHelper.floor_double(target.posX);
         int var15 = MathHelper.floor_double(target.posY);
         int var16 = MathHelper.floor_double(target.posZ);
-        int var18;
+        Block var18;
 
         if (target.worldObj.blockExists(var14, var15, var16)) {
             boolean var17 = false;
 
             while (!var17 && var15 > 0) {
-                var18 = target.worldObj.getBlockId(var14, var15 - 1, var16);
+                var18 = target.worldObj.getBlock(var14, var15 - 1, var16);
 
-                if (var18 != 0 && Block.blocksList[var18].blockMaterial.blocksMovement()) {
+                if (var18 != Blocks.air && var18.getMaterial().blocksMovement()) {
                     var17 = true;
                 } else {
                     --target.posY;
@@ -130,8 +131,8 @@ public class EntityDirtySnowball extends EntitySnowball {
         } else {
             short var30 = 128;
 
-            for (var18 = 0; var18 < var30; ++var18) {
-                double var19 = var18 / (var30 - 1.0D);
+            for (int i = 0; i < var30; ++i) {
+                double var19 = i / (var30 - 1.0D);
                 float var21 = (this.rand.nextFloat() - 0.5F) * 0.2F;
                 float var22 = (this.rand.nextFloat() - 0.5F) * 0.2F;
                 float var23 = (this.rand.nextFloat() - 0.5F) * 0.2F;

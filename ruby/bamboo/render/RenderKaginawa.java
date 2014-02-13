@@ -11,7 +11,6 @@ import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.entity.EntityKaginawa;
 
 public class RenderKaginawa extends Render {

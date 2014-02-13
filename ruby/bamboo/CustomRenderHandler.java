@@ -2,16 +2,9 @@ package ruby.bamboo;
 
 import java.util.HashMap;
 
-import org.lwjgl.opengl.GL11;
-
-import ruby.bamboo.block.BlockBambooPane;
-import ruby.bamboo.block.BlockKitunebi;
-import ruby.bamboo.block.BlockPillar;
-import ruby.bamboo.block.IDelude;
-import ruby.bamboo.render.RenderAndon;
-import ruby.bamboo.render.RenderCampfire;
-import ruby.bamboo.render.RenderManeki;
-import ruby.bamboo.render.RenderMillStone;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.world.IBlockAccess;
 import ruby.bamboo.render.block.IRenderBlocks;
 import ruby.bamboo.render.block.RenderBamboo;
 import ruby.bamboo.render.block.RenderBambooBlock;
@@ -21,16 +14,11 @@ import ruby.bamboo.render.block.RenderKitunebi;
 import ruby.bamboo.render.block.RenderPillar;
 import ruby.bamboo.render.inventory.IRenderInventory;
 import ruby.bamboo.render.inventory.RenderInvAndon;
-import ruby.bamboo.render.inventory.RenderInvBambooBlock;
 import ruby.bamboo.render.inventory.RenderInvCampfire;
 import ruby.bamboo.render.inventory.RenderInvDelude;
 import ruby.bamboo.render.inventory.RenderInvManeki;
 import ruby.bamboo.render.inventory.RenderInvMillStone;
 import ruby.bamboo.render.inventory.RenderInvPillar;
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -60,9 +48,9 @@ public class CustomRenderHandler {
         kitunebiUID = getUIDAndRegistSimpleInvRender();
         bambooPaneUID = getUIDAndRegistSimpleInvRender();
         riceFieldUID = getUIDAndRegistSimpleInvRender();
+        bambooBlockUID = getUIDAndRegistSimpleInvRender();
         // 3DInv
         andonUID = getUIDAndRegist3DRender();
-        bambooBlockUID = getUIDAndRegist3DRender();
         campfireUID = getUIDAndRegist3DRender();
         millStoneUID = getUIDAndRegist3DRender();
         pillarUID = getUIDAndRegist3DRender();
@@ -80,7 +68,7 @@ public class CustomRenderHandler {
         customRenderMap.put(deludeUID, new RenderDelude());
         //Inventory
         customRenderInvMap.put(andonUID, new RenderInvAndon());
-        customRenderInvMap.put(bambooBlockUID, new RenderInvBambooBlock());
+        //customRenderInvMap.put(bambooBlockUID, new RenderInvBambooBlock());
         customRenderInvMap.put(campfireUID, new RenderInvCampfire());
         customRenderInvMap.put(millStoneUID, new RenderInvMillStone());
         customRenderInvMap.put(pillarUID, new RenderInvPillar());
@@ -116,13 +104,13 @@ public class CustomRenderHandler {
         }
 
         @Override
-        public boolean shouldRender3DInInventory() {
-            return false;
+        public int getRenderId() {
+            return 0;
         }
 
         @Override
-        public int getRenderId() {
-            return 0;
+        public boolean shouldRender3DInInventory(int modelId) {
+            return false;
         }
     }
 
@@ -135,7 +123,7 @@ public class CustomRenderHandler {
         }
 
         @Override
-        public boolean shouldRender3DInInventory() {
+        public boolean shouldRender3DInInventory(int modelId) {
             return true;
         }
 

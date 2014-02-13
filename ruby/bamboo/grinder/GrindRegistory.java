@@ -1,6 +1,7 @@
 package ruby.bamboo.grinder;
 
 import java.util.ArrayList;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -40,7 +41,7 @@ public class GrindRegistory {
                 recipe.add(new GrindRecipe(input, output, null, bonusWeight));
             }
         } else {
-            System.out.println("Grinding recipe wrong:" + output.itemID);
+            System.out.println("Grinding recipe wrong:" + output.getItem().getUnlocalizedName());
         }
     }
 
@@ -48,7 +49,7 @@ public class GrindRegistory {
         GrindRecipe result = null;
 
         for (GrindRecipe gr : recipe) {
-            if (input.itemID == gr.getInput().itemID && gr.getInput().stackSize <= input.stackSize) {
+            if (input.getItem() == gr.getInput().getItem() && gr.getInput().stackSize <= input.stackSize) {
                 if (gr.getInput().getItemDamage() == WILD_CARD || input.getItemDamage() == gr.getInput().getItemDamage()) {
                     result = gr;
                     break;

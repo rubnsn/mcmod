@@ -2,11 +2,11 @@ package ruby.bamboo.tileentity;
 
 import java.util.Random;
 
-import ruby.bamboo.block.BlockCampfire;
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
+import ruby.bamboo.block.BlockCampfire;
 
 public class TileEntityCampfire extends TileEntityFurnace {
     private int meatroll;
@@ -40,7 +40,7 @@ public class TileEntityCampfire extends TileEntityFurnace {
                         --this.getStackInSlot(1).stackSize;
 
                         if (this.getStackInSlot(1).stackSize == 0) {
-                            this.setInventorySlotContents(1, this.getStackInSlot(1).getItem().getContainerItemStack(this.getStackInSlot(1)));
+                            this.setInventorySlotContents(1, this.getStackInSlot(1).getItem().getContainerItem(this.getStackInSlot(1)));
                         }
                     }
                 }
@@ -67,9 +67,9 @@ public class TileEntityCampfire extends TileEntityFurnace {
             byte meta = 0;
 
             if (getStackInSlot(2) != null) {
-                if (getStackInSlot(2).itemID == Item.fishCooked.itemID) {
+                if (getStackInSlot(2).getItem() == Items.cooked_fished) {
                     meta = 1;
-                } else if (getStackInSlot(2).itemID == Item.porkCooked.itemID || getStackInSlot(2).itemID == Item.beefCooked.itemID) {
+                } else if (getStackInSlot(2).getItem() == Items.cooked_porkchop || getStackInSlot(2).getItem() == Items.cooked_beef) {
                     meta = 2;
                 } else {
                     meta = 3;
@@ -84,7 +84,7 @@ public class TileEntityCampfire extends TileEntityFurnace {
         }
 
         if (var2) {
-            this.onInventoryChanged();
+            markDirty();
         }
     }
 

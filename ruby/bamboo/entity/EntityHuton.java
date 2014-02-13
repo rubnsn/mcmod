@@ -1,13 +1,14 @@
 package ruby.bamboo.entity;
 
-import ruby.bamboo.BambooInit;
-import ruby.bamboo.BambooCore;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
+import ruby.bamboo.BambooInit;
 
 public class EntityHuton extends Entity {
     private boolean timechange;
@@ -39,7 +40,7 @@ public class EntityHuton extends Entity {
                 return true;
             }
 
-            this.dropItem(BambooInit.hutonIID, 1);
+            this.dropItem(BambooInit.huton, 1);
         }
 
         return true;
@@ -107,7 +108,7 @@ public class EntityHuton extends Entity {
                     long time = ((worldObj.getWorldInfo().getWorldTime() + 6000) % 24000) / 1000;
 
                     if (hour != time) {
-                        ((EntityPlayer) riddenByEntity).addChatMessage(hour + ":00" + (worldObj.getWorldInfo().isRaining() ? " RainTime at" + worldObj.getWorldInfo().getRainTime() : "") + (worldObj.getWorldInfo().isThundering() ? " ThunderTime at" + worldObj.getWorldInfo().getThunderTime() : ""));
+                        ((EntityPlayer) riddenByEntity).addChatMessage(new ChatComponentText(hour + ":00" + (worldObj.getWorldInfo().isRaining() ? " RainTime at" + worldObj.getWorldInfo().getRainTime() : "") + (worldObj.getWorldInfo().isThundering() ? " ThunderTime at" + worldObj.getWorldInfo().getThunderTime() : "")));
                         hour = time;
                     }
 
@@ -130,7 +131,7 @@ public class EntityHuton extends Entity {
             }
         }
     }
-    
+
     @Override
     public AxisAlignedBB getBoundingBox() {
         return boundingBox;

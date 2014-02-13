@@ -1,144 +1,158 @@
 package ruby.bamboo;
 
-import java.io.File;
-import java.lang.reflect.Field;
 import java.util.Calendar;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
-import ruby.bamboo.block.*;
-import ruby.bamboo.item.*;
-import ruby.bamboo.item.magatama.*;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
+import ruby.bamboo.block.BlockAndon;
+import ruby.bamboo.block.BlockBamboo;
+import ruby.bamboo.block.BlockBambooPane;
+import ruby.bamboo.block.BlockCampfire;
+import ruby.bamboo.block.BlockCustomRenderSingleTexture;
+import ruby.bamboo.block.BlockDSquare;
+import ruby.bamboo.block.BlockDecoCarpet;
+import ruby.bamboo.block.BlockDecorations;
+import ruby.bamboo.block.BlockDelude;
+import ruby.bamboo.block.BlockDeludePressurePlate;
+import ruby.bamboo.block.BlockDeludeStair;
+import ruby.bamboo.block.BlockJpchest;
+import ruby.bamboo.block.BlockKawaraStair;
+import ruby.bamboo.block.BlockKayabukiRoof;
+import ruby.bamboo.block.BlockKitunebi;
+import ruby.bamboo.block.BlockManeki;
+import ruby.bamboo.block.BlockMillStone;
+import ruby.bamboo.block.BlockPillar;
+import ruby.bamboo.block.BlockRicePlant;
+import ruby.bamboo.block.BlockSakura;
+import ruby.bamboo.block.BlockSakuraLeaves;
+import ruby.bamboo.block.BlockSakuraLog;
+import ruby.bamboo.block.BlockSpaUnit;
+import ruby.bamboo.block.BlockSpaWater;
+import ruby.bamboo.block.BlockTwoDirections;
+import ruby.bamboo.item.ItemBamboo;
+import ruby.bamboo.item.ItemBambooBasket;
+import ruby.bamboo.item.ItemBambooBow;
+import ruby.bamboo.item.ItemBambooFood;
+import ruby.bamboo.item.ItemBambooPane;
+import ruby.bamboo.item.ItemBambooSpear;
+import ruby.bamboo.item.ItemBambooSword;
+import ruby.bamboo.item.ItemBambooshoot;
+import ruby.bamboo.item.ItemBoiledEgg;
+import ruby.bamboo.item.ItemCustomRenderSingleTexture;
+import ruby.bamboo.item.ItemDSquare;
+import ruby.bamboo.item.ItemDecoCarpet;
+import ruby.bamboo.item.ItemDecorationBlocks;
+import ruby.bamboo.item.ItemDirtySnowball;
+import ruby.bamboo.item.ItemFan;
+import ruby.bamboo.item.ItemFirecracker;
+import ruby.bamboo.item.ItemHuton;
+import ruby.bamboo.item.ItemKaginawa;
+import ruby.bamboo.item.ItemKakeziku;
+import ruby.bamboo.item.ItemKatana;
+import ruby.bamboo.item.ItemObon;
+import ruby.bamboo.item.ItemPillar;
+import ruby.bamboo.item.ItemSack;
+import ruby.bamboo.item.ItemSakuraPetal;
+import ruby.bamboo.item.ItemShavedIce;
+import ruby.bamboo.item.ItemSlideDoor;
+import ruby.bamboo.item.ItemTudura;
+import ruby.bamboo.item.ItemWaterwheel;
+import ruby.bamboo.item.ItemWindChime;
+import ruby.bamboo.item.ItemWindmill;
+import ruby.bamboo.item.magatama.ItemMagatama;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class BambooInit {
-    private static final int ITEMID_OFFSET = 256;
     // instance
+    public static Block bamboo;
+    public static Block singleTexDeco;
+    public static Block kitunebi;
+    public static Block campfire;
+    public static Block dSquare;
+    public static Block sakura;
+    public static Block spa;
+    public static Block spa_water;
+    public static Block decoration;
+    public static Block decoration_half;
+    public static Block decoration_dir;
+    public static Block decoration_dir_half;
+    public static Block delude_stair;
+    public static Block delude_height;
+    public static Block delude_width;
+    public static Block delude_plate;
+    public static Block dHalfSquare;
+    public static Block bamboopane;
+    public static Block jpchest;
+    public static Block decoCarpet;
+    public static Block andon;
+    public static Block rooftile;
+    public static Block spaunit;
+    public static Block sakuraleavs;
+    public static Block sakuralog;
+    public static Block kawara_stair;
+    public static Block thickSakuraPillar;
+    public static Block thinSakuraPillar;
+    public static Block thickOrcPillar;
+    public static Block thinOrcPillar;
+    public static Block thickSprucePillar;
+    public static Block thinSprucePillar;
+    public static Block millStone;
+    public static Block ricePlant;
+
+    public static Item takenoko;
+    public static Item itembamboo;
+    public static Item straw;
+    public static Item bambooBasket;
+    public static Item foods;
+    public static Item shavedIce;
+    public static Item bambooSpear;
+    public static Item huton;
+    public static Item kakeziku;
+    public static Item obon;
+    public static Item slideDoors;
+    public static Item waterWheel;
+    public static Item windChime;
+    public static Item tudura;
+    public static Item windmill;
+    public static Item itemSack;
+    public static Item bambooBow;
+    public static Item firecracker;
+    public static Item boiledEgg;
+    public static Item snowBall;
+    public static Item fan;
+    public static Item katana;
+    public static Item bambooSword;
+    public static Item rawrice;
+    public static Item kaginawa;
+    public static Item magatama;
+    public static Item riceSeed;
+
     public static BambooInit instance = new BambooInit();
-    public static final String SINGLE_TEX_DECO = "singleTexDeco";
-    public static final String BAMBOO = "bamboo";
-    public static final String KITUNEBI = "kitunebi";
-    public static final String JP_CHEST = "jpChest";
-    public static final String DIR_SQUARE = "dirSquare";
-    public static final String ANDON = "andon";
-    public static final String HALF_DIR_SQUARE = "halfDirSquare";
-    public static final String BAMBOO_PANEL = "bambooPanel";
-    public static final String SAKURA_LEAVES = "sakuraLeaves";
-    public static final String SAKURA_SAPLING = "sakuraSapling";
-    public static final String KAYABUKI_ROOF = "kayabukiRoof";
-    public static final String SPA_WATER = "spaWater";
-    public static final String SPA_UNIT = "spaUnit";
-    public static final String SAKURA_LOG = "sakuraLog";
-    public static final String DELUDE_WIDTH = "delude_width";
-    public static final String DELUDE_HEIGHT = "delude_height";
-    public static final String DELUDE_STAIR = "delude_stair";
-    public static final String IRORI = "campfire";
-    public static final String DECO_SQUARE = "deco";
-    public static final String HALF_DECO_SQUARE = "halfDeco";
-    public static final String TWO_DIR_DECO_SQUARE = "twoDirDeco";
-    public static final String HALF_TWO_DIR_DECO_SQUARE = "halfTwoDirDeco";
-    public static final String KAWARA_ROOF = "kawara_stair";
-    public static final String RICE_PLANT = "ricePlant";
-    public static final String MILLSTONE = "bambooMillStone";
-    public static final String DECO_CARPET = "decoCarpet";
-    public static final String THICK_SAKURA_PILLAR = "thickSakuraPillar";
-    public static final String THIN_SAKURA_PILLAR = "thinSakuraPillar";
-    public static final String THICK_ORC_PILLAR = "thickOrcPillar";
-    public static final String THIN_ORC_PILLAR = "thinOrcPillar";
-    public static final String THICK_SPRUCE_PILLAR = "thickSprucePillar";
-    public static final String THIN_SPRUCE_PILLAR = "thinSprucePillar";
-    public static final String DELUDE_PLATE = "delude_plate";
-    public static final String MANEKI = "maneki";
-    // blocks
-    public static int bambooBlockBID;
-    public static int bambooBID;
-    public static int sakuraLogBID;
-    public static int kitunebiBID;
-    public static int spaBID;
-    public static int jpchestBID;
-    public static int dSquareBID;
-    public static int andonBID;
-    public static int dHalfSquareBID;
-    public static int bamboopaneBID;
-    public static int sakuraleavsBID;
-    public static int sakuraBID;
-    public static int rooftileBID;
-    public static int spaunitBID;
-    public static int delude_widthBID;
-    public static int delude_heightBID;
-    public static int delude_stairBID;
-    public static int campfireBID;
-    public static int decoBID;
-    public static int halfDecoBID;
-    public static int twoDirDecoBID;
-    public static int halfTwoDirDecoBID;
-    public static int kawara_stairBID;
-    public static int halfKawaraBID;
-    public static int ricePlantBID;
-    public static int millStoneBID;
-    public static int decoCarpetBID;
-    public static int thickSakuraPillarBID;
-    public static int thinSakuraPillarBID;
-    public static int thickOrcPillarBID;
-    public static int thinOrcPillarBID;
-    public static int thickSprucePillarBID;
-    public static int thinSprucePillarBID;
-    public static int delude_plateBID;
-    public static int manekiBID;
-    // items
-    public static int bambooBasketIID;
-    public static int firecrackerIID;
-    public static int foodsIID;
-    public static int windChimeIID;
-    public static int itemSackIID;
-    public static int shavedIceIID;
-    public static int bambooSpearIID;
-    public static int slideDoorsIID;
-    public static int kakezikuIID;
-    public static int hutonIID;
-    public static int takenokoIID;
-    public static int boiledEggIID;
-    public static int snowBallIID;
-    public static int fanIID;
-    public static int katanaIID;
-    public static int bambooBowIID;
-    public static int windmillIID;
-    public static int waterWheelIID;
-    public static int bambooIID;
-    public static int tuduraIID;
-    public static int kaginawaIID;
-    public static int bambooSwordIID;
-    public static int obonIID;
-    public static int seedRiceIID;
-    public static int strawIID;
-    public static int magatamaIID;
-    public static int rawriceIID;
+    //items
+    public static final String TAKENOKO = "takenoko";
 
     private static CreativeTabs tabBamboo;
 
     public static void init() {
-        instance.idsInit();
         tabBamboo = new CreativeTabs("Bamboo") {
-            @Override
-            public int getTabIconItemIndex() {
-                return takenokoIID;
-            }
-
             @Override
             public String getTranslatedTabLabel() {
                 return StatCollector.translateToLocal(this.getTabLabel());
+            }
+
+            @Override
+            public Item getTabIconItem() {
+                // TODO 自動生成されたメソッド・スタブ
+                return takenoko;
             }
         };
         instance.blocksInit();
@@ -146,87 +160,75 @@ public class BambooInit {
     }
 
     private void blocksInit() {
-        try {
-            registerBlock(new BlockBamboo(bambooBID, getChiledName()), BAMBOO);
-            registerBlock(new BlockCustomRenderSingleTexture(bambooBlockBID), ItemCustomRenderSingleTexture.class, SINGLE_TEX_DECO, tabBamboo);
-            registerBlock(new BlockKitunebi(kitunebiBID).setTextureName("kitunebi"), KITUNEBI, tabBamboo);
-            registerBlock(new BlockJpchest(jpchestBID), JP_CHEST, tabBamboo);
-            registerBlock(new BlockDSquare(dSquareBID, false).addTexName("tatami_x", "tatami_y", "tatami_x", "tatami_y", "kaya_x", "kaya_y", "kaya_x", "kaya_y").addTexName("tatami_tan_x", "tatami_tan_y", "tatami_tan_nsx", "tatami_tan_nsy", "tatami_nsx", "tatami_nsy", "tatami_nsx", "tatami_nsy"), ItemDSquare.class, DIR_SQUARE, tabBamboo);
-            registerBlock(new BlockDSquare(dHalfSquareBID, true).addTexName("tatami_x", "tatami_y", "tatami_x", "tatami_y", "kaya_x", "kaya_y", "kaya_x", "kaya_y").addTexName("tatami_tan_x", "tatami_tan_y", "tatami_tan_nsx", "tatami_tan_nsy", "tatami_nsx", "tatami_nsy", "tatami_nsx", "tatami_nsy"), ItemDSquare.class, HALF_DIR_SQUARE, tabBamboo);
-            registerBlock(new BlockAndon(andonBID), ANDON, tabBamboo);
-            registerBlock(new BlockBambooPane(bamboopaneBID, Material.ground), ItemBambooPane.class, BAMBOO_PANEL, tabBamboo);
-            registerBlock(new BlockSakuraLeaves(sakuraleavsBID), ItemSakuraPetal.class, SAKURA_LEAVES, tabBamboo);
-            registerBlock(new BlockSakura(sakuraBID).setTextureName("sakura"), SAKURA_SAPLING, tabBamboo);
-            registerBlock(new BlockKayabukiRoof(rooftileBID), KAYABUKI_ROOF, tabBamboo);
-            registerBlock(new BlockSpaWater(spaBID, Material.water), SPA_WATER);
-            registerBlock(new BlockSpaUnit(spaunitBID), SPA_UNIT, tabBamboo);
-            registerBlock(new BlockSakuraLog(sakuraLogBID), SAKURA_LOG, tabBamboo);
-            registerBlock(new BlockDelude(delude_widthBID, false), DELUDE_WIDTH, tabBamboo);
-            registerBlock(new BlockDelude(delude_heightBID, true), DELUDE_HEIGHT, tabBamboo);
-            registerBlock(new BlockDeludeStair(delude_stairBID), DELUDE_STAIR, tabBamboo);
-            registerBlock(new BlockCampfire(campfireBID), IRORI, tabBamboo);
-            registerBlock(new BlockDecorations(decoBID, Material.ground, false).addTexName("plaster", "namako", "check_oak", "check_pine", "check_birch", "kawara"), ItemDecorationBlocks.class, DECO_SQUARE, tabBamboo);
-            registerBlock(new BlockDecorations(halfDecoBID, Material.ground, true).addTexName("plaster", "namako", "check_oak", "check_pine", "check_birch", "kawara"), ItemDecorationBlocks.class, HALF_DECO_SQUARE, tabBamboo);
-            registerBlock(new BlockTwoDirections(twoDirDecoBID, Material.wood, false).addTexName("yoroiita", "sakuraplank"), ItemDecorationBlocks.class, TWO_DIR_DECO_SQUARE, tabBamboo);
-            registerBlock(new BlockTwoDirections(halfTwoDirDecoBID, Material.wood, true).addTexName("yoroiita", "sakuraplank"), ItemDecorationBlocks.class, HALF_TWO_DIR_DECO_SQUARE, tabBamboo);
-            registerBlock(new BlockKawaraStair(kawara_stairBID, getBlockInstance(decoBID), 5), KAWARA_ROOF, tabBamboo);
-            registerBlock(new BlockDecoCarpet(decoCarpetBID), ItemDecoCarpet.class, DECO_CARPET, tabBamboo);
-            registerBlock(new BlockPillar(thickSakuraPillarBID, getBlockInstance(twoDirDecoBID), 2, 0.3F, 0.7F, 0.2F), ItemPillar.class, THICK_SAKURA_PILLAR, tabBamboo);
-            registerBlock(new BlockPillar(thinSakuraPillarBID, getBlockInstance(twoDirDecoBID), 2, 0.4F, 0.6F, 0.15F), ItemPillar.class, THIN_SAKURA_PILLAR, tabBamboo);
-            registerBlock(new BlockPillar(thickOrcPillarBID, Block.planks, 0, 0.3F, 0.7F, 0.2F), ItemPillar.class, THICK_ORC_PILLAR, tabBamboo);
-            registerBlock(new BlockPillar(thinOrcPillarBID, Block.planks, 0, 0.4F, 0.6F, 0.15F), ItemPillar.class, THIN_ORC_PILLAR, tabBamboo);
-            registerBlock(new BlockPillar(thickSprucePillarBID, Block.wood, 1, 0.3F, 0.7F, 0.2F), ItemPillar.class, THICK_SPRUCE_PILLAR, tabBamboo);
-            registerBlock(new BlockPillar(thinSprucePillarBID, Block.wood, 1, 0.4F, 0.6F, 0.15F), ItemPillar.class, THIN_SPRUCE_PILLAR, tabBamboo);
-            registerBlock(new BlockDeludePressurePlate(delude_plateBID), DELUDE_PLATE, tabBamboo);
-            registerBlock(new BlockRicePlant(ricePlantBID).setTextureName(BambooCore.resourceDomain + "riceplant"), RICE_PLANT);
-            registerBlock(new BlockMillStone(millStoneBID), MILLSTONE, tabBamboo);
-            workingBlock();
-        } catch (IllegalArgumentException e) {
-            slotOccupiedException(e);
-        }
+        bamboo = registerBlock(new BlockBamboo(getChiledName()), "bamboo");
+        singleTexDeco = registerBlock(new BlockCustomRenderSingleTexture(), ItemCustomRenderSingleTexture.class, "singleTexDeco", tabBamboo);
+        kitunebi = registerBlock(new BlockKitunebi().setBlockTextureName("kitunebi"), "kitunebi", tabBamboo);
+        jpchest = registerBlock(new BlockJpchest(), "jpChest", tabBamboo);
+        dSquare = registerBlock(new BlockDSquare(false).addTexName("tatami_x", "tatami_y", "tatami_x", "tatami_y", "kaya_x", "kaya_y", "kaya_x", "kaya_y").addTexName("tatami_tan_x", "tatami_tan_y", "tatami_tan_nsx", "tatami_tan_nsy", "tatami_nsx", "tatami_nsy", "tatami_nsx", "tatami_nsy"), ItemDSquare.class, "dirSquare", tabBamboo);
+        dHalfSquare = registerBlock(new BlockDSquare(true).addTexName("tatami_x", "tatami_y", "tatami_x", "tatami_y", "kaya_x", "kaya_y", "kaya_x", "kaya_y").addTexName("tatami_tan_x", "tatami_tan_y", "tatami_tan_nsx", "tatami_tan_nsy", "tatami_nsx", "tatami_nsy", "tatami_nsx", "tatami_nsy"), ItemDSquare.class, "halfDirSquare", tabBamboo);
+        andon = registerBlock(new BlockAndon(), "andon", tabBamboo);
+        bamboopane = registerBlock(new BlockBambooPane(Material.ground), ItemBambooPane.class, "bambooPanel", tabBamboo);
+        sakuraleavs = registerBlock(new BlockSakuraLeaves(), ItemSakuraPetal.class, "sakuraLeaves", tabBamboo);
+        sakura = registerBlock(new BlockSakura().setBlockTextureName("sakura"), "sakuraSapling", tabBamboo);
+        rooftile = registerBlock(new BlockKayabukiRoof(), "kayabukiRoof", tabBamboo);
+        spa_water = registerBlock(new BlockSpaWater(Material.water), "spaWater");
+        spa = registerBlock(new BlockSpaUnit(), "spaUnit", tabBamboo);
+        sakuralog = registerBlock(new BlockSakuraLog(), "sakuraLog", tabBamboo);
+        delude_width = registerBlock(new BlockDelude(false), "delude_width", tabBamboo);
+        delude_height = registerBlock(new BlockDelude(true), "delude_height", tabBamboo);
+        delude_stair = registerBlock(new BlockDeludeStair(), "delude_stair", tabBamboo);
+        campfire = registerBlock(new BlockCampfire(), "campfire", tabBamboo);
+        decoration = registerBlock(new BlockDecorations(Material.ground, false).addTexName("plaster", "namako", "check_oak", "check_pine", "check_birch", "kawara"), ItemDecorationBlocks.class, "deco", tabBamboo);
+        decoration_half = registerBlock(new BlockDecorations(Material.ground, true).addTexName("plaster", "namako", "check_oak", "check_pine", "check_birch", "kawara"), ItemDecorationBlocks.class, "halfDeco", tabBamboo);
+        decoration_dir = registerBlock(new BlockTwoDirections(Material.wood, false).addTexName("yoroiita", "sakuraplank"), ItemDecorationBlocks.class, "twoDirDeco", tabBamboo);
+        decoration_dir_half = registerBlock(new BlockTwoDirections(Material.wood, true).addTexName("yoroiita", "sakuraplank"), ItemDecorationBlocks.class, "halfTwoDirDeco", tabBamboo);
+        kawara_stair = registerBlock(new BlockKawaraStair(decoration, 5), "kawara_stair", tabBamboo);
+        decoCarpet = registerBlock(new BlockDecoCarpet(), ItemDecoCarpet.class, "decoCarpet", tabBamboo);
+        thickSakuraPillar = registerBlock(new BlockPillar(decoration_dir, 2, 0.3F, 0.7F, 0.2F), ItemPillar.class, "thickSakuraPillar", tabBamboo);
+        thinSakuraPillar = registerBlock(new BlockPillar(decoration_dir, 2, 0.4F, 0.6F, 0.15F), ItemPillar.class, "thinSakuraPillar", tabBamboo);
+        thickOrcPillar = registerBlock(new BlockPillar(Blocks.planks, 0, 0.3F, 0.7F, 0.2F), ItemPillar.class, "thickOrcPillar", tabBamboo);
+        thinOrcPillar = registerBlock(new BlockPillar(Blocks.planks, 0, 0.4F, 0.6F, 0.15F), ItemPillar.class, "thinOrcPillar", tabBamboo);
+        thickSprucePillar = registerBlock(new BlockPillar(Blocks.log, 1, 0.3F, 0.7F, 0.2F), ItemPillar.class, "thickSprucePillar", tabBamboo);
+        thinSprucePillar = registerBlock(new BlockPillar(Blocks.log, 1, 0.4F, 0.6F, 0.15F), ItemPillar.class, "thinSprucePillar", tabBamboo);
+        delude_plate = registerBlock(new BlockDeludePressurePlate(), "delude_plate", tabBamboo);
+        ricePlant = registerBlock(new BlockRicePlant().setBlockTextureName(BambooCore.resourceDomain + "riceplant"), "ricePlant");
+        millStone = registerBlock(new BlockMillStone(), "bambooMillStone", tabBamboo);
+        workingBlock();
     }
 
     private void workingBlock() {
-        registerBlock(new BlockManeki(manekiBID, Material.ground), MANEKI, tabBamboo);
-    }
-
-    public static Block getBlockInstance(int blockID) {
-        return BambooUtil.getBlcokInstance(blockID);
-    }
-
-    public static Item getItemInstance(int itemID) {
-        return BambooUtil.getItemInstance(itemID);
+        registerBlock(new BlockManeki(Material.ground), "maneki", tabBamboo);
     }
 
     private void itemsInit() {
-        new ItemBambooBasket(bambooBasketIID - ITEMID_OFFSET).setUnlocalizedName("bamboobasket").setCreativeTab(tabBamboo);
-        new ItemFirecracker(firecrackerIID - ITEMID_OFFSET).setUnlocalizedName("firecracker").setCreativeTab(tabBamboo);
-        new ItemBambooFood(foodsIID - ITEMID_OFFSET).setUnlocalizedName("bambooFood").setCreativeTab(tabBamboo);
-        new ItemBambooSpear(bambooSpearIID - ITEMID_OFFSET).setUnlocalizedName("bamboospear").setCreativeTab(tabBamboo);
-        new ItemSlideDoor(slideDoorsIID - ITEMID_OFFSET).setUnlocalizedName("slideDoor").setCreativeTab(tabBamboo);
-        new ItemKakeziku(kakezikuIID - ITEMID_OFFSET).setUnlocalizedName("kakeziku").setCreativeTab(tabBamboo);
-        new ItemHuton(hutonIID - ITEMID_OFFSET).setUnlocalizedName("huton").setCreativeTab(tabBamboo);
-        new ItemBambooshoot(takenokoIID - ITEMID_OFFSET, bambooBID).setUnlocalizedName("bambooshoot").setCreativeTab(tabBamboo);
-        new ItemBoiledEgg(boiledEggIID - ITEMID_OFFSET).setUnlocalizedName("boiledEgg");
-        new ItemShavedIce(shavedIceIID - ITEMID_OFFSET).setUnlocalizedName("shavedice").setCreativeTab(tabBamboo);
-        new ItemWindChime(windChimeIID - ITEMID_OFFSET).setUnlocalizedName("windchime").setCreativeTab(tabBamboo);
-        new ItemSack(itemSackIID - ITEMID_OFFSET).setUnlocalizedName("itemsack").setCreativeTab(tabBamboo);
-        new ItemDirtySnowball(snowBallIID - ITEMID_OFFSET).setUnlocalizedName("snowball").setCreativeTab(tabBamboo);
-        new ItemFan(fanIID - ITEMID_OFFSET).setUnlocalizedName("fan").setCreativeTab(tabBamboo);
-        new ItemKatana(katanaIID - ITEMID_OFFSET).setUnlocalizedName("katana").setCreativeTab(tabBamboo);
-        new ItemBambooBow(bambooBowIID - ITEMID_OFFSET).setUnlocalizedName("bamboobow").setCreativeTab(tabBamboo);
-        new ItemTudura(tuduraIID - ITEMID_OFFSET).setUnlocalizedName("tudura").setCreativeTab(tabBamboo);
-        new ItemWindmill(windmillIID - ITEMID_OFFSET).setUnlocalizedName("windmill").setCreativeTab(tabBamboo);
-        new ItemWaterwheel(waterWheelIID - ITEMID_OFFSET).setUnlocalizedName("waterwheel").setCreativeTab(tabBamboo);
-        new ItemBamboo(bambooIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("itembamboo").setCreativeTab(tabBamboo);
-        new ItemKaginawa(kaginawaIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("kaginawa").setCreativeTab(tabBamboo);
-        new ItemBambooSword(bambooSwordIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("bamboosword").setCreativeTab(tabBamboo);
-        new ItemObon(obonIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("obon").setCreativeTab(tabBamboo);
-        new ItemMagatama(magatamaIID - ITEMID_OFFSET).setUnlocalizedName("magatama").setTextureName("magatama").setCreativeTab(tabBamboo);
-        new Item(strawIID - ITEMID_OFFSET).setUnlocalizedName("straw").setTextureName(BambooCore.resourceDomain + "straw").setCreativeTab(tabBamboo);
-        new ItemSeeds(seedRiceIID - ITEMID_OFFSET, ricePlantBID, Block.tilledField.blockID).setUnlocalizedName("seedrice").setTextureName(BambooCore.resourceDomain + "seedrice").setCreativeTab(tabBamboo);
-        new ItemFood(rawriceIID - ITEMID_OFFSET, 1, false).setUnlocalizedName("rawrice").setTextureName(BambooCore.resourceDomain + "rawrice").setCreativeTab(tabBamboo);
-        MinecraftForge.addGrassSeed(new ItemStack(seedRiceIID, 1, 0), 10);
+        bambooBasket = registerItem(new ItemBambooBasket(), "bamboobasket", tabBamboo);
+        firecracker = registerItem(new ItemFirecracker(), "firecracker", tabBamboo);
+        foods = registerItem(new ItemBambooFood(), "bambooFood", tabBamboo);
+        bambooSpear = registerItem(new ItemBambooSpear(), "bamboospear", tabBamboo);
+        slideDoors = registerItem(new ItemSlideDoor(), "slideDoor", tabBamboo);
+        kakeziku = registerItem(new ItemKakeziku(), "kakeziku", tabBamboo);
+        huton = registerItem(new ItemHuton(), "huton", tabBamboo);
+        takenoko = registerItem(new ItemBambooshoot(bamboo), "bambooshoot", tabBamboo);
+        boiledEgg = registerItem(new ItemBoiledEgg(), "boiledEgg");
+        shavedIce = registerItem(new ItemShavedIce(), "shavedice", tabBamboo);
+        windChime = registerItem(new ItemWindChime(), "windchime", tabBamboo);
+        itemSack = registerItem(new ItemSack(), "itemsack", tabBamboo);
+        snowBall = registerItem(new ItemDirtySnowball(), "snowball", tabBamboo);
+        fan = registerItem(new ItemFan(), "fan", tabBamboo);
+        katana = registerItem(new ItemKatana(), "katana", tabBamboo);
+        bambooBow = registerItem(new ItemBambooBow(), "bamboobow", tabBamboo);
+        tudura = registerItem(new ItemTudura(), "tudura", tabBamboo);
+        windmill = registerItem(new ItemWindmill(), "windmill", tabBamboo);
+        waterWheel = registerItem(new ItemWaterwheel(), "waterwheel", tabBamboo);
+        itembamboo = registerItem(new ItemBamboo(), "itembamboo", tabBamboo);
+        kaginawa = registerItem(new ItemKaginawa(), "kaginawa", tabBamboo);
+        bambooSword = registerItem(new ItemBambooSword(), "bamboosword", tabBamboo);
+        obon = registerItem(new ItemObon(), "obon", tabBamboo);
+        magatama = registerItem(new ItemMagatama().setTextureName("magatama"), "magatama", tabBamboo);
+        straw = registerItem(new Item().setTextureName(BambooCore.resourceDomain + "straw"), "straw", tabBamboo);
+        riceSeed = registerItem(new ItemSeeds(ricePlant, Blocks.farmland).setTextureName(BambooCore.resourceDomain + "seedrice"), "seedrice", tabBamboo);
+        rawrice = registerItem(new ItemFood(1, false).setTextureName(BambooCore.resourceDomain + "rawrice"), "rawrice", tabBamboo);
+        MinecraftForge.addGrassSeed(new ItemStack(riceSeed, 1, 0), 10);
         workingItem();
     }
 
@@ -234,24 +236,36 @@ public class BambooInit {
 
     }
 
-    private void registerBlock(Block block, String name) {
-        this.registerBlock(block, ItemBlock.class, name, null);
+    private Block registerBlock(Block block, String name) {
+        return this.registerBlock(block, ItemBlock.class, name, null);
     }
 
-    private void registerBlock(Block block, String name, CreativeTabs creativeTabs) {
-        this.registerBlock(block, ItemBlock.class, name, creativeTabs);
+    private Block registerBlock(Block block, String name, CreativeTabs creativeTabs) {
+        return this.registerBlock(block, ItemBlock.class, name, creativeTabs);
     }
 
-    private void registerBlock(Block block, Class cls, String name) {
-        this.registerBlock(block, cls, name, null);
+    private Block registerBlock(Block block, Class cls, String name) {
+        return this.registerBlock(block, cls, name, null);
     }
 
-    private void registerBlock(Block block, Class cls, String name, CreativeTabs creativeTabs) {
+    private Block registerBlock(Block block, Class cls, String name, CreativeTabs creativeTabs) {
         if (creativeTabs != null) {
             block.setCreativeTab(creativeTabs);
         }
-        block.setUnlocalizedName(name);
-        GameRegistry.registerBlock(block, cls, name, BambooCore.MODID);
+        block.setBlockName(name);
+        return GameRegistry.registerBlock(block, cls, name, BambooCore.MODID);
+    }
+
+    private Item registerItem(Item item, String name) {
+        return registerItem(item, name, null);
+    }
+
+    private Item registerItem(Item item, String name, CreativeTabs creativeTabs) {
+        if (creativeTabs != null) {
+            item.setCreativeTab(creativeTabs);
+        }
+        item.setUnlocalizedName(name);
+        return GameRegistry.registerItem(item, name, BambooCore.MODID);
     }
 
     private String getChiledName() {
@@ -324,119 +338,4 @@ public class BambooInit {
         return chiledName;
     }
 
-    private void idsInit() {
-        File file = new File(Loader.instance().getConfigDir(), "mod_BambooIDConfig.cfg");
-        Configuration conf = new Configuration(file);
-        conf.load();
-        blockIdInit(conf);
-        itemIdInit(conf);
-        idShifter(conf);
-        conf.save();
-    }
-
-    private void blockIdInit(Configuration conf) {
-        bambooBlockBID = getBlockId(conf, "bambooBlock", 3238);
-        bambooBID = getBlockId(conf, "bamboo", 3239);
-        sakuraLogBID = getBlockId(conf, "sakuraLog", 3240);
-        kitunebiBID = getBlockId(conf, "kitunebi", 3241);
-        spaBID = getBlockId(conf, "spaWater", 3242);
-        jpchestBID = getBlockId(conf, "jpchest", 3243);
-        dSquareBID = getBlockId(conf, "dSquare", 3244);
-        andonBID = getBlockId(conf, "andon", 3245);
-        dHalfSquareBID = getBlockId(conf, "dHalfSquare", 3246);
-        bamboopaneBID = getBlockId(conf, "bamboopane", 3247);
-        sakuraleavsBID = getBlockId(conf, "sakuraleavs", 3248);
-        sakuraBID = getBlockId(conf, "sakura", 3249);
-        rooftileBID = getBlockId(conf, "rooftile", 3250);
-        spaunitBID = getBlockId(conf, "spaunit", 3251);
-        delude_widthBID = getBlockId(conf, "delude_width", 3252);
-        delude_heightBID = getBlockId(conf, "delude_height", 3253);
-        delude_stairBID = getBlockId(conf, "delude_stair", 3254);
-        campfireBID = getBlockId(conf, "campfire", 3255);
-        decoBID = getBlockId(conf, "deco", 3256);
-        halfDecoBID = getBlockId(conf, "halfDeco", 3257);
-        twoDirDecoBID = getBlockId(conf, "twoDirDeco", 3258);
-        halfTwoDirDecoBID = getBlockId(conf, "halfTwoDirDeco", 3259);
-        kawara_stairBID = getBlockId(conf, "kawara_stair", 3260);
-        //3261
-        ricePlantBID = getBlockId(conf, "ricePlant", 3262);
-        millStoneBID = getBlockId(conf, "millStone", 3263);
-        decoCarpetBID = getBlockId(conf, "decoCarpet", 3264);
-        thickSakuraPillarBID = getBlockId(conf, "thickSakuraPillar", 3265);
-        thinSakuraPillarBID = getBlockId(conf, "thinSakuraPillar", 3266);
-        thickOrcPillarBID = getBlockId(conf, "thickOrcPillar", 3267);
-        thinOrcPillarBID = getBlockId(conf, "thinOrcPillar", 3268);
-        thickSprucePillarBID = getBlockId(conf, "thickSprucePillar", 3269);
-        thinSprucePillarBID = getBlockId(conf, "thinSprucePillar", 3270);
-        delude_plateBID = getBlockId(conf, "delude_plate", 3271);
-        manekiBID = getBlockId(conf, "maneki", 3272);
-    }
-
-    private int getBlockId(Configuration conf, String key, int defaultId) {
-        return conf.getBlock(key, defaultId).getInt(defaultId);
-    }
-
-    private void itemIdInit(Configuration conf) {
-        bambooBasketIID = getItemId(conf, "bambooBasket", 23535);
-        firecrackerIID = getItemId(conf, "firecracker", 23536);
-        foodsIID = getItemId(conf, "foods", 23539);
-        windChimeIID = getItemId(conf, "windChime", 23540);
-        itemSackIID = getItemId(conf, "itemSack", 23541);
-        shavedIceIID = getItemId(conf, "shavedIce", 23542);
-        bambooSpearIID = getItemId(conf, "bambooSpear", 23543);
-        slideDoorsIID = getItemId(conf, "slideDoors", 23544);
-        kakezikuIID = getItemId(conf, "kakeziku", 23545);
-        seedRiceIID = getItemId(conf, "seedRice", 23546);
-        hutonIID = getItemId(conf, "huton", 23547);
-        takenokoIID = getItemId(conf, "takenoko", 23548);
-        strawIID = getItemId(conf, "straw", 23549);
-        boiledEggIID = getItemId(conf, "boiledEgg", 23550);
-        snowBallIID = getItemId(conf, "snowBall", 23551);
-        fanIID = getItemId(conf, "fan", 23552);
-        katanaIID = getItemId(conf, "katana", 23553);
-        bambooBowIID = getItemId(conf, "bambooBow", 23554);
-        windmillIID = getItemId(conf, "windmill", 23555);
-        waterWheelIID = getItemId(conf, "waterWheel", 23556);
-        bambooIID = getItemId(conf, "bamboo", 23557);
-        tuduraIID = getItemId(conf, "tudura", 23558);
-        kaginawaIID = getItemId(conf, "kaginawa", 23559);
-        bambooSwordIID = getItemId(conf, "bambooSword", 23560);
-        obonIID = getItemId(conf, "obon", 23561);
-        rawriceIID = getItemId(conf, "rawrice", 23562);//
-        magatamaIID = getItemId(conf, "magatama", 23563);
-    }
-
-    private int getItemId(Configuration conf, String key, int defaultId) {
-        return conf.getItem(key, defaultId).getInt(defaultId);
-    }
-
-    private void idShifter(Configuration conf) {
-        int blockShiftIndex = conf.get("A", "blockShiftIndex", 0, "BlockID bulk movement").getInt(0);
-        int itemShiftIndex = conf.get("A", "itemShiftIndex", 0, "ItemID bulk movement").getInt(0);
-
-        for (Field f : this.getClass().getFields()) {
-            try {
-                if (f.getName().matches(".*BID")) {
-                    f.setInt(this, f.getInt(this) + blockShiftIndex);
-                } else if (f.getName().matches(".*IID")) {
-                    f.setInt(this, f.getInt(this) + itemShiftIndex + ITEMID_OFFSET);
-                }
-            } catch (Exception e) {
-                FMLCommonHandler.instance().raiseException(e, "[mod_bamboo] IDShift exception", true);
-            }
-        }
-    }
-
-    private void slotOccupiedException(IllegalArgumentException e) {
-        if (!(FMLCommonHandler.instance().getMinecraftServerInstance() != null && FMLCommonHandler.instance().getMinecraftServerInstance().isDedicatedServer())) {
-            if (Minecraft.getMinecraft().gameSettings.language.equals("ja_JP")) {
-                String[] message = e.getMessage().split(" ");
-                throw new IllegalArgumentException("\n[mod_Bamboo]BlockID " + message[1] + " が被ってます、トピックへ報告しないでください。\n" + "対象Block： " + message[6] + " と " + message[9] + " です。\n" + "BlockID変更方法のサポートは致しかねます、各自検索していただくようお願い申し上げます。\n" + e.getMessage());
-            } else {
-                throw e;
-            }
-        } else {
-            throw e;
-        }
-    }
 }

@@ -1,13 +1,6 @@
 package ruby.bamboo.item;
 
-import ruby.bamboo.BambooCore;
-
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,23 +14,30 @@ import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.item.EnumToolMaterial;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.DamageSource;
+import ruby.bamboo.BambooCore;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemKatana extends ItemSword {
     private final float weaponDamage;
     private final short tick = 0;
 
-    public ItemKatana(int par1) {
-        super(par1, EnumToolMaterial.IRON);
+    public ItemKatana() {
+        super(Item.ToolMaterial.IRON);
         this.setMaxDamage(150);
         weaponDamage = 0;
     }
 
     @Override
-    public float func_82803_g() {
+    public float func_150931_i() {
         return 0;
     }
 
@@ -96,7 +96,7 @@ public class ItemKatana extends ItemSword {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerIcons(IIconRegister par1IconRegister) {
         this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "katana");
     }
 }

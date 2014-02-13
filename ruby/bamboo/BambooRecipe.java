@@ -1,16 +1,16 @@
 package ruby.bamboo;
 
 import static ruby.bamboo.BambooInit.*;
-import cpw.mods.fml.common.registry.GameRegistry;
-import ruby.bamboo.entity.EnumSlideDoor;
-import ruby.bamboo.grinder.GrindRegistory;
-import ruby.bamboo.item.EnumShavedIce;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import ruby.bamboo.entity.EnumSlideDoor;
+import ruby.bamboo.grinder.GrindRegistory;
+import ruby.bamboo.item.EnumShavedIce;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class BambooRecipe {
     private static final String BAMBOO = "bamboo";
@@ -24,189 +24,189 @@ public class BambooRecipe {
 
     private void recipeInit() {
         // 竹製品
-        addShapedOreRecipe(new ItemStack(tuduraIID, 1, 0), " # ", "# #", " # ", '#', BAMBOO);
-        addShapedOreRecipe(new ItemStack(Item.paper, 1), "###", '#', BAMBOO);
-        addShapedOreRecipe(new ItemStack(Item.stick, 2), "#", "#", '#', BAMBOO);
-        addShapedOreRecipe(new ItemStack(bambooBlockBID, 2, 0), "##", "##", '#', BAMBOO);
+        addShapedOreRecipe(new ItemStack(tudura, 1, 0), " # ", "# #", " # ", '#', BAMBOO);
+        addShapedOreRecipe(new ItemStack(Items.paper, 1), "###", '#', BAMBOO);
+        addShapedOreRecipe(new ItemStack(Items.stick, 2), "#", "#", '#', BAMBOO);
+        addShapedOreRecipe(new ItemStack(singleTexDeco, 2, 0), "##", "##", '#', BAMBOO);
         // きつねび
-        addShapedOreRecipe(new ItemStack(kitunebiBID, 6, 0), "YYY", "#X#", "YYY", 'Y', "dyeBlue", '#', TUDURA, 'X', Block.pumpkinLantern);
-        addShapedOreRecipe(new ItemStack(kitunebiBID, 6, 0), "Y#Y", "YXY", "Y#Y", 'Y', "dyeBlue", '#', TUDURA, 'X', Block.pumpkinLantern);
-        addShapedOreRecipe(new ItemStack(kitunebiBID, 6, 0), "YYY", "#X#", "YYY", 'Y', "dyeBlue", '#', TUDURA, 'X', Item.enderPearl);
-        addShapedOreRecipe(new ItemStack(kitunebiBID, 6, 0), "Y#Y", "YXY", "Y#Y", 'Y', "dyeBlue", '#', TUDURA, 'X', Item.enderPearl);
+        addShapedOreRecipe(new ItemStack(kitunebi, 6, 0), "YYY", "#X#", "YYY", 'Y', "dyeBlue", '#', TUDURA, 'X', Blocks.pumpkin_stem);
+        addShapedOreRecipe(new ItemStack(kitunebi, 6, 0), "Y#Y", "YXY", "Y#Y", 'Y', "dyeBlue", '#', TUDURA, 'X', Blocks.pumpkin_stem);
+        addShapedOreRecipe(new ItemStack(kitunebi, 6, 0), "YYY", "#X#", "YYY", 'Y', "dyeBlue", '#', TUDURA, 'X', Items.ender_pearl);
+        addShapedOreRecipe(new ItemStack(kitunebi, 6, 0), "Y#Y", "YXY", "Y#Y", 'Y', "dyeBlue", '#', TUDURA, 'X', Items.ender_pearl);
         // うつわ
-        addShapedOreRecipe(new ItemStack(bambooBasketIID, 1, 0), "# #", " # ", '#', BAMBOO);
+        addShapedOreRecipe(new ItemStack(bambooBasket, 1, 0), "# #", " # ", '#', BAMBOO);
         // 竹槍
-        GameRegistry.addRecipe(new ItemStack(bambooSpearIID, 2, 0), "##", '#', new ItemStack(bambooBlockBID, 1, 32767));
+        GameRegistry.addRecipe(new ItemStack(bambooSpear, 2, 0), "##", '#', new ItemStack(singleTexDeco, 1, 32767));
         // 引き戸類
-        addShapedOreRecipe(new ItemStack(slideDoorsIID, 2, EnumSlideDoor.HUSUMA.getId()), "XYX", "X#X", "XYX", 'X', Item.stick, 'Y', Item.paper, '#', TUDURA);
-        addShapedOreRecipe(new ItemStack(slideDoorsIID, 2, EnumSlideDoor.SHOZI.getId()), "XYX", "Y#Y", "XYX", '#', TUDURA, 'X', Item.stick, 'Y', Item.paper);
-        addShapedOreRecipe(new ItemStack(slideDoorsIID, 2, EnumSlideDoor.GLASS.getId()), "XYX", "X#X", "XYX", '#', TUDURA, 'X', Block.fenceIron, 'Y', Block.thinGlass);
-        addShapedOreRecipe(new ItemStack(slideDoorsIID, 2, EnumSlideDoor.GGLASS.getId()), "XYX", "X#X", "XYX", '#', TUDURA, 'X', Item.stick, 'Y', Block.thinGlass);
-        addShapedOreRecipe(new ItemStack(slideDoorsIID, 2, EnumSlideDoor.YUKI.getId()), "XYX", "X#X", "XZX", '#', TUDURA, 'X', Item.stick, 'Y', Item.paper, 'Z', Block.thinGlass);
-        addShapedOreRecipe(new ItemStack(slideDoorsIID, 2, EnumSlideDoor.AMADO.getId()), "XYX", "X#X", "XYX", '#', TUDURA, 'X', Item.stick, 'Y', "plankWood");
+        addShapedOreRecipe(new ItemStack(slideDoors, 2, EnumSlideDoor.HUSUMA.getId()), "XYX", "X#X", "XYX", 'X', Items.stick, 'Y', Items.paper, '#', TUDURA);
+        addShapedOreRecipe(new ItemStack(slideDoors, 2, EnumSlideDoor.SHOZI.getId()), "XYX", "Y#Y", "XYX", '#', TUDURA, 'X', Items.stick, 'Y', Items.paper);
+        addShapedOreRecipe(new ItemStack(slideDoors, 2, EnumSlideDoor.GLASS.getId()), "XYX", "X#X", "XYX", '#', TUDURA, 'X', Blocks.iron_bars, 'Y', Blocks.glass_pane);
+        addShapedOreRecipe(new ItemStack(slideDoors, 2, EnumSlideDoor.GGLASS.getId()), "XYX", "X#X", "XYX", '#', TUDURA, 'X', Items.stick, 'Y', Blocks.glass_pane);
+        addShapedOreRecipe(new ItemStack(slideDoors, 2, EnumSlideDoor.YUKI.getId()), "XYX", "X#X", "XZX", '#', TUDURA, 'X', Items.stick, 'Y', Items.paper, 'Z', Blocks.glass_pane);
+        addShapedOreRecipe(new ItemStack(slideDoors, 2, EnumSlideDoor.AMADO.getId()), "XYX", "X#X", "XYX", '#', TUDURA, 'X', Items.stick, 'Y', "plankWood");
         // パネル類
-        addShapedOreRecipe(new ItemStack(bamboopaneBID, 8, 0), "###", "###", '#', BAMBOO);
-        addShapedOreRecipe(new ItemStack(bamboopaneBID, 8, 1), "#X#", "###", '#', Block.planks, 'X', TUDURA);
-        addShapedOreRecipe(new ItemStack(bamboopaneBID, 6, 2), "#X#", "#X#", '#', BAMBOO, 'X', new ItemStack(bamboopaneBID, 1, 0));
-        addShapedOreRecipe(new ItemStack(bamboopaneBID, 6, 3), "#X#", "#X#", '#', BAMBOO, 'X', new ItemStack(bamboopaneBID, 1, 2));
-        addShapedOreRecipe(new ItemStack(bamboopaneBID, 8, 4), "#X#", "###", '#', new ItemStack(Block.cloth, 1, 11), 'X', TUDURA);
-        addShapedOreRecipe(new ItemStack(bamboopaneBID, 8, 5), "#X#", "###", '#', new ItemStack(Block.cloth, 1, 10), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(bamboopane, 8, 0), "###", "###", '#', BAMBOO);
+        addShapedOreRecipe(new ItemStack(bamboopane, 8, 1), "#X#", "###", '#', Blocks.planks, 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(bamboopane, 6, 2), "#X#", "#X#", '#', BAMBOO, 'X', new ItemStack(bamboopane, 1, 0));
+        addShapedOreRecipe(new ItemStack(bamboopane, 6, 3), "#X#", "#X#", '#', BAMBOO, 'X', new ItemStack(bamboopane, 1, 2));
+        addShapedOreRecipe(new ItemStack(bamboopane, 8, 4), "#X#", "###", '#', new ItemStack(Blocks.wool, 1, 11), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(bamboopane, 8, 5), "#X#", "###", '#', new ItemStack(Blocks.wool, 1, 10), 'X', TUDURA);
         // 爆竹類
-        addShapedOreRecipe(new ItemStack(firecrackerIID, 10, 0), " # ", " X ", " # ", '#', BUSKET, 'X', Item.gunpowder);
-        addShapedOreRecipe(new ItemStack(firecrackerIID, 1, 1), " # ", "XYX", " # ", '#', BUSKET, 'X', Item.gunpowder, 'Y', new ItemStack(firecrackerIID, 1, 0));
-        addShapedOreRecipe(new ItemStack(firecrackerIID, 1, 2), " # ", "XYX", " # ", '#', BUSKET, 'X', Item.gunpowder, 'Y', new ItemStack(firecrackerIID, 1, 1));
+        addShapedOreRecipe(new ItemStack(firecracker, 10, 0), " # ", " X ", " # ", '#', BUSKET, 'X', Items.gunpowder);
+        addShapedOreRecipe(new ItemStack(firecracker, 1, 1), " # ", "XYX", " # ", '#', BUSKET, 'X', Items.gunpowder, 'Y', new ItemStack(firecracker, 1, 0));
+        addShapedOreRecipe(new ItemStack(firecracker, 1, 2), " # ", "XYX", " # ", '#', BUSKET, 'X', Items.gunpowder, 'Y', new ItemStack(firecracker, 1, 1));
         // 飯類
-        addShapelessOreRecipe(new ItemStack(foodsIID, 1, 1), Item.beefCooked, WHEAT_RICE);
-        addShapelessOreRecipe(new ItemStack(foodsIID, 1, 2), Item.porkCooked, WHEAT_RICE);
-        addShapelessOreRecipe(new ItemStack(foodsIID, 1, 3), Block.mushroomRed, WHEAT_RICE);
-        addShapelessOreRecipe(new ItemStack(foodsIID, 1, 4), Item.porkCooked, BAMBOO);
-        addShapelessOreRecipe(new ItemStack(foodsIID, 1, 5), Item.beefCooked, BAMBOO);
-        addShapelessOreRecipe(new ItemStack(foodsIID, 1, 6), getItemInstance(takenokoIID), WHEAT_RICE);
-        addShapelessOreRecipe(new ItemStack(foodsIID, 1, 7), Item.egg, WHEAT_RICE);
-        addShapelessOreRecipe(new ItemStack(foodsIID, 1, 8), Item.egg, Item.chickenCooked, WHEAT_RICE);
-        addShapelessOreRecipe(new ItemStack(foodsIID, 1, 9), Item.fishRaw, WHEAT_RICE);
-        addShapelessOreRecipe(new ItemStack(foodsIID, 1, 10), Item.chickenCooked, BAMBOO);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 1), Items.cooked_beef, WHEAT_RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 2), Items.cooked_porkchop, WHEAT_RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 3), Blocks.red_mushroom, WHEAT_RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 4), Items.porkchop, BAMBOO);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 5), Items.cooked_beef, BAMBOO);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 6), takenoko, WHEAT_RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 7), Items.egg, WHEAT_RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 8), Items.egg, Items.cooked_chicken, WHEAT_RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 9), Items.fish, WHEAT_RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 10), Items.cooked_chicken, BAMBOO);
         // 箪笥
-        addShapedOreRecipe(new ItemStack(jpchestBID, 1, 0), "YYY", "Y#Y", "YYY", '#', TUDURA, 'Y', "logWood");
+        addShapedOreRecipe(new ItemStack(jpchest, 1, 0), "YYY", "Y#Y", "YYY", '#', TUDURA, 'Y', "logWood");
         // 畳 茅葺き
-        addShapedOreRecipe(new ItemStack(dSquareBID, 4, 0), " X ", "X#X", " X ", '#', TUDURA, 'X', Item.wheat);
-        addShapedOreRecipe(new ItemStack(dSquareBID, 8, 4), "XXX", "X#X", "XXX", '#', TUDURA, 'X', Item.wheat);
-        GameRegistry.addShapelessRecipe(new ItemStack(dSquareBID, 1, 12), new ItemStack(dSquareBID, 1, 0));
-        GameRegistry.addShapelessRecipe(new ItemStack(dSquareBID, 1, 0), new ItemStack(dSquareBID, 1, 12));
-        addSlabRecipe(new ItemStack(dHalfSquareBID, 6, 0), new ItemStack(dSquareBID, 1, 0));
-        addSlabRecipe(new ItemStack(dHalfSquareBID, 6, 4), new ItemStack(dSquareBID, 1, 4));
-        addSlabRecipe(new ItemStack(dHalfSquareBID, 6, 8), new ItemStack(dSquareBID, 1, 8));
-        addSlabRecipe(new ItemStack(dHalfSquareBID, 6, 10), new ItemStack(dSquareBID, 1, 10));
-        addSlabRecipe(new ItemStack(dHalfSquareBID, 6, 12), new ItemStack(dSquareBID, 1, 12));
-        addCarpetRecipe(new ItemStack(decoCarpetBID, 3, 0), new ItemStack(dSquareBID, 1, 0));
-        addCarpetRecipe(new ItemStack(decoCarpetBID, 3, 2), new ItemStack(dSquareBID, 1, 4));
-        addCarpetRecipe(new ItemStack(decoCarpetBID, 3, 4), new ItemStack(dSquareBID, 1, 8));
-        addCarpetRecipe(new ItemStack(decoCarpetBID, 3, 6), new ItemStack(dSquareBID, 1, 10));
-        addCarpetRecipe(new ItemStack(decoCarpetBID, 3, 8), new ItemStack(dSquareBID, 1, 12));
+        addShapedOreRecipe(new ItemStack(dSquare, 4, 0), " X ", "X#X", " X ", '#', TUDURA, 'X', Items.wheat);
+        addShapedOreRecipe(new ItemStack(dSquare, 8, 4), "XXX", "X#X", "XXX", '#', TUDURA, 'X', Items.wheat);
+        GameRegistry.addShapelessRecipe(new ItemStack(dSquare, 1, 12), new ItemStack(dSquare, 1, 0));
+        GameRegistry.addShapelessRecipe(new ItemStack(dSquare, 1, 0), new ItemStack(dSquare, 1, 12));
+        addSlabRecipe(new ItemStack(dHalfSquare, 6, 0), new ItemStack(dSquare, 1, 0));
+        addSlabRecipe(new ItemStack(dHalfSquare, 6, 4), new ItemStack(dSquare, 1, 4));
+        addSlabRecipe(new ItemStack(dHalfSquare, 6, 8), new ItemStack(dSquare, 1, 8));
+        addSlabRecipe(new ItemStack(dHalfSquare, 6, 10), new ItemStack(dSquare, 1, 10));
+        addSlabRecipe(new ItemStack(dHalfSquare, 6, 12), new ItemStack(dSquare, 1, 12));
+        addCarpetRecipe(new ItemStack(decoCarpet, 3, 0), new ItemStack(dSquare, 1, 0));
+        addCarpetRecipe(new ItemStack(decoCarpet, 3, 2), new ItemStack(dSquare, 1, 4));
+        addCarpetRecipe(new ItemStack(decoCarpet, 3, 4), new ItemStack(dSquare, 1, 8));
+        addCarpetRecipe(new ItemStack(decoCarpet, 3, 6), new ItemStack(dSquare, 1, 10));
+        addCarpetRecipe(new ItemStack(decoCarpet, 3, 8), new ItemStack(dSquare, 1, 12));
         // 掛け軸
-        addShapedOreRecipe(new ItemStack(kakezikuIID, 1, 0), "YYY", "X#X", "XXX", '#', TUDURA, 'Y', Item.stick, 'X', Item.paper);
+        addShapedOreRecipe(new ItemStack(kakeziku, 1, 0), "YYY", "X#X", "XXX", '#', TUDURA, 'Y', Items.stick, 'X', Items.paper);
         // 行灯
-        addShapedOreRecipe(new ItemStack(andonBID, 1, 0), "###", "#Y#", "#X#", '#', Item.stick, 'X', Block.torchWood, 'Y', TUDURA);
+        addShapedOreRecipe(new ItemStack(andon, 1, 0), "###", "#Y#", "#X#", '#', Items.stick, 'X', Blocks.torch, 'Y', TUDURA);
         // ふとん
-        addShapedOreRecipe(new ItemStack(hutonIID, 1, 0), " # ", "XXX", "XXX", '#', TUDURA, 'X', Block.cloth);
+        addShapedOreRecipe(new ItemStack(huton, 1, 0), " # ", "XXX", "XXX", '#', TUDURA, 'X', Blocks.wool);
         // 茅葺屋根
-        addStairRecipe(new ItemStack(rooftileBID, 6, 0), new ItemStack(dSquareBID, 1, 4));
-        addStairRecipe(new ItemStack(rooftileBID, 6, 0), Item.wheat, TUDURA);
+        addStairRecipe(new ItemStack(rooftile, 6, 0), new ItemStack(dSquare, 1, 4));
+        addStairRecipe(new ItemStack(rooftile, 6, 0), Items.wheat, TUDURA);
         // 温泉ユニット
-        addShapedOreRecipe(new ItemStack(spaunitBID, 1, 0), "#Z#", "#X#", "#Y#", 'Z', TUDURA, '#', Block.cobblestone, 'Y', Item.bucketLava, 'X', Item.bucketWater);
+        addShapedOreRecipe(new ItemStack(spaunit, 1, 0), "#Z#", "#X#", "#Y#", 'Z', TUDURA, '#', Blocks.cobblestone, 'Y', Items.lava_bucket, 'X', Items.water_bucket);
         // かき氷
         EnumShavedIce[] esis = EnumShavedIce.values();
 
         for (EnumShavedIce esi : esis) {
             if (esi.material != null) {
-                addShapelessOreRecipe(new ItemStack(shavedIceIID, 1, esi.id), esi.material, Block.blockSnow, Item.sugar, BUSKET);
-                GameRegistry.addShapelessRecipe(new ItemStack(shavedIceIID, 1, esi.id), esi.material, new ItemStack(shavedIceIID, 1, 0));
+                addShapelessOreRecipe(new ItemStack(shavedIce, 1, esi.id), esi.material, Blocks.snow, Items.sugar, BUSKET);
+                GameRegistry.addShapelessRecipe(new ItemStack(shavedIce, 1, esi.id), esi.material, new ItemStack(shavedIce, 1, 0));
             } else {
-                addShapelessOreRecipe(new ItemStack(shavedIceIID, 1, esi.id), Block.blockSnow, Item.sugar, BUSKET);
+                addShapelessOreRecipe(new ItemStack(shavedIce, 1, esi.id), Blocks.snow, Items.sugar, BUSKET);
             }
 
-            GameRegistry.addShapelessRecipe(new ItemStack(shavedIceIID, 1, esi.id + esis.length), Item.bucketMilk, new ItemStack(shavedIceIID, 1, esi.id));
+            GameRegistry.addShapelessRecipe(new ItemStack(shavedIce, 1, esi.id + esis.length), Items.milk_bucket, new ItemStack(shavedIce, 1, esi.id));
         }
 
         // 風鈴
-        addShapedOreRecipe(new ItemStack(windChimeIID, 1, 0), "#", "X", "B", '#', Item.silk, 'X', TUDURA, 'B', Item.paper);
+        addShapedOreRecipe(new ItemStack(windChime, 1, 0), "#", "X", "B", '#', Items.string, 'X', TUDURA, 'B', Items.paper);
         // ふくろ
-        addShapedOreRecipe(new ItemStack(itemSackIID, 1, 0), "###", "WXW", "WWW", 'X', TUDURA, '#', Item.silk, 'W', Block.cloth);
-        GameRegistry.addShapelessRecipe(new ItemStack(itemSackIID, 1, 0), new ItemStack(itemSackIID, 1, 32767));
+        addShapedOreRecipe(new ItemStack(itemSack, 1, 0), "###", "WXW", "WWW", 'X', TUDURA, '#', Items.string, 'W', Blocks.wool);
+        GameRegistry.addShapelessRecipe(new ItemStack(itemSack, 1, 0), new ItemStack(itemSack, 1, 32767));
         // 雪球
-        GameRegistry.addRecipe(new ItemStack(snowBallIID, 32, 0), "###", "#X#", "###", '#', Block.blockSnow, 'X', Block.cobblestone);
-        GameRegistry.addRecipe(new ItemStack(snowBallIID, 32, 1), "###", "#X#", "###", '#', Block.blockSnow, 'X', Block.ice);
-        GameRegistry.addRecipe(new ItemStack(snowBallIID, 32, 2), "###", "#X#", "###", '#', Block.blockSnow, 'X', Item.ingotIron);
-        GameRegistry.addRecipe(new ItemStack(snowBallIID, 01, 3), "###", "#X#", "###", '#', Block.blockSnow, 'X', Item.goldNugget);
-        GameRegistry.addRecipe(new ItemStack(snowBallIID, 32, 4), "###", "#X#", "###", '#', Block.blockSnow, 'X', Item.diamond);
-        GameRegistry.addRecipe(new ItemStack(snowBallIID, 32, 5), "###", "#X#", "###", '#', Block.blockSnow, 'X', Item.bucketWater);
-        GameRegistry.addRecipe(new ItemStack(snowBallIID, 32, 6), "###", "#X#", "###", '#', Block.blockSnow, 'X', Item.enderPearl);
-        GameRegistry.addRecipe(new ItemStack(snowBallIID, 04, 7), "###", "#X#", "###", '#', Block.blockSnow, 'X', Block.mushroomRed);
-        GameRegistry.addRecipe(new ItemStack(snowBallIID, 04, 8), "###", "#X#", "###", '#', Block.blockSnow, 'X', Item.spiderEye);
-        GameRegistry.addRecipe(new ItemStack(snowBallIID, 01, 9), "###", "#X#", "###", '#', Block.blockSnow, 'X', Item.melon);
+        GameRegistry.addRecipe(new ItemStack(snowBall, 32, 0), "###", "#X#", "###", '#', Blocks.snow, 'X', Blocks.cobblestone);
+        GameRegistry.addRecipe(new ItemStack(snowBall, 32, 1), "###", "#X#", "###", '#', Blocks.snow, 'X', Blocks.ice);
+        GameRegistry.addRecipe(new ItemStack(snowBall, 32, 2), "###", "#X#", "###", '#', Blocks.snow, 'X', Items.iron_ingot);
+        GameRegistry.addRecipe(new ItemStack(snowBall, 01, 3), "###", "#X#", "###", '#', Blocks.snow, 'X', Items.gold_nugget);
+        GameRegistry.addRecipe(new ItemStack(snowBall, 32, 4), "###", "#X#", "###", '#', Blocks.snow, 'X', Items.diamond);
+        GameRegistry.addRecipe(new ItemStack(snowBall, 32, 5), "###", "#X#", "###", '#', Blocks.snow, 'X', Items.water_bucket);
+        GameRegistry.addRecipe(new ItemStack(snowBall, 32, 6), "###", "#X#", "###", '#', Blocks.snow, 'X', Items.ender_pearl);
+        GameRegistry.addRecipe(new ItemStack(snowBall, 04, 7), "###", "#X#", "###", '#', Blocks.snow, 'X', Blocks.red_mushroom);
+        GameRegistry.addRecipe(new ItemStack(snowBall, 04, 8), "###", "#X#", "###", '#', Blocks.snow, 'X', Items.spider_eye);
+        GameRegistry.addRecipe(new ItemStack(snowBall, 01, 9), "###", "#X#", "###", '#', Blocks.snow, 'X', Items.melon);
         // 扇子
-        addShapedOreRecipe(new ItemStack(fanIID, 1, 0), "XYY", "XYY", "XXX", 'X', BAMBOO, 'Y', Item.paper);
+        addShapedOreRecipe(new ItemStack(fan, 1, 0), "XYY", "XYY", "XXX", 'X', BAMBOO, 'Y', Items.paper);
         // 武器
-        addShapedOreRecipe(new ItemStack(katanaIID, 1, 0), "X", "X", "Y", 'X', Item.ingotIron, 'Y', TUDURA);
-        GameRegistry.addRecipe(new ItemStack(bambooBowIID, 1, 0), " XY", "X Y", " XY", 'X', getBlockInstance(bambooBlockBID), 'Y', Item.silk);
-        addShapedOreRecipe(new ItemStack(bambooSwordIID, 1, 0), " X ", " X ", " Y ", 'X', BAMBOO, 'Y', TUDURA);
+        addShapedOreRecipe(new ItemStack(katana, 1, 0), "X", "X", "Y", 'X', Items.iron_ingot, 'Y', TUDURA);
+        GameRegistry.addRecipe(new ItemStack(bambooBow, 1, 0), " XY", "X Y", " XY", 'X', singleTexDeco, 'Y', Items.string);
+        addShapedOreRecipe(new ItemStack(bambooSword, 1, 0), " X ", " X ", " Y ", 'X', BAMBOO, 'Y', TUDURA);
         // サクラから桜木材
-        GameRegistry.addShapelessRecipe(new ItemStack(twoDirDecoBID, 4, 2), getBlockInstance(sakuraLogBID));
+        GameRegistry.addShapelessRecipe(new ItemStack(decoration_dir, 4, 2), sakuralog);
         // カメレオン類
-        addShapedOreRecipe(new ItemStack(delude_widthBID, 6, 0), " # ", "YXY", " # ", '#', TUDURA, 'X', Block.pumpkinLantern, 'Y', Block.slowSand);
-        addShapedOreRecipe(new ItemStack(delude_heightBID, 6, 0), " Y ", "#X#", " Y ", '#', TUDURA, 'X', Block.pumpkinLantern, 'Y', Block.slowSand);
-        addShapedOreRecipe(new ItemStack(delude_stairBID, 8, 0), "Y  ", "YX ", "#YY", '#', TUDURA, 'X', Block.pumpkinLantern, 'Y', Block.slowSand);
-        addShapedOreRecipe(new ItemStack(delude_stairBID, 8, 0), "  Y", " XY", "YY#", '#', TUDURA, 'X', Block.pumpkinLantern, 'Y', Block.slowSand);
-        addShapedOreRecipe(new ItemStack(delude_plateBID, 1, 0), "##", '#', new ItemStack(delude_widthBID, 1, 0));
+        addShapedOreRecipe(new ItemStack(delude_width, 6, 0), " # ", "YXY", " # ", '#', TUDURA, 'X', Blocks.pumpkin_stem, 'Y', Blocks.soul_sand);
+        addShapedOreRecipe(new ItemStack(delude_height, 6, 0), " Y ", "#X#", " Y ", '#', TUDURA, 'X', Blocks.pumpkin_stem, 'Y', Blocks.soul_sand);
+        addShapedOreRecipe(new ItemStack(delude_stair, 8, 0), "Y  ", "YX ", "#YY", '#', TUDURA, 'X', Blocks.pumpkin_stem, 'Y', Blocks.soul_sand);
+        addShapedOreRecipe(new ItemStack(delude_stair, 8, 0), "  Y", " XY", "YY#", '#', TUDURA, 'X', Blocks.pumpkin_stem, 'Y', Blocks.soul_sand);
+        addShapedOreRecipe(new ItemStack(delude_plate, 1, 0), "##", '#', new ItemStack(delude_width, 1, 0));
         // いろり
-        addShapedOreRecipe(new ItemStack(campfireBID, 1, 0), " # ", "ZXZ", "YYY", '#', TUDURA, 'Z', Block.fenceIron, 'X', Item.flintAndSteel, 'Y', new ItemStack(Item.coal, 1, 1));
+        addShapedOreRecipe(new ItemStack(campfire, 1, 0), " # ", "ZXZ", "YYY", '#', TUDURA, 'Z', Blocks.iron_bars, 'X', Items.flint_and_steel, 'Y', new ItemStack(Items.coal, 1, 1));
         // 風車水車
-        addShapedOreRecipe(new ItemStack(windmillIID, 1, 0), "YXY", "X#X", "YXY", '#', TUDURA, 'X', BAMBOO, 'Y', getBlockInstance(bambooBlockBID));
-        addShapedOreRecipe(new ItemStack(windmillIID, 1, 1), "YXY", "X#X", "YXY", '#', TUDURA, 'X', BAMBOO, 'Y', Block.cloth);
-        addShapedOreRecipe(new ItemStack(waterWheelIID, 1, 0), "YXY", "X#X", "YXY", '#', TUDURA, 'X', BAMBOO, 'Y', Block.planks);
+        addShapedOreRecipe(new ItemStack(windmill, 1, 0), "YXY", "X#X", "YXY", '#', TUDURA, 'X', BAMBOO, 'Y', singleTexDeco);
+        addShapedOreRecipe(new ItemStack(windmill, 1, 1), "YXY", "X#X", "YXY", '#', TUDURA, 'X', BAMBOO, 'Y', Blocks.wool);
+        addShapedOreRecipe(new ItemStack(waterWheel, 1, 0), "YXY", "X#X", "YXY", '#', TUDURA, 'X', BAMBOO, 'Y', Blocks.planks);
         // 方向なしデコブロック
-        addShapedOreRecipe(new ItemStack(decoBID, 8, 0), "###", "#X#", "###", '#', Block.sand, 'X', TUDURA);
-        addShapedOreRecipe(new ItemStack(decoBID, 8, 1), "Y#Y", "#X#", "Y#Y", '#', new ItemStack(decoBID, 8, 5), 'X', TUDURA, 'Y', new ItemStack(decoBID, 8, 0));
-        addShapedOreRecipe(new ItemStack(decoBID, 8, 2), "###", "#X#", "###", '#', new ItemStack(Block.planks, 1, 0), 'X', TUDURA);
-        addShapedOreRecipe(new ItemStack(decoBID, 8, 3), "###", "#X#", "###", '#', new ItemStack(Block.planks, 1, 1), 'X', TUDURA);
-        addShapedOreRecipe(new ItemStack(decoBID, 8, 4), "###", "#X#", "###", '#', new ItemStack(Block.planks, 1, 2), 'X', TUDURA);
-        addShapedOreRecipe(new ItemStack(decoBID, 8, 5), "###", "#X#", "###", '#', Item.brick, 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(decoration, 8, 0), "###", "#X#", "###", '#', Blocks.sand, 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(decoration, 8, 1), "Y#Y", "#X#", "Y#Y", '#', new ItemStack(decoration, 8, 5), 'X', TUDURA, 'Y', new ItemStack(decoration, 8, 0));
+        addShapedOreRecipe(new ItemStack(decoration, 8, 2), "###", "#X#", "###", '#', new ItemStack(Blocks.planks, 1, 0), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(decoration, 8, 3), "###", "#X#", "###", '#', new ItemStack(Blocks.planks, 1, 1), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(decoration, 8, 4), "###", "#X#", "###", '#', new ItemStack(Blocks.planks, 1, 2), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(decoration, 8, 5), "###", "#X#", "###", '#', Items.brick, 'X', TUDURA);
         // デコハーフ
-        addSlabRecipe(new ItemStack(halfDecoBID, 6, 0), new ItemStack(decoBID, 8, 0));
-        addSlabRecipe(new ItemStack(halfDecoBID, 6, 1), new ItemStack(decoBID, 8, 1));
-        addSlabRecipe(new ItemStack(halfDecoBID, 6, 2), new ItemStack(decoBID, 8, 2));
-        addSlabRecipe(new ItemStack(halfDecoBID, 6, 3), new ItemStack(decoBID, 8, 3));
-        addSlabRecipe(new ItemStack(halfDecoBID, 6, 4), new ItemStack(decoBID, 8, 4));
-        addSlabRecipe(new ItemStack(halfDecoBID, 6, 5), new ItemStack(decoBID, 8, 5));
+        addSlabRecipe(new ItemStack(decoration_half, 6, 0), new ItemStack(decoration, 8, 0));
+        addSlabRecipe(new ItemStack(decoration_half, 6, 1), new ItemStack(decoration, 8, 1));
+        addSlabRecipe(new ItemStack(decoration_half, 6, 2), new ItemStack(decoration, 8, 2));
+        addSlabRecipe(new ItemStack(decoration_half, 6, 3), new ItemStack(decoration, 8, 3));
+        addSlabRecipe(new ItemStack(decoration_half, 6, 4), new ItemStack(decoration, 8, 4));
+        addSlabRecipe(new ItemStack(decoration_half, 6, 5), new ItemStack(decoration, 8, 5));
         // 方向付きデコ（桜木材）
-        addShapedOreRecipe(new ItemStack(twoDirDecoBID, 8, 0), "###", "#X#", "###", '#', new ItemStack(twoDirDecoBID, 8, 2), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(decoration_dir, 8, 0), "###", "#X#", "###", '#', new ItemStack(decoration_dir, 8, 2), 'X', TUDURA);
         // 方向付きデコハーフ
-        addSlabRecipe(new ItemStack(halfTwoDirDecoBID, 6, 0), new ItemStack(twoDirDecoBID, 4, 0));
-        addSlabRecipe(new ItemStack(halfTwoDirDecoBID, 6, 2), new ItemStack(twoDirDecoBID, 4, 2));
+        addSlabRecipe(new ItemStack(decoration_dir_half, 6, 0), new ItemStack(decoration_dir, 4, 0));
+        addSlabRecipe(new ItemStack(decoration_dir_half, 6, 2), new ItemStack(decoration_dir, 4, 2));
         // 瓦
         // 瓦階段
-        addStairRecipe(new ItemStack(kawara_stairBID, 4, 0), new ItemStack(decoBID, 1, 5));
+        addStairRecipe(new ItemStack(kawara_stair, 4, 0), new ItemStack(decoration, 1, 5));
         // おぼん
-        GameRegistry.addRecipe(new ItemStack(obonIID, 1, 0), "###", "# #", '#', new ItemStack(twoDirDecoBID, 4, 2));
+        GameRegistry.addRecipe(new ItemStack(obon, 1, 0), "###", "# #", '#', new ItemStack(decoration_dir, 4, 2));
         // 柱
-        addShapedOreRecipe(new ItemStack(thickSakuraPillarBID, 4, 0), "#", "X", "#", '#', new ItemStack(twoDirDecoBID, 1, 2), 'X', TUDURA);
-        addShapedOreRecipe(new ItemStack(thinSakuraPillarBID, 4, 0), "#", "X", "#", '#', new ItemStack(thickSakuraPillarBID, 1, 0), 'X', TUDURA);
-        addShapedOreRecipe(new ItemStack(thickOrcPillarBID, 4, 0), "#", "X", "#", '#', new ItemStack(Block.planks, 1, 0), 'X', TUDURA);
-        addShapedOreRecipe(new ItemStack(thinOrcPillarBID, 4, 0), "#", "X", "#", '#', new ItemStack(thickOrcPillarBID, 1, 0), 'X', TUDURA);
-        addShapedOreRecipe(new ItemStack(thickSprucePillarBID, 4, 0), "#", "X", "#", '#', new ItemStack(Block.wood, 1, 1), 'X', TUDURA);
-        addShapedOreRecipe(new ItemStack(thinSprucePillarBID, 4, 0), "#", "X", "#", '#', new ItemStack(thickSprucePillarBID, 1, 0), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(thickSakuraPillar, 4, 0), "#", "X", "#", '#', new ItemStack(decoration_dir, 1, 2), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(thinSakuraPillar, 4, 0), "#", "X", "#", '#', new ItemStack(thickSakuraPillar, 1, 0), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(thickOrcPillar, 4, 0), "#", "X", "#", '#', new ItemStack(Blocks.planks, 1, 0), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(thinOrcPillar, 4, 0), "#", "X", "#", '#', new ItemStack(thickOrcPillar, 1, 0), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(thickSprucePillar, 4, 0), "#", "X", "#", '#', new ItemStack(Blocks.log, 1, 1), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(thinSprucePillar, 4, 0), "#", "X", "#", '#', new ItemStack(thickSprucePillar, 1, 0), 'X', TUDURA);
         //石臼
-        addShapedOreRecipe(new ItemStack(millStoneBID,1, 0), "###", "X#X", "###", '#', new ItemStack(Block.cobblestone), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(millStone, 1, 0), "###", "X#X", "###", '#', new ItemStack(Blocks.cobblestone), 'X', TUDURA);
         // 鉱石辞書
         addOreDictionary();
         // 粉砕レシピ
         addGrindRecipe();
         // やきもの
-        GameRegistry.addSmelting(bambooBlockBID, new ItemStack(Item.coal, 1, 1), 0.15F);
-        GameRegistry.addSmelting(sakuraLogBID, new ItemStack(Item.coal, 1, 1), 0.15F);
-        GameRegistry.addSmelting(rawriceIID, new ItemStack(foodsIID, 1, 0), 0.15F);
+        GameRegistry.addSmelting(singleTexDeco, new ItemStack(Items.coal, 1, 1), 0.15F);
+        GameRegistry.addSmelting(sakuralog, new ItemStack(Items.coal, 1, 1), 0.15F);
+        GameRegistry.addSmelting(rawrice, new ItemStack(foods, 1, 0), 0.15F);
     }
 
     private void addGrindRecipe() {
-        GrindRegistory.addRecipe(new ItemStack(Block.gravel), new ItemStack(Block.sand), new ItemStack(Block.stone, 3), 5);
-        GrindRegistory.addRecipe(new ItemStack(Block.gravel), new ItemStack(Block.sand), Block.cobblestone, 10);
-        GrindRegistory.addRecipe(new ItemStack(Block.sand), new ItemStack(Item.flint), Block.gravel, 7);
-        GrindRegistory.addRecipe(new ItemStack(Item.dyePowder, 3, 15), new ItemStack(Item.dyePowder, 2, 15), Item.bone, 2);
-        GrindRegistory.addRecipe(new ItemStack(Item.blazePowder, 2, 0), new ItemStack(Item.blazePowder, 1, 0), Item.blazeRod, 2);
-        GrindRegistory.addRecipe(new ItemStack(Item.clay, 4, 0), new ItemStack(Block.hardenedClay, 1, GrindRegistory.WILD_CARD));
-        GrindRegistory.addRecipe(new ItemStack(Item.clay, 4, 0), new ItemStack(Block.stainedClay, 1, GrindRegistory.WILD_CARD));
-        GrindRegistory.addRecipe(new ItemStack(rawriceIID, 1, 0), new ItemStack(seedRiceIID, 6, 0));
+        GrindRegistory.addRecipe(new ItemStack(Blocks.gravel), new ItemStack(Blocks.sand), new ItemStack(Blocks.stone, 3), 5);
+        GrindRegistory.addRecipe(new ItemStack(Blocks.gravel), new ItemStack(Blocks.sand), Blocks.cobblestone, 10);
+        GrindRegistory.addRecipe(new ItemStack(Blocks.sand), new ItemStack(Items.flint), Blocks.gravel, 7);
+        GrindRegistory.addRecipe(new ItemStack(Items.dye, 3, 15), new ItemStack(Items.dye, 2, 15), Items.bone, 2);
+        GrindRegistory.addRecipe(new ItemStack(Items.blaze_powder, 2, 0), new ItemStack(Items.blaze_powder, 1, 0), Items.blaze_rod, 2);
+        GrindRegistory.addRecipe(new ItemStack(Items.clay_ball, 4, 0), new ItemStack(Blocks.hardened_clay, 1, GrindRegistory.WILD_CARD));
+        GrindRegistory.addRecipe(new ItemStack(Items.clay_ball, 4, 0), new ItemStack(Blocks.stained_hardened_clay, 1, GrindRegistory.WILD_CARD));
+        GrindRegistory.addRecipe(new ItemStack(rawrice, 1, 0), new ItemStack(riceSeed, 6, 0));
     }
 
     private void addOreDictionary() {
-        OreDictionary.registerOre(BAMBOO, getBlockInstance(bambooBID));
-        OreDictionary.registerOre(BAMBOO, getItemInstance(bambooIID));
-        OreDictionary.registerOre(WHEAT_RICE, new ItemStack(foodsIID, 1, 0));
-        OreDictionary.registerOre(TUDURA, getItemInstance(tuduraIID));
-        OreDictionary.registerOre(BUSKET, getItemInstance(bambooBasketIID));
-        OreDictionary.registerOre("treeSapling", getBlockInstance(sakuraBID));
-        OreDictionary.registerOre("logWood", getBlockInstance(sakuraLogBID));
-        OreDictionary.registerOre("plankWood", new ItemStack(twoDirDecoBID, 1, 2));
+        OreDictionary.registerOre(BAMBOO, bamboo);
+        OreDictionary.registerOre(BAMBOO, bamboo);
+        OreDictionary.registerOre(WHEAT_RICE, new ItemStack(foods, 1, 0));
+        OreDictionary.registerOre(TUDURA, tudura);
+        OreDictionary.registerOre(BUSKET, bambooBasket);
+        OreDictionary.registerOre("treeSapling", sakura);
+        OreDictionary.registerOre("logWood", sakuralog);
+        OreDictionary.registerOre("plankWood", new ItemStack(decoration_dir, 1, 2));
     }
 
     //1個目は主素材のみ、2個めはサブ素材、だいたいツヅラ

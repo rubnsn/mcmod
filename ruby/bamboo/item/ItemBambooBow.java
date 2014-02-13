@@ -1,43 +1,44 @@
 package ruby.bamboo.item;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import ruby.bamboo.BambooCore;
-import ruby.bamboo.BambooInit;
-import ruby.bamboo.entity.EntityBambooSpear;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
+import ruby.bamboo.BambooCore;
+import ruby.bamboo.BambooInit;
+import ruby.bamboo.entity.EntityBambooSpear;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 public class ItemBambooBow extends ItemBow implements IItemRenderer {
     private static final ResourceLocation ENCHANTED_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
-    private final Icon icons[];
+    private final IIcon icons[];
     private static final int chargeTime = 8;
     private static final int limit = 5;
 
-    public ItemBambooBow(int par1) {
-        super(par1);
+    public ItemBambooBow() {
+        super();
         this.maxStackSize = 1;
         this.setMaxDamage(300);
-        icons = new Icon[3];
+        icons = new IIcon[3];
     }
 
     @Override
@@ -45,7 +46,7 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer {
         int chargeFrame = this.getMaxItemUseDuration(par1ItemStack) - par4;
         boolean isNoResource = par3EntityPlayer.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, par1ItemStack) > 0;
 
-        if (isNoResource || par3EntityPlayer.inventory.hasItem(BambooInit.bambooSpearIID)) {
+        if (isNoResource || par3EntityPlayer.inventory.hasItem(BambooInit.bambooSpear)) {
             float power = chargeFrame / 10.0F;
             power = (power * power + power * 2.0F) / 3.0F;
 
@@ -57,7 +58,7 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer {
                 power = 1.0F;
             }
 
-            int slotNum = getInventorySlotContainItem(par3EntityPlayer, BambooInit.bambooSpearIID);
+            int slotNum = getInventorySlotContainItem(par3EntityPlayer, BambooInit.bambooSpear);
             int spearNum;
             int type = 0;
 
@@ -123,7 +124,7 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer {
                 par1ItemStack.damageItem(attackCount * 2, par3EntityPlayer);
             } else {
                 par3EntityPlayer.inventory.mainInventory[slotNum].stackSize -= attackCount;
-                par3EntityPlayer.inventory.consumeInventoryItem(BambooInit.bambooSpearIID);
+                par3EntityPlayer.inventory.consumeInventoryItem(BambooInit.bambooSpear);
             }
 
             if (type == 1) {
@@ -136,9 +137,9 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer {
         }
     }
 
-    private int getInventorySlotContainItem(EntityPlayer entity, int par1) {
+    private int getInventorySlotContainItem(EntityPlayer entity, Item par1) {
         for (int var2 = 0; var2 < entity.inventory.mainInventory.length; ++var2) {
-            if (entity.inventory.mainInventory[var2] != null && entity.inventory.mainInventory[var2].itemID == par1) {
+            if (entity.inventory.mainInventory[var2] != null && entity.inventory.mainInventory[var2].getItem() == par1) {
                 return var2;
             }
         }
@@ -153,7 +154,7 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer {
         if (event.isCanceled()) {
             return event.result;
         }
-        if (par3EntityPlayer.capabilities.isCreativeMode || par3EntityPlayer.inventory.hasItem(BambooInit.bambooSpearIID) || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, par1ItemStack) > 0) {
+        if (par3EntityPlayer.capabilities.isCreativeMode || par3EntityPlayer.inventory.hasItem(BambooInit.bambooSpear) || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, par1ItemStack) > 0) {
             par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
         }
 
@@ -167,7 +168,7 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerIcons(IIconRegister par1IconRegister) {
         this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bamboobow");
 
         for (int i = 0; i < icons.length; i++) {
@@ -177,14 +178,14 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getItemIconForUseDuration(int par1) {
+    public IIcon getItemIconForUseDuration(int par1) {
         return this.icons[par1];
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining) {
-        if (usingItem != null && usingItem.getItem().itemID == BambooInit.bambooBowIID) {
+    public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining) {
+        if (usingItem != null && usingItem.getItem() == BambooInit.bambooBow) {
             int k = usingItem.getMaxItemUseDuration() - useRemaining;
 
             if (k >= 40) {
@@ -230,7 +231,7 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer {
     private void render(EntityLivingBase entityLivingBase, ItemStack itemStack, int renderPass) {
         GL11.glPushMatrix();
         TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
-        Icon icon = entityLivingBase.getItemIcon(itemStack, renderPass);
+        IIcon icon = entityLivingBase.getItemIcon(itemStack, renderPass);
 
         if (icon == null) {
             GL11.glPopMatrix();

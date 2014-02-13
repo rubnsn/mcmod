@@ -1,11 +1,12 @@
 package ruby.bamboo.render.magatama;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.util.IIcon;
+
 import org.lwjgl.opengl.GL11;
 
 import ruby.bamboo.entity.magatama.EntityMagatama;
 import ruby.bamboo.render.RenderThrowable;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.Icon;
 
 public class RenderMagatama extends RenderThrowable {
     @Override
@@ -16,7 +17,7 @@ public class RenderMagatama extends RenderThrowable {
     }
 
     @Override
-    public Icon getIcon(Entity par1Entity) {
+    public IIcon getIcon(Entity par1Entity) {
         // TODO 自動生成されたメソッド・スタブ
         return ((EntityMagatama) par1Entity).getThrowableIcon();
     }

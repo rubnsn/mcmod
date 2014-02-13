@@ -1,10 +1,11 @@
 package ruby.bamboo.item;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 
 public class ItemSakuraPetal extends ItemBlock {
-    public ItemSakuraPetal(int par1) {
-        super(par1);
+    public ItemSakuraPetal(Block block) {
+        super(block);
         setMaxDamage(0);
         setHasSubtypes(true);
     }

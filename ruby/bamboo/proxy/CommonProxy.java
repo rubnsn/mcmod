@@ -16,9 +16,9 @@ import ruby.bamboo.entity.EntityWaterwheel;
 import ruby.bamboo.entity.EntityWind;
 import ruby.bamboo.entity.EntityWindChime;
 import ruby.bamboo.entity.EntityWindmill;
+import ruby.bamboo.entity.magatama.EntityClock;
 import ruby.bamboo.entity.magatama.EntityDummy;
 import ruby.bamboo.entity.magatama.EntityFlareEffect;
-import ruby.bamboo.entity.magatama.EntityClock;
 import ruby.bamboo.entity.magatama.EntityGravityHole;
 import ruby.bamboo.entity.magatama.EntityMagatama;
 import ruby.bamboo.entity.magatama.EntityShield;
@@ -30,6 +30,7 @@ import ruby.bamboo.tileentity.TileEntityMillStone;
 import ruby.bamboo.tileentity.spa.TileEntitySpaChild;
 import ruby.bamboo.tileentity.spa.TileEntitySpaParent;
 import ruby.bamboo.worldgen.GeneraterHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -58,7 +59,7 @@ public class CommonProxy {
         // わーるどじぇねれーとはんどら
         GeneraterHandler.init();
         // くらふとはんどら
-        CraftingHandler.init();
+        FMLCommonHandler.instance().bus().register(new CraftingHandler());
         // block & item init 分割1
         BambooInit.init();
         // name init 分割2

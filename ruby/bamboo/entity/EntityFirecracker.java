@@ -7,23 +7,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import ruby.bamboo.BambooCore;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
 
 public class EntityFirecracker extends EntityThrowable {
     float[] explodePower = { 0.01F, 2.9F, 3.5F };
@@ -55,7 +54,7 @@ public class EntityFirecracker extends EntityThrowable {
 
     @Override
     protected void onImpact(MovingObjectPosition par1MovingObjectPosition) {
-        if (par1MovingObjectPosition.typeOfHit == EnumMovingObjectType.TILE || par1MovingObjectPosition.typeOfHit == EnumMovingObjectType.ENTITY) {
+        if (par1MovingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK || par1MovingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
             if (getExplodeLv() <= BambooCore.getConf().maxExplosionLv) {
                 // クライアント：常時0エフェクトのみ
                 // サーバー：0～3,0爆発なし(configのみ)1黄2緑3赤
@@ -105,14 +104,14 @@ public class EntityFirecracker extends EntityThrowable {
                                     int var22 = MathHelper.floor_double(var15);
                                     int var23 = MathHelper.floor_double(var17);
                                     int var24 = MathHelper.floor_double(var19);
-                                    int var25 = worldObj.getBlockId(var22, var23, var24);
+                                    Block var25 = worldObj.getBlock(var22, var23, var24);
 
-                                    if (var25 == Block.waterStill.blockID || var25 == Block.waterMoving.blockID || var25 == Block.obsidian.blockID || var25 == Block.bedrock.blockID) {
+                                    if (var25 == Blocks.flowing_water || var25 == Blocks.water || var25 == Blocks.obsidian || var25 == Blocks.bedrock) {
                                         continue;
                                     }
 
-                                    if (var1 < 3 && var25 > 0) {
-                                        var14 -= (Block.blocksList[var25].getExplosionResistance(this.exploder) + 0.3F) * var21;
+                                    if (var1 < 3 && var25 != Blocks.air) {
+                                        var14 -= (var25.getExplosionResistance(this.exploder) + 0.3F) * var21;
                                     }
 
                                     if (!worldObj.isRemote && var14 > 0.0F) {
@@ -179,14 +178,14 @@ public class EntityFirecracker extends EntityThrowable {
                 int var4;
                 int var5;
                 int var6;
-                int var7;
+                Block var7;
 
                 while (var2.hasNext()) {
                     var3 = (ChunkPosition) var2.next();
-                    var4 = var3.x;
-                    var5 = var3.y;
-                    var6 = var3.z;
-                    var7 = worldObj.getBlockId(var4, var5, var6);
+                    var4 = var3.chunkPosX;
+                    var5 = var3.chunkPosY;
+                    var6 = var3.chunkPosZ;
+                    var7 = worldObj.getBlock(var4, var5, var6);
 
                     if (par1) {
                         double var8 = var4 + worldObj.rand.nextFloat();
@@ -208,33 +207,13 @@ public class EntityFirecracker extends EntityThrowable {
                         worldObj.spawnParticle("smoke", var8, var10, var12, var14, var16, var18);
                     }
 
-                    if (var7 > 0) {
+                    if (var7 != Blocks.air) {
                         if (explosionSize < 3 && explosionRNG.nextInt(1) == 0) {
-                            Block.blocksList[var7].dropBlockAsItemWithChance(worldObj, var4, var5, var6, worldObj.getBlockMetadata(var4, var5, var6), 0.3F, 0);
+                            var7.dropBlockAsItemWithChance(worldObj, var4, var5, var6, worldObj.getBlockMetadata(var4, var5, var6), 0.3F, 0);
                         }
+                        worldObj.setBlockToAir(var4, var5, var6);
 
-                        if (worldObj.setBlock(var4, var5, var6, 0, 0, 3)) {
-                            worldObj.notifyBlocksOfNeighborChange(var4, var5, var6, 0);
-                        }
-
-                        Block.blocksList[var7].onBlockDestroyedByExplosion(worldObj, var4, var5, var6, this);
-                    }
-                }
-
-                if (this.isFlaming) {
-                    var2 = this.affectedBlockPositions.iterator();
-
-                    while (var2.hasNext()) {
-                        var3 = (ChunkPosition) var2.next();
-                        var4 = var3.x;
-                        var5 = var3.y;
-                        var6 = var3.z;
-                        var7 = worldObj.getBlockId(var4, var5, var6);
-                        int var24 = worldObj.getBlockId(var4, var5 - 1, var6);
-
-                        if (var7 == 0 && Block.opaqueCubeLookup[var24] && this.explosionRNG.nextInt(3) == 0) {
-                            worldObj.setBlock(var4, var5, var6, Block.fire.blockID, 0, 3);
-                        }
+                        var7.onBlockDestroyedByExplosion(worldObj, var4, var5, var6, this);
                     }
                 }
             }

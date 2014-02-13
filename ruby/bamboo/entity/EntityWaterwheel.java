@@ -1,9 +1,9 @@
 package ruby.bamboo.entity;
 
-import ruby.bamboo.BambooInit;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooInit;
 
 public class EntityWaterwheel extends EntityMill {
     public EntityWaterwheel(World par1World) {
@@ -33,6 +33,6 @@ public class EntityWaterwheel extends EntityMill {
 
     @Override
     public ItemStack getItem() {
-        return new ItemStack(BambooInit.waterWheelIID, 1, 0);
+        return new ItemStack(BambooInit.waterWheel, 1, 0);
     }
 }

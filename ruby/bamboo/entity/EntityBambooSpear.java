@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import ruby.bamboo.BambooInit;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -12,6 +11,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -19,13 +19,14 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooInit;
 
 public class EntityBambooSpear extends EntityArrow {
     private int xTile = -1;
     private int yTile = -1;
     private int zTile = -1;
     private boolean inGround;
-    private int inTile;
+    private Block inTile;
     private int inData;
     private int ticksInGround;
     private int ticksInAir;
@@ -89,15 +90,15 @@ public class EntityBambooSpear extends EntityArrow {
         }
 
         this.setSize(0.5F, 0.5F);
-        this.setLocationAndAngles(par2EntityBambooSpear.posX, par2EntityBambooSpear.posY + (double) par2EntityBambooSpear.getEyeHeight(), par2EntityBambooSpear.posZ, par2EntityBambooSpear.rotationYaw, par2EntityBambooSpear.rotationPitch);
-        this.posX -= (double) (MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
+        this.setLocationAndAngles(par2EntityBambooSpear.posX, par2EntityBambooSpear.posY + par2EntityBambooSpear.getEyeHeight(), par2EntityBambooSpear.posZ, par2EntityBambooSpear.rotationYaw, par2EntityBambooSpear.rotationPitch);
+        this.posX -= MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
         this.posY -= 0.10000000149011612D;
-        this.posZ -= (double) (MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
+        this.posZ -= MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
         this.setPosition(this.posX, this.posY, this.posZ);
         this.yOffset = 0.0F;
-        this.motionX = (double) (-MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI));
-        this.motionZ = (double) (MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI));
-        this.motionY = (double) (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
+        this.motionX = -MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
+        this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
+        this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
         this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, par3 * 1.5F, 1.0F);
     }
 
@@ -174,11 +175,11 @@ public class EntityBambooSpear extends EntityArrow {
             this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(this.motionY, var1) * 180.0D / Math.PI);
         }
 
-        int var16 = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
+        Block var16 = this.worldObj.getBlock(this.xTile, this.yTile, this.zTile);
 
-        if (var16 > 0) {
-            Block.blocksList[var16].setBlockBoundsBasedOnState(this.worldObj, this.xTile, this.yTile, this.zTile);
-            AxisAlignedBB var2 = Block.blocksList[var16].getCollisionBoundingBoxFromPool(this.worldObj, this.xTile, this.yTile, this.zTile);
+        if (var16 != Blocks.air) {
+            var16.setBlockBoundsBasedOnState(this.worldObj, this.xTile, this.yTile, this.zTile);
+            AxisAlignedBB var2 = var16.getCollisionBoundingBoxFromPool(this.worldObj, this.xTile, this.yTile, this.zTile);
 
             if (var2 != null && var2.isVecInside(this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX, this.posY, this.posZ))) {
                 this.inGround = true;
@@ -190,7 +191,7 @@ public class EntityBambooSpear extends EntityArrow {
         }
 
         if (this.inGround) {
-            int var18 = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
+            Block var18 = this.worldObj.getBlock(this.xTile, this.yTile, this.zTile);
             int var19 = this.worldObj.getBlockMetadata(this.xTile, this.yTile, this.zTile);
 
             if (var18 == this.inTile && var19 == this.inData) {
@@ -211,7 +212,7 @@ public class EntityBambooSpear extends EntityArrow {
             ++this.ticksInAir;
             Vec3 var17 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX, this.posY, this.posZ);
             Vec3 var3 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-            MovingObjectPosition var4 = this.worldObj.rayTraceBlocks_do_do(var17, var3, false, true);
+            MovingObjectPosition var4 = this.worldObj.func_147447_a(var17, var3, false, true, false);
             var17 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX, this.posY, this.posZ);
             var3 = this.worldObj.getWorldVec3Pool().getVecFromPool(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
@@ -306,7 +307,7 @@ public class EntityBambooSpear extends EntityArrow {
                     this.xTile = var4.blockX;
                     this.yTile = var4.blockY;
                     this.zTile = var4.blockZ;
-                    this.inTile = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
+                    this.inTile = this.worldObj.getBlock(this.xTile, this.yTile, this.zTile);
                     this.inData = this.worldObj.getBlockMetadata(this.xTile, this.yTile, this.zTile);
                     this.motionX = ((float) (var4.hitVec.xCoord - this.posX));
                     this.motionY = ((float) (var4.hitVec.yCoord - this.posY));
@@ -369,7 +370,7 @@ public class EntityBambooSpear extends EntityArrow {
             this.motionZ *= var23;
             this.motionY -= var11;
             this.setPosition(this.posX, this.posY, this.posZ);
-            this.doBlockCollisions();
+            this.func_145775_I();
         }
     }
 
@@ -403,9 +404,9 @@ public class EntityBambooSpear extends EntityArrow {
 
     public ItemStack getPickUpItem() {
         if (isExplode) {
-            return new ItemStack(BambooInit.bambooSpearIID, 1, 1);
+            return new ItemStack(BambooInit.bambooSpear, 1, 1);
         } else {
-            return new ItemStack(BambooInit.bambooSpearIID, 1, 0);
+            return new ItemStack(BambooInit.bambooSpear, 1, 0);
         }
     }
 }

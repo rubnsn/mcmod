@@ -1,19 +1,10 @@
 package ruby.bamboo;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class BambooUtil {
-    public static Block getBlcokInstance(int blockID) {
-        return Block.blocksList[blockID];
-    }
-
-    public static Item getItemInstance(int itemID) {
-        return Item.itemsList[itemID];
-    }
 
     public static byte getPlayerDir(Entity entity) {
         return (byte) (MathHelper.floor_double((entity.rotationYaw * 4F) / 360F + 0.5D) & 3);
@@ -28,6 +19,6 @@ public class BambooUtil {
     }
 
     public static boolean isUnbreakBlock(World world, int posX, int posY, int posZ) {
-        return Block.blocksList[world.getBlockId(posX, posY, posZ)] != null ? Block.blocksList[world.getBlockId(posX, posY, posZ)].getBlockHardness(world, posX, posY, posZ) < 0 : true;
+        return world.getBlock(posX, posY, posZ) != null ? world.getBlock(posX, posY, posZ).getBlockHardness(world, posX, posY, posZ) < 0 : true;
     }
 }

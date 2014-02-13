@@ -2,16 +2,13 @@ package ruby.bamboo.entity.magatama;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
-import cpw.mods.fml.common.FMLLog;
-
-import ruby.bamboo.BambooUtil;
-
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooUtil;
+import cpw.mods.fml.common.FMLLog;
 
 public class EntityFlareEffect extends Entity {
     private int timer = 100;
@@ -139,8 +136,8 @@ public class EntityFlareEffect extends Entity {
                     for (int k = 0; k < matrixZ; k++) {
                         if (matrix[i][j][k]) {
                             if (!world.isAirBlock(offsetPosX + i, offsetPosY + j, offsetPosZ + k)) {
-                                if (Block.blocksList[world.getBlockId(offsetPosX + i, offsetPosY + j, offsetPosZ + k)].getBlockHardness(world, offsetPosX + i, offsetPosY + j, offsetPosZ + k) != -1) {
-                                    world.setBlock(offsetPosX + i, offsetPosY + j, offsetPosZ + k, 0, 0, 2);
+                                if (world.getBlock(offsetPosX + i, offsetPosY + j, offsetPosZ + k).getBlockHardness(world, offsetPosX + i, offsetPosY + j, offsetPosZ + k) != -1) {
+                                    world.setBlock(offsetPosX + i, offsetPosY + j, offsetPosZ + k, Blocks.air, 0, 2);
                                 }
                             }
                         }
@@ -148,7 +145,7 @@ public class EntityFlareEffect extends Entity {
                 }
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            FMLLog.getLogger().log(Level.WARNING, "Illegal matrix");
+            FMLLog.warning("Illegal matrix");
         }
     }
 

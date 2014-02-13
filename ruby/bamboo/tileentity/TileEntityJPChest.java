@@ -1,6 +1,5 @@
 package ruby.bamboo.tileentity;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -31,7 +30,7 @@ public class TileEntityJPChest extends TileEntity implements IInventory {
             if (chestContents[i].stackSize <= j) {
                 ItemStack itemstack = chestContents[i];
                 chestContents[i] = null;
-                onInventoryChanged();
+                markDirty();
                 return itemstack;
             }
 
@@ -41,7 +40,7 @@ public class TileEntityJPChest extends TileEntity implements IInventory {
                 chestContents[i] = null;
             }
 
-            onInventoryChanged();
+            markDirty();
             return itemstack1;
         } else {
             return null;
@@ -56,22 +55,22 @@ public class TileEntityJPChest extends TileEntity implements IInventory {
             itemstack.stackSize = getInventoryStackLimit();
         }
 
-        onInventoryChanged();
+        markDirty();
     }
 
     @Override
-    public String getInvName() {
+    public String getInventoryName() {
         return "Chest";
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbttagcompound) {
         super.readFromNBT(nbttagcompound);
-        NBTTagList nbttaglist = nbttagcompound.getTagList("Items");
+        NBTTagList nbttaglist = nbttagcompound.getTagList("Items", 10);
         chestContents = new ItemStack[getSizeInventory()];
 
         for (int i = 0; i < nbttaglist.tagCount(); i++) {
-            NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.tagAt(i);
+            NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
             int j = nbttagcompound1.getByte("Slot") & 0xff;
 
             if (j >= 0 && j < chestContents.length) {
@@ -103,7 +102,7 @@ public class TileEntityJPChest extends TileEntity implements IInventory {
     }
 
     public boolean canInteractWith(EntityPlayer entityplayer) {
-        if (worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this) {
+        if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
             return false;
         }
 
@@ -113,50 +112,6 @@ public class TileEntityJPChest extends TileEntity implements IInventory {
     public void func_35144_b() {
         super.updateContainingBlockInfo();
         adjacentChestChecked = false;
-    }
-
-    public void func_35147_g() {
-        if (adjacentChestChecked) {
-            return;
-        }
-
-        adjacentChestChecked = true;
-        adjacentChestZNeg = null;
-        adjacentChestXPos = null;
-        adjacentChestXNeg = null;
-        adjacentChestZPos = null;
-
-        if (worldObj.getBlockId(xCoord - 1, yCoord, zCoord) == Block.chest.blockID) {
-            adjacentChestXNeg = (TileEntityChest) worldObj.getBlockTileEntity(xCoord - 1, yCoord, zCoord);
-        }
-
-        if (worldObj.getBlockId(xCoord + 1, yCoord, zCoord) == Block.chest.blockID) {
-            adjacentChestXPos = (TileEntityChest) worldObj.getBlockTileEntity(xCoord + 1, yCoord, zCoord);
-        }
-
-        if (worldObj.getBlockId(xCoord, yCoord, zCoord - 1) == Block.chest.blockID) {
-            adjacentChestZNeg = (TileEntityChest) worldObj.getBlockTileEntity(xCoord, yCoord, zCoord - 1);
-        }
-
-        if (worldObj.getBlockId(xCoord, yCoord, zCoord + 1) == Block.chest.blockID) {
-            adjacentChestZPos = (TileEntityChest) worldObj.getBlockTileEntity(xCoord, yCoord, zCoord + 1);
-        }
-
-        if (adjacentChestZNeg != null) {
-            adjacentChestZNeg.updateContainingBlockInfo();
-        }
-
-        if (adjacentChestZPos != null) {
-            adjacentChestZPos.updateContainingBlockInfo();
-        }
-
-        if (adjacentChestXPos != null) {
-            adjacentChestXPos.updateContainingBlockInfo();
-        }
-
-        if (adjacentChestXNeg != null) {
-            adjacentChestXNeg.updateContainingBlockInfo();
-        }
     }
 
     @Override
@@ -237,7 +192,6 @@ public class TileEntityJPChest extends TileEntity implements IInventory {
     @Override
     public void invalidate() {
         func_35144_b();
-        func_35147_g();
         super.invalidate();
     }
 
@@ -259,7 +213,7 @@ public class TileEntityJPChest extends TileEntity implements IInventory {
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-        if (worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this) {
+        if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
             return false;
         }
 
@@ -267,13 +221,13 @@ public class TileEntityJPChest extends TileEntity implements IInventory {
     }
 
     @Override
-    public void openChest() {
+    public void openInventory() {
         field_35156_h++;
         worldObj.playAuxSFX(xCoord, yCoord, zCoord, 1, field_35156_h);
     }
 
     @Override
-    public void closeChest() {
+    public void closeInventory() {
         field_35156_h--;
         worldObj.playAuxSFX(xCoord, yCoord, zCoord, 1, field_35156_h);
     }
@@ -284,7 +238,7 @@ public class TileEntityJPChest extends TileEntity implements IInventory {
     }
 
     @Override
-    public boolean isInvNameLocalized() {
+    public boolean hasCustomInventoryName() {
         // TODO 自動生成されたメソッド・スタブ
         return false;
     }
@@ -293,4 +247,5 @@ public class TileEntityJPChest extends TileEntity implements IInventory {
     public boolean isItemValidForSlot(int i, ItemStack itemstack) {
         return true;
     }
+
 }

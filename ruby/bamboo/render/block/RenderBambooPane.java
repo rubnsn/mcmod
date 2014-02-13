@@ -1,12 +1,11 @@
 package ruby.bamboo.render.block;
 
-import ruby.bamboo.block.BlockBambooPane;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockPane;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
+import ruby.bamboo.block.BlockBambooPane;
 
 public class RenderBambooPane implements IRenderBlocks {
 
@@ -37,8 +36,8 @@ public class RenderBambooPane implements IRenderBlocks {
         }
 
         tessellator.setColorOpaque_F(f * f1, f * f2, f * f3);
-        Icon icon;
-        Icon icon1;
+        IIcon icon;
+        IIcon icon1;
         //メタデータによるIcon変更
         int j1;
         j1 = renderblocks.blockAccess.getBlockMetadata(par2, par3, par4);
@@ -71,10 +70,10 @@ public class RenderBambooPane implements IRenderBlocks {
         double d17 = par2 + 0.5D + 0.0625D;
         double d18 = par4 + 0.5D - 0.0625D;
         double d19 = par4 + 0.5D + 0.0625D;
-        boolean flag = bambooPane.canThisPaneConnectToThisBlockID(renderblocks.blockAccess.getBlockId(par2, par3, par4 - 1));
-        boolean flag1 = bambooPane.canThisPaneConnectToThisBlockID(renderblocks.blockAccess.getBlockId(par2, par3, par4 + 1));
-        boolean flag2 = bambooPane.canThisPaneConnectToThisBlockID(renderblocks.blockAccess.getBlockId(par2 - 1, par3, par4));
-        boolean flag3 = bambooPane.canThisPaneConnectToThisBlockID(renderblocks.blockAccess.getBlockId(par2 + 1, par3, par4));
+        boolean flag = bambooPane.canPaneConnectToBlock(renderblocks.blockAccess.getBlock(par2, par3, par4 - 1));
+        boolean flag1 = bambooPane.canPaneConnectToBlock(renderblocks.blockAccess.getBlock(par2, par3, par4 + 1));
+        boolean flag2 = bambooPane.canPaneConnectToBlock(renderblocks.blockAccess.getBlock(par2 - 1, par3, par4));
+        boolean flag3 = bambooPane.canPaneConnectToBlock(renderblocks.blockAccess.getBlock(par2 + 1, par3, par4));
         boolean flag4 = bambooPane.shouldSideBeRendered(renderblocks.blockAccess, par2, par3 + 1, par4, 1);
         boolean flag5 = bambooPane.shouldSideBeRendered(renderblocks.blockAccess, par2, par3 - 1, par4, 0);
 

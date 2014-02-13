@@ -4,18 +4,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import ruby.bamboo.entity.EntityDirtySnowball;
-import ruby.bamboo.entity.EnumDirtySnowball;
-
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemSnowball;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import ruby.bamboo.entity.EntityDirtySnowball;
+import ruby.bamboo.entity.EnumDirtySnowball;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemDirtySnowball extends ItemSnowball {
     private static Map<Integer, EnumDirtySnowball> dmgMap;
@@ -30,8 +29,8 @@ public class ItemDirtySnowball extends ItemSnowball {
         MAX_ELEMENT_COUNT = dmgMap.size();
     }
 
-    public ItemDirtySnowball(int par1) {
-        super(par1);
+    public ItemDirtySnowball() {
+        super();
         setHasSubtypes(true);
         setMaxDamage(0);
     }
@@ -61,7 +60,7 @@ public class ItemDirtySnowball extends ItemSnowball {
     }
 
     @Override
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List) {
+    public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
         for (int i = 0; i < MAX_ELEMENT_COUNT; i++) {
             par3List.add(new ItemStack(par1, 1, i));
         }
@@ -72,7 +71,7 @@ public class ItemDirtySnowball extends ItemSnowball {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerIcons(IIconRegister par1IconRegister) {
         this.itemIcon = par1IconRegister.registerIcon("snowball");
     }
 }

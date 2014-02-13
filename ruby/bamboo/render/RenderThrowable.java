@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -24,9 +24,9 @@ public abstract class RenderThrowable extends Render {
         GL11.glPopMatrix();
     }
 
-    public abstract Icon getIcon(Entity par1Entity);
+    public abstract IIcon getIcon(Entity par1Entity);
 
-    private void func_77026_a(Tessellator par1Tessellator, Icon par2Icon) {
+    private void func_77026_a(Tessellator par1Tessellator, IIcon par2Icon) {
         float f = par2Icon.getMinU();
         float f1 = par2Icon.getMaxU();
         float f2 = par2Icon.getMinV();

@@ -1,10 +1,7 @@
 package ruby.bamboo.item;
 
-import ruby.bamboo.BambooCore;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,7 +14,8 @@ import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.item.EnumToolMaterial;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBow;
@@ -25,20 +23,23 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemBambooSword extends ItemSword {
     private final int weaponDamage;
 
-    public ItemBambooSword(int par1) {
-        super(par1, EnumToolMaterial.WOOD);
+    public ItemBambooSword() {
+        super(Item.ToolMaterial.WOOD);
         this.setMaxDamage(200);
         weaponDamage = 3;
     }
 
     @Override
-    public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World, int par3, int par4, int par5, int par6, EntityLivingBase par7EntityLiving) {
+    public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World, Block par3, int par4, int par5, int par6, EntityLivingBase par7EntityLiving) {
         if (!par2World.isRemote) {
-            int exp = (int) Block.blocksList[par3].getBlockHardness(par2World, par4, par5, par6);
+            int exp = (int) par3.getBlockHardness(par2World, par4, par5, par6);
 
             if (exp >= 1) {
                 exp = exp > 50 ? 50 : exp;
@@ -103,7 +104,7 @@ public class ItemBambooSword extends ItemSword {
                     }
                 } else if (par1Entity instanceof EntitySkeleton) {
                     if (itemRand.nextInt(10) == 0) {
-                        par1Entity.entityDropItem(new ItemStack(Item.dyePowder, 1, 15), 0.5F);
+                        par1Entity.entityDropItem(new ItemStack(Items.dye, 1, 15), 0.5F);
                     }
 
                     if (itemRand.nextBoolean()) {
@@ -115,7 +116,7 @@ public class ItemBambooSword extends ItemSword {
                     }
                 } else if (par1Entity instanceof EntityCreeper) {
                     if (itemRand.nextInt(10) == 0) {
-                        par1Entity.entityDropItem(new ItemStack(Item.gunpowder, 1), 0.5F);
+                        par1Entity.entityDropItem(new ItemStack(Items.gunpowder, 1), 0.5F);
                     }
                 } else if (par1Entity instanceof EntityEnderman) {
                     ItemStack is = reduceEquipment((EntityLiving) par1Entity);
@@ -125,7 +126,7 @@ public class ItemBambooSword extends ItemSword {
                     }
                 } else if (par1Entity instanceof EntityBlaze) {
                     if (itemRand.nextInt(10) == 0) {
-                        par1Entity.entityDropItem(new ItemStack(blazePowder), 0.0F);
+                        par1Entity.entityDropItem(new ItemStack(Items.blaze_powder), 0.0F);
                     }
                 }
             }
@@ -140,9 +141,9 @@ public class ItemBambooSword extends ItemSword {
         ItemStack result = null;
 
         if (e instanceof EntityEnderman) {
-            if (((EntityEnderman) e).getCarried() != 0) {
-                result = new ItemStack(((EntityEnderman) e).getCarried(), 1, ((EntityEnderman) e).getCarryingData());
-                ((EntityEnderman) e).setCarried(0);
+            if (((EntityEnderman) e).func_146080_bZ() != Blocks.air) {
+                result = new ItemStack(((EntityEnderman) e).func_146080_bZ(), 1, ((EntityEnderman) e).getCarryingData());
+                ((EntityEnderman) e).func_146081_a(Blocks.air);
                 ((EntityEnderman) e).setCarryingData(0);
             }
         } else {
@@ -175,7 +176,7 @@ public class ItemBambooSword extends ItemSword {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerIcons(IIconRegister par1IconRegister) {
         this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bamboosword");
     }
 }

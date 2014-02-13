@@ -2,26 +2,26 @@ package ruby.bamboo.item;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import ruby.bamboo.BambooCore;
-import ruby.bamboo.BambooUtil;
-import ruby.bamboo.entity.EntitySlideDoor;
-import ruby.bamboo.entity.EnumSlideDoor;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
+import ruby.bamboo.BambooUtil;
+import ruby.bamboo.entity.EntitySlideDoor;
+import ruby.bamboo.entity.EnumSlideDoor;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSlideDoor extends Item {
     private final static EnumSlideDoor[] doors = EnumSlideDoor.values();
-    private Icon[] icons;
+    private IIcon[] icons;
 
-    public ItemSlideDoor(int i) {
-        super(i);
+    public ItemSlideDoor() {
+        super();
         this.setHasSubtypes(true);
     }
 
@@ -55,21 +55,21 @@ public class ItemSlideDoor extends Item {
     }
 
     @Override
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List) {
+    public void getSubItems(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
         for (EnumSlideDoor esd : doors) {
             par3List.add(new ItemStack(par1, 1, esd.getId()));
         }
     }
 
     @Override
-    public Icon getIconFromDamage(int par1) {
+    public IIcon getIconFromDamage(int par1) {
         return icons[par1];
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
-        icons = new Icon[doors.length];
+    public void registerIcons(IIconRegister par1IconRegister) {
+        icons = new IIcon[doors.length];
 
         for (EnumSlideDoor esd : doors) {
             icons[esd.getId()] = par1IconRegister.registerIcon(BambooCore.resourceDomain + esd.getIconName().toLowerCase());

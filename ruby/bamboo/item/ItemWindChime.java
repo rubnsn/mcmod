@@ -1,20 +1,19 @@
 package ruby.bamboo.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import ruby.bamboo.BambooCore;
-import ruby.bamboo.entity.EntityWindChime;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
+import ruby.bamboo.entity.EntityWindChime;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemWindChime extends Item {
-    public ItemWindChime(int par1) {
-        super(par1);
+    public ItemWindChime() {
+        super();
     }
 
     @Override
@@ -26,7 +25,7 @@ public class ItemWindChime extends Item {
                 return false;
             }
 
-            if (movingobjectposition.typeOfHit == EnumMovingObjectType.TILE) {
+            if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
                 int i = movingobjectposition.blockX;
                 int j = movingobjectposition.blockY;
                 int k = movingobjectposition.blockZ;
@@ -81,7 +80,7 @@ public class ItemWindChime extends Item {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerIcons(IIconRegister par1IconRegister) {
         this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "windchime");
     }
 }

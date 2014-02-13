@@ -1,29 +1,30 @@
 package ruby.bamboo.tileentity;
 
-import ruby.bamboo.block.BlockMillStone;
-import ruby.bamboo.grinder.GrindRecipe;
-import ruby.bamboo.grinder.GrindRegistory;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
+import ruby.bamboo.block.BlockMillStone;
+import ruby.bamboo.grinder.GrindRecipe;
+import ruby.bamboo.grinder.GrindRegistory;
 
 public class TileEntityMillStone extends TileEntity implements ISidedInventory {
     private static final int[] slots_top = new int[] { 0 };
     private static final int[] slots_bottom = new int[] { 2, 1 };
     private static final int[] slots_sides = new int[] { 0 };
-    private int nowGrindItemID;
+    private String nowGrindItemName = Block.blockRegistry.getNameForObject(Blocks.air);
     private int nowGrindItemDmg;
     private float roll;
     private ItemStack[] slot = new ItemStack[3];
@@ -78,8 +79,9 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
         } else {
             if (getBlockMetadata() == 1) {
                 roll = ++roll < 360 ? roll : 0;
-                if (Item.itemsList[nowGrindItemID] instanceof ItemBlock) {
-                    Block block = Block.blocksList[nowGrindItemID];
+                Object nowgi = Item.itemRegistry.getObject(nowGrindItemName);
+                if (nowgi instanceof ItemBlock) {
+                    Block block = (Block) Block.blockRegistry.getObject(nowGrindItemName);
                     float xRand = 0;
                     float zRand = 0;
                     if (((int) roll & 1) == 1) {
@@ -91,7 +93,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
                     }
                     Minecraft.getMinecraft().effectRenderer.addEffect((new EntityDiggingFX(this.worldObj, xCoord + xRand, yCoord + 0.5F, zCoord + zRand, 0.0D, 0.0D, 0.0D, block, nowGrindItemDmg)).applyRenderColor(block.getRenderColor(nowGrindItemDmg)).multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F));
                 } else {
-                    itemCrackParticle("iconcrack_" + nowGrindItemID + "_" + nowGrindItemDmg);
+                    itemCrackParticle("iconcrack_" + Item.itemRegistry.getIDForObject(nowgi) + "_" + nowGrindItemDmg);
                 }
             } else {
                 roll = 0;
@@ -99,7 +101,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
         }
 
         if (flag1) {
-            this.onInventoryChanged();
+            this.markDirty();
         }
     }
 
@@ -108,10 +110,10 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
             float pitch = 0;
             float yaw = this.worldObj.rand.nextFloat() * 2 - 1;
             for (int j = 0; j < 1; ++j) {
-                Vec3 vec3 = this.worldObj.getWorldVec3Pool().getVecFromPool(((double) this.worldObj.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
+                Vec3 vec3 = this.worldObj.getWorldVec3Pool().getVecFromPool((this.worldObj.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
                 vec3.rotateAroundX(-pitch * (float) Math.PI / 180.0F);
                 vec3.rotateAroundY(-yaw * (float) Math.PI);
-                Vec3 vec31 = this.worldObj.getWorldVec3Pool().getVecFromPool(((double) this.worldObj.rand.nextFloat() - 0.5D) * 0.3D, (double) (-this.worldObj.rand.nextFloat()) * 0.6D - 0.3D, 0.6D);
+                Vec3 vec31 = this.worldObj.getWorldVec3Pool().getVecFromPool((this.worldObj.rand.nextFloat() - 0.5D) * 0.3D, (-this.worldObj.rand.nextFloat()) * 0.6D - 0.3D, 0.6D);
                 vec31.rotateAroundX(-pitch * (float) Math.PI / 180.0F);
                 vec31.rotateAroundY(-yaw * (float) Math.PI);
                 vec31 = vec31.addVector(this.xCoord + 0.5F, this.yCoord + 1F, this.zCoord + 0.5F);
@@ -128,11 +130,11 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
     @Override
     public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
         super.readFromNBT(par1NBTTagCompound);
-        NBTTagList nbttaglist = par1NBTTagCompound.getTagList("Items");
+        NBTTagList nbttaglist = par1NBTTagCompound.getTagList("Items", 10);
         this.slot = new ItemStack[this.getSizeInventory()];
 
         for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-            NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.tagAt(i);
+            NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
             byte b0 = nbttagcompound1.getByte("Slot");
 
             if (b0 >= 0 && b0 < this.slot.length) {
@@ -141,15 +143,17 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
         }
 
         grindTime = par1NBTTagCompound.getInteger("grindTime");
-        nowGrindItemID = par1NBTTagCompound.getInteger("grindItemId");
         nowGrindItemDmg = par1NBTTagCompound.getInteger("grindItemDmg");
+        if (par1NBTTagCompound.hasKey("grindItemName")) {
+            nowGrindItemName = par1NBTTagCompound.getString("grindItemName");
+        }
     }
 
     @Override
     public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
         super.writeToNBT(par1NBTTagCompound);
         par1NBTTagCompound.setInteger("grindTime", grindTime);
-        par1NBTTagCompound.setInteger("grindItemId", nowGrindItemID);
+        par1NBTTagCompound.setString("grindItemName", nowGrindItemName == null ? Block.blockRegistry.getNameForObject(Blocks.air) : nowGrindItemName);
         par1NBTTagCompound.setInteger("grindItemDmg", nowGrindItemDmg);
         NBTTagList nbttaglist = new NBTTagList();
 
@@ -169,12 +173,12 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
     public Packet getDescriptionPacket() {
         NBTTagCompound var1 = new NBTTagCompound();
         writeToNBT(var1);
-        return new Packet132TileEntityData(this.xCoord, this.yCoord, this.zCoord, 1, var1);
+        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, var1);
     }
 
     @Override
-    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt) {
-        this.readFromNBT(pkt.data);
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+        this.readFromNBT(pkt.func_148857_g());
     }
 
     @Override
@@ -184,7 +188,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
 
     /**
      * Slot数
-     *
+     * 
      * @return
      */
     @Override
@@ -194,7 +198,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
 
     /**
      * 指定したスロットから指定した数のアイテムを取得する(不足分は全て)
-     *
+     * 
      * @param スロットID
      * @param 取得数
      * @return ItemStack
@@ -224,7 +228,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
 
     /**
      * 指定したスロットを空にし、ItemStackを取得する
-     *
+     * 
      * @param スロットID
      * @return スロットに入っていたItemStack
      */
@@ -241,7 +245,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
 
     /**
      * 指定したスロットに引数のItemStackを投入する、但し上限を超えたstackはトリミングされる
-     *
+     * 
      * @param スロットID
      * @param 格納物
      */
@@ -256,7 +260,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
 
     /**
      * grind実行可能か(出力欄に格納可能か)
-     *
+     * 
      * @return
      */
     private boolean canGrind() {
@@ -300,7 +304,10 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
     }
 
     private void decrementSlot0() {
-        nowGrindItemID = slot[0].getItem().itemID;
+        nowGrindItemName = Item.itemRegistry.getNameForObject(slot[0].getItem());
+        if (nowGrindItemName == null) {
+            nowGrindItemName = Block.blockRegistry.getNameForObject(Blocks.air);
+        }
         nowGrindItemDmg = slot[0].getItemDamage();
         this.slot[0].stackSize -= GrindRegistory.getOutput(slot[0]).getInput().stackSize;
 
@@ -313,8 +320,8 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
      * 完了後、slotへ格納する
      */
     private void grindItem() {
-        if (nowGrindItemID != 0) {
-            GrindRecipe gr = GrindRegistory.getOutput(new ItemStack(nowGrindItemID, 64, nowGrindItemDmg));
+        if (Item.itemRegistry.getObject(nowGrindItemName) != Item.getItemFromBlock(Blocks.air)) {
+            GrindRecipe gr = GrindRegistory.getOutput(new ItemStack((Item) Item.itemRegistry.getObject(nowGrindItemName), 64, nowGrindItemDmg));
             ItemStack output = gr.getOutput();
             ItemStack bonus = worldObj.rand.nextInt(gr.getBonusWeight() + 1) == 0 ? gr.getBonus() : null;
 
@@ -332,7 +339,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
                 }
             }
 
-            nowGrindItemID = 0;
+            nowGrindItemName = Block.blockRegistry.getNameForObject(Blocks.air);
         }
     }
 
@@ -342,26 +349,26 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
     }
 
     @Override
-    public String getInvName() {
+    public String getInventoryName() {
         return "MillStone";
     }
 
     @Override
-    public boolean isInvNameLocalized() {
+    public boolean hasCustomInventoryName() {
         return false;
     }
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-        return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : entityplayer.getDistanceSq(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64.0D;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : entityplayer.getDistanceSq(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64.0D;
     }
 
     @Override
-    public void openChest() {
+    public void openInventory() {
     }
 
     @Override
-    public void closeChest() {
+    public void closeInventory() {
     }
 
     @Override

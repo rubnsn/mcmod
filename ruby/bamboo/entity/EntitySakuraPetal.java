@@ -1,11 +1,11 @@
 package ruby.bamboo.entity;
 
-import ruby.bamboo.BambooCore;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
 
 public class EntitySakuraPetal extends Entity {
     public float rx, ry, rz;
@@ -167,7 +167,7 @@ public class EntitySakuraPetal extends Entity {
         motionY *= 0.9D;
         motionZ *= 0.9D;
 
-        if (Material.water == worldObj.getBlockMaterial((int) (posX + 0.5), (int) posY, (int) (posZ + 0.5))) {
+        if (Material.water == worldObj.getBlock((int) (posX + 0.5), (int) posY, (int) (posZ + 0.5)).getMaterial()) {
             if (!isStopFall()) {
                 setStopFall();
             }

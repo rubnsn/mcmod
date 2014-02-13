@@ -1,20 +1,20 @@
 package ruby.bamboo.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import ruby.bamboo.BambooCore;
-import ruby.bamboo.BambooUtil;
-import ruby.bamboo.entity.EntityHuton;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
+import ruby.bamboo.BambooUtil;
+import ruby.bamboo.entity.EntityHuton;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemHuton extends Item {
-    public ItemHuton(int i) {
-        super(i);
+    public ItemHuton() {
+        super();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ItemHuton extends Item {
                 break;
             }
 
-            Block block = Block.blocksList[par3World.getBlockId(par4, par5, par6)];
+            Block block = par3World.getBlock(par4, par5, par6);
 
             if (block != null) {
                 d1 += block.getBlockBoundsMaxY();
@@ -69,7 +69,7 @@ public class ItemHuton extends Item {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerIcons(IIconRegister par1IconRegister) {
         this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "huton");
     }
 }

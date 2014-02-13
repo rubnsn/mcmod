@@ -1,19 +1,16 @@
 package ruby.bamboo.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import ruby.bamboo.BambooCore;
-import ruby.bamboo.entity.EntityKakeziku;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
+import ruby.bamboo.entity.EntityKakeziku;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemKakeziku extends Item {
-    public ItemKakeziku(int i) {
-        super(i);
-    }
 
     @Override
     public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10) {
@@ -46,7 +43,7 @@ public class ItemKakeziku extends Item {
                         par3World.spawnEntityInWorld(var12);
                     }/*
                       * else{
-                      * 
+                      *
                       * var12.getDataWatcher().updateObject(17,var11); }
                       */
                     --par1ItemStack.stackSize;
@@ -59,7 +56,7 @@ public class ItemKakeziku extends Item {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerIcons(IIconRegister par1IconRegister) {
         this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "kakeziku");
     }
 }

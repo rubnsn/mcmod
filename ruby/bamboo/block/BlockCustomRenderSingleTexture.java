@@ -1,31 +1,31 @@
 package ruby.bamboo.block;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.CustomRenderHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Icon;
-import net.minecraft.world.World;
 
 public class BlockCustomRenderSingleTexture extends Block {
-    private Icon bamboo;
+    private IIcon bamboo;
 
     public String getUnlocalizedName(int meta) {
         return "bamboo";
     }
 
-    public BlockCustomRenderSingleTexture(int id) {
-        super(id, Material.ground);
+    public BlockCustomRenderSingleTexture() {
+        super(Material.ground);
         setHardness(0.2F);
         setResistance(0.0F);
     }
 
     @Override
-    public Icon getIcon(int side, int meta) {
+    public IIcon getIcon(int side, int meta) {
         return bamboo;
     }
 
@@ -36,7 +36,7 @@ public class BlockCustomRenderSingleTexture extends Block {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerBlockIcons(IIconRegister par1IconRegister) {
         this.bamboo = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bamboo");
     }
 

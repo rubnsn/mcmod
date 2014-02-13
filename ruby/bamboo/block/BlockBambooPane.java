@@ -2,29 +2,28 @@ package ruby.bamboo.block;
 
 import java.util.List;
 
-import ruby.bamboo.BambooCore;
-import ruby.bamboo.CustomRenderHandler;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.block.BlockPane;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
+import ruby.bamboo.CustomRenderHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockBambooPane extends BlockPane {
-    private final Icon[] blockIcons = new Icon[6];
+    private final IIcon[] blockIcons = new IIcon[6];
 
-    public BlockBambooPane(int i, Material material) {
-        super(i, "bamboopane", "bamboopane", material, true);
+    public BlockBambooPane(Material material) {
+        super("bamboopane", "bamboopane", material, true);
         setHardness(0.2F);
     }
 
@@ -65,7 +64,7 @@ public class BlockBambooPane extends BlockPane {
     }
 
     @Override
-    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
+    public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
         for (int i = 0; i < blockIcons.length; i++) {
             par3List.add(new ItemStack(par1, 1, i));
         }
@@ -73,12 +72,12 @@ public class BlockBambooPane extends BlockPane {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public Icon getIcon(int par1, int meta) {
+    public IIcon getIcon(int par1, int meta) {
         return blockIcons[meta];
     }
 
     @Override
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerBlockIcons(IIconRegister par1IconRegister) {
         this.blockIcons[0] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bamboopane");
         this.blockIcons[1] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "ranma");
         this.blockIcons[2] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bamboopane2");

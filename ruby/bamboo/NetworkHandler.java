@@ -1,24 +1,8 @@
 package ruby.bamboo;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.lang.reflect.Field;
 
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.NetLoginHandler;
-import net.minecraft.network.packet.NetHandler;
-import net.minecraft.network.packet.Packet1Login;
-import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.server.MinecraftServer;
-import cpw.mods.fml.common.network.IConnectionHandler;
-import cpw.mods.fml.common.network.IPacketHandler;
-import cpw.mods.fml.common.network.Player;
-
-public class NetworkHandler implements IPacketHandler, IConnectionHandler {
-    @Override
+public class NetworkHandler {
+/*    @Override
     public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
         if (packet.channel.equals("bamboo")) {
             try {
@@ -58,15 +42,7 @@ public class NetworkHandler implements IPacketHandler, IConnectionHandler {
             manager.addToSendQueue(new Packet250CustomPayload("bamboo", baos.toByteArray()));
         } catch (Exception e) {
             e.printStackTrace();
-        }/*
-          * 
-          * if(FMLCommonHandler.instance().getMinecraftServerInstance().
-          * isDedicatedServer()){ manager.addToSendQueue(new
-          * Packet250CustomPayload("bamboo2", new byte[]{(byte)
-          * (FMLCommonHandler
-          * .instance().getMinecraftServerInstance().isServerInOnlineMode
-          * ()?1:0)})); }
-          */
+        }
     }
 
     @Override
@@ -88,5 +64,5 @@ public class NetworkHandler implements IPacketHandler, IConnectionHandler {
 
     @Override
     public void clientLoggedIn(NetHandler clientHandler, INetworkManager manager, Packet1Login login) {
-    }
+    }*/
 }

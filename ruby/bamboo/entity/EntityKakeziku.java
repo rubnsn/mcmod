@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import ruby.bamboo.BambooInit;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooInit;
 
 public class EntityKakeziku extends Entity {
     private int tickCounter1;
@@ -201,9 +200,9 @@ public class EntityKakeziku extends Entity {
                     Material var8;
 
                     if (this.direction != 0 && this.direction != 2) {
-                        var8 = this.worldObj.getBlockMaterial(this.xPosition, var4 + var7, var5 + var6);
+                        var8 = this.worldObj.getBlock(this.xPosition, var4 + var7, var5 + var6).getMaterial();
                     } else {
-                        var8 = this.worldObj.getBlockMaterial(var3 + var6, var4 + var7, this.zPosition);
+                        var8 = this.worldObj.getBlock(var3 + var6, var4 + var7, this.zPosition).getMaterial();
                     }
 
                     if (!var8.isSolid()) {
@@ -250,7 +249,7 @@ public class EntityKakeziku extends Entity {
                 return true;
             }
 
-            this.dropItem(BambooInit.kakezikuIID, 1);
+            this.dropItem(BambooInit.kakeziku, 1);
         }
 
         return true;
@@ -296,7 +295,7 @@ public class EntityKakeziku extends Entity {
     public void moveEntity(double par1, double par3, double par5) {
         if (!this.worldObj.isRemote && !this.isDead && par1 * par1 + par3 * par3 + par5 * par5 > 0.0D) {
             this.setDead();
-            this.dropItem(BambooInit.kakezikuIID, 1);
+            this.dropItem(BambooInit.kakeziku, 1);
         }
     }
 
@@ -304,7 +303,7 @@ public class EntityKakeziku extends Entity {
     public void addVelocity(double par1, double par3, double par5) {
         if (!this.worldObj.isRemote && !this.isDead && par1 * par1 + par3 * par3 + par5 * par5 > 0.0D) {
             this.setDead();
-            this.dropItem(BambooInit.kakezikuIID, 1);
+            this.dropItem(BambooInit.kakeziku, 1);
         }
     }
 

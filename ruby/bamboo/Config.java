@@ -2,13 +2,14 @@ package ruby.bamboo;
 
 import java.io.File;
 
-import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -56,11 +57,11 @@ public class Config {
         // 雪を溶かさない
         prop = conf.get("BambooSettings", "UpdateStopSnow", false);
         prop.comment = "Not melt snow with light true:false";
-        Block.snow.setTickRandomly(!prop.getBoolean(false));
+        Blocks.snow.setTickRandomly(!prop.getBoolean(false));
         // 氷溶かさない
         prop = conf.get("BambooSettings", "UpdateStopIce", false);
         prop.comment = "Not melt ice with light true:false";
-        Block.ice.setTickRandomly(!prop.getBoolean(false));
+        Blocks.ice.setTickRandomly(!prop.getBoolean(false));
         // テクスチャ最大参照
         prop = conf.get("BambooSettings", "DeludeMaxTexReference", 2);
         prop.comment = "delude texture max reference";
@@ -84,14 +85,14 @@ public class Config {
 
     public void reSetExRecipes() {
         if (exRecipe) {
-            GameRegistry.addRecipe(new ItemStack(BambooInit.takenokoIID, 1, 0), new Object[] { "YYY", "YXY", "YYY", 'Y', Item.glowstone, 'X', Item.reed });
-            GameRegistry.addRecipe(new ItemStack(BambooInit.sakuraBID, 1, 0), new Object[] { "YYY", "YXY", "YYY", 'Y', Block.netherrack, 'X', Block.sapling });
+            GameRegistry.addRecipe(new ItemStack(BambooInit.takenoko, 1, 0), new Object[] { "YYY", "YXY", "YYY", 'Y', Items.glowstone_dust, 'X', Items.reeds });
+            GameRegistry.addRecipe(new ItemStack(BambooInit.sakura, 1, 0), new Object[] { "YYY", "YXY", "YYY", 'Y', Blocks.netherrack, 'X', Blocks.sapling });
         } else {
             for (int j = 0; j < CraftingManager.getInstance().getRecipeList().size(); ++j) {
                 IRecipe ir = (IRecipe) CraftingManager.getInstance().getRecipeList().get(j);
 
                 if (ir.getRecipeOutput() != null) {
-                    if (ir.getRecipeOutput().itemID == BambooInit.takenokoIID || ir.getRecipeOutput().itemID == BambooInit.sakuraBID) {
+                    if (ir.getRecipeOutput().getItem() == BambooInit.takenoko || ir.getRecipeOutput().getItem() == Item.getItemFromBlock(BambooInit.sakura)) {
                         CraftingManager.getInstance().getRecipeList().remove(j);
                     }
                 }

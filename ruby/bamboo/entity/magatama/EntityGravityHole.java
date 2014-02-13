@@ -6,14 +6,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-import ruby.bamboo.BambooUtil;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityFallingSand;
+import net.minecraft.entity.item.EntityFallingBlock;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityGravityHole extends Entity {
     private boolean isFirstUpdate;
@@ -146,14 +147,14 @@ public class EntityGravityHole extends Entity {
     private void setToAirBlock(World world, int posX, int posY, int posZ) {
         if (world.isRemote) {
             if (rand.nextFloat() < 0.02) {
-                EntityFallingSand entityfallingsand = new EntityFallingSand(world, posX + 0.5F, posY + 0.5F, posZ + 0.5F, world.getBlockId(posX, posY, posZ), world.getBlockMetadata(posX, posY, posZ));
-                entityfallingsand.fallTime = 2;
-                entityfallingsand.shouldDropItem = false;
+                EntityFallingBlock entityfallingsand = new EntityFallingBlock(world, posX + 0.5F, posY + 0.5F, posZ + 0.5F, world.getBlock(posX, posY, posZ), world.getBlockMetadata(posX, posY, posZ));
+                entityfallingsand.field_145812_b = 2;
+                entityfallingsand.field_145813_c = false;
                 hooks.add(entityfallingsand);
                 world.joinEntityInSurroundings(entityfallingsand);
             }
         }
-        worldObj.setBlock(posX, posY, posZ, 0, 0, 4);
+        worldObj.setBlock(posX, posY, posZ, Blocks.air, 0, 4);
     }
 
     public float getScale() {

@@ -1,6 +1,6 @@
 package ruby.bamboo.item;
 
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 
 public enum EnumFood {
     MUGIMESI(0, 3, 36),
@@ -24,9 +24,9 @@ public enum EnumFood {
     private int dmgid;
     private int heal;
     private int duration;
-    private Icon tex;
+    private IIcon tex;
 
-    public void setTex(Icon tex) {
+    public void setTex(IIcon tex) {
         this.tex = tex;
     }
 
@@ -42,7 +42,7 @@ public enum EnumFood {
         return duration;
     }
 
-    public Icon getTex() {
+    public IIcon getTex() {
         return tex;
     }
 }

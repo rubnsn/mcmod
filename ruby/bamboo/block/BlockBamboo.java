@@ -3,36 +3,37 @@ package ruby.bamboo.block;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.Event.Result;
-import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.CustomRenderHandler;
+import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockBamboo extends Block {
     // 最大成長値(0も含まれる)
     private static final int MAX_BAMBOO_LENGTH = 9;
-    private Icon parent;
-    private Icon child;
+    private IIcon parent;
+    private IIcon child;
     private final String chiledName;
 
-    public BlockBamboo(int i, String chiledName) {
-        super(i, MaterialBamboo.instance);
+    public BlockBamboo(String chiledName) {
+        super(MaterialBamboo.instance);
         this.chiledName = chiledName;
         setLightOpacity(0);
         setTickRandomly(true);
@@ -41,25 +42,25 @@ public class BlockBamboo extends Block {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    @ForgeSubscribe
+    @SubscribeEvent
     public void onBonemealEvent(BonemealEvent event) {
-        if (event.ID == this.blockID) {
+        if (event.block == this) {
             if (event.entityPlayer.capabilities.isCreativeMode) {
                 event.setCanceled(true);
             }
             if (!event.world.isRemote) {
-                event.world.playAuxSFX(2005, event.X, event.Y, event.Z, 0);
+                event.world.playAuxSFX(2005, event.x, event.y, event.z, 0);
             }
-            int y = event.Y + 1;
-            for (; event.world.getBlockId(event.X, y, event.Z) == this.blockID; y++) {
+            int y = event.y + 1;
+            for (; event.world.getBlock(event.x, y, event.z) == this; y++) {
             }
-            tryBambooGrowth(event.world, event.X, y - 1, event.Z, 0.75F);
+            tryBambooGrowth(event.world, event.x, y - 1, event.z, 0.75F);
             event.setResult(Result.ALLOW);
         }
     }
 
     @Override
-    public Icon getIcon(int side, int meta) {
+    public IIcon getIcon(int side, int meta) {
         if (meta != 15) {
             return parent;
         }
@@ -80,7 +81,7 @@ public class BlockBamboo extends Block {
 
                     if (meta != 15) {
                         if (meta < MAX_BAMBOO_LENGTH) {
-                            world.setBlock(x, y + 1, z, blockID, meta + 1, 3);
+                            world.setBlock(x, y + 1, z, this, meta + 1, 3);
                         } else {
                             if (world.isRaining() || world.rand.nextFloat() < probability) {
                                 tryChildSpawn(world, x, y, z);
@@ -104,8 +105,8 @@ public class BlockBamboo extends Block {
                 for (int j1 = -1; j1 <= 1; j1++) {
                     for (int k1 = -1; k1 <= 1; k1++) {
                         if (canChildSpawn(world, i + i1, j + j1, k + k1, world.rand)) {
-                            world.setBlock(i + i1, j + j1 - 1, k + k1, Block.dirt.blockID, 0, 3);
-                            world.setBlock(i + i1, j + j1, k + k1, blockID, 15, 3);
+                            world.setBlock(i + i1, j + j1 - 1, k + k1, Blocks.dirt, 0, 3);
+                            world.setBlock(i + i1, j + j1, k + k1, this, 15, 3);
                         }
                     }
                 }
@@ -123,8 +124,8 @@ public class BlockBamboo extends Block {
     private boolean canChildSpawn(World world, int i, int j, int k, Random random) {
         if (world.isAirBlock(i, j, k)) {
             // 天候・耕地確変
-            if (random.nextFloat() < (world.isRaining() ? 0.4F : world.getBlockId(i, j - 1, k) == Block.tilledField.blockID ? 0.25F : 0.1F)) {
-                if ((world.getBlockId(i, j - 1, k) == Block.dirt.blockID || world.getBlockId(i, j - 1, k) == Block.grass.blockID || world.getBlockId(i, j - 1, k) == Block.tilledField.blockID)) {
+            if (random.nextFloat() < (world.isRaining() ? 0.4F : world.getBlock(i, j - 1, k) == Blocks.farmland ? 0.25F : 0.1F)) {
+                if ((world.getBlock(i, j - 1, k) == Blocks.dirt || world.getBlock(i, j - 1, k) == Blocks.grass || world.getBlock(i, j - 1, k) == Blocks.farmland)) {
                     return true;
                 }
             }
@@ -138,9 +139,9 @@ public class BlockBamboo extends Block {
         if (!world.isRemote) {
             if (l == 15) {
                 if (entityplayer.getCurrentEquippedItem() != null && (entityplayer.getCurrentEquippedItem().getItem() instanceof ItemHoe)) {
-                    entityplayer.addStat(StatList.mineBlockStatArray[blockID], 1);
+                    entityplayer.addStat(StatList.mineBlockStatArray[getIdFromBlock(this)], 1);
                     entityplayer.getCurrentEquippedItem().damageItem(1, entityplayer);
-                    dropBlockAsItem_do(world, i, j, k, new ItemStack(BambooInit.takenokoIID, 1, 0));
+                    dropBlockAsItem(world, i, j, k, new ItemStack(BambooInit.takenoko, 1, 0));
                 }
             } else {
                 super.harvestBlock(world, entityplayer, i, j, k, l);
@@ -154,39 +155,39 @@ public class BlockBamboo extends Block {
     }
 
     @Override
-    public void onNeighborBlockChange(World world, int i, int j, int k, int l) {
-        checkBlockCoordValid(world, i, j, k);
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+        checkBlockCoordValid(world, x, y, z);
     }
 
     @Override
-    public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6) {
-        if (par1World.getBlockId(par2, par3 - par6, par4) == this.blockID) {
-            dropBlockAsItem(par1World, par2, par3, par4, 0, BambooInit.bambooIID);
-            par1World.setBlock(par2, par3 - par6, par4, 0, 0, 3);
+    public void breakBlock(World par1World, int par2, int par3, int par4, Block par5, int par6) {
+        if (par1World.getBlock(par2, par3 - par6, par4) == this) {
+            dropBlockAsItem(par1World, par2, par3, par4, new ItemStack(BambooInit.itembamboo));
+            par1World.setBlockToAir(par2, par3 - par6, par4);
         }
     }
 
     protected final void checkBlockCoordValid(World world, int i, int j, int k) {
         if (!canBlockStay(world, i, j, k)) {
             if (world.getBlockMetadata(i, j, k) != 15) {
-                dropBlockAsItem(world, i, j, k, 0, BambooInit.bambooIID);
+                dropBlockAsItem(world, i, j, k, new ItemStack(BambooInit.itembamboo));
             }
 
-            world.setBlock(i, j, k, 0, 0, 3);
+            world.setBlockToAir(i, j, k);
         }
     }
 
     @Override
     public boolean canBlockStay(World world, int i, int j, int k) {
-        int l = world.getBlockId(i, j - 1, k);
+        Block block = world.getBlock(i, j - 1, k);
 
-        if (l == blockID && world.getBlockMetadata(i, j - 1, k) == 15) {
+        if (block == this && world.getBlockMetadata(i, j - 1, k) == 15) {
             return false;
-        } else if (l == blockID) {
+        } else if (block == this) {
             return true;
         }
 
-        if (l != Block.grass.blockID && l != Block.dirt.blockID) {
+        if (block != Blocks.grass && block != Blocks.dirt) {
             return false;
         }
 
@@ -194,8 +195,8 @@ public class BlockBamboo extends Block {
     }
 
     @Override
-    public int idDropped(int par1, Random par2Random, int par3) {
-        return BambooInit.bambooIID;
+    public Item getItemDropped(int par1, Random rand, int par3) {
+        return BambooInit.itembamboo;
     }
 
     @Override
@@ -214,7 +215,7 @@ public class BlockBamboo extends Block {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerBlockIcons(IIconRegister par1IconRegister) {
         this.parent = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bamboo");
         this.child = par1IconRegister.registerIcon(BambooCore.resourceDomain + this.chiledName);
     }
@@ -237,10 +238,5 @@ public class BlockBamboo extends Block {
     @Override
     public int getMobilityFlag() {
         return 1;
-    }
-
-    @Override
-    public int idPicked(World par1World, int par2, int par3, int par4) {
-        return BambooInit.bambooIID;
     }
 }

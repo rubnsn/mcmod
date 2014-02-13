@@ -2,12 +2,7 @@ package ruby.bamboo.block;
 
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import ruby.bamboo.BambooInit;
-import ruby.bamboo.CustomRenderHandler;
-import ruby.bamboo.tileentity.TileEntityCampfire;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockFurnace;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -15,18 +10,23 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooInit;
+import ruby.bamboo.CustomRenderHandler;
+import ruby.bamboo.tileentity.TileEntityCampfire;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCampfire extends BlockFurnace {
     private static boolean keepFurnaceInventory = false;
 
-    public BlockCampfire(int par1) {
-        super(par1, true);
-        setLightValue(1F);
+    public BlockCampfire() {
+        super(true);
+        setLightLevel(1F);
         setHardness(1.0F);
     }
 
     @Override
-    public TileEntity createNewTileEntity(World par1World) {
+    public TileEntity createNewTileEntity(World var1, int var2) {
         return new TileEntityCampfire();
     }
 
@@ -64,33 +64,23 @@ public class BlockCampfire extends BlockFurnace {
 
     public static void updateFurnaceBlockState(World par1World, int par2, int par3, int par4) {
         int var5 = par1World.getBlockMetadata(par2, par3, par4);
-        TileEntity var6 = par1World.getBlockTileEntity(par2, par3, par4);
+        TileEntity var6 = par1World.getTileEntity(par2, par3, par4);
         keepFurnaceInventory = true;
-        par1World.setBlock(par2, par3, par4, BambooInit.campfireBID, 0, 3);
+        par1World.setBlock(par2, par3, par4, BambooInit.campfire, 0, 3);
         keepFurnaceInventory = false;
         par1World.setBlockMetadataWithNotify(par2, par3, par4, var5, 3);
 
         if (var6 != null) {
             var6.validate();
-            par1World.setBlockTileEntity(par2, par3, par4, var6);
+            par1World.setTileEntity(par2, par3, par4, var6);
         }
     }
 
     @Override
-    public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6) {
+    public void breakBlock(World par1World, int par2, int par3, int par4, Block par5, int par6) {
         if (!keepFurnaceInventory) {
             super.breakBlock(par1World, par2, par3, par4, par5, par6);
         }
-    }
-
-    @Override
-    public int idDropped(int par1, Random par2Random, int par3) {
-        return this.blockID;
-    }
-
-    @Override
-    public int idPicked(World par1World, int par2, int par3, int par4) {
-        return this.blockID;
     }
 
     @SideOnly(Side.CLIENT)

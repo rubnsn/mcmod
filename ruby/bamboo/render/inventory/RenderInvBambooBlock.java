@@ -12,7 +12,7 @@ public class RenderInvBambooBlock implements IRenderInventory {
             Tessellator tessellator = Tessellator.instance;
             tessellator.startDrawingQuads();
             tessellator.setNormal(0.0F, 1F, 0.0F);
-            renderBlocks.drawCrossedSquares(block, metadata, -0.5D, -0.5D, -0.5D, 1F);
+            //renderBlocks.drawCrossedSquares(block, metadata, -0.5D, -0.5D, -0.5D, 1F);
             tessellator.draw();
         }
     }

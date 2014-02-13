@@ -2,30 +2,27 @@ package ruby.bamboo.block;
 
 import java.util.Random;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-import ruby.bamboo.entity.EntityWhiteSmokeFX;
-import ruby.bamboo.tileentity.spa.ITileEntitySpa;
-import ruby.bamboo.tileentity.spa.TileEntitySpaChild;
-import ruby.bamboo.tileentity.spa.TileEntitySpaParent;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.Item;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
+import ruby.bamboo.entity.EntityWhiteSmokeFX;
+import ruby.bamboo.tileentity.spa.ITileEntitySpa;
+import ruby.bamboo.tileentity.spa.TileEntitySpaChild;
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockSpaWater extends BlockContainer implements
         ITileEntityProvider {
@@ -34,8 +31,8 @@ public class BlockSpaWater extends BlockContainer implements
         directions = new ForgeDirection[] { ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.EAST };
     }
 
-    public BlockSpaWater(int i, Material material) {
-        super(i, material);
+    public BlockSpaWater(Material material) {
+        super(material);
         float f = 0.0F;
         float f1 = 0.0F;
         setBlockBounds(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
@@ -52,7 +49,7 @@ public class BlockSpaWater extends BlockContainer implements
     }
 
     private int getWaterColor(IBlockAccess iblockaccess, int posX, int posY, int posZ) {
-        ITileEntitySpa tsp = (ITileEntitySpa) iblockaccess.getBlockTileEntity(posX, posY, posZ);
+        ITileEntitySpa tsp = (ITileEntitySpa) iblockaccess.getTileEntity(posX, posY, posZ);
         if (tsp != null) {
             return tsp.getColor();
         }
@@ -64,9 +61,9 @@ public class BlockSpaWater extends BlockContainer implements
 
         if (!world.isRemote) {
             if (entity instanceof EntityLivingBase) {
-                ((ITileEntitySpa) world.getBlockTileEntity(posX, posY, posZ)).onEntityLivingCollision((EntityLivingBase) entity);
+                ((ITileEntitySpa) world.getTileEntity(posX, posY, posZ)).onEntityLivingCollision((EntityLivingBase) entity);
             } else if (entity instanceof EntityItem) {
-                ((ITileEntitySpa) world.getBlockTileEntity(posX, posY, posZ)).onEntityItemCollision((EntityItem) entity);
+                ((ITileEntitySpa) world.getTileEntity(posX, posY, posZ)).onEntityItemCollision((EntityItem) entity);
                 /*if (((EntityItem) entity).getEntityItem().itemID == Item.dyePowder.itemID) {
                     ITileEntitySpa tsp = (ITileEntitySpa) world.getBlockTileEntity(posX, posY, posZ);
                     if (!world.isRemote) {
@@ -84,7 +81,7 @@ public class BlockSpaWater extends BlockContainer implements
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerBlockIcons(IIconRegister par1IconRegister) {
         this.blockIcon = par1IconRegister.registerIcon("wool_colored_white");
     }
 
@@ -96,7 +93,7 @@ public class BlockSpaWater extends BlockContainer implements
     @Override
     public void updateTick(World world, int posX, int posY, int posZ, Random random) {
         if (!world.isRemote) {
-            ITileEntitySpa tileSpa = (ITileEntitySpa) world.getBlockTileEntity(posX, posY, posZ);
+            ITileEntitySpa tileSpa = (ITileEntitySpa) world.getTileEntity(posX, posY, posZ);
             if (tileSpa == null) {
                 world.setBlockToAir(posX, posY, posZ);
             } else {
@@ -110,7 +107,7 @@ public class BlockSpaWater extends BlockContainer implements
                 }
 
                 if (tileSpa.isStay()) {
-                    if (world.getBlockId(posX, posY - 1, posZ) != blockID) {
+                    if (world.getBlock(posX, posY - 1, posZ) != this) {
                         this.spread(world, posX, posY, posZ, meta, world.rand);
                     }
                 } else {
@@ -122,7 +119,7 @@ public class BlockSpaWater extends BlockContainer implements
     }
 
     private void setTickSchedule(World world, int posX, int posY, int posZ, ITileEntitySpa tileSpa) {
-        world.scheduleBlockUpdate(posX, posY, posZ, this.blockID, this.tickRate(world));
+        world.scheduleBlockUpdate(posX, posY, posZ, this, this.tickRate(world));
         tileSpa.setTickSchedule(true);
     }
 
@@ -135,7 +132,7 @@ public class BlockSpaWater extends BlockContainer implements
             } else {
                 ForgeDirection dirTravel = this.getDirTravel(world, posX, posY, posZ);
 
-                if (this.getDirOffsettedBlockID(world, posX, posY, posZ, dirTravel) == blockID) {
+                if (this.getDirOffsettedBlockID(world, posX, posY, posZ, dirTravel) == this) {
                     if (meta < this.getDirOffsettedMetadata(world, posX, posY, posZ, dirTravel)) {
                         this.waterLevelUP(world, posX, posY, posZ, dirTravel);
                     }
@@ -156,7 +153,7 @@ public class BlockSpaWater extends BlockContainer implements
                 break;
             } else {
                 targetMeta = this.getDirOffsettedMetadata(world, posX, posY, posZ, dir);
-                if (this.getDirOffsettedBlockID(world, posX, posY, posZ, dir) == this.blockID && meta < targetMeta) {
+                if (this.getDirOffsettedBlockID(world, posX, posY, posZ, dir) == this && meta < targetMeta) {
                     resultDir = dir;
                     meta = targetMeta;
                 }
@@ -169,8 +166,8 @@ public class BlockSpaWater extends BlockContainer implements
         return world.isAirBlock(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ);
     }
 
-    private int getDirOffsettedBlockID(World world, int posX, int posY, int posZ, ForgeDirection dir) {
-        return world.getBlockId(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ);
+    private Block getDirOffsettedBlockID(World world, int posX, int posY, int posZ, ForgeDirection dir) {
+        return world.getBlock(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ);
     }
 
     private int getDirOffsettedMetadata(World world, int posX, int posY, int posZ, ForgeDirection dir) {
@@ -178,8 +175,8 @@ public class BlockSpaWater extends BlockContainer implements
     }
 
     private void setThisChildBlock(World world, int posX, int posY, int posZ, int amount, ForgeDirection dir) {
-        world.setBlock(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ, blockID, amount, 3);
-        ((TileEntitySpaChild) world.getBlockTileEntity(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ)).setParentPosition(((ITileEntitySpa) world.getBlockTileEntity(posX, posY, posZ)).getParentPosition());
+        world.setBlock(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ, this, amount, 3);
+        ((TileEntitySpaChild) world.getTileEntity(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ)).setParentPosition(((ITileEntitySpa) world.getTileEntity(posX, posY, posZ)).getParentPosition());
     }
 
     private void setThisChildBlock(World world, int posX, int posY, int posZ, ForgeDirection dir) {
@@ -211,9 +208,9 @@ public class BlockSpaWater extends BlockContainer implements
     }
 
     @Override
-    public void onNeighborBlockChange(World world, int posX, int posY, int posZ, int par5) {
+    public void onNeighborBlockChange(World world, int posX, int posY, int posZ, Block par5) {
         if (!world.isRemote) {
-            ITileEntitySpa tileSpa = (ITileEntitySpa) world.getBlockTileEntity(posX, posY, posZ);
+            ITileEntitySpa tileSpa = (ITileEntitySpa) world.getTileEntity(posX, posY, posZ);
             if (tileSpa != null && !tileSpa.isTickScheduled()) {
                 this.setTickSchedule(world, posX, posY, posZ, tileSpa);
             }
@@ -223,11 +220,7 @@ public class BlockSpaWater extends BlockContainer implements
     @Override
     public void onBlockAdded(World par1World, int par2, int par3, int par4) {
         super.onBlockAdded(par1World, par2, par3, par4);
-        par1World.scheduleBlockUpdate(par2, par3, par4, this.blockID, this.tickRate(par1World));
-    }
-
-    @Override
-    protected void initializeBlock() {
+        par1World.scheduleBlockUpdate(par2, par3, par4, this, this.tickRate(par1World));
     }
 
     @Override
@@ -254,13 +247,8 @@ public class BlockSpaWater extends BlockContainer implements
     }
 
     @Override
-    public Icon getIcon(int par1, int par2) {
-        return Block.waterStill.getIcon(par1, par2);
-    }
-
-    @Override
-    public int idDropped(int i, Random random, int j) {
-        return 0;
+    public IIcon getIcon(int par1, int par2) {
+        return Blocks.water.getIcon(par1, par2);
     }
 
     @Override
@@ -275,7 +263,7 @@ public class BlockSpaWater extends BlockContainer implements
 
     @Override
     public boolean shouldSideBeRendered(IBlockAccess iblockaccess, int i, int j, int k, int l) {
-        Material material = iblockaccess.getBlockMaterial(i, j, k);
+        Material material = iblockaccess.getBlock(i, j, k).getMaterial();
 
         if (material == blockMaterial) {
             return false;
@@ -326,7 +314,7 @@ public class BlockSpaWater extends BlockContainer implements
                 i2++;
             }
 
-            if (par1World.getBlockMaterial(l1, par3, i2) != Material.air || !par1World.getBlockMaterial(l1, par3 - 1, i2).blocksMovement() && !par1World.getBlockMaterial(l1, par3 - 1, i2).isLiquid()) {
+            if (par1World.getBlock(l1, par3, i2).getMaterial() != Material.air || !par1World.getBlock(l1, par3 - 1, i2).getMaterial().blocksMovement() && !par1World.getBlock(l1, par3 - 1, i2).getMaterial().isLiquid()) {
                 continue;
             }
 
@@ -381,7 +369,7 @@ public class BlockSpaWater extends BlockContainer implements
             }
         }
 
-        if (par5Random.nextInt(10) == 0 && par1World.isBlockNormalCube(par2, par3 - 1, par4) && !par1World.getBlockMaterial(par2, par3 - 2, par4).isSolid()) {
+        if (par5Random.nextInt(10) == 0 && par1World.isBlockNormalCubeDefault(par2, par3 - 1, par4, false) && !par1World.getBlock(par2, par3 - 2, par4).getMaterial().isSolid()) {
             double d1 = par2 + par5Random.nextFloat();
             double d3 = par3 - 1.05D;
             double d5 = par4 + par5Random.nextFloat();
@@ -400,7 +388,7 @@ public class BlockSpaWater extends BlockContainer implements
     }
 
     @Override
-    public TileEntity createNewTileEntity(World var1) {
+    public TileEntity createNewTileEntity(World var1, int var2) {
         return new TileEntitySpaChild();
     }
 }

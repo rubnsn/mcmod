@@ -2,16 +2,16 @@ package ruby.bamboo.block;
 
 import java.util.List;
 
-import ruby.bamboo.CustomRenderHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
+import ruby.bamboo.CustomRenderHandler;
 
 public class BlockPillar extends Block {
     private final float minSize;
@@ -22,8 +22,8 @@ public class BlockPillar extends Block {
     private ForgeDirection lastRenderDirection;
     private boolean isSubBoundsBoxRender = false;
 
-    public BlockPillar(int par1, Block block, int meta, float minSize, float maxSize, float height) {
-        super(par1, Material.wood);
+    public BlockPillar(Block block, int meta, float minSize, float maxSize, float height) {
+        super(Material.wood);
         this.setHardness(0.2F);
         this.setResistance(1.0F);
         this.minSize = minSize;
@@ -39,12 +39,12 @@ public class BlockPillar extends Block {
     }
 
     @Override
-    public Icon getBlockTexture(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
+    public IIcon getIcon(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
         return iconBlock.getIcon(2, iconMeta);
     }
 
     @Override
-    public Icon getIcon(int par1, int par2) {
+    public IIcon getIcon(int par1, int par2) {
         return iconBlock.getIcon(2, iconMeta);
     }
 
@@ -65,7 +65,7 @@ public class BlockPillar extends Block {
 
     @Override
     public boolean shouldSideBeRendered(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
-        Block block = Block.blocksList[par1IBlockAccess.getBlockId(par2, par3, par4)];
+        Block block = par1IBlockAccess.getBlock(par2, par3, par4);
 
         if (block != null) {
             ForgeDirection fd = ForgeDirection.getOrientation(par5).getOpposite();
@@ -77,7 +77,7 @@ public class BlockPillar extends Block {
 
             if (block instanceof BlockPillar) {
                 if (par1IBlockAccess.getBlockMetadata(par2, par3, par4) == meta) {
-                    if (((BlockPillar) Block.blocksList[par1IBlockAccess.getBlockId(par2, par3, par4)]).getSize() >= this.getSize()) {
+                    if (((BlockPillar) par1IBlockAccess.getBlock(par2, par3, par4)).getSize() >= this.getSize()) {
                         return false;
                     }
                 }
@@ -341,12 +341,9 @@ public class BlockPillar extends Block {
     }
 
     @Override
-    public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5) {
+    public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, Block par5) {
         if (!canStay(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4))) {
-            // dropBlockAsItem(par1World, par2, par3, par4, 0, this.blockID);
-            par1World.destroyBlock(par2, par3, par4, true);// setBlock(par2,
-                                                           // par3, par4,
-                                                           // 0,0,3);
+            par1World.func_147480_a(par2, par3, par4, true);
         }
     }
 
@@ -360,7 +357,7 @@ public class BlockPillar extends Block {
     }
 
     private static Block getOffsettedBlock(IBlockAccess iBlockAccess, ForgeDirection fd, int posX, int posY, int posZ) {
-        return Block.blocksList[iBlockAccess.getBlockId(posX + fd.offsetX, posY + fd.offsetY, posZ + fd.offsetZ)];
+        return iBlockAccess.getBlock(posX + fd.offsetX, posY + fd.offsetY, posZ + fd.offsetZ);
     }
 
     @Override
@@ -373,7 +370,7 @@ public class BlockPillar extends Block {
     }
 
     @Override
-    public void registerIcons(IconRegister par1IconRegister) {
+    public void registerBlockIcons(IIconRegister par1IconRegister) {
     }
 
     public float getSize() {
