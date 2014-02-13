@@ -17,6 +17,7 @@ public class BambooRecipe {
     private static final String WHEAT_RICE = "wheatRice";
     private static final String TUDURA = "tudura";
     private static final String BUSKET = "bambooBasket";
+    private static final String CROP_RICE = "cropRice";
 
     public BambooRecipe() {
         recipeInit();
@@ -200,13 +201,13 @@ public class BambooRecipe {
 
     private void addOreDictionary() {
         OreDictionary.registerOre(BAMBOO, bamboo);
-        OreDictionary.registerOre(BAMBOO, bamboo);
         OreDictionary.registerOre(WHEAT_RICE, new ItemStack(foods, 1, 0));
         OreDictionary.registerOre(TUDURA, tudura);
         OreDictionary.registerOre(BUSKET, bambooBasket);
         OreDictionary.registerOre("treeSapling", sakura);
         OreDictionary.registerOre("logWood", sakuralog);
         OreDictionary.registerOre("plankWood", new ItemStack(decoration_dir, 1, 2));
+        OreDictionary.registerOre(CROP_RICE, rawrice);
     }
 
     //1個目は主素材のみ、2個めはサブ素材、だいたいツヅラ
