@@ -1,4 +1,16 @@
-*.png
+*.class
+assets/forge
+assets/bamboo/textures
+cpw/
+ibxm/
+net/
+Start.java
+*.cfg
+*.lzma
+*.properties
+forge_logo.png
+mcpmod.info
+CodecIBXM.java
 # Package Files #
 *.jar
 *.war
