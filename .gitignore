@@ -1,10 +1,5 @@
 *.class
-assets/forge
-assets/bamboo/textures
-cpw/
-ibxm/
-net/
-Start.java
+*.png
 *.cfg
 *.lzma
 *.properties
