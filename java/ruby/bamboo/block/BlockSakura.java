@@ -63,8 +63,6 @@ public class BlockSakura extends BlockSapling {
     @Override
     public void updateTick(World world, int i, int j, int k, Random random) {
         if (!world.isRemote) {
-            super.updateTick(world, i, j, k, random);
-
             if (world.getBlockLightValue(i, j + 1, k) >= 9 && random.nextInt(30) == 0) {
                 growTree(world, i, j, k, random, 0x0f);
             }

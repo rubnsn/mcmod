@@ -204,7 +204,7 @@ public class BambooRecipe {
     }
 
     private void addOreDictionary() {
-        OreDictionary.registerOre(BAMBOO, bamboo);
+        OreDictionary.registerOre(BAMBOO, itembamboo);
         OreDictionary.registerOre(WHEAT_RICE, new ItemStack(foods, 1, 0));
         OreDictionary.registerOre(TUDURA, tudura);
         OreDictionary.registerOre(BUSKET, bambooBasket);
