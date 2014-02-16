@@ -3,6 +3,7 @@ package ruby.bamboo;
 import static ruby.bamboo.BambooInit.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -10,11 +11,12 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import ruby.bamboo.entity.EnumSlideDoor;
 import ruby.bamboo.grinder.GrindRegistory;
 import ruby.bamboo.item.EnumShavedIce;
+import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class BambooRecipe {
     private static final String BAMBOO = "bamboo";
-    private static final String WHEAT_RICE = "wheatRice";
+    private static final String RICE = "rice";
     private static final String TUDURA = "tudura";
     private static final String BUSKET = "bambooBasket";
     private static final String CROP_RICE = "cropRice";
@@ -57,15 +59,15 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(firecracker, 1, 1), " # ", "XYX", " # ", '#', BUSKET, 'X', Items.gunpowder, 'Y', new ItemStack(firecracker, 1, 0));
         addShapedOreRecipe(new ItemStack(firecracker, 1, 2), " # ", "XYX", " # ", '#', BUSKET, 'X', Items.gunpowder, 'Y', new ItemStack(firecracker, 1, 1));
         // 飯類
-        addShapelessOreRecipe(new ItemStack(foods, 1, 1), Items.cooked_beef, WHEAT_RICE);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 2), Items.cooked_porkchop, WHEAT_RICE);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 3), Blocks.red_mushroom, WHEAT_RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 1), Items.cooked_beef, RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 2), Items.cooked_porkchop, RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 3), Blocks.red_mushroom, RICE);
         addShapelessOreRecipe(new ItemStack(foods, 1, 4), Items.porkchop, BAMBOO);
         addShapelessOreRecipe(new ItemStack(foods, 1, 5), Items.cooked_beef, BAMBOO);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 6), takenoko, WHEAT_RICE);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 7), Items.egg, WHEAT_RICE);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 8), Items.egg, Items.cooked_chicken, WHEAT_RICE);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 9), Items.fish, WHEAT_RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 6), takenoko, RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 7), Items.egg, RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 8), Items.egg, Items.cooked_chicken, RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 9), Items.fish, RICE);
         addShapelessOreRecipe(new ItemStack(foods, 1, 10), Items.cooked_chicken, BAMBOO);
         // 箪笥
         addShapedOreRecipe(new ItemStack(jpchest, 1, 0), "YYY", "Y#Y", "YYY", '#', TUDURA, 'Y', "logWood");
@@ -152,12 +154,12 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(decoration, 8, 4), "###", "#X#", "###", '#', new ItemStack(Blocks.planks, 1, 2), 'X', TUDURA);
         addShapedOreRecipe(new ItemStack(decoration, 8, 5), "###", "#X#", "###", '#', Items.brick, 'X', TUDURA);
         // デコハーフ
-        addSlabRecipe(new ItemStack(decoration_half, 6, 0), new ItemStack(decoration, 8, 0));
-        addSlabRecipe(new ItemStack(decoration_half, 6, 1), new ItemStack(decoration, 8, 1));
-        addSlabRecipe(new ItemStack(decoration_half, 6, 2), new ItemStack(decoration, 8, 2));
-        addSlabRecipe(new ItemStack(decoration_half, 6, 3), new ItemStack(decoration, 8, 3));
-        addSlabRecipe(new ItemStack(decoration_half, 6, 4), new ItemStack(decoration, 8, 4));
-        addSlabRecipe(new ItemStack(decoration_half, 6, 5), new ItemStack(decoration, 8, 5));
+        addSlabRecipe(new ItemStack(decoration_half, 6, 0), new ItemStack(decoration, 1, 0));
+        addSlabRecipe(new ItemStack(decoration_half, 6, 1), new ItemStack(decoration, 1, 1));
+        addSlabRecipe(new ItemStack(decoration_half, 6, 2), new ItemStack(decoration, 1, 2));
+        addSlabRecipe(new ItemStack(decoration_half, 6, 3), new ItemStack(decoration, 1, 3));
+        addSlabRecipe(new ItemStack(decoration_half, 6, 4), new ItemStack(decoration, 1, 4));
+        addSlabRecipe(new ItemStack(decoration_half, 6, 5), new ItemStack(decoration, 1, 5));
         // 方向付きデコ（桜木材等）
         addShapedOreRecipe(new ItemStack(decoration_dir, 8, 0), "###", "#X#", "###", '#', new ItemStack(decoration_dir, 8, 2), 'X', TUDURA);
         GameRegistry.addShapelessRecipe(new ItemStack(decoration_dir, 4, 2), sakuralog);
@@ -172,7 +174,7 @@ public class BambooRecipe {
         // 瓦階段
         addStairRecipe(new ItemStack(kawara_stair, 4, 0), new ItemStack(decoration, 1, 5));
         // おぼん
-        GameRegistry.addRecipe(new ItemStack(obon, 1, 0), "###", "# #", '#', new ItemStack(decoration_dir, 4, 2));
+        GameRegistry.addRecipe(new ItemStack(obon, 1, 0), "###", "# #", '#', new ItemStack(decoration_dir, 1, 2));
         // 柱
         addShapedOreRecipe(new ItemStack(thickSakuraPillar, 4, 0), "#", "X", "#", '#', new ItemStack(decoration_dir, 1, 2), 'X', TUDURA);
         addShapedOreRecipe(new ItemStack(thinSakuraPillar, 4, 0), "#", "X", "#", '#', new ItemStack(thickSakuraPillar, 1, 0), 'X', TUDURA);
@@ -190,6 +192,8 @@ public class BambooRecipe {
         GameRegistry.addSmelting(singleTexDeco, new ItemStack(Items.coal, 1, 1), 0.15F);
         GameRegistry.addSmelting(sakuralog, new ItemStack(Items.coal, 1, 1), 0.15F);
         GameRegistry.addSmelting(rawrice, new ItemStack(foods, 1, 0), 0.15F);
+        //燃料
+        addFuel();
     }
 
     private void addGrindRecipe() {
@@ -205,13 +209,28 @@ public class BambooRecipe {
 
     private void addOreDictionary() {
         OreDictionary.registerOre(BAMBOO, itembamboo);
-        OreDictionary.registerOre(WHEAT_RICE, new ItemStack(foods, 1, 0));
+        OreDictionary.registerOre(RICE, new ItemStack(foods, 1, 0));
         OreDictionary.registerOre(TUDURA, tudura);
         OreDictionary.registerOre(BUSKET, bambooBasket);
         OreDictionary.registerOre("treeSapling", sakura);
         OreDictionary.registerOre("logWood", sakuralog);
         OreDictionary.registerOre("plankWood", new ItemStack(decoration_dir, 1, 2));
         OreDictionary.registerOre(CROP_RICE, rawrice);
+    }
+
+    private void addFuel() {
+        GameRegistry.registerFuelHandler(new IFuelHandler() {
+            @Override
+            public int getBurnTime(ItemStack fuel) {
+                if (fuel.getItem() == straw) {
+                    return 30;
+                }
+                if (fuel.getItem() == Item.getItemFromBlock(decoration_dir) && fuel.getItemDamage() == 4) {
+                    return 270;
+                }
+                return 0;
+            }
+        });
     }
 
     //1個目は主素材のみ、2個めはサブ素材、だいたいツヅラ
