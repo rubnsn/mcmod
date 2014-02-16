@@ -79,7 +79,7 @@ public class BambooInit {
     public static Block campfire;
     public static Block dSquare;
     public static Block sakura;
-    public static Block spa;
+    public static Block spa_unit;
     public static Block spa_water;
     public static Block decoration;
     public static Block decoration_half;
@@ -95,7 +95,6 @@ public class BambooInit {
     public static Block decoCarpet;
     public static Block andon;
     public static Block rooftile;
-    public static Block spaunit;
     public static Block sakuraleavs;
     public static Block sakuralog;
     public static Block kawara_stair;
@@ -173,7 +172,7 @@ public class BambooInit {
         sakura = registerBlock(new BlockSakura().setBlockTextureName("sakura"), "sakuraSapling", tabBamboo);
         rooftile = registerBlock(new BlockKayabukiRoof(), "kayabukiRoof", tabBamboo);
         spa_water = registerBlock(new BlockSpaWater(Material.water), "spaWater");
-        spa = registerBlock(new BlockSpaUnit(), "spaUnit", tabBamboo);
+        spa_unit = registerBlock(new BlockSpaUnit(), "spaUnit", tabBamboo);
         sakuralog = registerBlock(new BlockSakuraLog(), "sakuraLog", tabBamboo);
         delude_width = registerBlock(new BlockDelude(false), "delude_width", tabBamboo);
         delude_height = registerBlock(new BlockDelude(true), "delude_height", tabBamboo);

@@ -94,7 +94,7 @@ public class BambooRecipe {
         addStairRecipe(new ItemStack(rooftile, 6, 0), new ItemStack(dSquare, 1, 4));
         addStairRecipe(new ItemStack(rooftile, 6, 0), Items.wheat, TUDURA);
         // 温泉ユニット
-        addShapedOreRecipe(new ItemStack(spaunit, 1, 0), "#Z#", "#X#", "#Y#", 'Z', TUDURA, '#', Blocks.cobblestone, 'Y', Items.lava_bucket, 'X', Items.water_bucket);
+        addShapedOreRecipe(new ItemStack(spa_unit, 1, 0), "#Z#", "#X#", "#Y#", 'Z', TUDURA, '#', Blocks.cobblestone, 'Y', Items.lava_bucket, 'X', Items.water_bucket);
         // かき氷
         EnumShavedIce[] esis = EnumShavedIce.values();
 

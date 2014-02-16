@@ -1,12 +1,13 @@
 package ruby.bamboo.render;
 
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.tileentity.TileEntityManeki;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 
 public class RenderManeki extends TileEntitySpecialRenderer {
     public static ModelManeki model;
@@ -50,6 +51,7 @@ public class RenderManeki extends TileEntitySpecialRenderer {
     public void renderInv() {
         GL11.glPushMatrix();
         this.bindTexture(RESOURCE);
+        GL11.glRotatef(180, 0, 1.0F, 0);
         GL11.glTranslatef(0, -0.25F, 0);
         GL11.glScalef(1F, 1F, 1F);
         RenderManeki.model.render(null, 0, 0, 0, 0, 0, 0.0625F);
