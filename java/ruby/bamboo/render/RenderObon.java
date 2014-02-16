@@ -45,7 +45,7 @@ public class RenderObon extends Render {
         GL11.glPopMatrix();
         entityItem = ((EntityObon) entity).getEntityItem();
 
-        if (entityItem != null) {
+        if (entityItem != null && entityItem.getEntityItem() != null && entityItem.getEntityItem().getItem() != null) {
             doRenderItem(entityItem, d0, d1 + 0.18, d2 - 0.07, 0, 0);
         }
     }
