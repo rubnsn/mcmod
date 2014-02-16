@@ -32,10 +32,10 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(Items.stick, 2), "#", "#", '#', BAMBOO);
         addShapedOreRecipe(new ItemStack(singleTexDeco, 2, 0), "##", "##", '#', BAMBOO);
         // きつねび
-        addShapedOreRecipe(new ItemStack(kitunebi, 6, 0), "YYY", "#X#", "YYY", 'Y', "dyeBlue", '#', TUDURA, 'X', Blocks.pumpkin_stem);
-        addShapedOreRecipe(new ItemStack(kitunebi, 6, 0), "Y#Y", "YXY", "Y#Y", 'Y', "dyeBlue", '#', TUDURA, 'X', Blocks.pumpkin_stem);
-        addShapedOreRecipe(new ItemStack(kitunebi, 6, 0), "YYY", "#X#", "YYY", 'Y', "dyeBlue", '#', TUDURA, 'X', Items.ender_pearl);
-        addShapedOreRecipe(new ItemStack(kitunebi, 6, 0), "Y#Y", "YXY", "Y#Y", 'Y', "dyeBlue", '#', TUDURA, 'X', Items.ender_pearl);
+        addShapedOreRecipe(new ItemStack(kitunebi, 6, 0), "YYY", "#X#", "YYY", 'Y', "dyeBlue", '#', TUDURA, 'X', Blocks.lit_pumpkin);
+        addShapedOreRecipe(new ItemStack(kitunebi, 6, 0), "Y#Y", "YXY", "Y#Y", 'Y', "dyeBlue", '#', TUDURA, 'X', Blocks.lit_pumpkin);
+        addShapedOreRecipe(new ItemStack(kitunebi, 6, 0), "YYY", "#X#", "YYY", 'Y', Items.ender_pearl, '#', TUDURA, 'X', Blocks.lit_pumpkin);
+        addShapedOreRecipe(new ItemStack(kitunebi, 6, 0), "Y#Y", "YXY", "Y#Y", 'Y', Items.ender_pearl, '#', TUDURA, 'X', Blocks.lit_pumpkin);
         // うつわ
         addShapedOreRecipe(new ItemStack(bambooBasket, 1, 0), "# #", " # ", '#', BAMBOO);
         // 竹槍
