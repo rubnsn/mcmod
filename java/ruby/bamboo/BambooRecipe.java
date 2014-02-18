@@ -62,7 +62,7 @@ public class BambooRecipe {
         addShapelessOreRecipe(new ItemStack(foods, 1, 1), Items.cooked_beef, RICE);
         addShapelessOreRecipe(new ItemStack(foods, 1, 2), Items.cooked_porkchop, RICE);
         addShapelessOreRecipe(new ItemStack(foods, 1, 3), Blocks.red_mushroom, RICE);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 4), Items.porkchop, BAMBOO);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 4), Items.cooked_porkchop, BAMBOO);
         addShapelessOreRecipe(new ItemStack(foods, 1, 5), Items.cooked_beef, BAMBOO);
         addShapelessOreRecipe(new ItemStack(foods, 1, 6), takenoko, RICE);
         addShapelessOreRecipe(new ItemStack(foods, 1, 7), Items.egg, RICE);

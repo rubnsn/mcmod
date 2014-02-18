@@ -284,6 +284,10 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
             if (this.slot[1] == null && this.slot[2] == null) {
                 return true;
             }
+            //slot2にボーナスが存在するが、ボーナスは存在しない
+            if (this.slot[2] != null && bonus == null) {
+                return false;
+            }
 
             // 出力先いずれかが同一のものではない
             if ((this.slot[1] != null && !this.slot[1].isItemEqual(output)) || (this.slot[2] != null && !this.slot[2].isItemEqual(bonus))) {

@@ -194,11 +194,11 @@ public class BambooInit {
         delude_plate = registerBlock(new BlockDeludePressurePlate(), "delude_plate", tabBamboo);
         ricePlant = registerBlock(new BlockRicePlant().setBlockTextureName(BambooCore.resourceDomain + "riceplant"), "ricePlant");
         millStone = registerBlock(new BlockMillStone(), "bambooMillStone", tabBamboo);
+        registerBlock(new BlockManeki(Material.ground), "maneki", tabBamboo);
         workingBlock();
     }
 
     private void workingBlock() {
-        registerBlock(new BlockManeki(Material.ground), "maneki", tabBamboo);
     }
 
     private void itemsInit() {
