@@ -135,10 +135,10 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(bambooSword, 1, 0), " X ", " X ", " Y ", 'X', BAMBOO, 'Y', TUDURA);
         // サクラから桜木材
         // カメレオン類
-        addShapedOreRecipe(new ItemStack(delude_width, 6, 0), " # ", "YXY", " # ", '#', TUDURA, 'X', Blocks.pumpkin_stem, 'Y', Blocks.soul_sand);
-        addShapedOreRecipe(new ItemStack(delude_height, 6, 0), " Y ", "#X#", " Y ", '#', TUDURA, 'X', Blocks.pumpkin_stem, 'Y', Blocks.soul_sand);
-        addShapedOreRecipe(new ItemStack(delude_stair, 8, 0), "Y  ", "YX ", "#YY", '#', TUDURA, 'X', Blocks.pumpkin_stem, 'Y', Blocks.soul_sand);
-        addShapedOreRecipe(new ItemStack(delude_stair, 8, 0), "  Y", " XY", "YY#", '#', TUDURA, 'X', Blocks.pumpkin_stem, 'Y', Blocks.soul_sand);
+        addShapedOreRecipe(new ItemStack(delude_width, 6, 0), " # ", "YXY", " # ", '#', TUDURA, 'X', Blocks.lit_pumpkin, 'Y', Blocks.soul_sand);
+        addShapedOreRecipe(new ItemStack(delude_height, 6, 0), " Y ", "#X#", " Y ", '#', TUDURA, 'X', Blocks.lit_pumpkin, 'Y', Blocks.soul_sand);
+        addShapedOreRecipe(new ItemStack(delude_stair, 8, 0), "Y  ", "YX ", "#YY", '#', TUDURA, 'X', Blocks.lit_pumpkin, 'Y', Blocks.soul_sand);
+        addShapedOreRecipe(new ItemStack(delude_stair, 8, 0), "  Y", " XY", "YY#", '#', TUDURA, 'X', Blocks.lit_pumpkin, 'Y', Blocks.soul_sand);
         addShapedOreRecipe(new ItemStack(delude_plate, 1, 0), "##", '#', new ItemStack(delude_width, 1, 0));
         // いろり
         addShapedOreRecipe(new ItemStack(campfire, 1, 0), " # ", "ZXZ", "YYY", '#', TUDURA, 'Z', Blocks.iron_bars, 'X', Items.flint_and_steel, 'Y', new ItemStack(Items.coal, 1, 1));
