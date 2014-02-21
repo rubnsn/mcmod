@@ -80,20 +80,23 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
             if (getBlockMetadata() == 1) {
                 roll = ++roll < 360 ? roll : 0;
                 Object nowgi = Item.itemRegistry.getObject(nowGrindItemName);
-                if (nowgi instanceof ItemBlock) {
-                    Block block = (Block) Block.blockRegistry.getObject(nowGrindItemName);
-                    float xRand = 0;
-                    float zRand = 0;
-                    if (((int) roll & 1) == 1) {
-                        xRand = this.worldObj.rand.nextFloat();
-                        zRand = this.worldObj.rand.nextInt(2);
+
+                if (nowgi != null) {
+                    if (nowgi instanceof ItemBlock) {
+                        Block block = (Block) Block.blockRegistry.getObject(nowGrindItemName);
+                        float xRand = 0;
+                        float zRand = 0;
+                        if (((int) roll & 1) == 1) {
+                            xRand = this.worldObj.rand.nextFloat();
+                            zRand = this.worldObj.rand.nextInt(2);
+                        } else {
+                            xRand = this.worldObj.rand.nextInt(2);
+                            zRand = this.worldObj.rand.nextFloat();
+                        }
+                        Minecraft.getMinecraft().effectRenderer.addEffect((new EntityDiggingFX(this.worldObj, xCoord + xRand, yCoord + 0.5F, zCoord + zRand, 0.0D, 0.0D, 0.0D, block, nowGrindItemDmg)).applyRenderColor(block.getRenderColor(nowGrindItemDmg)).multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F));
                     } else {
-                        xRand = this.worldObj.rand.nextInt(2);
-                        zRand = this.worldObj.rand.nextFloat();
+                        itemCrackParticle("iconcrack_" + Item.itemRegistry.getIDForObject(nowgi) + "_" + nowGrindItemDmg);
                     }
-                    Minecraft.getMinecraft().effectRenderer.addEffect((new EntityDiggingFX(this.worldObj, xCoord + xRand, yCoord + 0.5F, zCoord + zRand, 0.0D, 0.0D, 0.0D, block, nowGrindItemDmg)).applyRenderColor(block.getRenderColor(nowGrindItemDmg)).multiplyVelocity(0.2F).multipleParticleScaleBy(0.6F));
-                } else {
-                    itemCrackParticle("iconcrack_" + Item.itemRegistry.getIDForObject(nowgi) + "_" + nowGrindItemDmg);
                 }
             } else {
                 roll = 0;
