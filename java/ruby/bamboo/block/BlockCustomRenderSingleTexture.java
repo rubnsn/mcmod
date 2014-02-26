@@ -14,10 +14,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockCustomRenderSingleTexture extends Block {
     private IIcon bamboo;
 
-    public String getUnlocalizedName(int meta) {
-        return "bamboo";
-    }
-
     public BlockCustomRenderSingleTexture() {
         super(Material.ground);
         setHardness(0.2F);

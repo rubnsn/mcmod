@@ -3,7 +3,6 @@ package ruby.bamboo.block;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -21,7 +20,7 @@ public class BlockKitunebi extends Block {
     private boolean isVisible = false;
 
     public BlockKitunebi() {
-        super(Material.grass);
+        super(MaterialBamboo.instance);
         setTickRandomly(true);
         setHardness(0.0F);
         setLightLevel(1F);
@@ -29,6 +28,11 @@ public class BlockKitunebi extends Block {
 
     @Override
     public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @Override
+    public boolean renderAsNormalBlock() {
         return false;
     }
 

@@ -19,6 +19,6 @@ public class ItemCustomRenderSingleTexture extends ItemBlock {
     @Override
     public String getUnlocalizedName(ItemStack itemstack) {
         int i = itemstack.getItemDamage();
-        return field_150939_a.getUnlocalizedName() + "." + i;
+        return super.getUnlocalizedName() + "." + i;
     }
 }

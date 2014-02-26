@@ -1,8 +1,13 @@
 package ruby.bamboo.item.magatama;
 
+import java.lang.reflect.Field;
+import java.util.Iterator;
+
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import ruby.bamboo.entity.magatama.EntityClock;
 import ruby.bamboo.entity.magatama.EntityMagatama;
@@ -14,9 +19,20 @@ public class MagatamaSilver implements IMagatama {
         return EntityClock.class;
     }
 
+    private static Field duration = null;
+    static {
+        try {
+            duration = PotionEffect.class.getDeclaredField("duration");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void holdingEffect(Entity entity, int invIndex) {
-        /* durationがprivateになってるじゃねーか死ね
+        if (duration == null) {
+            return;
+        }
         if (entity instanceof EntityPlayer) {
             ItemStack is;
             for (int i = 0; i < invIndex; i++) {
@@ -26,12 +42,18 @@ public class MagatamaSilver implements IMagatama {
                 }
             }
             Iterator<PotionEffect> potions = ((EntityLivingBase) entity).getActivePotionEffects().iterator();
+            PotionEffect p;
             while (potions.hasNext()) {
-                potions.next().duration += entity.worldObj.rand.nextBoolean() ? 1 : 0;
+                p = potions.next();
+                try {
+                    duration.set(p, duration.getInt(p) + (entity.worldObj.rand.nextBoolean() ? 1 : 0));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 ((EntityPlayer) entity).getFoodStats().addExhaustion(0.05F);
             }
 
-        }*/
+        }
     }
 
     private boolean isItemStackIsThis(ItemStack is) {
