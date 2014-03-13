@@ -1,6 +1,7 @@
 package ruby.bamboo.entity;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -77,7 +78,7 @@ public class EntityWind extends EntityThrowable {
                         Block var10 = this.worldObj.getBlock(var7, var8, var9);
 
                         if (var10 != Blocks.air) {
-                            if (var10.getMaterial() == Material.leaves || var10.getMaterial() == Material.vine) {
+                            if (var10.getMaterial() == Material.leaves || var10.getMaterial() == Material.vine || var10 instanceof BlockDoublePlant) {
                                 removeLeaves(this.worldObj, var7, var8, var9, this, var10);
                             }
                         }
