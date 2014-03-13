@@ -67,7 +67,7 @@ public class BlockDecorations extends Block {
     @SideOnly(Side.CLIENT)
     @Override
     public IIcon getIcon(int side, int meta) {
-        return icons[meta & 7];
+        return icons[(meta & 7) < icons.length ? meta & 7 : 0];
     }
 
     @Override
