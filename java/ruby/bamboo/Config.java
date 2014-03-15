@@ -35,10 +35,10 @@ public class Config {
         useMagatama = false;
         isStopUpdataSnow = false;
         isStopUpdataIce = false;
-        serverInit();
+        reloadConfig();
     }
 
-    private static void serverInit() {
+    public static void reloadConfig() {
         File file = new File(Loader.instance().getConfigDir(), "BambooConfig.cfg");
         configuration = new Configuration(file);
         configuration.load();
@@ -63,11 +63,11 @@ public class Config {
         // 雪を溶かさない
         prop = configuration.get(CATEGORY_BAMBOO, "UpdateStopSnow", false);
         prop.comment = "Not melt snow with light";
-        isStopUpdataSnow = !prop.getBoolean(false);
+        Blocks.snow.setTickRandomly(!prop.getBoolean(false));
         // 氷溶かさない
         prop = configuration.get(CATEGORY_BAMBOO, "UpdateStopIce", false);
         prop.comment = "Not melt ice with light";
-        isStopUpdataIce = !prop.getBoolean(false);
+        Blocks.ice.setTickRandomly(!prop.getBoolean(false));
         // テクスチャ最大参照
         maxValue.put("DeludeMaxTexReference", 2);
         prop = configuration.get(CATEGORY_BAMBOO, "DeludeMaxTexReference", 2);
@@ -87,17 +87,10 @@ public class Config {
         prop.comment = "!!!This item is to erode the terrain greatly!!!";
         useMagatama = prop.getBoolean(false);
         configuration.save();
-        reloadConfig();
-    }
-
-    public static void reloadConfig() {
         if (exDrop) {
             MinecraftForge.addGrassSeed(new ItemStack(BambooInit.takenoko), 10);
             MinecraftForge.addGrassSeed(new ItemStack(BambooInit.sakura), 10);
         }
-
-        Blocks.snow.setTickRandomly(isStopUpdataSnow);
-        Blocks.ice.setTickRandomly(isStopUpdataIce);
     }
 
 }
