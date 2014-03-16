@@ -111,26 +111,28 @@ public class ItemSack extends Item {
             return false;
         }
 
-        if (count != 0 && Block.getBlockFromItem(getItem(type)) != Blocks.air) {
+        if (count != 0) {
             ItemStack is = new ItemStack(getItem(type), 1, meta);
-
-            if (getItem(type) instanceof ItemSlab) {
-                if (!canPlaceItemBlockSlabOnSide(par3World, par4, par5, par6, par7, par2EntityPlayer, is)) {
-                    return false;
+            if (Block.getBlockFromItem(getItem(type)) != Blocks.air) {
+                if (getItem(type) instanceof ItemSlab) {
+                    if (!canPlaceItemBlockSlabOnSide(par3World, par4, par5, par6, par7, par2EntityPlayer, is)) {
+                        return false;
+                    }
+                } else {
+                    if (!canPlaceItemBlockOnSide(par3World, par4, par5, par6, par7, par2EntityPlayer, is)) {
+                        return false;
+                    }
                 }
-            } else {
-                if (!canPlaceItemBlockOnSide(par3World, par4, par5, par6, par7, par2EntityPlayer, is)) {
-                    return false;
+                if (getItem(type) instanceof ItemBlock) {
+                    if (getItem(type).onItemUse(is, par2EntityPlayer, par3World, par4, par5, par6, par7, par8, par9, par10)) {
+                        par1ItemStack.setItemDamage(par1ItemStack.getItemDamage() + 1);
+                        count--;
+                        par1ItemStack.getTagCompound().setShort("count", count);
+                        par2EntityPlayer.swingItem();
+                    }
                 }
             }
-            if (getItem(type) instanceof ItemBlock) {
-                if (getItem(type).onItemUse(is, par2EntityPlayer, par3World, par4, par5, par6, par7, par8, par9, par10)) {
-                    par1ItemStack.setItemDamage(par1ItemStack.getItemDamage() + 1);
-                    count--;
-                    par1ItemStack.getTagCompound().setShort("count", count);
-                    par2EntityPlayer.swingItem();
-                }
-            } else if (getItem(type) instanceof ItemSeeds || getItem(type) instanceof ItemSeedFood) {
+            if (getItem(type) instanceof ItemSeeds || getItem(type) instanceof ItemSeedFood) {
                 for (int i = -2; i <= 2; i++) {
                     for (int j = -2; j <= 2; j++) {
                         if (getItem(type).onItemUse(is, par2EntityPlayer, par3World, par4 + i, par5, par6 + j, par7, par8, par9, par10)) {
