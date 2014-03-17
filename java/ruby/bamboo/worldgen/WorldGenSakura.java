@@ -20,7 +20,7 @@ public class WorldGenSakura extends WorldGenAbstractTree {
     int type;
 
     public WorldGenSakura(boolean par1) {
-        this(par1, 0);
+        this(par1, 15);
     }
 
     public WorldGenSakura(boolean par1, int dmg) {

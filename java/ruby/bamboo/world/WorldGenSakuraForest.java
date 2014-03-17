@@ -81,7 +81,7 @@ public class WorldGenSakuraForest extends WorldGenAbstractTree {
                                     Block block1 = par1World.getBlock(l2, k2, i2);
 
                                     if (block1.isAir(par1World, l2, k2, i2) || block1.isLeaves(par1World, l2, k2, i2)) {
-                                        this.setBlockAndNotifyAdequately(par1World, l2, k2, i2, getLeave(), 2);
+                                        this.setBlockAndNotifyAdequately(par1World, l2, k2, i2, getLeave(), 15);
                                     }
                                 }
                             }
@@ -92,7 +92,7 @@ public class WorldGenSakuraForest extends WorldGenAbstractTree {
                         Block block3 = par1World.getBlock(par3, par4 + k2, par5);
 
                         if (block3.isAir(par1World, par3, par4 + k2, par5) || block3.isLeaves(par1World, par3, par4 + k2, par5)) {
-                            this.setBlockAndNotifyAdequately(par1World, par3, par4 + k2, par5, getLog(), 2);
+                            this.setBlockAndNotifyAdequately(par1World, par3, par4 + k2, par5, getLog(), 0);
                         }
                     }
 

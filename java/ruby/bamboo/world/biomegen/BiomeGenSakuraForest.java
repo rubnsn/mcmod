@@ -47,7 +47,6 @@ public class BiomeGenSakuraForest extends BiomeGenBaseBamboo {
 
         if (this.field_150632_aF == 2) {
             this.field_150609_ah = 353825;
-            this.color = 3175492;
             this.setTemperatureRainfall(0.6F, 0.6F);
         }
 
@@ -67,6 +66,7 @@ public class BiomeGenSakuraForest extends BiomeGenBaseBamboo {
         }
     }
 
+    @Override
     public BiomeGenBase func_150557_a(int p_150557_1_, boolean p_150557_2_) {
         if (this.field_150632_aF == 2) {
             this.field_150609_ah = 353825;
@@ -82,10 +82,12 @@ public class BiomeGenSakuraForest extends BiomeGenBaseBamboo {
         }
     }
 
+    @Override
     public WorldGenAbstractTree func_150567_a(Random p_150567_1_) {
-        return (WorldGenAbstractTree) (this.field_150632_aF != 2 && p_150567_1_.nextInt(5) != 0 ? this.worldGeneratorTrees : field_150630_aD);
+        return (WorldGenAbstractTree) field_150630_aD;
     }
 
+    @Override
     public String func_150572_a(Random p_150572_1_, int p_150572_2_, int p_150572_3_, int p_150572_4_) {
         if (this.field_150632_aF == 1) {
             double d0 = MathHelper.clamp_double((1.0D + plantNoise.func_151601_a((double) p_150572_2_ / 48.0D, (double) p_150572_4_ / 48.0D)) / 2.0D, 0.0D, 0.9999D);
@@ -101,6 +103,7 @@ public class BiomeGenSakuraForest extends BiomeGenBaseBamboo {
         }
     }
 
+    @Override
     public void decorate(World par1World, Random par2Random, int par3, int par4) {
         int k;
         int l;
@@ -171,21 +174,14 @@ public class BiomeGenSakuraForest extends BiomeGenBaseBamboo {
         super.decorate(par1World, par2Random, par3, par4);
     }
 
-    /**
-     * Provides the basic grass color based on the biome temperature and
-     * rainfall
-     */
+    @Override
     @SideOnly(Side.CLIENT)
     public int getBiomeGrassColor(int p_150558_1_, int p_150558_2_, int p_150558_3_) {
-        int l = super.getBiomeGrassColor(p_150558_1_, p_150558_2_, p_150558_3_);
-        return this.field_150632_aF == 3 ? (l & 16711422) + 2634762 >> 1 : l;
+        int l = 0xFACAD0;
+        return l;
     }
 
-    /**
-     * Creates a mutated version of the biome and places it into the biomeList
-     * with an index equal to the original plus
-     * 128
-     */
+    @Override
     public BiomeGenBase createMutation() {
         if (this.biomeID == BiomeGenBase.forest.biomeID) {
             BiomeGenForest biomegenforest = new BiomeGenForest(this.biomeID + 128, 1);

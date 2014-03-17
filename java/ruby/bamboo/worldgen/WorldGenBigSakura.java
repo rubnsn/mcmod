@@ -52,7 +52,7 @@ public class WorldGenBigSakura extends WorldGenAbstractTree {
     int[][] leafNodes;
 
     public WorldGenBigSakura(boolean par1) {
-        this(true, 0);
+        this(true, 15);
     }
 
     public WorldGenBigSakura(boolean par1, int dmg) {
