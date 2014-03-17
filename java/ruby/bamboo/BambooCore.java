@@ -1,11 +1,13 @@
 package ruby.bamboo;
 
 import net.minecraft.block.BlockDispenser;
+import net.minecraftforge.common.DimensionManager;
 import ruby.bamboo.dispenser.DispenserBehaviorBambooSpear;
 import ruby.bamboo.dispenser.DispenserBehaviorDirtySnowball;
 import ruby.bamboo.dispenser.DispenserBehaviorFireCracker;
 import ruby.bamboo.gui.GuiHandler;
 import ruby.bamboo.proxy.CommonProxy;
+import ruby.bamboo.world.WorldProviderBamboo;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
@@ -14,6 +16,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
+import cpw.mods.fml.common.event.FMLServerStoppedEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.CoreModManager;
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -66,9 +69,23 @@ public class BambooCore {
         }
     }
 
+    private int provideId;
+
     @Mod.EventHandler
-    public void serverStart(FMLServerStartedEvent event) {
+    public void serverStarted(FMLServerStartedEvent event) {
         ManekiHandler.instance.clearManekiList();
+        Config.reloadWorldConfig();
+        provideId = 0;
+        while (!DimensionManager.registerProviderType(++provideId, WorldProviderBamboo.class, false)) {
+        }
+        System.out.println("dimId:" + Config.dimensionId + " provId:" + provideId);
+        DimensionManager.registerDimension(Config.dimensionId, provideId);
+    }
+
+    @Mod.EventHandler
+    public void serverStoped(FMLServerStoppedEvent event) {
+        DimensionManager.unregisterDimension(Config.dimensionId);
+        DimensionManager.unregisterProviderType(provideId);
     }
 
     @Mod.EventHandler

@@ -77,7 +77,7 @@ public class BlockSakura extends BlockSapling {
         if (random.nextInt(10) == 0) {
             obj = new WorldGenBigSakura(true, dmg);
         } else {
-            obj = new WorldGenSakura(dmg);
+            obj = new WorldGenSakura(true, dmg);
         }
 
         if (!((WorldGenerator) (obj)).generate(world, random, i, j, k)) {

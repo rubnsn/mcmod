@@ -9,17 +9,22 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import ruby.bamboo.BambooInit;
 
 // Referenced classes of package net.minecraft.src:
 //            WorldGenerator, World, Block, BlockLeaves,
 //            BlockGrass
 
-public class WorldGenSakura extends WorldGenerator {
+public class WorldGenSakura extends WorldGenAbstractTree {
     int type;
 
-    public WorldGenSakura(int dmg) {
+    public WorldGenSakura(boolean par1) {
+        this(par1, 0);
+    }
+
+    public WorldGenSakura(boolean par1, int dmg) {
+        super(par1);
         type = dmg;
     }
 

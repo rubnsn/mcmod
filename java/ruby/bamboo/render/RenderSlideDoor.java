@@ -24,10 +24,12 @@ public class RenderSlideDoor extends Render {
 
     public void renderSlideDoor(EntitySlideDoor entity, double d, double d1, double d2, float f, float f1) {
         GL11.glPushMatrix();
-        /*
-         * if(entity.isBlend()){ GL11.glEnable(GL11.GL_BLEND);
-         * GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA); }
-         */
+
+        if (entity.isBlend()) {
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        }
+
         byte byte0 = entity.getDir();
         // System.out.println(byte0);
         GL11.glTranslatef((float) d, (float) d1 + 1, (float) d2);

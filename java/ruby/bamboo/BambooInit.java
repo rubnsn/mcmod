@@ -51,6 +51,7 @@ import ruby.bamboo.item.ItemCustomRenderSingleTexture;
 import ruby.bamboo.item.ItemDSquare;
 import ruby.bamboo.item.ItemDecoCarpet;
 import ruby.bamboo.item.ItemDecorationBlocks;
+import ruby.bamboo.item.ItemDimensionCreater;
 import ruby.bamboo.item.ItemDirtySnowball;
 import ruby.bamboo.item.ItemFan;
 import ruby.bamboo.item.ItemFirecracker;
@@ -135,6 +136,7 @@ public class BambooInit {
     public static Item kaginawa;
     public static Item magatama;
     public static Item riceSeed;
+    public static Item dimensionCreater;
 
     public static BambooInit instance = new BambooInit();
     //items
@@ -234,7 +236,7 @@ public class BambooInit {
     }
 
     private void workingItem() {
-
+        dimensionCreater = registerItem(new ItemDimensionCreater(), "dimensioncreater", tabBamboo);
     }
 
     private Block registerBlock(Block block, String name) {

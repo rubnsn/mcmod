@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -24,6 +25,7 @@ public class Config {
     public static Configuration configuration;
     public static final String CATEGORY_BAMBOO = "bamboosettings";
     public static HashMap<String, Integer> maxValue;
+    public static int dimensionId;
     static {
         maxValue = new HashMap<String, Integer>();
         windPushPlayer = true;
@@ -91,6 +93,18 @@ public class Config {
             MinecraftForge.addGrassSeed(new ItemStack(BambooInit.takenoko), 10);
             MinecraftForge.addGrassSeed(new ItemStack(BambooInit.sakura), 10);
         }
+    }
+
+    public static void reloadWorldConfig() {
+        File file = new File(DimensionManager.getCurrentSaveRootDirectory(), "BambooDimConfig.cfg");
+        Configuration conf = new Configuration(file);
+        Property prop;
+        prop = conf.get(Configuration.CATEGORY_GENERAL, "dimensionId", Short.MAX_VALUE);
+        if (prop.getInt() == Short.MAX_VALUE) {
+            prop.set(DimensionManager.getNextFreeDimId());
+        }
+        dimensionId = prop.getInt();
+        conf.save();
     }
 
 }
