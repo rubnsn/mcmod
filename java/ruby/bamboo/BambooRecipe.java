@@ -214,6 +214,7 @@ public class BambooRecipe {
         OreDictionary.registerOre(TUDURA, tudura);
         OreDictionary.registerOre(BUSKET, bambooBasket);
         OreDictionary.registerOre("treeSapling", sakura);
+        OreDictionary.registerOre(LOG_SAKURA, sakuralog);
         OreDictionary.registerOre("logWood", sakuralog);
         OreDictionary.registerOre("plankWood", new ItemStack(decoration_dir, 1, 2));
         OreDictionary.registerOre(CROP_RICE, rawrice);
