@@ -15,8 +15,6 @@ import net.minecraft.world.gen.feature.WorldGenBigMushroom;
 import ruby.bamboo.world.WorldGenSakuraForest;
 import ruby.bamboo.worldgen.WorldGenBigSakura;
 import ruby.bamboo.worldgen.WorldGenSakura;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BiomeGenSakuraForest extends BiomeGenBaseBamboo {
     private WorldGenSakura genSakura;
@@ -172,13 +170,6 @@ public class BiomeGenSakuraForest extends BiomeGenBaseBamboo {
         }
 
         super.decorate(par1World, par2Random, par3, par4);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getBiomeGrassColor(int p_150558_1_, int p_150558_2_, int p_150558_3_) {
-        int l = 0xFACAD0;
-        return l;
     }
 
     @Override

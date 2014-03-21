@@ -2,6 +2,7 @@ package ruby.bamboo;
 
 import net.minecraft.block.BlockDispenser;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.oredict.RecipeSorter;
 import ruby.bamboo.dispenser.DispenserBehaviorBambooSpear;
 import ruby.bamboo.dispenser.DispenserBehaviorDirtySnowball;
 import ruby.bamboo.dispenser.DispenserBehaviorFireCracker;
@@ -13,6 +14,7 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
@@ -67,6 +69,7 @@ public class BambooCore {
         if (DEBUGMODE) {
             System.out.println("DEBUG MODE Enable");
         }
+
     }
 
     private int provideId;
@@ -91,6 +94,11 @@ public class BambooCore {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(BambooCore.getInstance(), new GuiHandler());
+    }
+
+    @Mod.EventHandler
+    public void onAvalible(FMLLoadCompleteEvent event) {
+        RecipeSorter.sortCraftManager();
     }
 
     private void registDispencer() {

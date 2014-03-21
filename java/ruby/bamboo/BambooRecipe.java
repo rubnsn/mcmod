@@ -15,11 +15,12 @@ import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class BambooRecipe {
-    private static final String BAMBOO = "bamboo";
-    private static final String RICE = "rice";
-    private static final String TUDURA = "tudura";
-    private static final String BUSKET = "bambooBasket";
-    private static final String CROP_RICE = "cropRice";
+    private final String BAMBOO = "bamboo";
+    private final String RICE = "rice";
+    private final String TUDURA = "tudura";
+    private final String BUSKET = "bambooBasket";
+    private final String CROP_RICE = "cropRice";
+    private final String LOG_SAKURA = "logCherry";
 
     public BambooRecipe() {
         recipeInit();
