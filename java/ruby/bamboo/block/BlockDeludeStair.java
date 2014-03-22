@@ -12,6 +12,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
+import ruby.bamboo.Config;
 import ruby.bamboo.CustomRenderHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -86,7 +87,7 @@ public class BlockDeludeStair extends BlockStairs implements IDelude {
         }
 
         if (isDeludeBlock(par1IBlockAccess, par2, par3, par4)) {
-            return loop < BambooCore.getConf().deludeTexMaxReference ? colorMultiplier(par1IBlockAccess, par2, par3, par4, loop + 1) : 0xFFFFFF;
+            return loop < Config.deludeTexMaxReference ? colorMultiplier(par1IBlockAccess, par2, par3, par4, loop + 1) : 0xFFFFFF;
         } else {
             return par1IBlockAccess.getBlock(par2, par3, par4) != null ? par1IBlockAccess.getBlock(par2, par3, par4).colorMultiplier(par1IBlockAccess, par2, par3, par4) : 0xFFFFFF;
         }
@@ -126,7 +127,7 @@ public class BlockDeludeStair extends BlockStairs implements IDelude {
         }
 
         if (isDeludeBlock(par1IBlockAccess, par2, par3, par4)) {
-            return loop < BambooCore.getConf().deludeTexMaxReference ? getIcon(par1IBlockAccess, par2, par3, par4, par5, loop + 1) : getDefaultIcon();
+            return loop < Config.deludeTexMaxReference ? getIcon(par1IBlockAccess, par2, par3, par4, par5, loop + 1) : getDefaultIcon();
         } else {
             return par1IBlockAccess.getBlock(par2, par3, par4) != null ? par1IBlockAccess.getBlock(par2, par3, par4).getIcon(par1IBlockAccess, par2, par3, par4, par5) : getDefaultIcon();
         }
@@ -181,7 +182,7 @@ public class BlockDeludeStair extends BlockStairs implements IDelude {
         }
 
         if (isDeludeBlock(par1World, par2, par3, par4)) {
-            return loop < BambooCore.getConf().deludeMaxReference ? onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9, loop + 1) : false;
+            return loop < Config.deludeMaxReference ? onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9, loop + 1) : false;
         } else {
             return par1World.getBlock(par2, par3, par4) != null ? par1World.getBlock(par2, par3, par4).onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9) : false;
         }

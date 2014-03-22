@@ -34,7 +34,6 @@ public class BambooCore {
     public static final String MODID;
     public static final String resourceDomain;
     public static final boolean DEBUGMODE;
-    private static Config conf;
 
     @SidedProxy(serverSide = "ruby.bamboo.proxy.CommonProxy",
             clientSide = "ruby.bamboo.proxy.ClientProxy")
@@ -47,11 +46,6 @@ public class BambooCore {
         MODID = "BambooMod";
         resourceDomain = "bamboo:";
         DEBUGMODE = isDevelopment();
-        conf = new Config();
-    }
-
-    public static Config getConf() {
-        return conf;
     }
 
     @Mod.EventHandler

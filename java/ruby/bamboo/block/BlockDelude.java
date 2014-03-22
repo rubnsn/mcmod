@@ -14,6 +14,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
+import ruby.bamboo.Config;
 import ruby.bamboo.CustomRenderHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -195,7 +196,7 @@ public class BlockDelude extends Block implements IDelude {
         }
 
         if (isDeludeBlock(par1World, par2, par3, par4)) {
-            return par10 < BambooCore.getConf().deludeMaxReference ? onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9, par10 + 1) : false;
+            return par10 < Config.deludeMaxReference ? onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9, par10 + 1) : false;
         } else {
             return par1World.getBlock(par2, par3, par4) != null ? par1World.getBlock(par2, par3, par4).onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9) : false;
         }
@@ -235,7 +236,7 @@ public class BlockDelude extends Block implements IDelude {
         }
 
         if (isDeludeBlock(par1IBlockAccess, par2, par3, par4)) {
-            return par6 < BambooCore.getConf().deludeTexMaxReference ? getIcon(par1IBlockAccess, par2, par3, par4, par5, par6 + 1) : getDefaultIcon();
+            return par6 < Config.deludeTexMaxReference ? getIcon(par1IBlockAccess, par2, par3, par4, par5, par6 + 1) : getDefaultIcon();
         } else {
             return par1IBlockAccess.getBlock(par2, par3, par4) != null && par1IBlockAccess.getBlock(par2, par3, par4).getMaterial() != Material.water ? par1IBlockAccess.getBlock(par2, par3, par4).getIcon(par1IBlockAccess, par2, par3, par4, par5) : getDefaultIcon();
         }
@@ -278,7 +279,7 @@ public class BlockDelude extends Block implements IDelude {
         }
 
         if (isDeludeBlock(par1IBlockAccess, par2, par3, par4)) {
-            return par5 < BambooCore.getConf().deludeTexMaxReference ? colorMultiplier(par1IBlockAccess, par2, par3, par4, par5 + 1) : 0xFFFFFF;
+            return par5 < Config.deludeTexMaxReference ? colorMultiplier(par1IBlockAccess, par2, par3, par4, par5 + 1) : 0xFFFFFF;
         } else {
             return par1IBlockAccess.getBlock(par2, par3, par4) != null && par1IBlockAccess.getBlock(par2, par3, par4).getMaterial() != Material.water ? par1IBlockAccess.getBlock(par2, par3, par4).colorMultiplier(par1IBlockAccess, par2, par3, par4) : 0xFFFFFF;
         }

@@ -6,6 +6,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import ruby.bamboo.BambooCore;
+import ruby.bamboo.Config;
 import ruby.bamboo.CustomRenderHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -33,7 +34,7 @@ public class BlockDeludePressurePlate extends BlockPressurePlate implements
         par3--;
 
         if (isDeludeBlock(par1IBlockAccess, par2, par3, par4)) {
-            return par6 < BambooCore.getConf().deludeTexMaxReference ? getBlockTexture(par1IBlockAccess, par2, par3, par4, par5, par6 + 1) : getDefaultIcon();
+            return par6 < Config.deludeTexMaxReference ? getBlockTexture(par1IBlockAccess, par2, par3, par4, par5, par6 + 1) : getDefaultIcon();
         } else {
             return par1IBlockAccess.getBlock(par2, par3, par4) != null && par1IBlockAccess.getBlock(par2, par3, par4).getMaterial() != Material.water ? par1IBlockAccess.getBlock(par2, par3, par4).getIcon(par1IBlockAccess, par2, par3, par4, par5) : getDefaultIcon();
         }
@@ -56,7 +57,7 @@ public class BlockDeludePressurePlate extends BlockPressurePlate implements
         par3--;
 
         if (isDeludeBlock(par1IBlockAccess, par2, par3, par4)) {
-            return par5 < BambooCore.getConf().deludeTexMaxReference ? colorMultiplier(par1IBlockAccess, par2, par3, par4, par5 + 1) : 0xFFFFFF;
+            return par5 < Config.deludeTexMaxReference ? colorMultiplier(par1IBlockAccess, par2, par3, par4, par5 + 1) : 0xFFFFFF;
         } else {
             return par1IBlockAccess.getBlock(par2, par3, par4) != null && par1IBlockAccess.getBlock(par2, par3, par4).getMaterial() != Material.water ? par1IBlockAccess.getBlock(par2, par3, par4).colorMultiplier(par1IBlockAccess, par2, par3, par4) : 0xFFFFFF;
         }

@@ -22,7 +22,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-import ruby.bamboo.BambooCore;
+import ruby.bamboo.Config;
 
 public class EntityFirecracker extends EntityThrowable {
     float[] explodePower = { 0.01F, 2.9F, 3.5F };
@@ -55,7 +55,7 @@ public class EntityFirecracker extends EntityThrowable {
     @Override
     protected void onImpact(MovingObjectPosition par1MovingObjectPosition) {
         if (par1MovingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK || par1MovingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
-            if (getExplodeLv() <= BambooCore.getConf().maxExplosionLv) {
+            if (getExplodeLv() <= Config.maxExplosionLv) {
                 // クライアント：常時0エフェクトのみ
                 // サーバー：0～3,0爆発なし(configのみ)1黄2緑3赤
                 float power = worldObj.isRemote ? 0 : getExplodeLv() == 0 ? 0 : explodePower[getExplodeLv() - 1];

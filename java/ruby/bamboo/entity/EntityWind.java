@@ -10,7 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import ruby.bamboo.BambooCore;
+import ruby.bamboo.Config;
 import ruby.bamboo.block.ICustomPetal;
 
 public class EntityWind extends EntityThrowable {
@@ -38,7 +38,7 @@ public class EntityWind extends EntityThrowable {
     protected void onImpact(MovingObjectPosition var1) {
         if (var1.entityHit instanceof EntityLivingBase) {
             if (var1.entityHit.ridingEntity == null && var1.entityHit.riddenByEntity == null) {
-                if (!BambooCore.getConf().windPushPlayer && var1.entityHit instanceof EntityPlayer) {
+                if (!Config.windPushPlayer && var1.entityHit instanceof EntityPlayer) {
                     return;
                 }
 

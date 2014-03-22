@@ -13,6 +13,7 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
 import ruby.bamboo.BambooCore;
+import ruby.bamboo.Config;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -48,7 +49,7 @@ public class ItemMagatama extends Item {
 
     public void addMagatama(int meta, IMagatama magatama) {
         magatamaMap.put(meta, magatama);
-        if (BambooCore.getConf().addMagatama) {
+        if (Config.addMagatama) {
             WeightedRandomChestContent content = new BambooChestContent(new ItemStack(this, 1, meta), 1, 1, magatama.getReality());
             ChestGenHooks.addItem(ChestGenHooks.PYRAMID_DESERT_CHEST, content);
             ChestGenHooks.addItem(ChestGenHooks.PYRAMID_JUNGLE_CHEST, content);
@@ -66,7 +67,7 @@ public class ItemMagatama extends Item {
         if (!magatamaMap.containsKey(par1ItemStack.getItemDamage())) {
             return par1ItemStack;
         }
-        if (!BambooCore.getConf().useMagatama || magatamaMap.get(par1ItemStack.getItemDamage()).getEffectClass() == null) {
+        if (!Config.useMagatama || magatamaMap.get(par1ItemStack.getItemDamage()).getEffectClass() == null) {
             return par1ItemStack;
         }
         magatamaMap.get(par1ItemStack.getItemDamage()).useItem(par2World, par1ItemStack, par3EntityPlayer);

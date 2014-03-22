@@ -7,8 +7,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
+import ruby.bamboo.Config;
 
 public class EntityHuton extends Entity {
     private boolean timechange;
@@ -102,7 +102,7 @@ public class EntityHuton extends Entity {
         super.onUpdate();
 
         // 時間加速
-        if (BambooCore.getConf().timeAccel && timechange) {
+        if (Config.timeAccel && timechange) {
             if (riddenByEntity instanceof EntityPlayer) {
                 if (sleeptime++ > 100) {
                     long time = ((worldObj.getWorldInfo().getWorldTime() + 6000) % 24000) / 1000;
