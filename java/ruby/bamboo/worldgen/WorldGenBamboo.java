@@ -7,19 +7,21 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import ruby.bamboo.BambooInit;
+import ruby.bamboo.block.BlockBamboo;
 
 public class WorldGenBamboo extends WorldGenerator {
     @Override
     public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5) {
+        int posX, posY, posZ;
         for (int var6 = 0; var6 < 20; ++var6) {
-            int var7 = par3 + par2Random.nextInt(8) - par2Random.nextInt(8);
-            int var8 = par4 + par2Random.nextInt(4) - par2Random.nextInt(4);
-            int var9 = par5 + par2Random.nextInt(8) - par2Random.nextInt(8);
-            Block blockid = par1World.getBlock(var7, var8 - 1, var9);
+            posX = par3 + par2Random.nextInt(8) - par2Random.nextInt(8);
+            posY = par4 + par2Random.nextInt(4) - par2Random.nextInt(4);
+            posZ = par5 + par2Random.nextInt(8) - par2Random.nextInt(8);
+            Block blockid = par1World.getBlock(posX, posY - 1, posZ);
 
-            if (par1World.isAirBlock(var7, var8, var9)) {
+            if (par1World.isAirBlock(posX, posY, posZ) && !BlockBamboo.canChildGrow(par1World, posX, posY, posZ)) {
                 if (blockid == Blocks.grass || blockid == Blocks.dirt) {
-                    par1World.setBlock(var7, var8, var9, BambooInit.bamboo, 15, 0);
+                    par1World.setBlock(posX, posY, posZ, BambooInit.bamboo, 15, 0);
                 }
             }
         }

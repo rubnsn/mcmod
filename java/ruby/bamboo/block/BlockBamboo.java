@@ -88,7 +88,7 @@ public class BlockBamboo extends Block {
                             }
                         }
                     } else {
-                        if (getBlockLightValue(world, x, y, z) > 7) {
+                        if (canChildGrow(world, x, y, z)) {
                             world.setBlockMetadataWithNotify(x, y, z, 0, 3);
                         }
                     }
@@ -114,11 +114,11 @@ public class BlockBamboo extends Block {
         }
     }
 
-    private int getBlockLightValue(World world, int i, int j, int k) {
+    public static boolean canChildGrow(World world, int i, int j, int k) {
         Chunk chunk = world.getChunkFromChunkCoords(i >> 4, k >> 4);
         i &= 0xf;
         k &= 0xf;
-        return chunk.getBlockLightValue(i, j, k, 15);
+        return chunk.getBlockLightValue(i, j, k, 15) > 7;
     }
 
     private boolean canChildSpawn(World world, int i, int j, int k, Random random) {
