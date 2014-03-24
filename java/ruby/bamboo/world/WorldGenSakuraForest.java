@@ -67,10 +67,10 @@ public class WorldGenSakuraForest extends WorldGenAbstractTree {
                     block2.onPlantGrow(par1World, par3, par4 - 1, par5, par3, par4, par5);
                     int k2;
 
+                    int meta = getMeta(par2Random);
                     for (k2 = par4 - 3 + l; k2 <= par4 + l; ++k2) {
                         j1 = k2 - (par4 + l);
                         k1 = 1 - j1 / 2;
-
                         for (int l2 = par3 - k1; l2 <= par3 + k1; ++l2) {
                             int l1 = l2 - par3;
 
@@ -81,7 +81,7 @@ public class WorldGenSakuraForest extends WorldGenAbstractTree {
                                     Block block1 = par1World.getBlock(l2, k2, i2);
 
                                     if (block1.isAir(par1World, l2, k2, i2) || block1.isLeaves(par1World, l2, k2, i2)) {
-                                        this.setBlockAndNotifyAdequately(par1World, l2, k2, i2, getLeave(), 15);
+                                        this.setBlockAndNotifyAdequately(par1World, l2, k2, i2, getLeave(), meta);
                                     }
                                 }
                             }
@@ -108,6 +108,10 @@ public class WorldGenSakuraForest extends WorldGenAbstractTree {
 
     protected Block getSapling() {
         return BambooInit.sakura;
+    }
+
+    protected int getMeta(Random rand) {
+        return 15;
     }
 
     protected Block getLeave() {

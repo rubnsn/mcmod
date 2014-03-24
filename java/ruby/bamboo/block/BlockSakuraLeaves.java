@@ -26,7 +26,7 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal {
     private IIcon sakurapetal;
     private IIcon broadleaf;
 
-    private static int[] color = new int[] { 0x191919, 0xCC4C4C, 0x667F33, 0x7F664C, 0x3366CC, 0xB266E5, 0x4C99B2, 0x999999, 0x4C4C4C, 0xF2B2CC, 0x7FCC19, 0xE5E533, 0x99B2F2, 0xE57FD8, 0xF2B233, 0xfbedf0 };
+    public static final int[] COLOR = new int[] { 0x5C5C5C, 0xE60012, 0x3F9E55, 0x98744B, 0x5F89DC, 0xB087CC, 0x87DBF6, 0xD3D3D3, 0x8D8D8D, 0xFF929E, 0xBCF472, 0xFEF66A, 0xB8EFFF, 0xE6B2E4, 0xFFC600, 0xffc5cc };
     private static String[] path = new String[] { "petal", "petal_0", "petal", "petal", "petal", "petal", "petal", "petal", "petal", "petal", "petal", "petal_1", "petal", "petal", "petal_1", "petal" };
 
     public BlockSakuraLeaves() {
@@ -54,12 +54,12 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal {
 
     @Override
     public int getRenderColor(int i) {
-        return color[i];
+        return COLOR[i];
     }
 
     @Override
     public int colorMultiplier(IBlockAccess iblockaccess, int i, int j, int k) {
-        return color[iblockaccess.getBlockMetadata(i, j, k)];
+        return COLOR[iblockaccess.getBlockMetadata(i, j, k)];
     }
 
     @Override
@@ -80,7 +80,7 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal {
         }
 
         if (par1World.isAirBlock(par2, par3 - 1, par4)) {
-            par1World.spawnEntityInWorld(new EntitySakuraPetal(par1World, par2 + par5Random.nextFloat(), par3, par4 + par5Random.nextFloat(), 0, 0, 0, color[par1World.getBlockMetadata(par2, par3, par4)]).setCustomPetal(getCustomPetal(par1World.getBlockMetadata(par2, par3, par4))));
+            par1World.spawnEntityInWorld(new EntitySakuraPetal(par1World, par2 + par5Random.nextFloat(), par3, par4 + par5Random.nextFloat(), 0, 0, 0, COLOR[par1World.getBlockMetadata(par2, par3, par4)]).setCustomPetal(getCustomPetal(par1World.getBlockMetadata(par2, par3, par4))));
         }
     }
 
@@ -141,7 +141,7 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal {
 
     @Override
     public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
-        for (int i = 0; i < color.length; i++) {
+        for (int i = 0; i < COLOR.length; i++) {
             par3List.add(new ItemStack(par1, 1, i));
         }
     }

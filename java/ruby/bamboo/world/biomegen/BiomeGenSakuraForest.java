@@ -13,14 +13,10 @@ import net.minecraft.world.biome.BiomeGenMutated;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenBigMushroom;
 import ruby.bamboo.world.WorldGenSakuraForest;
-import ruby.bamboo.worldgen.WorldGenBigSakura;
-import ruby.bamboo.worldgen.WorldGenSakura;
 
 public class BiomeGenSakuraForest extends BiomeGenBaseBamboo {
-    private WorldGenSakura genSakura;
-    private WorldGenBigSakura genBigSakura;
 
-    private int field_150632_aF;
+    int forestMode;
     protected static final WorldGenSakuraForest field_150629_aC = new WorldGenSakuraForest(false, true);
     protected static final WorldGenSakuraForest field_150630_aD = new WorldGenSakuraForest(false, false);
     private static final String __OBFID = "CL_00000170";
@@ -28,35 +24,33 @@ public class BiomeGenSakuraForest extends BiomeGenBaseBamboo {
     public BiomeGenSakuraForest(int p_i45377_1_, int p_i45377_2_) {
         super(p_i45377_1_);
 
-        genSakura = new WorldGenSakura(true);
-        genBigSakura = new WorldGenBigSakura(true);
-        this.field_150632_aF = p_i45377_2_;
+        this.forestMode = p_i45377_2_;
         this.theBiomeDecorator.treesPerChunk = 10;
         this.theBiomeDecorator.grassPerChunk = 2;
 
-        if (this.field_150632_aF == 1) {
+        if (this.forestMode == 1) {
             this.theBiomeDecorator.treesPerChunk = 6;
             this.theBiomeDecorator.flowersPerChunk = 100;
             this.theBiomeDecorator.grassPerChunk = 1;
         }
-
+        this.heightVariation = 0.3F;
         this.func_76733_a(5159473);
         this.setTemperatureRainfall(0.7F, 0.8F);
 
-        if (this.field_150632_aF == 2) {
+        if (this.forestMode == 2) {
             this.field_150609_ah = 353825;
             this.setTemperatureRainfall(0.6F, 0.6F);
         }
 
-        if (this.field_150632_aF == 0) {
+        if (this.forestMode == 0) {
             this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityWolf.class, 5, 4, 4));
         }
 
-        if (this.field_150632_aF == 3) {
+        if (this.forestMode == 3) {
             this.theBiomeDecorator.treesPerChunk = -999;
         }
 
-        if (this.field_150632_aF == 1) {
+        if (this.forestMode == 1) {
             this.flowers.clear();
             for (int x = 0; x < BlockFlower.field_149859_a.length; x++) {
                 this.addFlower(Blocks.red_flower, x, 10);
@@ -66,7 +60,7 @@ public class BiomeGenSakuraForest extends BiomeGenBaseBamboo {
 
     @Override
     public BiomeGenBase func_150557_a(int p_150557_1_, boolean p_150557_2_) {
-        if (this.field_150632_aF == 2) {
+        if (this.forestMode == 2) {
             this.field_150609_ah = 353825;
             this.color = p_150557_1_;
 
@@ -81,13 +75,21 @@ public class BiomeGenSakuraForest extends BiomeGenBaseBamboo {
     }
 
     @Override
-    public WorldGenAbstractTree func_150567_a(Random p_150567_1_) {
-        return (WorldGenAbstractTree) field_150630_aD;
+    public WorldGenAbstractTree func_150567_a(Random rand) {
+        return (WorldGenAbstractTree) (rand.nextInt(50) != 0 ? getTree() : getBigTree());
+    }
+
+    public WorldGenAbstractTree getTree() {
+        return field_150630_aD;
+    }
+
+    public WorldGenAbstractTree getBigTree() {
+        return field_150629_aC;
     }
 
     @Override
     public String func_150572_a(Random p_150572_1_, int p_150572_2_, int p_150572_3_, int p_150572_4_) {
-        if (this.field_150632_aF == 1) {
+        if (this.forestMode == 1) {
             double d0 = MathHelper.clamp_double((1.0D + plantNoise.func_151601_a((double) p_150572_2_ / 48.0D, (double) p_150572_4_ / 48.0D)) / 2.0D, 0.0D, 0.9999D);
             int l = (int) (d0 * (double) BlockFlower.field_149859_a.length);
 
@@ -109,7 +111,7 @@ public class BiomeGenSakuraForest extends BiomeGenBaseBamboo {
         int j1;
         int k1;
 
-        if (this.field_150632_aF == 3) {
+        if (this.forestMode == 3) {
             for (k = 0; k < 4; ++k) {
                 for (l = 0; l < 4; ++l) {
                     i1 = par3 + k * 4 + 1 + 8 + par2Random.nextInt(3);
@@ -133,7 +135,7 @@ public class BiomeGenSakuraForest extends BiomeGenBaseBamboo {
 
         k = par2Random.nextInt(5) - 3;
 
-        if (this.field_150632_aF == 1) {
+        if (this.forestMode == 1) {
             k += 2;
         }
 
@@ -192,9 +194,14 @@ public class BiomeGenSakuraForest extends BiomeGenBaseBamboo {
                 private static final String __OBFID = "CL_00000172";
 
                 public WorldGenAbstractTree func_150567_a(Random random) {
-                    return random.nextBoolean() ? field_150629_aC : field_150630_aD;
+                    return random.nextBoolean() ? getBigTree() : getTree();
                 }
             };
         }
+    }
+
+    @Override
+    public boolean isHighHumidity() {
+        return true;
     }
 }

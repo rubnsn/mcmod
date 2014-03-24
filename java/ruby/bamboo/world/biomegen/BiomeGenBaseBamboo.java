@@ -4,7 +4,8 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeGenBaseBamboo extends BiomeGenBase {
 
-    public static final BiomeGenBase sakuraForest = new BiomeGenSakuraForest(getFreeBiome(), 0).setBiomeName("Sakura Forest").setColor(0xfef4f4);
+    public static final BiomeGenBase sakuraForest = new BiomeGenSakuraForest(getFreeBiome(), 0).setBiomeName("Sakura Forest");
+    public static final BiomeGenBase sakuraForest2 = new BiomeGenSakuraForest2(getFreeBiome(), 0).setBiomeName("Sakura Forest2");
 
     public BiomeGenBaseBamboo(int par1) {
         super(par1);

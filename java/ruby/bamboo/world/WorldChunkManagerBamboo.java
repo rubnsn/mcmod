@@ -82,6 +82,7 @@ public class WorldChunkManagerBamboo extends WorldChunkManager {
 
         GenLayer genlayer = GenLayerZoom.magnify(1000L, genlayer3, 0);
         GenLayerRiverInit genlayerriverinit = new GenLayerRiverInit(100L, genlayer);
+        //基礎バイオーム群？
         Object object = getBiomeLayer(seed, genlayer3, worldType);
 
         GenLayer genlayer1 = GenLayerZoom.magnify(1000L, genlayerriverinit, 2);
@@ -90,6 +91,7 @@ public class WorldChunkManagerBamboo extends WorldChunkManager {
         genlayer = GenLayerZoom.magnify(1000L, genlayer, b0);
         GenLayerRiver genlayerriver = new GenLayerRiver(1L, genlayer);
         GenLayerSmooth genlayersmooth = new GenLayerSmooth(1000L, genlayerriver);
+        //希少なバイオーム群？まだノータッチ
         object = new GenLayerRareBiome(1001L, genlayerhills);
 
         for (int j = 0; j < b0; ++j) {

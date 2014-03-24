@@ -7,21 +7,25 @@ import net.minecraft.world.gen.layer.IntCache;
 import ruby.bamboo.world.biomegen.BiomeGenBaseBamboo;
 
 public class GenLayerBiomeBamboo extends GenLayer {
-    private BiomeGenBase[] field_151623_c;
-    private BiomeGenBase[] field_151621_d;
-    private BiomeGenBase[] field_151622_e;
-    private BiomeGenBase[] field_151620_f;
+    private BiomeGenBase[] htlh;
+    private BiomeGenBase[] hthh;
+    private BiomeGenBase[] lthh;
+    private BiomeGenBase[] ltlh;
 
     public GenLayerBiomeBamboo(long par1, GenLayer par3GenLayer, WorldType worldType) {
         super(par1);
-        //desert
-        this.field_151623_c = new BiomeGenBase[] { BiomeGenBaseBamboo.sakuraForest };
-        //forest
-        this.field_151621_d = new BiomeGenBase[] { BiomeGenBaseBamboo.sakuraForest };
-        //plains
-        this.field_151622_e = new BiomeGenBase[] { BiomeGenBaseBamboo.sakuraForest };
-        //ice
-        this.field_151620_f = new BiomeGenBase[] { BiomeGenBaseBamboo.sakuraForest };
+        //BiomeGenBase.desert, BiomeGenBase.desert, BiomeGenBase.desert, BiomeGenBase.savanna, BiomeGenBase.savanna, BiomeGenBase.plains
+        //高温低湿
+        this.htlh = new BiomeGenBase[] { BiomeGenBase.forest };
+        //BiomeGenBase.forest, BiomeGenBase.roofedForest, BiomeGenBase.extremeHills, BiomeGenBase.plains, BiomeGenBase.birchForest, BiomeGenBase.swampland
+        //高温多湿
+        this.hthh = new BiomeGenBase[] { BiomeGenBaseBamboo.sakuraForest };
+        //BiomeGenBase.forest, BiomeGenBase.extremeHills, BiomeGenBase.taiga, BiomeGenBase.plains
+        //低音多湿
+        this.lthh = new BiomeGenBase[] { BiomeGenBaseBamboo.sakuraForest2 };
+        //BiomeGenBase.icePlains, BiomeGenBase.icePlains, BiomeGenBase.icePlains, BiomeGenBase.coldTaiga
+        //低音低湿
+        this.ltlh = new BiomeGenBase[] { BiomeGenBase.coldTaiga };
         this.parent = par3GenLayer;
     }
 
@@ -49,22 +53,22 @@ public class GenLayerBiomeBamboo extends GenLayer {
                             aint1[j1 + i1 * par3] = BiomeGenBase.mesaPlateau_F.biomeID;
                         }
                     } else {
-                        aint1[j1 + i1 * par3] = this.field_151623_c[this.nextInt(this.field_151623_c.length)].biomeID;
+                        aint1[j1 + i1 * par3] = this.htlh[this.nextInt(this.htlh.length)].biomeID;
                     }
                 } else if (k1 == 2) {
                     if (l1 > 0) {
                         aint1[j1 + i1 * par3] = BiomeGenBase.jungle.biomeID;
                     } else {
-                        aint1[j1 + i1 * par3] = this.field_151621_d[this.nextInt(this.field_151621_d.length)].biomeID;
+                        aint1[j1 + i1 * par3] = this.hthh[this.nextInt(this.hthh.length)].biomeID;
                     }
                 } else if (k1 == 3) {
                     if (l1 > 0) {
                         aint1[j1 + i1 * par3] = BiomeGenBase.megaTaiga.biomeID;
                     } else {
-                        aint1[j1 + i1 * par3] = this.field_151622_e[this.nextInt(this.field_151622_e.length)].biomeID;
+                        aint1[j1 + i1 * par3] = this.lthh[this.nextInt(this.lthh.length)].biomeID;
                     }
                 } else if (k1 == 4) {
-                    aint1[j1 + i1 * par3] = this.field_151620_f[this.nextInt(this.field_151620_f.length)].biomeID;
+                    aint1[j1 + i1 * par3] = this.ltlh[this.nextInt(this.ltlh.length)].biomeID;
                 } else {
                     aint1[j1 + i1 * par3] = BiomeGenBase.mushroomIsland.biomeID;
                 }
