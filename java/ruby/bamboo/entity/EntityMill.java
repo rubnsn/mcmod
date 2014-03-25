@@ -1,13 +1,9 @@
 package ruby.bamboo.entity;
 
-import java.util.ArrayList;
-
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
@@ -131,77 +127,7 @@ public class EntityMill extends Entity {
                 break;
             }
 
-            // System.out.println(targetX+" "+targetY+" "+targetZ+" ");
-            // TileEntity entity=worldObj.getBlockTileEntity(targetX, targetY,
-            // targetZ);
-            /*
-             * if(entity instanceof TileEntityChest){ int
-             * size=((TileEntityChest) entity).getSizeInventory();
-             * ArrayList<ItemStack> list=new ArrayList(); for(int
-             * i=0;i<size;i++){ ItemStack is=((TileEntityChest)
-             * entity).getStackInSlot(i); if(is!=null){ if(is.getItem().itemID
-             * == Item.wheat.itemID){ ((TileEntityChest)
-             * entity).decrStackSize(i, 1); list.add(new
-             * ItemStack(mod_Bamboo.wheatMaterial,1,0)); list.add(new
-             * ItemStack(mod_Bamboo.wheatMaterial,1,1)); break; }else
-             * if(is.getItem() instanceof ItemBlock){
-             * if(((ItemBlock)is.getItem()
-             * ).getBlockID()==Block.cobblestone.blockID){ ((TileEntityChest)
-             * entity).decrStackSize(i, 1); list.add(new
-             * ItemStack(Block.gravel,1,0)); break; }else
-             * if(((ItemBlock)is.getItem()).getBlockID()==Block.gravel.blockID){
-             * ((TileEntityChest) entity).decrStackSize(i, 1); list.add(new
-             * ItemStack(Block.sand,1,0)); break; } } } }
-             * tryAddItem((TileEntityChest) entity,list); }
-             */
             workingTime = 0;
-        }
-    }
-
-    // チェストへの格納(空き探索・同一アイテムまとめ・溢れ)
-    private void tryAddItem(TileEntityChest entity, ArrayList<ItemStack> items) {
-        int invSize = entity.getSizeInventory();
-
-        for (ItemStack is : items) {
-            // 一致
-            for (int i = 0; i < invSize; i++) {
-                if (entity.getStackInSlot(i) != null && entity.getStackInSlot(i).getItem() == is.getItem()) {
-                    if (entity.getStackInSlot(i).getItemDamage() == is.getItemDamage()) {
-                        if ((entity.getStackInSlot(i).stackSize + is.stackSize) <= entity.getStackInSlot(i).getMaxStackSize()) {
-                            entity.getStackInSlot(i).stackSize += is.stackSize;
-                            is.stackSize = 0;
-                        } else {
-                            is.stackSize = is.stackSize - (entity.getStackInSlot(i).getMaxStackSize() - entity.getStackInSlot(i).stackSize);
-                            entity.getStackInSlot(i).stackSize = entity.getStackInSlot(i).getMaxStackSize();
-                        }
-                    }
-                }
-
-                if (is.stackSize == 0) {
-                    break;
-                }
-            }
-
-            if (is.stackSize == 0) {
-                continue;
-            }
-
-            for (int i = 0; i < invSize; i++) {
-                if (entity.getStackInSlot(i) == null) {
-                    entity.setInventorySlotContents(i, is.copy());
-                    is.stackSize = 0;
-                }
-
-                if (is.stackSize == 0) {
-                    break;
-                }
-            }
-
-            if (is.stackSize != 0) {
-                if (!worldObj.isRemote) {
-                    worldObj.spawnEntityInWorld(new EntityItem(worldObj, targetX, targetY + 1, targetZ, is));
-                }
-            }
         }
     }
 

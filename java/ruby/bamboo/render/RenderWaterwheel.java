@@ -24,9 +24,25 @@ public class RenderWaterwheel extends Render {
 
     private void renderWatermill(EntityWaterwheel var1, double var2, double var4, double var6, float var8, float var9) {
         GL11.glPushMatrix();
-        GL11.glTranslatef((float) var2, (float) var4, (float) var6);
         bindEntityTexture(var1);
         byte dir = var1.getDir();
+
+        if (dir == 0 || dir == 2) {
+            if (dir == 0) {
+                GL11.glTranslatef((float) var2, (float) var4, (float) var6 - (var1.getSize() - 1) / 2F);
+            } else {
+                GL11.glTranslatef((float) var2, (float) var4, (float) var6 + (var1.getSize() - 1) / 2F);
+            }
+        } else {
+            if (dir == 3) {
+                GL11.glTranslatef((float) var2 - (var1.getSize() - 1) / 2F, (float) var4, (float) var6);
+            } else {
+                GL11.glTranslatef((float) var2 + (var1.getSize() - 1) / 2F, (float) var4, (float) var6);
+            }
+        }
+
+        GL11.glScalef(1 + (var1.getSize() / 2), 1 + (var1.getSize() / 2), 1 + (var1.getSize() / 2));
+
         dir += (dir == 1 || dir == 3 ? -1 : 1);
         GL11.glRotatef(dir * 90, 0, 1, 0);
         GL11.glRotatef(var1.getRoll(), 1, 0, 0);
@@ -36,7 +52,6 @@ public class RenderWaterwheel extends Render {
 
     @Override
     protected ResourceLocation getEntityTexture(Entity entity) {
-        // TODO 自動生成されたメソッド・スタブ
         return RESOURCE;
     }
 }
