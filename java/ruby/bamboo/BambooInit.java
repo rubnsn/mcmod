@@ -9,7 +9,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemMultiTexture;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
@@ -43,6 +42,7 @@ import ruby.bamboo.item.ItemBamboo;
 import ruby.bamboo.item.ItemBambooBasket;
 import ruby.bamboo.item.ItemBambooBow;
 import ruby.bamboo.item.ItemBambooFood;
+import ruby.bamboo.item.ItemBambooPane;
 import ruby.bamboo.item.ItemBambooSpear;
 import ruby.bamboo.item.ItemBambooSword;
 import ruby.bamboo.item.ItemBambooshoot;
@@ -169,7 +169,7 @@ public class BambooInit {
         dSquare = registerBlock(new BlockDSquare(false).addTexName("tatami_x", "tatami_y", "tatami_x", "tatami_y", "kaya_x", "kaya_y", "kaya_x", "kaya_y").addTexName("tatami_tan_x", "tatami_tan_y", "tatami_tan_nsx", "tatami_tan_nsy", "tatami_nsx", "tatami_nsy", "tatami_nsx", "tatami_nsy"), ItemDSquare.class, "dirSquare", tabBamboo);
         dHalfSquare = registerBlock(new BlockDSquare(true).addTexName("tatami_x", "tatami_y", "tatami_x", "tatami_y", "kaya_x", "kaya_y", "kaya_x", "kaya_y").addTexName("tatami_tan_x", "tatami_tan_y", "tatami_tan_nsx", "tatami_tan_nsy", "tatami_nsx", "tatami_nsy", "tatami_nsx", "tatami_nsy"), ItemDSquare.class, "halfDirSquare", tabBamboo);
         andon = registerBlock(new BlockAndon(), "andon", tabBamboo);
-        bamboopane = registerBlock(new BlockBambooPane(Material.ground), ItemMultiTexture.class, "bambooPanel", tabBamboo);
+        bamboopane = registerBlock(new BlockBambooPane(Material.ground), ItemBambooPane.class, "bambooPanel", tabBamboo);
         sakuraleavs = registerBlock(new BlockSakuraLeaves(), ItemSakuraPetal.class, "sakuraLeaves", tabBamboo);
         sakura = registerBlock(new BlockSakura().setBlockTextureName("sakura"), "sakuraSapling", tabBamboo);
         rooftile = registerBlock(new BlockKayabukiRoof(), "kayabukiRoof", tabBamboo);
@@ -252,14 +252,6 @@ public class BambooInit {
     }
 
     private Block registerBlock(Block block, Class cls, String name, CreativeTabs creativeTabs) {
-        if (creativeTabs != null) {
-            block.setCreativeTab(creativeTabs);
-        }
-        block.setBlockName(name);
-        return GameRegistry.registerBlock(block, cls, name, BambooCore.MODID);
-    }
-
-    private Block registerBlock(Block block, Class cls, String name, CreativeTabs creativeTabs, Object... obj) {
         if (creativeTabs != null) {
             block.setCreativeTab(creativeTabs);
         }
