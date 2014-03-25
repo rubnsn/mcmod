@@ -26,8 +26,46 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal {
     private IIcon sakurapetal;
     private IIcon broadleaf;
 
-    public static final int[] COLOR = new int[] { 0x5C5C5C, 0xE60012, 0x3F9E55, 0x98744B, 0x5F89DC, 0xB087CC, 0x87DBF6, 0xD3D3D3, 0x8D8D8D, 0xFF929E, 0xBCF472, 0xFEF66A, 0xB8EFFF, 0xE6B2E4, 0xFFC600, 0xffc5cc };
-    private static String[] path = new String[] { "petal", "petal_0", "petal", "petal", "petal", "petal", "petal", "petal", "petal", "petal", "petal", "petal_1", "petal", "petal", "petal_1", "petal" };
+    public enum EnumLeave {
+        BLACK(0x5C5C5C, 1),
+        RED(0xc80010, 2),
+        GREEN(0x3F9E55, 0),
+        CACAO(0x98744B, 0),
+        BLUE(0x5F89DC, 1),
+        PURPLE(0xB087CC, 1),
+        CYAN(0x87DBF6, 1),
+        LIGHT_GRAY(0xD3D3D3, 2),
+        GRAY(0x8D8D8D, 1),
+        PINK(0xFF929E, 1),
+        LIME(0xBCF472, 0),
+        YELLOW(0xf5e600, 3),
+        LIGHT_BLUE(0xB8EFFF, 1),
+        MAGENTA(0xE6B2E4, 1),
+        ORANGE(0xFFC600, 3),
+        WHITE(0xffc5cc, 1);
+        EnumLeave(int color, int petal) {
+            this.color = color;
+            this.petal = (byte) petal;
+        }
+
+        public static final EnumLeave[] LEAVES = { BLACK, RED, GREEN, CACAO, BLUE, PURPLE, CYAN, LIGHT_GRAY, GRAY, PINK, LIME, YELLOW, LIGHT_BLUE, MAGENTA, ORANGE, WHITE };
+
+        private int color;
+        private byte petal;
+
+        public static EnumLeave getLeave(int meta) {
+            return LEAVES[meta < 16 ? meta : 0];
+        }
+
+        public int getColor() {
+            return color;
+        }
+
+        public byte getPetal() {
+            return petal;
+        }
+
+    }
 
     public BlockSakuraLeaves() {
         super(Material.leaves, true);
@@ -39,27 +77,49 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal {
     }
 
     @Override
-    public String getCustomPetal(int meta) {
-        return path[meta];
+    public String getTexPath(int meta) {
+        return BambooCore.resourceDomain + "textures/entitys/petal.png";
+    }
+
+    @Override
+    public byte getTexNum(int meta) {
+        return EnumLeave.getLeave(meta).petal;
     }
 
     @Override
     public IIcon getIcon(int i, int j) {
-        if (j == 1 || j == 11 || j == 14) {
+        switch (EnumLeave.getLeave(j)) {
+        case BLACK:
+        case BLUE:
+        case CYAN:
+        case GRAY:
+        case WHITE:
+        case LIGHT_BLUE:
+        case LIGHT_GRAY:
+        case MAGENTA:
+        case PINK:
+        case PURPLE:
+            return sakurapetal;
+        case CACAO:
+        case LIME:
+        case RED:
+        case YELLOW:
+        case GREEN:
+        case ORANGE:
             return broadleaf;
+        default:
+            return sakurapetal;
         }
-
-        return sakurapetal;
     }
 
     @Override
-    public int getRenderColor(int i) {
-        return COLOR[i];
+    public int getRenderColor(int meta) {
+        return EnumLeave.getLeave(meta).getColor();
     }
 
     @Override
     public int colorMultiplier(IBlockAccess iblockaccess, int i, int j, int k) {
-        return COLOR[iblockaccess.getBlockMetadata(i, j, k)];
+        return EnumLeave.getLeave(iblockaccess.getBlockMetadata(i, j, k)).getColor();
     }
 
     @Override
@@ -80,18 +140,8 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal {
         }
 
         if (par1World.isAirBlock(par2, par3 - 1, par4)) {
-            par1World.spawnEntityInWorld(new EntitySakuraPetal(par1World, par2 + par5Random.nextFloat(), par3, par4 + par5Random.nextFloat(), 0, 0, 0, COLOR[par1World.getBlockMetadata(par2, par3, par4)]).setCustomPetal(getCustomPetal(par1World.getBlockMetadata(par2, par3, par4))));
+            par1World.spawnEntityInWorld(new EntitySakuraPetal(par1World, par2 + par5Random.nextFloat(), par3, par4 + par5Random.nextFloat(), 0, 0, 0, EnumLeave.getLeave(par1World.getBlockMetadata(par2, par3, par4))));
         }
-    }
-
-    private void removeLeaves(World world, int i, int j, int k) {
-        int var8 = quantityDropped(world.rand);
-
-        if (var8 > 0) {
-            this.dropBlockAsItem(world, i, j, k, new ItemStack(BambooInit.sakura, var8, 0));
-        }
-
-        world.setBlockToAir(i, j, k);
     }
 
     @Override
@@ -141,7 +191,7 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal {
 
     @Override
     public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
-        for (int i = 0; i < COLOR.length; i++) {
+        for (int i = 0; i < EnumLeave.LEAVES.length; i++) {
             par3List.add(new ItemStack(par1, 1, i));
         }
     }

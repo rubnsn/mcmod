@@ -6,6 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import ruby.bamboo.BambooCore;
+import ruby.bamboo.block.BlockSakuraLeaves.EnumLeave;
 
 public class EntitySakuraPetal extends Entity {
     public float rx, ry, rz;
@@ -20,73 +21,51 @@ public class EntitySakuraPetal extends Entity {
     protected float particleRed;
     protected float particleGreen;
     protected float particleBlue;
-    private String texPath = BambooCore.resourceDomain + "textures/entitys/leaf.png";
+    private String texPath = BambooCore.resourceDomain + "textures/entitys/petal.png";
+    private int texNum = 0;
 
     public String getTexPath() {
         return texPath;
     }
 
-    public EntitySakuraPetal setCustomPetal(String path) {
-        texPath = BambooCore.resourceDomain + "textures/entitys/" + path + ".png";
-        return this;
+    public void setTexNum(int num) {
+        this.texNum = num;
+    }
+
+    public int getTexNum() {
+        return texNum;
+    }
+
+    public void setTexPath(String path) {
+        texPath = path;
     }
 
     public float getRx() {
-        if (xflg) {
-            rx += rad;
-
-            if (rx > 1) {
-                xflg = !xflg;
-            }
-        } else {
-            rx -= rad;
-
-            if (rx < -1) {
-                xflg = !xflg;
-            }
-        }
-
+        rx += xflg ? rad : -rad;
+        xflg = !(xflg ? rx > 1 : rx > -1);
         return rx;
     }
 
     public float getRy() {
-        if (yflg) {
-            ry += rad;
-
-            if (ry > 1) {
-                yflg = !yflg;
-            }
-        } else {
-            ry -= rad;
-
-            if (ry < -1) {
-                yflg = !yflg;
-            }
-        }
-
+        ry += yflg ? rad : -rad;
+        yflg = !(yflg ? ry > 1 : ry > -1);
         return ry;
     }
 
     public float getRz() {
-        if (zflg) {
-            rz += rad;
-
-            if (rz > 1) {
-                zflg = !zflg;
-            }
-        } else {
-            rz -= rad;
-
-            if (rz < -1) {
-                zflg = !zflg;
-            }
-        }
-
+        rz += zflg ? rad : -rad;
+        zflg = !(zflg ? rz > 1 : rz > -1);
         return rz;
+    }
+
+    public EntitySakuraPetal(World world, double d, double d1, double d2, double d3, double d4, double d5, EnumLeave leave) {
+        this(world, d, d1, d2, d3, d4, d5, leave.getColor());
+        this.setTexNum(leave.getPetal());
     }
 
     public EntitySakuraPetal(World world, double d, double d1, double d2, double d3, double d4, double d5, int color) {
         super(world);
+        rad += 0.025 * rand.nextFloat();
         this.setSize(0.2F, 0.2F);
         this.yOffset = this.height / 2.0F;
         this.setPosition(d, d1, d2);
@@ -106,20 +85,14 @@ public class EntitySakuraPetal extends Entity {
             motionZ = (rand.nextFloat() - 0.5) * 0.1;
         }
 
-        particleMaxAge = rand.nextInt(60) + 60;
+        particleMaxAge = rand.nextInt(120) + 60;
         rx = world.rand.nextFloat();
         ry = world.rand.nextFloat();
         rz = world.rand.nextFloat();
-        float r = (color >> 16) / 255F;
-        float g = ((color >> 8) & 0xff) / 255F;
-        float b = (color & 0xff) / 255F;
-        setRBGColorF(r, g, b);
-    }
 
-    public void setRBGColorF(float par1, float par2, float par3) {
-        this.particleRed = par1;
-        this.particleGreen = par2;
-        this.particleBlue = par3;
+        this.particleRed = (color >> 16) / 255F;
+        this.particleGreen = ((color >> 8) & 0xff) / 255F;
+        this.particleBlue = (color & 0xff) / 255F;
     }
 
     public float getRedColorF() {
@@ -137,6 +110,8 @@ public class EntitySakuraPetal extends Entity {
     public void setStopFall() {
         stopFall = true;
         particleAge = 0;
+        rad = 0.002F;
+        motionX = motionZ = 0;
     }
 
     public boolean isStopFall() {
@@ -153,7 +128,6 @@ public class EntitySakuraPetal extends Entity {
             setDead();
         }
 
-        // particleTextureIndex = Block.blockLapis.blockIndexInTexture ;
         if (!stopFall) {
             motionY -= 0.004D;
         } else {
@@ -163,9 +137,9 @@ public class EntitySakuraPetal extends Entity {
         }
 
         moveEntity(motionX, motionY, motionZ);
-        motionX *= 0.9D;
-        motionY *= 0.9D;
-        motionZ *= 0.9D;
+        motionX *= 0.95D;
+        motionY *= 0.95D;
+        motionZ *= 0.95D;
 
         if (Material.water == worldObj.getBlock((int) (posX + 0.5), (int) posY, (int) (posZ + 0.5)).getMaterial()) {
             if (!isStopFall()) {
@@ -173,10 +147,10 @@ public class EntitySakuraPetal extends Entity {
             }
         }
 
-        /*
-         * if (onGround) { setDead(); motionX *= 0.69999998807907104D; motionZ
-         * *= 0.69999998807907104D; }
-         */
+        if (onGround) {
+            rad = 0.0001F;
+        }
+
     }
 
     @Override

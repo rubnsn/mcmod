@@ -89,17 +89,18 @@ public class EntityWind extends EntityThrowable {
     }
 
     private void removeLeaves(World par1World, int par2, int par3, int par4, EntityWind par5Entity, Block block) {
+        int meta = par1World.getBlockMetadata(par2, par3, par4);
         if (par1World.isRemote) {
-            EntitySakuraPetal entity = new EntitySakuraPetal(par1World, par2, par3, par4, par5Entity.motionX, par5Entity.motionY, par5Entity.motionZ, block.getRenderColor(par1World.getBlockMetadata(par2, par3, par4)));
+            EntitySakuraPetal entity = new EntitySakuraPetal(par1World, par2, par3, par4, par5Entity.motionX, par5Entity.motionY, par5Entity.motionZ, block.getRenderColor(meta));
 
             if (block instanceof ICustomPetal) {
-                entity.setCustomPetal(((ICustomPetal) block).getCustomPetal(par1World.getBlockMetadata(par2, par3, par4)));
+                entity.setTexPath(((ICustomPetal) block).getTexPath(meta));
+                entity.setTexNum(((ICustomPetal) block).getTexNum(meta));
             }
 
             par1World.spawnEntityInWorld(entity);
-            // par1World.setBlockWithNotify(par2, par3, par4, 0);
         } else {
-            block.dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
+            block.dropBlockAsItem(par1World, par2, par3, par4, meta, 0);
             par1World.setBlockToAir(par2, par3, par4);
         }
     }
