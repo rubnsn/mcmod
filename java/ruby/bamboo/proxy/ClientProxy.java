@@ -19,6 +19,7 @@ import ruby.bamboo.entity.EntityWaterwheel;
 import ruby.bamboo.entity.EntityWind;
 import ruby.bamboo.entity.EntityWindChime;
 import ruby.bamboo.entity.EntityWindmill;
+import ruby.bamboo.entity.EntityZabuton;
 import ruby.bamboo.entity.magatama.EntityClock;
 import ruby.bamboo.entity.magatama.EntityDummy;
 import ruby.bamboo.entity.magatama.EntityFlareEffect;
@@ -42,6 +43,7 @@ import ruby.bamboo.render.RenderSlideDoor;
 import ruby.bamboo.render.RenderWaterwheel;
 import ruby.bamboo.render.RenderWindBell;
 import ruby.bamboo.render.RenderWindmill;
+import ruby.bamboo.render.RenderZabuton;
 import ruby.bamboo.render.magatama.RenderClock;
 import ruby.bamboo.render.magatama.RenderDummy;
 import ruby.bamboo.render.magatama.RenderFlareEffect;
@@ -108,5 +110,6 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityClock.class, new RenderClock());
         RenderingRegistry.registerEntityRenderingHandler(EntityShield.class, new RenderShield());
         RenderingRegistry.registerEntityRenderingHandler(EntityDummy.class, new RenderDummy());
+        RenderingRegistry.registerEntityRenderingHandler(EntityZabuton.class, new RenderZabuton());
     }
 }

@@ -69,6 +69,7 @@ import ruby.bamboo.item.ItemTudura;
 import ruby.bamboo.item.ItemWaterwheel;
 import ruby.bamboo.item.ItemWindChime;
 import ruby.bamboo.item.ItemWindmill;
+import ruby.bamboo.item.ItemZabuton;
 import ruby.bamboo.item.magatama.ItemMagatama;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -137,6 +138,7 @@ public class BambooInit {
     public static Item magatama;
     public static Item riceSeed;
     public static Item dimensionCreater;
+    public static Item zabuton;
 
     public static BambooInit instance = new BambooInit();
     //items
@@ -231,6 +233,7 @@ public class BambooInit {
         straw = registerItem(new Item().setTextureName(BambooCore.resourceDomain + "straw"), "straw", tabBamboo);
         riceSeed = registerItem(new ItemSeeds(ricePlant, Blocks.farmland).setTextureName(BambooCore.resourceDomain + "seedrice"), "seedrice", tabBamboo);
         rawrice = registerItem(new ItemFood(1, false).setTextureName(BambooCore.resourceDomain + "rawrice"), "rawrice", tabBamboo);
+        zabuton = registerItem(new ItemZabuton().setTextureName(BambooCore.resourceDomain + "zabuton"), "zabuton", tabBamboo);
         MinecraftForge.addGrassSeed(new ItemStack(riceSeed, 1, 0), 10);
         workingItem();
     }
