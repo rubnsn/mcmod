@@ -199,33 +199,33 @@ public class BambooInit {
     }
 
     private void itemsInit() {
-        new ItemBambooBasket(bambooBasketIID - ITEMID_OFFSET).setUnlocalizedName("bamboobasket").setCreativeTab(tabBamboo);
-        new ItemFirecracker(firecrackerIID - ITEMID_OFFSET).setUnlocalizedName("firecracker").setCreativeTab(tabBamboo);
-        new ItemBambooFood(foodsIID - ITEMID_OFFSET).setUnlocalizedName("bambooFood").setCreativeTab(tabBamboo);
-        new ItemBambooSpear(bambooSpearIID - ITEMID_OFFSET).setUnlocalizedName("bamboospear").setCreativeTab(tabBamboo);
-        new ItemSlideDoor(slideDoorsIID - ITEMID_OFFSET).setUnlocalizedName("slideDoor").setCreativeTab(tabBamboo);
-        new ItemKakeziku(kakezikuIID - ITEMID_OFFSET).setUnlocalizedName("kakeziku").setCreativeTab(tabBamboo);
-        new ItemHuton(hutonIID - ITEMID_OFFSET).setUnlocalizedName("huton").setCreativeTab(tabBamboo);
-        new ItemBambooshoot(takenokoIID - ITEMID_OFFSET, bambooBID).setUnlocalizedName("bambooshoot").setCreativeTab(tabBamboo);
-        new ItemBoiledEgg(boiledEggIID - ITEMID_OFFSET).setUnlocalizedName("boiledEgg");
-        new ItemShavedIce(shavedIceIID - ITEMID_OFFSET).setUnlocalizedName("shavedice").setCreativeTab(tabBamboo);
-        new ItemWindChime(windChimeIID - ITEMID_OFFSET).setUnlocalizedName("windchime").setCreativeTab(tabBamboo);
-        new ItemSack(itemSackIID - ITEMID_OFFSET).setUnlocalizedName("itemsack").setCreativeTab(tabBamboo);
-        new ItemDirtySnowball(snowBallIID - ITEMID_OFFSET).setUnlocalizedName("snowball").setCreativeTab(tabBamboo);
-        new ItemFan(fanIID - ITEMID_OFFSET).setUnlocalizedName("fan").setCreativeTab(tabBamboo);
-        new ItemKatana(katanaIID - ITEMID_OFFSET).setUnlocalizedName("katana").setCreativeTab(tabBamboo);
-        new ItemBambooBow(bambooBowIID - ITEMID_OFFSET).setUnlocalizedName("bamboobow").setCreativeTab(tabBamboo);
-        new ItemTudura(tuduraIID - ITEMID_OFFSET).setUnlocalizedName("tudura").setCreativeTab(tabBamboo);
-        new ItemWindmill(windmillIID - ITEMID_OFFSET).setUnlocalizedName("windmill").setCreativeTab(tabBamboo);
-        new ItemWaterwheel(waterWheelIID - ITEMID_OFFSET).setUnlocalizedName("waterwheel").setCreativeTab(tabBamboo);
-        new ItemBamboo(bambooIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("itembamboo").setCreativeTab(tabBamboo);
-        new ItemKaginawa(kaginawaIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("kaginawa").setCreativeTab(tabBamboo);
-        new ItemBambooSword(bambooSwordIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("bamboosword").setCreativeTab(tabBamboo);
-        new ItemObon(obonIID - ITEMID_OFFSET).setCreativeTab(tabBamboo).setUnlocalizedName("obon").setCreativeTab(tabBamboo);
-        new ItemMagatama(magatamaIID - ITEMID_OFFSET).setUnlocalizedName("magatama").setTextureName("magatama").setCreativeTab(tabBamboo);
-        new Item(strawIID - ITEMID_OFFSET).setUnlocalizedName("straw").setTextureName(BambooCore.resourceDomain + "straw").setCreativeTab(tabBamboo);
-        new ItemSeeds(seedRiceIID - ITEMID_OFFSET, ricePlantBID, Block.tilledField.blockID).setUnlocalizedName("seedrice").setTextureName(BambooCore.resourceDomain + "seedrice").setCreativeTab(tabBamboo);
-        new ItemFood(rawriceIID - ITEMID_OFFSET, 1, false).setUnlocalizedName("rawrice").setTextureName(BambooCore.resourceDomain + "rawrice").setCreativeTab(tabBamboo);
+        registerItem(new ItemBambooBasket(bambooBasketIID - ITEMID_OFFSET),"bamboobasket",tabBamboo);
+        registerItem(new ItemFirecracker(firecrackerIID - ITEMID_OFFSET),"firecracker",tabBamboo);
+        registerItem(new ItemBambooFood(foodsIID - ITEMID_OFFSET),"bambooFood",tabBamboo);
+        registerItem(new ItemBambooSpear(bambooSpearIID - ITEMID_OFFSET),"bamboospear",tabBamboo);
+        registerItem(new ItemSlideDoor(slideDoorsIID - ITEMID_OFFSET),"slideDoor",tabBamboo);
+        registerItem(new ItemKakeziku(kakezikuIID - ITEMID_OFFSET),"kakeziku",tabBamboo);
+        registerItem(new ItemHuton(hutonIID - ITEMID_OFFSET),"huton",tabBamboo);
+        registerItem(new ItemBambooshoot(takenokoIID - ITEMID_OFFSET, bambooBID),"bambooshoot",tabBamboo);
+        registerItem(new ItemBoiledEgg(boiledEggIID - ITEMID_OFFSET),"boiledEgg",tabBamboo);
+        registerItem(new ItemShavedIce(shavedIceIID - ITEMID_OFFSET),"shavedice",tabBamboo);
+        registerItem(new ItemWindChime(windChimeIID - ITEMID_OFFSET),"windchime",tabBamboo);
+        registerItem(new ItemSack(itemSackIID - ITEMID_OFFSET),"itemsack",tabBamboo);
+        registerItem(new ItemDirtySnowball(snowBallIID - ITEMID_OFFSET),"snowball",tabBamboo);
+        registerItem(new ItemFan(fanIID - ITEMID_OFFSET),"fan",tabBamboo);
+        registerItem(new ItemKatana(katanaIID - ITEMID_OFFSET),"katana",tabBamboo);
+        registerItem(new ItemBambooBow(bambooBowIID - ITEMID_OFFSET),"bamboobow",tabBamboo);
+        registerItem(new ItemTudura(tuduraIID - ITEMID_OFFSET),"tudura",tabBamboo);
+        registerItem(new ItemWindmill(windmillIID - ITEMID_OFFSET),"windmill",tabBamboo);
+        registerItem(new ItemWaterwheel(waterWheelIID - ITEMID_OFFSET),"waterwheel",tabBamboo);
+        registerItem(new ItemBamboo(bambooIID - ITEMID_OFFSET),"itembamboo",tabBamboo);
+        registerItem(new ItemKaginawa(kaginawaIID - ITEMID_OFFSET),"kaginawa",tabBamboo);
+        registerItem(new ItemBambooSword(bambooSwordIID - ITEMID_OFFSET),"bamboosword",tabBamboo);
+        registerItem(new ItemObon(obonIID - ITEMID_OFFSET),"obon",tabBamboo);
+        registerItem(new ItemMagatama(magatamaIID - ITEMID_OFFSET).setTextureName("magatama"),"magatama",tabBamboo);
+        registerItem(new Item(strawIID - ITEMID_OFFSET).setTextureName(BambooCore.resourceDomain + "straw"),"straw",tabBamboo);
+        registerItem(new ItemSeeds(seedRiceIID - ITEMID_OFFSET, ricePlantBID, Block.tilledField.blockID).setTextureName(BambooCore.resourceDomain + "seedrice"),"seedrice",tabBamboo);
+        registerItem(new ItemFood(rawriceIID - ITEMID_OFFSET, 1, false).setTextureName(BambooCore.resourceDomain + "rawrice"),"rawrice",tabBamboo);
         MinecraftForge.addGrassSeed(new ItemStack(seedRiceIID, 1, 0), 10);
         workingItem();
     }
@@ -253,7 +253,13 @@ public class BambooInit {
         block.setUnlocalizedName(name);
         GameRegistry.registerBlock(block, cls, name, BambooCore.MODID);
     }
-
+    private void registerItem(Item item,String name, CreativeTabs creativeTabs){
+    	if (creativeTabs != null) {
+    		item.setCreativeTab(creativeTabs);
+        }
+    	item.setUnlocalizedName(name);
+    	GameRegistry.registerItem(item, name, BambooCore.MODID);
+    }
     private String getChiledName() {
         String chiledName = "bambooshoot";
         Calendar ci = Calendar.getInstance();
