@@ -2,6 +2,7 @@ package ruby.bamboo.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -92,7 +93,7 @@ public class EntityZabuton extends Entity implements IZabuton {
                 return true;
             }
 
-            this.dropItem(BambooInit.zabuton, 1);
+            this.entityDropItem(new ItemStack(BambooInit.zabuton, 1, (int) getColor()), 0.5F);
         }
 
         return true;
