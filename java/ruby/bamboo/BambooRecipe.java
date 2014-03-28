@@ -1,6 +1,59 @@
 package ruby.bamboo;
 
-import static ruby.bamboo.BambooInit.*;
+import static ruby.bamboo.BambooInit.andon;
+import static ruby.bamboo.BambooInit.bambooBasket;
+import static ruby.bamboo.BambooInit.bambooBow;
+import static ruby.bamboo.BambooInit.bambooSpear;
+import static ruby.bamboo.BambooInit.bambooSword;
+import static ruby.bamboo.BambooInit.bamboopane;
+import static ruby.bamboo.BambooInit.campfire;
+import static ruby.bamboo.BambooInit.dHalfSquare;
+import static ruby.bamboo.BambooInit.dSquare;
+import static ruby.bamboo.BambooInit.decoCarpet;
+import static ruby.bamboo.BambooInit.decoration;
+import static ruby.bamboo.BambooInit.decoration_dir;
+import static ruby.bamboo.BambooInit.decoration_dir_half;
+import static ruby.bamboo.BambooInit.decoration_half;
+import static ruby.bamboo.BambooInit.delude_height;
+import static ruby.bamboo.BambooInit.delude_plate;
+import static ruby.bamboo.BambooInit.delude_stair;
+import static ruby.bamboo.BambooInit.delude_width;
+import static ruby.bamboo.BambooInit.fan;
+import static ruby.bamboo.BambooInit.firecracker;
+import static ruby.bamboo.BambooInit.foods;
+import static ruby.bamboo.BambooInit.huton;
+import static ruby.bamboo.BambooInit.itemSack;
+import static ruby.bamboo.BambooInit.itembamboo;
+import static ruby.bamboo.BambooInit.jpchest;
+import static ruby.bamboo.BambooInit.kakeziku;
+import static ruby.bamboo.BambooInit.katana;
+import static ruby.bamboo.BambooInit.kawara_stair;
+import static ruby.bamboo.BambooInit.kitunebi;
+import static ruby.bamboo.BambooInit.millStone;
+import static ruby.bamboo.BambooInit.obon;
+import static ruby.bamboo.BambooInit.rawrice;
+import static ruby.bamboo.BambooInit.riceSeed;
+import static ruby.bamboo.BambooInit.rooftile;
+import static ruby.bamboo.BambooInit.sakura;
+import static ruby.bamboo.BambooInit.sakuralog;
+import static ruby.bamboo.BambooInit.shavedIce;
+import static ruby.bamboo.BambooInit.singleTexDeco;
+import static ruby.bamboo.BambooInit.slideDoors;
+import static ruby.bamboo.BambooInit.snowBall;
+import static ruby.bamboo.BambooInit.spa_unit;
+import static ruby.bamboo.BambooInit.straw;
+import static ruby.bamboo.BambooInit.takenoko;
+import static ruby.bamboo.BambooInit.thickOrcPillar;
+import static ruby.bamboo.BambooInit.thickSakuraPillar;
+import static ruby.bamboo.BambooInit.thickSprucePillar;
+import static ruby.bamboo.BambooInit.thinOrcPillar;
+import static ruby.bamboo.BambooInit.thinSakuraPillar;
+import static ruby.bamboo.BambooInit.thinSprucePillar;
+import static ruby.bamboo.BambooInit.tudura;
+import static ruby.bamboo.BambooInit.wara_stair;
+import static ruby.bamboo.BambooInit.waterWheel;
+import static ruby.bamboo.BambooInit.windChime;
+import static ruby.bamboo.BambooInit.windmill;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -185,6 +238,10 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(thinSprucePillar, 4, 0), "#", "X", "#", '#', new ItemStack(thickSprucePillar, 1, 0), 'X', TUDURA);
         //石臼
         addShapedOreRecipe(new ItemStack(millStone, 1, 0), "###", "X#X", "###", '#', new ItemStack(Blocks.cobblestone), 'X', TUDURA);
+        //ざぶとん
+        for (int i = 0; i < 16; i++) {
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BambooInit.zabuton, 1, i), "###", "#X#", "###", '#', new ItemStack(Blocks.wool, 1, 15 - i), 'X', TUDURA));
+        }
         // 鉱石辞書
         addOreDictionary();
         // 粉砕レシピ

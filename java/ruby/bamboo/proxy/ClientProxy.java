@@ -15,6 +15,7 @@ import ruby.bamboo.entity.EntityKakeziku;
 import ruby.bamboo.entity.EntityObon;
 import ruby.bamboo.entity.EntitySakuraPetal;
 import ruby.bamboo.entity.EntitySlideDoor;
+import ruby.bamboo.entity.EntityThrowZabuton;
 import ruby.bamboo.entity.EntityWaterwheel;
 import ruby.bamboo.entity.EntityWind;
 import ruby.bamboo.entity.EntityWindChime;
@@ -111,5 +112,6 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityShield.class, new RenderShield());
         RenderingRegistry.registerEntityRenderingHandler(EntityDummy.class, new RenderDummy());
         RenderingRegistry.registerEntityRenderingHandler(EntityZabuton.class, new RenderZabuton());
+        RenderingRegistry.registerEntityRenderingHandler(EntityThrowZabuton.class, new RenderZabuton());
     }
 }

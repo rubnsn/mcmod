@@ -1,11 +1,15 @@
 package ruby.bamboo.entity;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooInit;
 
-public class EntityZabuton extends Entity {
-    private final static byte PATTERN = 16;
+public class EntityZabuton extends Entity implements IZabuton {
+    private final static byte COLOR = 16;
 
     public enum EnumZabutonColor {
         BLACK(0x312935),
@@ -18,8 +22,8 @@ public class EntityZabuton extends Entity {
         LIGHT_GRAY(0x8b8b99),
         GRAY(0x3f3f46),
         PINK(0xe18f8f),
-        LIME(0xb8c826),
-        YELLOW(0xb4a700),
+        LIME(0x8d9734),
+        YELLOW(0xd8c90e),
         LIGHT_BLUE(0x17728d),
         MAGENTA(0xa15275),
         ORANGE(0xc8870e),
@@ -36,6 +40,10 @@ public class EntityZabuton extends Entity {
 
         public static EnumZabutonColor getColor(int meta) {
             return COLORS[meta < 16 ? meta : 0];
+        }
+
+        public int getColor() {
+            return (red << 16) + (green << 8) + blue;
         }
 
         public int getRed() {
@@ -57,30 +65,104 @@ public class EntityZabuton extends Entity {
         setSize(1F, 2 / 16F);
     }
 
-    public int getPatteran() {
-        return dataWatcher.getWatchableObjectByte(PATTERN);
+    public EntityZabuton(World par1World, int color) {
+        this(par1World);
+        dataWatcher.updateObject(COLOR, (byte) color);
+    }
+
+    @Override
+    public byte getColor() {
+        return dataWatcher.getWatchableObjectByte(COLOR);
+    }
+
+    @Override
+    public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
+        // server用
+        if (!isDead && !this.worldObj.isRemote) {
+            EntityPlayer entityplayer = null;
+
+            if (par1DamageSource.damageType == "player") {
+                entityplayer = (EntityPlayer) par1DamageSource.getEntity();
+                setDead();
+            } else {
+                return false;
+            }
+
+            if (entityplayer != null && entityplayer.capabilities.isCreativeMode) {
+                return true;
+            }
+
+            this.dropItem(BambooInit.zabuton, 1);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean interactFirst(EntityPlayer entityPlayer) {
+        if (!worldObj.isRemote && !entityPlayer.isSneaking()) {
+            if (this.riddenByEntity == null) {
+                entityPlayer.mountEntity(this);
+            } else {
+                entityPlayer.mountEntity(this);
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean canBeCollidedWith() {
+        return !isDead;
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox() {
+        return boundingBox;
+    }
+
+    @Override
+    public boolean isBurning() {
+        return false;
     }
 
     @Override
     public void onUpdate() {
-        //this.setDead();
-        dataWatcher.updateObject(PATTERN, (byte) 2);
-        this.onEntityUpdate();
+        super.onUpdate();
+        this.moveEntity(this.motionX, this.motionY, this.motionZ);
+        if (Math.abs(this.motionY) < 0.005D) {
+            this.motionY = 0.0D;
+        }
+
+        if (this.worldObj.isRemote && (!this.worldObj.blockExists((int) this.posX, 0, (int) this.posZ) || !this.worldObj.getChunkFromBlockCoords((int) this.posX, (int) this.posZ).isChunkLoaded)) {
+            if (this.posY > 0.0D) {
+                this.motionY = -0.1D;
+            } else {
+                this.motionY = 0.0D;
+            }
+        } else {
+            this.motionY -= 0.08D;
+        }
+
+        this.motionY *= 0.9800000190734863D;
+        this.motionX *= 0.91;
+        this.motionZ *= 0.91;
     }
 
     @Override
     protected void entityInit() {
-        dataWatcher.addObject(PATTERN, (byte) 0);
+        dataWatcher.addObject(COLOR, (byte) 15);
     }
 
     @Override
     protected void readEntityFromNBT(NBTTagCompound var1) {
-
+        dataWatcher.updateObject(COLOR, var1.getByte("color"));
     }
 
     @Override
     protected void writeEntityToNBT(NBTTagCompound var1) {
-
+        var1.setByte("color", getColor());
     }
 
 }
