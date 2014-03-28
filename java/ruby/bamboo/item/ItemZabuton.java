@@ -28,6 +28,10 @@ public class ItemZabuton extends Item {
                 Entity entity = new EntityZabuton(par3World, par1ItemStack.getItemDamage());
                 entity.setPositionAndRotation(par4 + par8, par5 + par9, par6 + par10, par2EntityPlayer.rotationYaw, 180);
                 par3World.spawnEntityInWorld(entity);
+                if (!par2EntityPlayer.capabilities.isCreativeMode) {
+                    --par1ItemStack.stackSize;
+                }
+
             }
         }
         return true;
@@ -39,6 +43,9 @@ public class ItemZabuton extends Item {
             if (par3EntityPlayer.isSneaking()) {
                 Entity entity = new EntityThrowZabuton(par2World, par3EntityPlayer, par1ItemStack.getItemDamage());
                 par2World.spawnEntityInWorld(entity);
+                if (!par3EntityPlayer.capabilities.isCreativeMode) {
+                    --par1ItemStack.stackSize;
+                }
             }
         }
         return par1ItemStack;
