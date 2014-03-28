@@ -50,7 +50,8 @@ public class EntityThrowZabuton extends EntityThrowable implements IZabuton {
             if (!worldObj.isRemote) {
                 Entity entity = new EntityZabuton(worldObj, getColor());
                 entity.setPositionAndRotation(posX, posY, posZ, this.rotationYaw, 180);
-                if (var1.typeOfHit == MovingObjectType.ENTITY) {
+
+                if (var1.typeOfHit == MovingObjectType.ENTITY && !(var1.entityHit instanceof EntityZabuton)) {
                     var1.entityHit.mountEntity(entity);
                 }
                 worldObj.spawnEntityInWorld(entity);
