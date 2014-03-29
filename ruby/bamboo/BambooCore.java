@@ -3,6 +3,11 @@ package ruby.bamboo;
 import java.util.logging.Level;
 
 import net.minecraft.block.BlockDispenser;
+import ruby.bamboo.dispenser.DispenserBehaviorBambooSpear;
+import ruby.bamboo.dispenser.DispenserBehaviorDirtySnowball;
+import ruby.bamboo.dispenser.DispenserBehaviorFireCracker;
+import ruby.bamboo.gui.GuiHandler;
+import ruby.bamboo.proxy.CommonProxy;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
@@ -16,14 +21,9 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.CoreModManager;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.ReflectionHelper.UnableToAccessFieldException;
-import ruby.bamboo.dispenser.DispenserBehaviorBambooSpear;
-import ruby.bamboo.dispenser.DispenserBehaviorDirtySnowball;
-import ruby.bamboo.dispenser.DispenserBehaviorFireCracker;
-import ruby.bamboo.gui.GuiHandler;
-import ruby.bamboo.proxy.CommonProxy;
 
 @Mod(modid = "BambooMod", name = "BambooMod",
-        version = "Minecraft1.6.4 ver2.6.3.4")
+        version = "Minecraft1.6.4 ver2.6.3.6")
 @NetworkMod(channels = { "B_Entity", "bamboo", "bamboo2" },
         packetHandler = NetworkHandler.class,
         connectionHandler = NetworkHandler.class)
@@ -39,14 +39,14 @@ public class BambooCore {
 
     @Instance("BambooMod")
     public static BambooCore instance;
-    
+
     static {
         MODID = "BambooMod";
         resourceDomain = "bamboo:";
         DEBUGMODE = isDevelopment();
         conf = new Config();
     }
-    
+
     public static Config getConf() {
         return conf;
     }
