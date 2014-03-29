@@ -3,6 +3,7 @@ package ruby.bamboo;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Calendar;
+import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -72,10 +73,14 @@ import ruby.bamboo.item.ItemWaterwheel;
 import ruby.bamboo.item.ItemWindChime;
 import ruby.bamboo.item.ItemWindmill;
 import ruby.bamboo.item.magatama.ItemMagatama;
+
+import com.google.common.collect.Multiset;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.ItemData;
 
 public class BambooInit {
     private static final int ITEMID_OFFSET = 256;
@@ -308,13 +313,13 @@ public class BambooInit {
         if (cls != ItemBlock.class) {
             try {
                 Item item = new ItemBlock(block.blockID - 256);
-
+                item.setUnlocalizedName(name);
                 GameRegistry.registerBlock(block, cls, name, BambooCore.MODID);
 
                 //同一のアイテム名は登録できないため、あらかじめ無かった事にしておく？item.setUn～しないなら不要か
-                //Field field = ItemData.class.getDeclaredField("modOrdinals");
-                //field.setAccessible(true);
-                //((Multiset) ((Map) field.get(null)).get(BambooCore.MODID)).remove(name);
+                Field field = ItemData.class.getDeclaredField("modOrdinals");
+                field.setAccessible(true);
+                ((Multiset) ((Map) field.get(null)).get(BambooCore.MODID)).remove(name);
 
                 GameData.newItemAdded(item);
                 GameRegistry.registerItem(item, name, BambooCore.MODID);
