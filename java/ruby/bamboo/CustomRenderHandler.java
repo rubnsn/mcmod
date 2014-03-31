@@ -8,6 +8,7 @@ import net.minecraft.world.IBlockAccess;
 import ruby.bamboo.render.block.IRenderBlocks;
 import ruby.bamboo.render.block.RenderBambooBlock;
 import ruby.bamboo.render.block.RenderBambooPane;
+import ruby.bamboo.render.block.RenderCoordinateBlock;
 import ruby.bamboo.render.block.RenderDelude;
 import ruby.bamboo.render.block.RenderKitunebi;
 import ruby.bamboo.render.block.RenderPillar;
@@ -25,6 +26,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class CustomRenderHandler {
     public static final int kitunebiUID;
+    public static final int coordinateCrossUID;
     public static final int bambooBlockUID;
     public static final int andonUID;
     public static final int campfireUID;
@@ -42,6 +44,7 @@ public class CustomRenderHandler {
     static {
         customRenderMap = new HashMap<Integer, IRenderBlocks>();
         customRenderInvMap = new HashMap<Integer, IRenderInventory>();
+        coordinateCrossUID = getUIDAndRegistSimpleInvRender();
         kitunebiUID = getUIDAndRegistSimpleInvRender();
         bambooPaneUID = getUIDAndRegistSimpleInvRender();
         riceFieldUID = getUIDAndRegistSimpleInvRender();
@@ -58,6 +61,7 @@ public class CustomRenderHandler {
     @SideOnly(Side.CLIENT)
     public static void init() {
         customRenderMap.put(kitunebiUID, new RenderKitunebi());
+        customRenderMap.put(coordinateCrossUID, new RenderCoordinateBlock());
         customRenderMap.put(bambooBlockUID, new RenderBambooBlock());
         customRenderMap.put(bambooPaneUID, new RenderBambooPane());
         customRenderMap.put(pillarUID, new RenderPillar());

@@ -11,18 +11,26 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import ruby.bamboo.BambooInit;
+import ruby.bamboo.render.block.RenderCoordinateBlock.ICoordinateRenderType;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class BlockBamboo extends Block {
+public class BlockBamboo extends Block implements ICoordinateRenderType {
     // 最大成長値(0も含まれる)
     private final int MAX_BAMBOO_LENGTH;
     private final int renderType;
+    private final int coordinateRenderType;
 
     public BlockBamboo(int maxLength, int renderType) {
+        this(maxLength, renderType, 0);
+    }
+
+    public BlockBamboo(int maxLength, int renderType, int coordinateRenderType) {
         super(MaterialBamboo.instance);
         this.MAX_BAMBOO_LENGTH = maxLength;
         this.renderType = renderType;
+        this.coordinateRenderType = coordinateRenderType;
+        BlockBambooShoot.bambooList.add(this);
         setLightOpacity(0);
         setTickRandomly(true);
         setHardness(0F);
@@ -175,5 +183,10 @@ public class BlockBamboo extends Block {
     @Override
     public int getMobilityFlag() {
         return 1;
+    }
+
+    @Override
+    public int getCoordinateRenderType() {
+        return coordinateRenderType;
     }
 }

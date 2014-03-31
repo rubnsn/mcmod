@@ -1,5 +1,6 @@
 package ruby.bamboo.block;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -14,10 +15,13 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import ruby.bamboo.BambooInit;
+import ruby.bamboo.CustomRenderHandler;
+import ruby.bamboo.render.block.RenderCoordinateBlock.ICoordinateRenderType;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class BlockBambooShoot extends Block {
+public class BlockBambooShoot extends Block implements ICoordinateRenderType {
+    protected static final ArrayList<Block> bambooList = new ArrayList<Block>();
 
     public BlockBambooShoot() {
         super(MaterialBamboo.instance);
@@ -50,7 +54,7 @@ public class BlockBambooShoot extends Block {
     private void tryBambooGrowth(World world, int x, int y, int z, float probability) {
         if (!world.isRemote) {
             if (canChildGrow(world, x, y, z)) {
-                world.setBlock(x, y, z, BambooInit.bamboo, 0, 3);
+                world.setBlock(x, y, z, bambooList.get(world.rand.nextInt(bambooList.size())), 0, 3);
             }
         }
     }
@@ -86,6 +90,13 @@ public class BlockBambooShoot extends Block {
     }
 
     @Override
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+        if (!canBlockStay(world, x, y, z)) {
+            world.setBlockToAir(x, y, z);
+        }
+    }
+
+    @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int i, int j, int k) {
         return null;
     }
@@ -102,11 +113,16 @@ public class BlockBambooShoot extends Block {
 
     @Override
     public int getRenderType() {
-        return 1;
+        return CustomRenderHandler.coordinateCrossUID;
     }
 
     @Override
     public int getMobilityFlag() {
         return 1;
+    }
+
+    @Override
+    public int getCoordinateRenderType() {
+        return 0;
     }
 }

@@ -77,6 +77,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class BambooInit {
     // instance
     public static Block bamboo;
+    public static Block bamboo2;
+    public static Block bambooSingle;
     public static Block bambooShoot;
     public static Block singleTexDeco;
     public static Block kitunebi;
@@ -167,6 +169,8 @@ public class BambooInit {
 
     private void blocksInit() {
         bamboo = registerBlock(new BlockBamboo(9, 6).setBlockTextureName(BambooCore.resourceDomain + "bamboo"), "bamboo");
+        bambooSingle = registerBlock(new BlockBamboo(9, CustomRenderHandler.coordinateCrossUID, 0).setBlockTextureName(BambooCore.resourceDomain + "bamboosingle"), "bamboosingle");
+        bamboo2 = registerBlock(new BlockBamboo(9, CustomRenderHandler.coordinateCrossUID, 1).setBlockTextureName(BambooCore.resourceDomain + "bamboo"), "bamboo2");
         bambooShoot = registerBlock(new BlockBambooShoot().setBlockTextureName(BambooCore.resourceDomain + getChiledName()), "bambooshoot");
         singleTexDeco = registerBlock(new BlockCustomRenderSingleTexture(), ItemCustomRenderSingleTexture.class, "singleTexDeco", tabBamboo);
         kitunebi = registerBlock(new BlockKitunebi().setBlockTextureName("kitunebi"), "kitunebi", tabBamboo);
