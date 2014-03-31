@@ -7,7 +7,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import ruby.bamboo.BambooInit;
-import ruby.bamboo.block.BlockBamboo;
+import ruby.bamboo.block.BlockBambooShoot;
 
 public class WorldGenBamboo extends WorldGenerator {
     @Override
@@ -19,9 +19,9 @@ public class WorldGenBamboo extends WorldGenerator {
             posZ = par5 + par2Random.nextInt(8) - par2Random.nextInt(8);
             Block blockid = par1World.getBlock(posX, posY - 1, posZ);
 
-            if (par1World.isAirBlock(posX, posY, posZ) && !BlockBamboo.canChildGrow(par1World, posX, posY, posZ)) {
+            if (par1World.isAirBlock(posX, posY, posZ) && !BlockBambooShoot.canChildGrow(par1World, posX, posY, posZ)) {
                 if (blockid == Blocks.grass || blockid == Blocks.dirt) {
-                    par1World.setBlock(posX, posY, posZ, BambooInit.bamboo, 15, 0);
+                    par1World.setBlock(posX, posY, posZ, BambooInit.bambooShoot, 0, 0);
                 }
             }
         }

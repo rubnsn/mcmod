@@ -3,42 +3,31 @@ package ruby.bamboo.block;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatList;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.BonemealEvent;
-import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
-import ruby.bamboo.CustomRenderHandler;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockBamboo extends Block {
     // 最大成長値(0も含まれる)
-    private static final int MAX_BAMBOO_LENGTH = 9;
-    private IIcon parent;
-    private IIcon child;
-    private final String chiledName;
+    private final int MAX_BAMBOO_LENGTH;
+    private final int renderType;
 
-    public BlockBamboo(String chiledName) {
+    public BlockBamboo(int maxLength, int renderType) {
         super(MaterialBamboo.instance);
-        this.chiledName = chiledName;
+        this.MAX_BAMBOO_LENGTH = maxLength;
+        this.renderType = renderType;
         setLightOpacity(0);
         setTickRandomly(true);
         setHardness(0F);
         setResistance(0F);
+        setBlockBounds(0.5F - 0.375F, 0.0F, 0.5F - 0.375F, 0.5F + 0.375F, 1.0F, 0.5F + 0.375F);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -60,15 +49,6 @@ public class BlockBamboo extends Block {
     }
 
     @Override
-    public IIcon getIcon(int side, int meta) {
-        if (meta != 15) {
-            return parent;
-        }
-
-        return child;
-    }
-
-    @Override
     public void updateTick(World world, int i, int j, int k, Random random) {
         tryBambooGrowth(world, i, j, k, world.isRaining() ? 0.25F : 0.125F);
     }
@@ -81,15 +61,11 @@ public class BlockBamboo extends Block {
 
                     if (meta != 15) {
                         if (meta < MAX_BAMBOO_LENGTH) {
-                            world.setBlock(x, y + 1, z, this, meta + 1, 3);
+                            growBamboo(world, x, y, z, meta);
                         } else {
                             if (world.isRaining() || world.rand.nextFloat() < probability) {
                                 tryChildSpawn(world, x, y, z);
                             }
-                        }
-                    } else {
-                        if (canChildGrow(world, x, y, z)) {
-                            world.setBlockMetadataWithNotify(x, y, z, 0, 3);
                         }
                     }
                 }
@@ -97,7 +73,11 @@ public class BlockBamboo extends Block {
         }
     }
 
-    private void tryChildSpawn(World world, int i, int j, int k) {
+    void growBamboo(World world, int x, int y, int z, int meta) {
+        world.setBlock(x, y + 1, z, this, meta + 1, 3);
+    }
+
+    void tryChildSpawn(World world, int i, int j, int k) {
         if (!world.isRemote) {
             j -= MAX_BAMBOO_LENGTH;
 
@@ -106,7 +86,7 @@ public class BlockBamboo extends Block {
                     for (int k1 = -1; k1 <= 1; k1++) {
                         if (canChildSpawn(world, i + i1, j + j1, k + k1, world.rand)) {
                             world.setBlock(i + i1, j + j1 - 1, k + k1, Blocks.dirt, 0, 3);
-                            world.setBlock(i + i1, j + j1, k + k1, this, 15, 3);
+                            world.setBlock(i + i1, j + j1, k + k1, BambooInit.bambooShoot, 15, 3);
                         }
                     }
                 }
@@ -114,14 +94,7 @@ public class BlockBamboo extends Block {
         }
     }
 
-    public static boolean canChildGrow(World world, int i, int j, int k) {
-        Chunk chunk = world.getChunkFromChunkCoords(i >> 4, k >> 4);
-        i &= 0xf;
-        k &= 0xf;
-        return chunk.getBlockLightValue(i, j, k, 15) > 7;
-    }
-
-    private boolean canChildSpawn(World world, int i, int j, int k, Random random) {
+    boolean canChildSpawn(World world, int i, int j, int k, Random random) {
         if (world.isAirBlock(i, j, k)) {
             // 天候・耕地確変
             if (random.nextFloat() < (world.isRaining() ? 0.4F : world.getBlock(i, j - 1, k) == Blocks.farmland ? 0.25F : 0.1F)) {
@@ -132,21 +105,6 @@ public class BlockBamboo extends Block {
         }
 
         return false;
-    }
-
-    @Override
-    public void harvestBlock(World world, EntityPlayer entityplayer, int i, int j, int k, int l) {
-        if (!world.isRemote) {
-            if (l == 15) {
-                if (entityplayer.getCurrentEquippedItem() != null && (entityplayer.getCurrentEquippedItem().getItem() instanceof ItemHoe)) {
-                    entityplayer.addStat(StatList.mineBlockStatArray[getIdFromBlock(this)], 1);
-                    entityplayer.getCurrentEquippedItem().damageItem(1, entityplayer);
-                    dropBlockAsItem(world, i, j, k, new ItemStack(BambooInit.takenoko, 1, 0));
-                }
-            } else {
-                super.harvestBlock(world, entityplayer, i, j, k, l);
-            }
-        }
     }
 
     @Override
@@ -169,10 +127,7 @@ public class BlockBamboo extends Block {
 
     protected final void checkBlockCoordValid(World world, int i, int j, int k) {
         if (!canBlockStay(world, i, j, k)) {
-            if (world.getBlockMetadata(i, j, k) != 15) {
-                dropBlockAsItem(world, i, j, k, new ItemStack(BambooInit.itembamboo));
-            }
-
+            dropBlockAsItem(world, i, j, k, new ItemStack(BambooInit.itembamboo));
             world.setBlockToAir(i, j, k);
         }
     }
@@ -181,9 +136,7 @@ public class BlockBamboo extends Block {
     public boolean canBlockStay(World world, int i, int j, int k) {
         Block block = world.getBlock(i, j - 1, k);
 
-        if (block == this && world.getBlockMetadata(i, j - 1, k) == 15) {
-            return false;
-        } else if (block == this) {
+        if (block == this) {
             return true;
         }
 
@@ -205,22 +158,6 @@ public class BlockBamboo extends Block {
     }
 
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4) {
-        if (par1IBlockAccess.getBlockMetadata(par2, par3, par4) == 15) {
-            setBlockBounds(0.3F, 0.0F, 0.3F, 0.7F, 0.5F, 0.7F);
-        } else {
-            setBlockBounds(0.5F - 0.375F, 0.0F, 0.5F - 0.375F, 0.5F + 0.375F, 1.0F, 0.5F + 0.375F);
-        }
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerBlockIcons(IIconRegister par1IconRegister) {
-        this.parent = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bamboo");
-        this.child = par1IconRegister.registerIcon(BambooCore.resourceDomain + this.chiledName);
-    }
-
-    @Override
     public boolean isOpaqueCube() {
         return false;
     }
@@ -232,7 +169,7 @@ public class BlockBamboo extends Block {
 
     @Override
     public int getRenderType() {
-        return CustomRenderHandler.bambooUID;
+        return renderType;
     }
 
     @Override

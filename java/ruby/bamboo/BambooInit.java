@@ -16,6 +16,7 @@ import net.minecraftforge.common.MinecraftForge;
 import ruby.bamboo.block.BlockAndon;
 import ruby.bamboo.block.BlockBamboo;
 import ruby.bamboo.block.BlockBambooPane;
+import ruby.bamboo.block.BlockBambooShoot;
 import ruby.bamboo.block.BlockCampfire;
 import ruby.bamboo.block.BlockCustomRenderSingleTexture;
 import ruby.bamboo.block.BlockDSquare;
@@ -76,6 +77,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class BambooInit {
     // instance
     public static Block bamboo;
+    public static Block bambooShoot;
     public static Block singleTexDeco;
     public static Block kitunebi;
     public static Block campfire;
@@ -164,7 +166,8 @@ public class BambooInit {
     }
 
     private void blocksInit() {
-        bamboo = registerBlock(new BlockBamboo(getChiledName()), "bamboo");
+        bamboo = registerBlock(new BlockBamboo(9, 6).setBlockTextureName(BambooCore.resourceDomain + "bamboo"), "bamboo");
+        bambooShoot = registerBlock(new BlockBambooShoot().setBlockTextureName(BambooCore.resourceDomain + getChiledName()), "bambooshoot");
         singleTexDeco = registerBlock(new BlockCustomRenderSingleTexture(), ItemCustomRenderSingleTexture.class, "singleTexDeco", tabBamboo);
         kitunebi = registerBlock(new BlockKitunebi().setBlockTextureName("kitunebi"), "kitunebi", tabBamboo);
         jpchest = registerBlock(new BlockJpchest(), "jpChest", tabBamboo);
@@ -213,7 +216,7 @@ public class BambooInit {
         slideDoors = registerItem(new ItemSlideDoor(), "slideDoor", tabBamboo);
         kakeziku = registerItem(new ItemKakeziku(), "kakeziku", tabBamboo);
         huton = registerItem(new ItemHuton(), "huton", tabBamboo);
-        takenoko = registerItem(new ItemBambooshoot(bamboo), "bambooshoot", tabBamboo);
+        takenoko = registerItem(new ItemBambooshoot(bambooShoot), "bambooshoot", tabBamboo);
         boiledEgg = registerItem(new ItemBoiledEgg(), "boiledEgg");
         shavedIce = registerItem(new ItemShavedIce(), "shavedice", tabBamboo);
         windChime = registerItem(new ItemWindChime(), "windchime", tabBamboo);
