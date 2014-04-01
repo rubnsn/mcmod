@@ -9,6 +9,7 @@ import ruby.bamboo.entity.EntityDirtySnowball;
 import ruby.bamboo.entity.EntityFirecracker;
 import ruby.bamboo.entity.EntityHuton;
 import ruby.bamboo.entity.EntityKaginawa;
+import ruby.bamboo.entity.EntityKaguya;
 import ruby.bamboo.entity.EntityKakeziku;
 import ruby.bamboo.entity.EntityObon;
 import ruby.bamboo.entity.EntitySlideDoor;
@@ -58,6 +59,7 @@ public class CommonProxy {
     private static final int dummyEID = 18;
     private static final int zabutonEID = 19;
     private static final int throwZabutonEID = 20;
+    private static final int kaguyaEID = 21;
 
     public void preInit() {
         // わーるどじぇねれーとはんどら
@@ -87,6 +89,7 @@ public class CommonProxy {
         registerEntity(EntityDummy.class, "Dummy", dummyEID, 304, 3, true);
         registerEntity(EntityZabuton.class, "Zabuton", zabutonEID, 80, 3, true);
         registerEntity(EntityThrowZabuton.class, "ThrowZabuton", throwZabutonEID, 80, 1, true);
+        registerEntity(EntityKaguya.class, "Kaguya", kaguyaEID, 80, 3, true);
         GameRegistry.registerTileEntity(TileEntityJPChest.class, "JP Chest");
         GameRegistry.registerTileEntity(TileEntitySpaParent.class, "Tile Spa");
         GameRegistry.registerTileEntity(TileEntitySpaChild.class, "Tile SpaChild");

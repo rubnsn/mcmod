@@ -20,7 +20,7 @@ import ruby.bamboo.render.block.RenderCoordinateBlock.ICoordinateRenderType;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class BlockBambooShoot extends Block implements ICoordinateRenderType {
+public class BlockBambooShoot extends Block implements ICoordinateRenderType{
     protected static final ArrayList<Block> bambooList = new ArrayList<Block>();
 
     public BlockBambooShoot() {

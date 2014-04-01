@@ -37,7 +37,8 @@ public class RenderCoordinateBlock implements IRenderBlocks {
         d1 += ((double) ((float) (i1 >> 16 & 15L) / 15.0F) - 0.5D) * 0.5D;
         d2 += ((double) ((float) (i1 >> 20 & 15L) / 15.0F) - 1.0D) * 0.2D;
         d0 += ((double) ((float) (i1 >> 24 & 15L) / 15.0F) - 0.5D) * 0.5D;
-
+        
+        
         IIcon iicon = renderer.getBlockIconFromSideAndMetadata(par1Block, 0, renderer.blockAccess.getBlockMetadata(par2, par3, par4));
         switch (((ICoordinateRenderType) par1Block).getCoordinateRenderType()) {
         case 0:
