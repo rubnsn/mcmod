@@ -43,9 +43,11 @@ import static ruby.bamboo.BambooInit.snowBall;
 import static ruby.bamboo.BambooInit.spa_unit;
 import static ruby.bamboo.BambooInit.straw;
 import static ruby.bamboo.BambooInit.takenoko;
+import static ruby.bamboo.BambooInit.thickBirchPillar;
 import static ruby.bamboo.BambooInit.thickOrcPillar;
 import static ruby.bamboo.BambooInit.thickSakuraPillar;
 import static ruby.bamboo.BambooInit.thickSprucePillar;
+import static ruby.bamboo.BambooInit.thinBirchPillar;
 import static ruby.bamboo.BambooInit.thinOrcPillar;
 import static ruby.bamboo.BambooInit.thinSakuraPillar;
 import static ruby.bamboo.BambooInit.thinSprucePillar;
@@ -232,10 +234,12 @@ public class BambooRecipe {
         // 柱
         addShapedOreRecipe(new ItemStack(thickSakuraPillar, 4, 0), "#", "X", "#", '#', new ItemStack(decoration_dir, 1, 2), 'X', TUDURA);
         addShapedOreRecipe(new ItemStack(thinSakuraPillar, 4, 0), "#", "X", "#", '#', new ItemStack(thickSakuraPillar, 1, 0), 'X', TUDURA);
-        addShapedOreRecipe(new ItemStack(thickOrcPillar, 4, 0), "#", "X", "#", '#', new ItemStack(Blocks.planks, 1, 0), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(thickOrcPillar, 8, 0), "#", "X", "#", '#', new ItemStack(Blocks.planks, 1, 0), 'X', TUDURA);
         addShapedOreRecipe(new ItemStack(thinOrcPillar, 4, 0), "#", "X", "#", '#', new ItemStack(thickOrcPillar, 1, 0), 'X', TUDURA);
-        addShapedOreRecipe(new ItemStack(thickSprucePillar, 4, 0), "#", "X", "#", '#', new ItemStack(Blocks.log, 1, 1), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(thickSprucePillar, 8, 0), "#", "X", "#", '#', new ItemStack(Blocks.log, 1, 1), 'X', TUDURA);
         addShapedOreRecipe(new ItemStack(thinSprucePillar, 4, 0), "#", "X", "#", '#', new ItemStack(thickSprucePillar, 1, 0), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(thickBirchPillar, 8, 0), "#", "X", "#", '#', new ItemStack(Blocks.log, 1, 2), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(thinBirchPillar, 4, 0), "#", "X", "#", '#', new ItemStack(thickBirchPillar, 1, 0), 'X', TUDURA);
         //石臼
         addShapedOreRecipe(new ItemStack(millStone, 1, 0), "###", "X#X", "###", '#', new ItemStack(Blocks.cobblestone), 'X', TUDURA);
         //ざぶとん
@@ -263,6 +267,8 @@ public class BambooRecipe {
         GrindRegistory.addRecipe(new ItemStack(Items.clay_ball, 4, 0), new ItemStack(Blocks.hardened_clay, 1, GrindRegistory.WILD_CARD));
         GrindRegistory.addRecipe(new ItemStack(Items.clay_ball, 4, 0), new ItemStack(Blocks.stained_hardened_clay, 1, GrindRegistory.WILD_CARD));
         GrindRegistory.addRecipe(new ItemStack(rawrice, 1, 0), new ItemStack(riceSeed, 6, 0));
+        GrindRegistory.addRecipe(new ItemStack(Blocks.sand, 4, 0), new ItemStack(Blocks.sandstone, 1, 0));
+        GrindRegistory.addRecipe(new ItemStack(Items.dye, 1, 2), new ItemStack(Blocks.leaves, 4, GrindRegistory.WILD_CARD));
     }
 
     private void addOreDictionary() {

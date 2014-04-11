@@ -1,4 +1,4 @@
-#zn_CN
+#zn_CN 機器翻譯的需要?
 tile.bamboo.name=竹
 tile.singleTexDeco.0.name=竹节
 tile.kitunebi.name=奋火
@@ -56,6 +56,8 @@ tile.thickOrcPillar.name=橡木支柱(厚)
 tile.thinOrcPillar.name=橡木支柱(薄)
 tile.thickSprucePillar.name=松支柱(厚)
 tile.thinSprucePillar.name=松支柱(薄)
+tile.thickBirchPillar.name=白樺柱(厚)
+tile.thinBirchPillar.name=白樺柱(薄)
 tile.decoCarpet.0.name=草席
 tile.decoCarpet.2.name=茅屋式席
 tile.decoCarpet.4.name=草席(日晒)

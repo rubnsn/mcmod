@@ -111,6 +111,8 @@ public class BambooInit {
     public static Block thinOrcPillar;
     public static Block thickSprucePillar;
     public static Block thinSprucePillar;
+    public static Block thickBirchPillar;
+    public static Block thinBirchPillar;
     public static Block millStone;
     public static Block ricePlant;
 
@@ -202,6 +204,8 @@ public class BambooInit {
         thinOrcPillar = registerBlock(new BlockPillar(Blocks.planks, 0, 0.4F, 0.6F, 0.15F), ItemPillar.class, "thinOrcPillar", tabBamboo);
         thickSprucePillar = registerBlock(new BlockPillar(Blocks.log, 1, 0.3F, 0.7F, 0.2F), ItemPillar.class, "thickSprucePillar", tabBamboo);
         thinSprucePillar = registerBlock(new BlockPillar(Blocks.log, 1, 0.4F, 0.6F, 0.15F), ItemPillar.class, "thinSprucePillar", tabBamboo);
+        thickBirchPillar = registerBlock(new BlockPillar(Blocks.log, 2, 0.3F, 0.7F, 0.2F), ItemPillar.class, "thickBirchPillar", tabBamboo);
+        thinBirchPillar = registerBlock(new BlockPillar(Blocks.log, 2, 0.4F, 0.6F, 0.15F), ItemPillar.class, "thinBirchPillar", tabBamboo);
         delude_plate = registerBlock(new BlockDeludePressurePlate(), "delude_plate", tabBamboo);
         ricePlant = registerBlock(new BlockRicePlant().setBlockTextureName(BambooCore.resourceDomain + "riceplant"), "ricePlant");
         millStone = registerBlock(new BlockMillStone(), "bambooMillStone", tabBamboo);
