@@ -171,7 +171,7 @@ public class BambooInit {
         bamboo = registerBlock(new BlockBamboo(9, 6).setBlockTextureName(BambooCore.resourceDomain + "bamboo"), "bamboo");
         bambooSingle = registerBlock(new BlockBamboo(9, CustomRenderHandler.coordinateCrossUID, 0).setBlockTextureName(BambooCore.resourceDomain + "bamboosingle"), "bamboosingle");
         bamboo2 = registerBlock(new BlockBamboo(9, CustomRenderHandler.coordinateCrossUID, 1).setBlockTextureName(BambooCore.resourceDomain + "bamboo"), "bamboo2");
-        bambooShoot = registerBlock(new BlockBambooShoot().setBlockTextureName(BambooCore.resourceDomain + getChiledName()), "bambooshoot");
+        bambooShoot = registerBlock(new BlockBambooShoot().setBlockTextureName(BambooCore.resourceDomain + getChiledName()), "blockbambooshoot");
         singleTexDeco = registerBlock(new BlockCustomRenderSingleTexture(), ItemCustomRenderSingleTexture.class, "singleTexDeco", tabBamboo);
         kitunebi = registerBlock(new BlockKitunebi().setBlockTextureName("kitunebi"), "kitunebi", tabBamboo);
         jpchest = registerBlock(new BlockJpchest(), "jpChest", tabBamboo);
