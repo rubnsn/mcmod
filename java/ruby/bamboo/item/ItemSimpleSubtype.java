@@ -4,8 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-public class ItemCustomRenderSingleTexture extends ItemBlock {
-    public ItemCustomRenderSingleTexture(Block block) {
+public class ItemSimpleSubtype extends ItemBlock {
+    public ItemSimpleSubtype(Block block) {
         super(block);
         setMaxDamage(0);
         setHasSubtypes(true);
@@ -18,7 +18,6 @@ public class ItemCustomRenderSingleTexture extends ItemBlock {
 
     @Override
     public String getUnlocalizedName(ItemStack itemstack) {
-        int i = itemstack.getItemDamage();
-        return super.getUnlocalizedName() + "." + i;
+        return super.getUnlocalizedName() + "." + itemstack.getItemDamage();
     }
 }

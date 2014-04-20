@@ -29,6 +29,9 @@ import ruby.bamboo.block.BlockJpchest;
 import ruby.bamboo.block.BlockKawaraStair;
 import ruby.bamboo.block.BlockKayabukiRoof;
 import ruby.bamboo.block.BlockKitunebi;
+import ruby.bamboo.block.BlockLiangBamboo;
+import ruby.bamboo.block.BlockLiangVanillaLog;
+import ruby.bamboo.block.BlockLiangVanillaLog2;
 import ruby.bamboo.block.BlockManeki;
 import ruby.bamboo.block.BlockMillStone;
 import ruby.bamboo.block.BlockPillar;
@@ -48,8 +51,6 @@ import ruby.bamboo.item.ItemBambooSpear;
 import ruby.bamboo.item.ItemBambooSword;
 import ruby.bamboo.item.ItemBambooshoot;
 import ruby.bamboo.item.ItemBoiledEgg;
-import ruby.bamboo.item.ItemCustomRenderSingleTexture;
-import ruby.bamboo.item.ItemDSquare;
 import ruby.bamboo.item.ItemDecoCarpet;
 import ruby.bamboo.item.ItemDecorationBlocks;
 import ruby.bamboo.item.ItemDimensionCreater;
@@ -65,6 +66,7 @@ import ruby.bamboo.item.ItemPillar;
 import ruby.bamboo.item.ItemSack;
 import ruby.bamboo.item.ItemSakuraPetal;
 import ruby.bamboo.item.ItemShavedIce;
+import ruby.bamboo.item.ItemSimpleSubtype;
 import ruby.bamboo.item.ItemSlideDoor;
 import ruby.bamboo.item.ItemTudura;
 import ruby.bamboo.item.ItemWaterwheel;
@@ -115,6 +117,13 @@ public class BambooInit {
     public static Block thinBirchPillar;
     public static Block millStone;
     public static Block ricePlant;
+    public static Block liangBambooThick;
+    public static Block liangVanillaLogThick;
+    public static Block liangVanillaLog2Thick;
+
+    public static Block liangBambooThin;
+    public static Block liangVanillaLogThin;
+    public static Block liangVanillaLog2Thin;
 
     public static Item takenoko;
     public static Item itembamboo;
@@ -174,11 +183,11 @@ public class BambooInit {
         bambooSingle = registerBlock(new BlockBamboo(9, CustomRenderHandler.coordinateCrossUID, 0).setBlockTextureName(BambooCore.resourceDomain + "bamboosingle"), "bamboosingle");
         bamboo2 = registerBlock(new BlockBamboo(9, CustomRenderHandler.coordinateCrossUID, 1).setBlockTextureName(BambooCore.resourceDomain + "bamboo"), "bamboo2");
         bambooShoot = registerBlock(new BlockBambooShoot().setBlockTextureName(BambooCore.resourceDomain + getChiledName()), "blockbambooshoot");
-        singleTexDeco = registerBlock(new BlockCustomRenderSingleTexture(), ItemCustomRenderSingleTexture.class, "singleTexDeco", tabBamboo);
+        singleTexDeco = registerBlock(new BlockCustomRenderSingleTexture(), ItemSimpleSubtype.class, "singleTexDeco", tabBamboo);
         kitunebi = registerBlock(new BlockKitunebi().setBlockTextureName("kitunebi"), "kitunebi", tabBamboo);
         jpchest = registerBlock(new BlockJpchest(), "jpChest", tabBamboo);
-        dSquare = registerBlock(new BlockDSquare(false).addTexName("tatami_x", "tatami_y", "tatami_x", "tatami_y", "kaya_x", "kaya_y", "kaya_x", "kaya_y").addTexName("tatami_tan_x", "tatami_tan_y", "tatami_tan_nsx", "tatami_tan_nsy", "tatami_nsx", "tatami_nsy", "tatami_nsx", "tatami_nsy"), ItemDSquare.class, "dirSquare", tabBamboo);
-        dHalfSquare = registerBlock(new BlockDSquare(true).addTexName("tatami_x", "tatami_y", "tatami_x", "tatami_y", "kaya_x", "kaya_y", "kaya_x", "kaya_y").addTexName("tatami_tan_x", "tatami_tan_y", "tatami_tan_nsx", "tatami_tan_nsy", "tatami_nsx", "tatami_nsy", "tatami_nsx", "tatami_nsy"), ItemDSquare.class, "halfDirSquare", tabBamboo);
+        dSquare = registerBlock(new BlockDSquare(false).addTexName("tatami_x", "tatami_y", "tatami_x", "tatami_y", "kaya_x", "kaya_y", "kaya_x", "kaya_y").addTexName("tatami_tan_x", "tatami_tan_y", "tatami_tan_nsx", "tatami_tan_nsy", "tatami_nsx", "tatami_nsy", "tatami_nsx", "tatami_nsy"), ItemSimpleSubtype.class, "dirSquare", tabBamboo);
+        dHalfSquare = registerBlock(new BlockDSquare(true).addTexName("tatami_x", "tatami_y", "tatami_x", "tatami_y", "kaya_x", "kaya_y", "kaya_x", "kaya_y").addTexName("tatami_tan_x", "tatami_tan_y", "tatami_tan_nsx", "tatami_tan_nsy", "tatami_nsx", "tatami_nsy", "tatami_nsx", "tatami_nsy"), ItemSimpleSubtype.class, "halfDirSquare", tabBamboo);
         andon = registerBlock(new BlockAndon(), "andon", tabBamboo);
         bamboopane = registerBlock(new BlockBambooPane(Material.ground), ItemBambooPane.class, "bambooPanel", tabBamboo);
         sakuraleavs = registerBlock(new BlockSakuraLeaves(), ItemSakuraPetal.class, "sakuraLeaves", tabBamboo);
@@ -209,6 +218,13 @@ public class BambooInit {
         delude_plate = registerBlock(new BlockDeludePressurePlate(), "delude_plate", tabBamboo);
         ricePlant = registerBlock(new BlockRicePlant().setBlockTextureName(BambooCore.resourceDomain + "riceplant"), "ricePlant");
         millStone = registerBlock(new BlockMillStone(), "bambooMillStone", tabBamboo);
+        liangBambooThick = registerBlock(new BlockLiangBamboo(0.2F, 0.8F, 0.2F, 0.8F), ItemSimpleSubtype.class, "bambooLiangThick", tabBamboo);
+        liangVanillaLogThick = registerBlock(new BlockLiangVanillaLog(0.2F, 0.8F, 0.2F, 0.8F), ItemSimpleSubtype.class, "bambooLiangVLogThick", tabBamboo);
+        liangVanillaLog2Thick = registerBlock(new BlockLiangVanillaLog2(0.2F, 0.8F, 0.2F, 0.8F), ItemSimpleSubtype.class, "bambooLiangVLog2Thick", tabBamboo);
+
+        liangBambooThin = registerBlock(new BlockLiangBamboo(0.4F, 0.6F, 0.4F, 0.6F), ItemSimpleSubtype.class, "bambooLiangThin", tabBamboo);
+        liangVanillaLogThin = registerBlock(new BlockLiangVanillaLog(0.4F, 0.6F, 0.4F, 0.6F), ItemSimpleSubtype.class, "bambooLiangVLogThin", tabBamboo);
+        liangVanillaLog2Thin = registerBlock(new BlockLiangVanillaLog2(0.4F, 0.6F, 0.4F, 0.6F), ItemSimpleSubtype.class, "bambooLiangVLog2Thin", tabBamboo);
         registerBlock(new BlockManeki(Material.ground), "maneki", tabBamboo);
         workingBlock();
     }

@@ -8,48 +8,48 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
+import ruby.bamboo.block.BlockLiangBase;
 import ruby.bamboo.block.BlockPillar;
+import ruby.bamboo.block.IPillarRender;
 
 public class RenderPillar implements IRenderBlocks {
 
     @Override
     public void render(RenderBlocks renderblocks, Block par1Block, int par2, int par3, int par4) {
-        renderBlockPillar(renderblocks, (BlockPillar) par1Block, par2, par3, par4);
+        renderBlockPillar(renderblocks, par1Block, par2, par3, par4);
     }
 
-    private void renderBlockPillar(RenderBlocks renderblocks, BlockPillar pillar, int par2, int par3, int par4) {
+    private void renderBlockPillar(RenderBlocks renderblocks, Block pillar, int par2, int par3, int par4) {
         Tessellator tessellator = Tessellator.instance;
         tessellator.setBrightness(983055);
-        IIcon icon = renderblocks.getBlockIcon(pillar);
+        IIcon icon = renderblocks.getBlockIcon((Block) pillar);
         int meta = renderblocks.blockAccess.getBlockMetadata(par2, par3, par4);
-        boolean isNotUpAndDown = (meta != 0 && meta != 1);
-        boolean isNotNothAndSouth = (meta != 2 && meta != 3);
-        boolean isNotEastAndWest = (meta != 4 && meta != 5);
         boolean[] isSideRender = new boolean[] { pillar.shouldSideBeRendered(renderblocks.blockAccess, par2, par3 - 1, par4, 0), pillar.shouldSideBeRendered(renderblocks.blockAccess, par2, par3 + 1, par4, 1), pillar.shouldSideBeRendered(renderblocks.blockAccess, par2, par3, par4 - 1, 2), pillar.shouldSideBeRendered(renderblocks.blockAccess, par2, par3, par4 + 1, 3), pillar.shouldSideBeRendered(renderblocks.blockAccess, par2 - 1, par3, par4, 4), pillar.shouldSideBeRendered(renderblocks.blockAccess, par2 + 1, par3, par4, 5) };
         boolean[] isRender = new boolean[6];
-        boolean isUpRender;
-        boolean isDownRender;
-        boolean isEastRender;
-        boolean isWestRender;
-        boolean isNorthRender;
-        boolean isSouthRender;
         boolean isSmallScale;
         renderblocks.enableAO = true;
 
         for (ForgeDirection fd : ForgeDirection.VALID_DIRECTIONS) {
-            if (fd == ForgeDirection.getOrientation(meta) || fd == ForgeDirection.getOrientation(meta).getOpposite()) {
+            if (((IPillarRender) pillar).isLinkSkipp() && (fd == ForgeDirection.getOrientation(meta) || fd == ForgeDirection.getOrientation(meta).getOpposite())) {
                 continue;// 同一方向のリンクはなし
             }
 
             Arrays.fill(isRender, false);
             isSmallScale = false;
 
-            if (renderblocks.blockAccess.getBlock(par2 + fd.offsetX, par3 + fd.offsetY, par4 + fd.offsetZ) instanceof BlockPillar) {
-                if (renderblocks.blockAccess.getBlockMetadata(par2, par3, par4) != renderblocks.blockAccess.getBlockMetadata(par2 + fd.offsetX, par3 + fd.offsetY, par4 + fd.offsetZ)) {
+            if (renderblocks.blockAccess.getBlock(par2 + fd.offsetX, par3 + fd.offsetY, par4 + fd.offsetZ) instanceof IPillarRender) {
+                if (((IPillarRender) pillar).canDifferentMetaLink(meta, renderblocks.blockAccess.getBlockMetadata(par2 + fd.offsetX, par3 + fd.offsetY, par4 + fd.offsetZ))) {
                     continue;
                 }
 
-                if (pillar.getSize() > ((BlockPillar) renderblocks.blockAccess.getBlock(par2 + fd.offsetX, par3 + fd.offsetY, par4 + fd.offsetZ)).getSize()) {
+                //このウンコード良い方法おもいついたらそのうちなおす
+                if (pillar instanceof BlockLiangBase && renderblocks.blockAccess.getBlock(par2 + fd.offsetX, par3 + fd.offsetY, par4 + fd.offsetZ) instanceof BlockPillar) {
+                    continue;
+                } else if (pillar instanceof BlockPillar && renderblocks.blockAccess.getBlock(par2 + fd.offsetX, par3 + fd.offsetY, par4 + fd.offsetZ) instanceof BlockLiangBase) {
+                    continue;
+                }
+
+                if (((IPillarRender) pillar).getSize() > ((IPillarRender) renderblocks.blockAccess.getBlock(par2 + fd.offsetX, par3 + fd.offsetY, par4 + fd.offsetZ)).getSize()) {
                     isSmallScale = true;
                 }
             }
@@ -57,27 +57,26 @@ public class RenderPillar implements IRenderBlocks {
             if (renderblocks.blockAccess.getBlock(par2 + fd.offsetX, par3 + fd.offsetY, par4 + fd.offsetZ).getMaterial() == Material.wood) {
                 switch (fd) {
                 case DOWN:
-                    isRender[fd.ordinal()] = pillar.setDownBoundsBox(renderblocks.blockAccess, par2, par3, par4, isSmallScale);
+                    isRender[fd.ordinal()] = ((IPillarRender) pillar).setDownBoundsBox(renderblocks.blockAccess, par2, par3, par4, isSmallScale);
                     break;
-
                 case UP:
-                    isRender[fd.ordinal()] = pillar.setUpBoundsBox(renderblocks.blockAccess, par2, par3, par4, isSmallScale);
+                    isRender[fd.ordinal()] = ((IPillarRender) pillar).setUpBoundsBox(renderblocks.blockAccess, par2, par3, par4, isSmallScale);
                     break;
 
                 case EAST:
-                    isRender[fd.ordinal()] = pillar.setEastBoundsBox(renderblocks.blockAccess, par2, par3, par4, isSmallScale);
+                    isRender[fd.ordinal()] = ((IPillarRender) pillar).setEastBoundsBox(renderblocks.blockAccess, par2, par3, par4, isSmallScale);
                     break;
 
                 case WEST:
-                    isRender[fd.ordinal()] = pillar.setWestBoundsBox(renderblocks.blockAccess, par2, par3, par4, isSmallScale);
+                    isRender[fd.ordinal()] = ((IPillarRender) pillar).setWestBoundsBox(renderblocks.blockAccess, par2, par3, par4, isSmallScale);
                     break;
 
                 case NORTH:
-                    isRender[fd.ordinal()] = pillar.setNorthBoundsBox(renderblocks.blockAccess, par2, par3, par4, isSmallScale);
+                    isRender[fd.ordinal()] = ((IPillarRender) pillar).setNorthBoundsBox(renderblocks.blockAccess, par2, par3, par4, isSmallScale);
                     break;
 
                 case SOUTH:
-                    isRender[fd.ordinal()] = pillar.setSouthBoundsBox(renderblocks.blockAccess, par2, par3, par4, isSmallScale);
+                    isRender[fd.ordinal()] = ((IPillarRender) pillar).setSouthBoundsBox(renderblocks.blockAccess, par2, par3, par4, isSmallScale);
                     break;
 
                 default:
@@ -86,32 +85,32 @@ public class RenderPillar implements IRenderBlocks {
 
                 renderblocks.setRenderBoundsFromBlock(pillar);
 
-                if (!(isRender[0] || isRender[1]) || isRender[fd.ordinal()]) {
-                    if (isSideRender[0] || isNotUpAndDown) {
+                if (!(isRender[0] || isRender[1])) {
+                    if (isSideRender[0] || isRender[2] || isRender[3] || isRender[4] || isRender[5]) {
                         renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 1, 1, 1, 0);
                     }
 
-                    if (isSideRender[1] || isNotUpAndDown) {
+                    if (isSideRender[1] || isRender[2] || isRender[3] || isRender[4] || isRender[5]) {
                         renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 1, 1, 1, 1);
                     }
                 }
 
-                if (!(isRender[2] || isRender[3]) || isRender[fd.ordinal()]) {
-                    if (isSideRender[2] || isNotNothAndSouth) {
+                if (!(isRender[2] || isRender[3])) {
+                    if (isSideRender[2] || isRender[0] || isRender[1] || isRender[4] || isRender[5]) {
                         renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 1, 1, 1, 2);
                     }
 
-                    if (isSideRender[3] || isNotNothAndSouth) {
+                    if (isSideRender[3] || isRender[0] || isRender[1] || isRender[4] || isRender[5]) {
                         renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 1, 1, 1, 3);
                     }
                 }
 
-                if (!(isRender[4] || isRender[5]) || isRender[fd.ordinal()]) {
-                    if (isSideRender[4] || isNotEastAndWest) {
+                if (!(isRender[4] || isRender[5])) {
+                    if (isSideRender[4] || isRender[0] || isRender[1] || isRender[2] || isRender[3]) {
                         renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 1, 1, 1, 4);
                     }
 
-                    if (isSideRender[5] || isNotEastAndWest) {
+                    if (isSideRender[5] || isRender[0] || isRender[1] || isRender[2] || isRender[3]) {
                         renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 1, 1, 1, 5);
                     }
                 }
@@ -119,7 +118,7 @@ public class RenderPillar implements IRenderBlocks {
         }
 
         renderblocks.enableAO = false;
-        pillar.setCoreBoundsBox(renderblocks.blockAccess, par2, par3, par4);
+        ((IPillarRender) pillar).setCoreBoundsBox(renderblocks.blockAccess, par2, par3, par4);
         renderblocks.setRenderBoundsFromBlock(pillar);
         renderblocks.renderStandardBlockWithAmbientOcclusion(pillar, par2, par3, par4, 1F, 1F, 1F);
     }
