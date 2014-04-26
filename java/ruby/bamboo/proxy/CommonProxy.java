@@ -1,5 +1,7 @@
 package ruby.bamboo.proxy;
 
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.world.biome.BiomeGenBase;
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.BambooRecipe;
@@ -7,6 +9,7 @@ import ruby.bamboo.CraftingHandler;
 import ruby.bamboo.entity.EntityBambooSpear;
 import ruby.bamboo.entity.EntityDirtySnowball;
 import ruby.bamboo.entity.EntityFirecracker;
+import ruby.bamboo.entity.EntityFirefly;
 import ruby.bamboo.entity.EntityHuton;
 import ruby.bamboo.entity.EntityKaginawa;
 import ruby.bamboo.entity.EntityKaguya;
@@ -60,6 +63,7 @@ public class CommonProxy {
     private static final int zabutonEID = 19;
     private static final int throwZabutonEID = 20;
     private static final int kaguyaEID = 21;
+    private static final int fireflyEID = 22;
 
     public void preInit() {
         // わーるどじぇねれーとはんどら
@@ -90,9 +94,12 @@ public class CommonProxy {
         registerEntity(EntityZabuton.class, "Zabuton", zabutonEID, 80, 3, true);
         registerEntity(EntityThrowZabuton.class, "ThrowZabuton", throwZabutonEID, 80, 1, true);
         registerEntity(EntityKaguya.class, "Kaguya", kaguyaEID, 80, 3, true);
+        registerEntity(EntityFirefly.class, "Firefly", fireflyEID, 80, 1, true);
         GameRegistry.registerTileEntity(TileEntityJPChest.class, "JP Chest");
         GameRegistry.registerTileEntity(TileEntitySpaParent.class, "Tile Spa");
         GameRegistry.registerTileEntity(TileEntitySpaChild.class, "Tile SpaChild");
+
+        EntityRegistry.addSpawn(EntityFirefly.class, 5, 5, 10, EnumCreatureType.ambient, BiomeGenBase.river, BiomeGenBase.plains);
     }
 
     public void registerTESTileEntity() {

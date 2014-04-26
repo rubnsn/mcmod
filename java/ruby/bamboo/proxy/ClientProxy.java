@@ -9,6 +9,7 @@ import ruby.bamboo.BambooInit;
 import ruby.bamboo.CustomRenderHandler;
 import ruby.bamboo.entity.EntityBambooSpear;
 import ruby.bamboo.entity.EntityFirecracker;
+import ruby.bamboo.entity.EntityFirefly;
 import ruby.bamboo.entity.EntityHuton;
 import ruby.bamboo.entity.EntityKaginawa;
 import ruby.bamboo.entity.EntityKaguya;
@@ -34,6 +35,7 @@ import ruby.bamboo.render.RenderAndon;
 import ruby.bamboo.render.RenderBSpear;
 import ruby.bamboo.render.RenderCampfire;
 import ruby.bamboo.render.RenderFirecracker;
+import ruby.bamboo.render.RenderFirefly;
 import ruby.bamboo.render.RenderHuton;
 import ruby.bamboo.render.RenderKaginawa;
 import ruby.bamboo.render.RenderKaguya;
@@ -116,5 +118,6 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityZabuton.class, new RenderZabuton());
         RenderingRegistry.registerEntityRenderingHandler(EntityThrowZabuton.class, new RenderZabuton());
         RenderingRegistry.registerEntityRenderingHandler(EntityKaguya.class, new RenderKaguya());
+        RenderingRegistry.registerEntityRenderingHandler(EntityFirefly.class, new RenderFirefly());
     }
 }
