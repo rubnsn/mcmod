@@ -66,6 +66,7 @@ tile.decoCarpet.8.name=TatamiMat(NonBorder)
 tile.delude_plate.name=Delude_plate
 tile.bambooMillStone.name=MillStone
 tile.maneki.name=Maneki
+tile.bambooMoss.name=MossBlock
 item.itembamboo.name=ItemBamboo
 item.bamboobasket.name=BambooBasket
 item.firecracker.0.name=Firecracker(S)

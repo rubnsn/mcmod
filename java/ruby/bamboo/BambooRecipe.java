@@ -30,6 +30,7 @@ import static ruby.bamboo.BambooInit.katana;
 import static ruby.bamboo.BambooInit.kawara_stair;
 import static ruby.bamboo.BambooInit.kitunebi;
 import static ruby.bamboo.BambooInit.millStone;
+import static ruby.bamboo.BambooInit.moss;
 import static ruby.bamboo.BambooInit.obon;
 import static ruby.bamboo.BambooInit.rawrice;
 import static ruby.bamboo.BambooInit.riceSeed;
@@ -269,6 +270,7 @@ public class BambooRecipe {
         GrindRegistory.addRecipe(new ItemStack(rawrice, 1, 0), new ItemStack(riceSeed, 6, 0));
         GrindRegistory.addRecipe(new ItemStack(Blocks.sand, 4, 0), new ItemStack(Blocks.sandstone, 1, 0));
         GrindRegistory.addRecipe(new ItemStack(Items.dye, 1, 2), new ItemStack(Blocks.leaves, 4, GrindRegistory.WILD_CARD));
+        GrindRegistory.addRecipe(new ItemStack(moss, 1, 0), new ItemStack(Blocks.gravel, 64, 0), new ItemStack(Blocks.mossy_cobblestone, 64, 0), 0);
     }
 
     private void addOreDictionary() {
