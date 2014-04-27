@@ -4,17 +4,21 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooInit;
 
 public class EntityFirefly extends EntityFlying {
     private boolean firstUpdate;
-    private double homePosX;
-    private double homePosY;
-    private double homePosZ;
+    private boolean isTamed;
+    private float spawnPosX;
+    private float spawnPosY;
+    private float spawnPosZ;
     private float targetX;
     private float targetY;
     private float targetZ;
@@ -27,25 +31,28 @@ public class EntityFirefly extends EntityFlying {
 
         setSize(0.4F, 0.4F);
         firstUpdate = true;
+        isTamed = false;
     }
 
     @Override
     public void onUpdate() {
         super.onUpdate();
         if (!worldObj.isRemote) {
-            float f = this.getBrightness(1.0F);
+            if (!isTamed) {
+                float f = this.getBrightness(1.0F);
+                if (f > 0.5F && this.rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && this.worldObj.canBlockSeeTheSky(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ))) {
+                    setDead();
+                }
+                this.despawnEntity();
 
-            if (f > 0.5F && this.rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && this.worldObj.canBlockSeeTheSky(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ))) {
-                setDead();
+                if (firstUpdate) {
+                    setSpawnPosition((float) posX, (float) posY, (float) posZ);
+                }
             }
-            this.despawnEntity();
             if (firstUpdate) {
-                homePosX = posX;
-                homePosY = posY;
-                homePosZ = posZ;
-                targetX = (float) (homePosX + rand.nextFloat() * 6 - 3);
-                targetY = (float) (homePosY + rand.nextFloat() * 3);
-                targetZ = (float) (homePosZ + rand.nextFloat() * 6 - 3);
+                targetX = (float) (getSpawnPosX() + rand.nextFloat() * 6 - 3);
+                targetY = (float) (getSpawnPosY() + rand.nextFloat() * 3);
+                targetZ = (float) (getSpawnPosZ() + rand.nextFloat() * 6 - 3);
                 firstUpdate = false;
             }
             double d0 = (double) targetX - this.posX;
@@ -53,9 +60,9 @@ public class EntityFirefly extends EntityFlying {
             double d2 = (double) targetZ - this.posZ;
             double d3 = d0 * d0 + d1 * d1 + d2 * d2;
             if (d3 < 1.0D || d3 > 3600.0D) {
-                targetX = (float) (homePosX + rand.nextFloat() * 6 - 3);
-                targetY = (float) (homePosY + rand.nextFloat() * 3);
-                targetZ = (float) (homePosZ + rand.nextFloat() * 6 - 3);
+                targetX = (float) (getSpawnPosX() + rand.nextFloat() * 6 - 3);
+                targetY = (float) (getSpawnPosY() + rand.nextFloat() * 3);
+                targetZ = (float) (getSpawnPosZ() + rand.nextFloat() * 6 - 3);
             }
 
             d3 = (double) MathHelper.sqrt_double(d3);
@@ -73,14 +80,22 @@ public class EntityFirefly extends EntityFlying {
                 }
             }
         }
-        //setDead();
     }
 
     @Override
     protected boolean interact(EntityPlayer par1EntityPlayer) {
         ItemStack itemstack = par1EntityPlayer.inventory.getCurrentItem();
-        //そのうち捕まえられるかも？
-        return true;
+        if (itemstack != null && itemstack.getItem() == Items.glass_bottle) {
+            par1EntityPlayer.swingItem();
+            if (!worldObj.isRemote) {
+                itemstack.stackSize--;
+                this.dropItem(BambooInit.fireflyBottle, 1);
+            }
+            this.setDead();
+            return true;
+        }
+
+        return false;
     }
 
     public float getAlpha() {
@@ -107,6 +122,28 @@ public class EntityFirefly extends EntityFlying {
     @Override
     protected void entityInit() {
         super.entityInit();
+    }
+
+    public float getSpawnPosX() {
+        return spawnPosX;
+    }
+
+    public float getSpawnPosY() {
+        return spawnPosY;
+    }
+
+    public float getSpawnPosZ() {
+        return spawnPosZ;
+    }
+
+    public void setSpawnPosition(float posX, float posY, float posZ) {
+        this.spawnPosX = posX;
+        this.spawnPosY = posY;
+        this.spawnPosZ = posZ;
+    }
+
+    public void setTamed() {
+        this.isTamed = true;
     }
 
     @Override
@@ -156,5 +193,21 @@ public class EntityFirefly extends EntityFlying {
 
             return l <= this.rand.nextInt(8);
         }
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound var1) {
+        super.readEntityFromNBT(var1);
+        setSpawnPosition(var1.getFloat("spawnPosX"), var1.getFloat("spawnPosY"), var1.getFloat("spawnPosZ"));
+        isTamed = var1.getBoolean("isTamed");
+    }
+
+    @Override
+    public void writeEntityToNBT(NBTTagCompound var1) {
+        super.writeEntityToNBT(var1);
+        var1.setBoolean("isTamed", isTamed);
+        var1.setFloat("spawnPosX", getSpawnPosX());
+        var1.setFloat("spawnPosY", getSpawnPosY());
+        var1.setFloat("spawnPosZ", getSpawnPosZ());
     }
 }
