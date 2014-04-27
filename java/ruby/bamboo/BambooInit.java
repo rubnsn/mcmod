@@ -32,6 +32,7 @@ import ruby.bamboo.block.BlockKitunebi;
 import ruby.bamboo.block.BlockLiangBamboo;
 import ruby.bamboo.block.BlockLiangVanillaLog;
 import ruby.bamboo.block.BlockLiangVanillaLog2;
+import ruby.bamboo.block.BlockLiangVanillaWood;
 import ruby.bamboo.block.BlockManeki;
 import ruby.bamboo.block.BlockMillStone;
 import ruby.bamboo.block.BlockMoss;
@@ -124,10 +125,12 @@ public class BambooInit {
     public static Block liangBambooThick;
     public static Block liangVanillaLogThick;
     public static Block liangVanillaLog2Thick;
+    public static Block liangVanillaWoodThick;
 
     public static Block liangBambooThin;
     public static Block liangVanillaLogThin;
     public static Block liangVanillaLog2Thin;
+    public static Block liangVanillaWoodThin;
 
     public static Item takenoko;
     public static Item itembamboo;
@@ -244,10 +247,12 @@ public class BambooInit {
         liangBambooThick = registerBlock(new BlockLiangBamboo(thickMinW, thickMaxW, thickMinH, thickMaxH), ItemSimpleSubtype.class, "bambooLiangThick", tabBamboo);
         liangVanillaLogThick = registerBlock(new BlockLiangVanillaLog(thickMinW, thickMaxW, thickMinH, thickMaxH), ItemSimpleSubtype.class, "bambooLiangVLogThick", tabBamboo);
         liangVanillaLog2Thick = registerBlock(new BlockLiangVanillaLog2(thickMinW, thickMaxW, thickMinH, thickMaxH), ItemSimpleSubtype.class, "bambooLiangVLog2Thick", tabBamboo);
+        liangVanillaWoodThick = registerBlock(new BlockLiangVanillaWood(thickMinW, thickMaxW, thickMinH, thickMaxH), ItemSimpleSubtype.class, "bambooLiangVWoodThick", tabBamboo);
 
         liangBambooThin = registerBlock(new BlockLiangBamboo(thinMinW, thinMaxW, thinMinH, thinMaxH), ItemSimpleSubtype.class, "bambooLiangThin", tabBamboo);
         liangVanillaLogThin = registerBlock(new BlockLiangVanillaLog(thinMinW, thinMaxW, thinMinH, thinMaxH), ItemSimpleSubtype.class, "bambooLiangVLogThin", tabBamboo);
         liangVanillaLog2Thin = registerBlock(new BlockLiangVanillaLog2(thinMinW, thinMaxW, thinMinH, thinMaxH), ItemSimpleSubtype.class, "bambooLiangVLog2Thin", tabBamboo);
+        liangVanillaWoodThin = registerBlock(new BlockLiangVanillaWood(thinMinW, thinMaxW, thinMinH, thinMaxH), ItemSimpleSubtype.class, "bambooLiangVWoodThin", tabBamboo);
     }
 
     private void workingBlock() {

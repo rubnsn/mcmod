@@ -29,6 +29,14 @@ import static ruby.bamboo.BambooInit.kakeziku;
 import static ruby.bamboo.BambooInit.katana;
 import static ruby.bamboo.BambooInit.kawara_stair;
 import static ruby.bamboo.BambooInit.kitunebi;
+import static ruby.bamboo.BambooInit.liangBambooThick;
+import static ruby.bamboo.BambooInit.liangBambooThin;
+import static ruby.bamboo.BambooInit.liangVanillaLog2Thick;
+import static ruby.bamboo.BambooInit.liangVanillaLog2Thin;
+import static ruby.bamboo.BambooInit.liangVanillaLogThick;
+import static ruby.bamboo.BambooInit.liangVanillaLogThin;
+import static ruby.bamboo.BambooInit.liangVanillaWoodThick;
+import static ruby.bamboo.BambooInit.liangVanillaWoodThin;
 import static ruby.bamboo.BambooInit.millStone;
 import static ruby.bamboo.BambooInit.moss;
 import static ruby.bamboo.BambooInit.obon;
@@ -64,6 +72,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import ruby.bamboo.block.BlockLiangBamboo;
 import ruby.bamboo.entity.EnumSlideDoor;
 import ruby.bamboo.grinder.GrindRegistory;
 import ruby.bamboo.item.EnumShavedIce;
@@ -234,7 +243,7 @@ public class BambooRecipe {
         // おぼん
         GameRegistry.addRecipe(new ItemStack(obon, 1, 0), "###", "# #", '#', new ItemStack(decoration_dir, 1, 2));
         // 柱
-        addShapedOreRecipe(new ItemStack(thickSakuraPillar, 4, 0), "#", "X", "#", '#', new ItemStack(decoration_dir, 1, 2), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(thickSakuraPillar, 8, 0), "#", "X", "#", '#', new ItemStack(decoration_dir, 1, 2), 'X', TUDURA);
         addShapedOreRecipe(new ItemStack(thinSakuraPillar, 4, 0), "#", "X", "#", '#', new ItemStack(thickSakuraPillar, 1, 0), 'X', TUDURA);
         addShapedOreRecipe(new ItemStack(thickOrcPillar, 8, 0), "#", "X", "#", '#', new ItemStack(Blocks.planks, 1, 0), 'X', TUDURA);
         addShapedOreRecipe(new ItemStack(thinOrcPillar, 4, 0), "#", "X", "#", '#', new ItemStack(thickOrcPillar, 1, 0), 'X', TUDURA);
@@ -242,6 +251,23 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(thinSprucePillar, 4, 0), "#", "X", "#", '#', new ItemStack(thickSprucePillar, 1, 0), 'X', TUDURA);
         addShapedOreRecipe(new ItemStack(thickBirchPillar, 8, 0), "#", "X", "#", '#', new ItemStack(Blocks.log, 1, 2), 'X', TUDURA);
         addShapedOreRecipe(new ItemStack(thinBirchPillar, 4, 0), "#", "X", "#", '#', new ItemStack(thickBirchPillar, 1, 0), 'X', TUDURA);
+        //梁
+        for (int i = 0; i < BlockLiangBamboo.EnumBlock.values().length; i++) {
+            addShapedOreRecipe(new ItemStack(liangBambooThick, 8, i), "#X#", '#', new ItemStack(Blocks.log, 1, i), 'X', TUDURA);
+            addShapedOreRecipe(new ItemStack(liangBambooThin, 4, i), "#X#", '#', new ItemStack(liangBambooThick, 1, i), 'X', TUDURA);
+        }
+        for (int i = 0; i < 4; i++) {
+            addShapedOreRecipe(new ItemStack(liangVanillaLogThick, 8, i), "#X#", '#', new ItemStack(Blocks.log, 1, i), 'X', TUDURA);
+            addShapedOreRecipe(new ItemStack(liangVanillaLogThin, 4, i), "#X#", '#', new ItemStack(liangVanillaLogThick, 1, i), 'X', TUDURA);
+        }
+        for (int i = 0; i < 2; i++) {
+            addShapedOreRecipe(new ItemStack(liangVanillaLog2Thick, 8, i), "#X#", '#', new ItemStack(Blocks.log2, 1, i), 'X', TUDURA);
+            addShapedOreRecipe(new ItemStack(liangVanillaLog2Thin, 4, i), "#X#", '#', new ItemStack(liangVanillaLog2Thick, 1, i), 'X', TUDURA);
+        }
+        for (int i = 0; i < 6; i++) {
+            addShapedOreRecipe(new ItemStack(liangVanillaWoodThick, 8, i), "#X#", '#', new ItemStack(Blocks.planks, 1, i), 'X', TUDURA);
+            addShapedOreRecipe(new ItemStack(liangVanillaWoodThin, 4, i), "#X#", '#', new ItemStack(liangVanillaWoodThick, 1, i), 'X', TUDURA);
+        }
         //石臼
         addShapedOreRecipe(new ItemStack(millStone, 1, 0), "###", "X#X", "###", '#', new ItemStack(Blocks.cobblestone), 'X', TUDURA);
         //ざぶとん
