@@ -71,12 +71,13 @@ import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class BambooRecipe {
-    private final String BAMBOO = "bamboo";
-    private final String RICE = "rice";
-    private final String TUDURA = "tudura";
-    private final String BUSKET = "bambooBasket";
-    private final String CROP_RICE = "cropRice";
-    private final String LOG_SAKURA = "logCherry";
+    public final String BAMBOO = "bamboo";
+    public final String COOKING_RICE = "cookingRice";
+    public final String TUDURA = "tudura";
+    public final String BUSKET = "bambooBasket";
+    public final String CROP_RICE = "cropRice";
+    public final String LOG_SAKURA = "logCherry";
+    public final String CROP_STRAW = "cropStraw";
 
     public BambooRecipe() {
         recipeInit();
@@ -116,20 +117,20 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(firecracker, 1, 1), " # ", "XYX", " # ", '#', BUSKET, 'X', Items.gunpowder, 'Y', new ItemStack(firecracker, 1, 0));
         addShapedOreRecipe(new ItemStack(firecracker, 1, 2), " # ", "XYX", " # ", '#', BUSKET, 'X', Items.gunpowder, 'Y', new ItemStack(firecracker, 1, 1));
         // 飯類
-        addShapelessOreRecipe(new ItemStack(foods, 1, 1), Items.cooked_beef, RICE);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 2), Items.cooked_porkchop, RICE);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 3), Blocks.red_mushroom, RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 1), Items.cooked_beef, COOKING_RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 2), Items.cooked_porkchop, COOKING_RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 3), Blocks.red_mushroom, COOKING_RICE);
         addShapelessOreRecipe(new ItemStack(foods, 1, 4), Items.cooked_porkchop, BAMBOO);
         addShapelessOreRecipe(new ItemStack(foods, 1, 5), Items.cooked_beef, BAMBOO);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 6), takenoko, RICE);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 7), Items.egg, RICE);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 8), Items.egg, Items.cooked_chicken, RICE);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 9), Items.fish, RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 6), takenoko, COOKING_RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 7), Items.egg, COOKING_RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 8), Items.egg, Items.cooked_chicken, COOKING_RICE);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 9), Items.fish, COOKING_RICE);
         addShapelessOreRecipe(new ItemStack(foods, 1, 10), Items.cooked_chicken, BAMBOO);
         // 箪笥
         addShapedOreRecipe(new ItemStack(jpchest, 1, 0), "YYY", "Y#Y", "YYY", '#', TUDURA, 'Y', "logWood");
         // 畳 茅葺き
-        addShapedOreRecipe(new ItemStack(dSquare, 4, 0), " X ", "X#X", " X ", '#', TUDURA, 'X', straw);
+        addShapedOreRecipe(new ItemStack(dSquare, 4, 0), " X ", "X#X", " X ", '#', TUDURA, 'X', CROP_STRAW);
         addShapedOreRecipe(new ItemStack(dSquare, 8, 4), "XXX", "X#X", "XXX", '#', TUDURA, 'X', Items.wheat);
         GameRegistry.addShapelessRecipe(new ItemStack(dSquare, 1, 12), new ItemStack(dSquare, 1, 0));
         GameRegistry.addShapelessRecipe(new ItemStack(dSquare, 1, 0), new ItemStack(dSquare, 1, 12));
@@ -220,7 +221,7 @@ public class BambooRecipe {
         // 方向付きデコ（桜木材等）
         addShapedOreRecipe(new ItemStack(decoration_dir, 8, 0), "###", "#X#", "###", '#', new ItemStack(decoration_dir, 8, 2), 'X', TUDURA);
         GameRegistry.addShapelessRecipe(new ItemStack(decoration_dir, 4, 2), sakuralog);
-        GameRegistry.addShapedRecipe(new ItemStack(decoration_dir, 4, 4), "###", "###", "###", '#', straw);
+        addShapedOreRecipe(new ItemStack(decoration_dir, 4, 4), "###", "###", "###", '#', CROP_STRAW);
         // 方向付きデコハーフ
         addSlabRecipe(new ItemStack(decoration_dir_half, 6, 0), new ItemStack(decoration_dir, 1, 0));
         addSlabRecipe(new ItemStack(decoration_dir_half, 6, 2), new ItemStack(decoration_dir, 1, 2));
@@ -275,7 +276,7 @@ public class BambooRecipe {
 
     private void addOreDictionary() {
         OreDictionary.registerOre(BAMBOO, itembamboo);
-        OreDictionary.registerOre(RICE, new ItemStack(foods, 1, 0));
+        OreDictionary.registerOre(COOKING_RICE, new ItemStack(foods, 1, 0));
         OreDictionary.registerOre(TUDURA, tudura);
         OreDictionary.registerOre(BUSKET, bambooBasket);
         OreDictionary.registerOre("treeSapling", sakura);
@@ -283,6 +284,9 @@ public class BambooRecipe {
         OreDictionary.registerOre("logWood", sakuralog);
         OreDictionary.registerOre("plankWood", new ItemStack(decoration_dir, 1, 2));
         OreDictionary.registerOre(CROP_RICE, rawrice);
+        OreDictionary.registerOre("rice", rawrice);
+        OreDictionary.registerOre(CROP_STRAW, straw);
+
     }
 
     private void addFuel() {
