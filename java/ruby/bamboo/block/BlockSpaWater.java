@@ -3,7 +3,7 @@ package ruby.bamboo.block;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -24,15 +24,14 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockSpaWater extends BlockContainer implements
-        ITileEntityProvider {
+public class BlockSpaWater extends BlockLiquid implements ITileEntityProvider {
     private static final ForgeDirection[] directions;
     static {
         directions = new ForgeDirection[] { ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.EAST };
     }
 
-    public BlockSpaWater(Material material) {
-        super(material);
+    public BlockSpaWater() {
+        super(Material.water);
         float f = 0.0F;
         float f1 = 0.0F;
         setBlockBounds(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
@@ -41,6 +40,20 @@ public class BlockSpaWater extends BlockContainer implements
         setBlockUnbreakable();
         setResistance(6000000F);
         setLightOpacity(0);
+        this.isBlockContainer = true;
+    }
+
+    @Override
+    public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_) {
+        super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
+        p_149749_1_.removeTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+    }
+
+    @Override
+    public boolean onBlockEventReceived(World p_149696_1_, int p_149696_2_, int p_149696_3_, int p_149696_4_, int p_149696_5_, int p_149696_6_) {
+        super.onBlockEventReceived(p_149696_1_, p_149696_2_, p_149696_3_, p_149696_4_, p_149696_5_, p_149696_6_);
+        TileEntity tileentity = p_149696_1_.getTileEntity(p_149696_2_, p_149696_3_, p_149696_4_);
+        return tileentity != null ? tileentity.receiveClientEvent(p_149696_5_, p_149696_6_) : false;
     }
 
     @Override

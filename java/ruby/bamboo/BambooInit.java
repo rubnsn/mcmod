@@ -201,7 +201,7 @@ public class BambooInit {
         sakuraleavs = registerBlock(new BlockSakuraLeaves(), ItemSakuraPetal.class, "sakuraLeaves", tabBamboo);
         sakura = registerBlock(new BlockSakura().setBlockTextureName("sakura"), "sakuraSapling", tabBamboo);
         rooftile = registerBlock(new BlockKayabukiRoof(), "kayabukiRoof", tabBamboo);
-        spa_water = registerBlock(new BlockSpaWater(Material.water), "spaWater");
+        spa_water = registerBlock(new BlockSpaWater(), "spaWater");
         spa_unit = registerBlock(new BlockSpaUnit(), "spaUnit", tabBamboo);
         sakuralog = registerBlock(new BlockSakuraLog(), "sakuraLog", tabBamboo);
         delude_width = registerBlock(new BlockDelude(false), "delude_width", tabBamboo);
