@@ -26,6 +26,8 @@ public abstract class BlockLiangBase extends Block implements IPillarRender {
     private final float minHeight;
     private final float maxHeight;
 
+    private int renderSide;
+
     public BlockLiangBase(float minWidth, float maxWidth, float minHeight, float maxHeight) {
         super(Material.wood);
         this.setHardness(0.2F);
@@ -120,9 +122,17 @@ public abstract class BlockLiangBase extends Block implements IPillarRender {
     }
 
     @Override
-    public boolean shouldSideBeRendered(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
-        Block block = par1IBlockAccess.getBlock(par2, par3, par4);
+    public void setRenderSide(int side) {
+        this.renderSide = side;
+    }
 
+    @Override
+    public boolean shouldSideBeRendered(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
+
+        Block block = par1IBlockAccess.getBlock(par2, par3, par4);
+        if (renderSide == par5) {
+            return true;
+        }
         if (block != null) {
             if (block == this) {
                 return false;

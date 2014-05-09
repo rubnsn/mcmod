@@ -20,6 +20,7 @@ public class BlockPillar extends Block implements IPillarRender {
     private final float maxHeight;
     private final Block iconBlock;
     private final int iconMeta;
+    private int renderSide;
 
     public BlockPillar(Block block, int meta, float minWidth, float maxWidth, float height) {
         super(Material.wood);
@@ -64,9 +65,17 @@ public class BlockPillar extends Block implements IPillarRender {
     }
 
     @Override
+    public void setRenderSide(int side) {
+        this.renderSide = side;
+    }
+
+    @Override
     public boolean shouldSideBeRendered(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
         Block block = par1IBlockAccess.getBlock(par2, par3, par4);
 
+        if (renderSide == par5) {
+            return true;
+        }
         if (block != null) {
             ForgeDirection fd = ForgeDirection.getOrientation(par5).getOpposite();
             int meta = par1IBlockAccess.getBlockMetadata(par2 + fd.offsetX, par3 + fd.offsetY, par4 + fd.offsetZ);
@@ -74,10 +83,9 @@ public class BlockPillar extends Block implements IPillarRender {
             if (meta == fd.ordinal() && block.isOpaqueCube() && block.renderAsNormalBlock()) {
                 return false;
             }
-
             if (block instanceof BlockPillar) {
                 if (par1IBlockAccess.getBlockMetadata(par2, par3, par4) == meta) {
-                    if (((BlockPillar) par1IBlockAccess.getBlock(par2, par3, par4)).getSize() >= this.getSize()) {
+                    if (((BlockPillar) par1IBlockAccess.getBlock(par2, par3, par4)).getSize() > this.getSize()) {
                         return false;
                     }
                 }

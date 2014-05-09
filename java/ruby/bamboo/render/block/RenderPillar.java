@@ -84,7 +84,6 @@ public class RenderPillar implements IRenderBlocks {
                 }
 
                 renderblocks.setRenderBoundsFromBlock(pillar);
-
                 if (!(isRender[0] || isRender[1])) {
                     if (isSideRender[0] || isRender[2] || isRender[3] || isRender[4] || isRender[5]) {
                         renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 1, 1, 1, 0);
@@ -125,7 +124,9 @@ public class RenderPillar implements IRenderBlocks {
 
     //RenderBlocksの同名メソッドがprivateなため?
     private void renderBlockWithAmbientOcclusion(RenderBlocks renderer, Block par1Block, int par2, int par3, int par4, float par5, float par6, float par7, int side) {
-        boolean flag = false;
+        ((IPillarRender) par1Block).setRenderSide(side);
+        renderer.renderStandardBlockWithAmbientOcclusion(par1Block, par2, par3, par4, par5, par6, par7);
+        /*boolean flag = false;
         float f3 = 0.0F;
         float f4 = 0.0F;
         float f5 = 0.0F;
@@ -760,7 +761,7 @@ public class RenderPillar implements IRenderBlocks {
             icon = renderer.getBlockIcon(par1Block, renderer.blockAccess, par2, par3, par4, 5);
             renderer.renderFaceXPos(par1Block, par2, par3, par4, icon);
             flag = true;
-        }
+        }*/
     }
 
 }

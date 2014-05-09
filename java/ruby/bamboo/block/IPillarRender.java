@@ -36,4 +36,6 @@ public interface IPillarRender {
     float getMinHeight();
 
     float getMaxHeight();
+
+    void setRenderSide(int i);
 }
