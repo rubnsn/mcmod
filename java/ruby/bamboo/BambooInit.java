@@ -234,15 +234,15 @@ public class BambooInit {
     }
 
     private void initLiang() {
-        float thickMinW = 0.2F;
-        float thickMaxW = 0.8F;
-        float thickMinH = 0.2F;
-        float thickMaxH = 0.8F;
+        float thickMaxW = 0.85F;
+        float thickMinW = 1 - thickMaxW;
+        float thickMaxH = 0.85F;
+        float thickMinH = 1 - thickMaxH;
 
-        float thinMinW = 0.3F;
         float thinMaxW = 0.7F;
-        float thinMinH = 0.3F;
+        float thinMinW = 1 - thinMaxW;
         float thinMaxH = 0.7F;
+        float thinMinH = 1 - thinMaxH;
 
         liangBambooThick = registerBlock(new BlockLiangBamboo(thickMinW, thickMaxW, thickMinH, thickMaxH), ItemSimpleSubtype.class, "bambooLiangThick", tabBamboo);
         liangVanillaLogThick = registerBlock(new BlockLiangVanillaLog(thickMinW, thickMaxW, thickMinH, thickMaxH), ItemSimpleSubtype.class, "bambooLiangVLogThick", tabBamboo);
