@@ -55,7 +55,9 @@ public class BlockSakura extends BlockSapling {
             if (event.entityPlayer.capabilities.isCreativeMode) {
                 event.setCanceled(true);
             }
-            growTree(event.world, event.x, event.y, event.z, event.world.rand, 0x0F);
+            if (!event.entityPlayer.worldObj.isRemote) {
+                growTree(event.world, event.x, event.y, event.z, event.world.rand, 0x0F);
+            }
             event.setResult(Result.ALLOW);
         }
     }
