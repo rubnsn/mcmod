@@ -10,14 +10,16 @@ import ruby.bamboo.BambooInit;
 
 public class BlockLiangBamboo extends BlockLiangBase {
     public enum EnumBlock {
-        sakuraLog(BambooInit.sakuralog, 1);
-        EnumBlock(Block block, int meta) {
+        sakuraLog(0, BambooInit.sakuralog, 1);
+        EnumBlock(int id, Block block, int meta) {
             this.block = block;
             this.meta = meta;
+            this.id = id;
         }
 
         private Block block;
         private int meta;
+        private int id;
 
         public Block getBlock() {
             return block;
@@ -25,6 +27,10 @@ public class BlockLiangBamboo extends BlockLiangBase {
 
         public int getMeta() {
             return meta;
+        }
+
+        public int getId() {
+            return id;
         }
     }
 

@@ -73,6 +73,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import ruby.bamboo.block.BlockLiangBamboo;
+import ruby.bamboo.block.BlockLiangBamboo.EnumBlock;
 import ruby.bamboo.entity.EnumSlideDoor;
 import ruby.bamboo.grinder.GrindRegistory;
 import ruby.bamboo.item.EnumShavedIce;
@@ -252,9 +253,9 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(thickBirchPillar, 8, 0), "#", "X", "#", '#', new ItemStack(Blocks.log, 1, 2), 'X', TUDURA);
         addShapedOreRecipe(new ItemStack(thinBirchPillar, 4, 0), "#", "X", "#", '#', new ItemStack(thickBirchPillar, 1, 0), 'X', TUDURA);
         //梁
-        for (int i = 0; i < BlockLiangBamboo.EnumBlock.values().length; i++) {
-            addShapedOreRecipe(new ItemStack(liangBambooThick, 8, i), "#X#", '#', new ItemStack(Blocks.log, 1, i), 'X', TUDURA);
-            addShapedOreRecipe(new ItemStack(liangBambooThin, 4, i), "#X#", '#', new ItemStack(liangBambooThick, 1, i), 'X', TUDURA);
+        for (EnumBlock b : BlockLiangBamboo.EnumBlock.values()) {
+            addShapedOreRecipe(new ItemStack(liangBambooThick, 8, b.getId()), "#X#", '#', new ItemStack(b.getBlock(), 1, b.getMeta()), 'X', TUDURA);
+            addShapedOreRecipe(new ItemStack(liangBambooThin, 4, b.getId()), "#X#", '#', new ItemStack(liangBambooThick, 1, b.getId()), 'X', TUDURA);
         }
         for (int i = 0; i < 4; i++) {
             addShapedOreRecipe(new ItemStack(liangVanillaLogThick, 8, i), "#X#", '#', new ItemStack(Blocks.log, 1, i), 'X', TUDURA);

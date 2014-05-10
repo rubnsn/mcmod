@@ -115,7 +115,6 @@ public abstract class BlockLiangBase extends Block implements IPillarRender {
     // X-
     public boolean setWestBoundsBox(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, boolean isSmallScale) {
         IPillarRender block = (IPillarRender) (isSmallScale ? getOffsettedBlock(par1IBlockAccess, ForgeDirection.WEST, par2, par3, par4) : this);
-
         this.setBlockBounds(0, block.getMinHeight(), block.getMinWidth(), block.getMinWidth(), block.getMaxHeight(), block.getMaxWidth());
 
         return true;
@@ -206,5 +205,10 @@ public abstract class BlockLiangBase extends Block implements IPillarRender {
     @Override
     public boolean canDifferentMetaLink(int meta1, int meta2) {
         return false;
+    }
+
+    @Override
+    public int damageDropped(int par1) {
+        return par1;
     }
 }
