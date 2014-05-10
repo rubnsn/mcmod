@@ -10,19 +10,25 @@ import ruby.bamboo.BambooInit;
 
 public class BlockLiangBamboo extends BlockLiangBase {
     public enum EnumBlock {
-        sakuraLog(0, BambooInit.sakuralog, 1);
-        EnumBlock(int id, Block block, int meta) {
+        sakuraLog(0, BambooInit.sakuralog, 0, 1);
+        EnumBlock(int id, Block block, int meta, int iconMeta) {
             this.block = block;
             this.meta = meta;
             this.id = id;
+            this.iconMeta = iconMeta;
         }
 
         private Block block;
         private int meta;
+        private int iconMeta;
         private int id;
 
         public Block getBlock() {
             return block;
+        }
+
+        public int getIconMeta() {
+            return iconMeta;
         }
 
         public int getMeta() {
@@ -42,7 +48,7 @@ public class BlockLiangBamboo extends BlockLiangBase {
     public void registerBlockIcons(IIconRegister p_149651_1_) {
         List<IIcon> list = new ArrayList<IIcon>();
         for (EnumBlock e : EnumBlock.values()) {
-            list.add(e.getBlock().getIcon(0, e.getMeta()));
+            list.add(e.getBlock().getIcon(0, e.getIconMeta()));
         }
         icons = list.toArray(new IIcon[0]);
     }
