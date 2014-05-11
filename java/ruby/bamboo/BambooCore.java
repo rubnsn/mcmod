@@ -25,13 +25,15 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.ReflectionHelper.UnableToAccessFieldException;
 
 @Mod(modid = BambooCore.MODID, name = BambooCore.MODID,
-        version = "Minecraft1.7.2 ver2.6.5.1",
+        version = BambooCore.BAMBOO_VER,
         guiFactory = "ruby.bamboo.BambooConfigGuiFactory")
 /*@NetworkMod(channels = { "B_Entity", "bamboo", "bamboo2" },
         packetHandler = NetworkHandler.class,
         connectionHandler = NetworkHandler.class)*/
 public class BambooCore {
     public static final String MODID = "BambooMod";
+    public static final String MC_VER = "1.7.2";
+    public static final String BAMBOO_VER = "2.6.5.1";
     public static final String resourceDomain = "bamboo:";
     public static final boolean DEBUGMODE = isDevelopment();
 
@@ -45,7 +47,7 @@ public class BambooCore {
     @Mod.EventHandler
     public void preLoad(FMLPreInitializationEvent e) {
         proxy.preInit();
-
+        new Thread(new UpdateNotify()).run();
     }
 
     @Mod.EventHandler
@@ -109,4 +111,5 @@ public class BambooCore {
         }
         return result;
     }
+
 }
