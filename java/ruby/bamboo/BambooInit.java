@@ -49,6 +49,7 @@ import ruby.bamboo.item.ItemBambooBasket;
 import ruby.bamboo.item.ItemBambooBow;
 import ruby.bamboo.item.ItemBambooFood;
 import ruby.bamboo.item.ItemBambooPane;
+import ruby.bamboo.item.ItemBambooPickaxe;
 import ruby.bamboo.item.ItemBambooSpear;
 import ruby.bamboo.item.ItemBambooSword;
 import ruby.bamboo.item.ItemBambooshoot;
@@ -162,6 +163,7 @@ public class BambooInit {
     public static Item dimensionCreater;
     public static Item zabuton;
     public static Item fireflyBottle;
+    public static Item bambooPickaxe;
 
     public static BambooInit instance = new BambooInit();
     //items
@@ -294,6 +296,7 @@ public class BambooInit {
 
     private void workingItem() {
         dimensionCreater = registerItem(new ItemDimensionCreater(), "dimensioncreater", tabBamboo);
+        bambooPickaxe = registerItem(new ItemBambooPickaxe().setTextureName(BambooCore.resourceDomain + "pickaxe"), "bamboopickaxe", tabBamboo);
     }
 
     private Block registerBlock(Block block, String name) {
