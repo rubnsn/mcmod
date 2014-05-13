@@ -24,7 +24,7 @@ public abstract class EnchantBase {
         this.weight = weight;
         this.tp = tp;
         if (!BambooEnchantment.idToEnchantMap.containsKey(id)) {
-            BambooEnchantment.idToEnchantMap.put(id, this);
+            BambooEnchantment.idToEnchantMap.put((short) id, this);
         } else {
             FMLLog.warning("[BambooMod] EnchantId Collision:" + id);
         }
