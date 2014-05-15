@@ -67,7 +67,6 @@ public class BambooCore {
 
     @Mod.EventHandler
     public void serverStarted(FMLServerStartedEvent event) {
-        ManekiHandler.instance.clearManekiList();
         Config.reloadWorldConfig();
         provideId = 0;
         while (!DimensionManager.registerProviderType(++provideId, WorldProviderBamboo.class, false)) {

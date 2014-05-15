@@ -1,6 +1,5 @@
 package ruby.bamboo.block;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -10,13 +9,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import ruby.bamboo.CustomRenderHandler;
-import ruby.bamboo.ManekiHandler;
 import ruby.bamboo.tileentity.TileEntityManeki;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockManeki extends BlockContainer {
-    public ManekiHandler maneki = ManekiHandler.instance;
 
     public BlockManeki(Material par2Material) {
         super(par2Material);
@@ -48,11 +45,6 @@ public class BlockManeki extends BlockContainer {
     }
 
     @Override
-    public boolean canPlaceBlockAt(World world, int posX, int posY, int posZ) {
-        return world.provider.dimensionId == 0;
-    }
-
-    @Override
     public int getRenderType() {
         return CustomRenderHandler.manekiUID;
     }
@@ -72,23 +64,10 @@ public class BlockManeki extends BlockContainer {
         return 1;
     }
 
-    public boolean addManeki(int posX, int posZ) {
-        return maneki.addManeki(posX, posZ);
-    }
-
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister par1IconRegister) {
         this.blockIcon = par1IconRegister.registerIcon("wool_colored_red");
-    }
-
-    @Override
-    public void breakBlock(World par1World, int par2, int par3, int par4, Block par5, int par6) {
-        if (!((TileEntityManeki) par1World.getTileEntity(par2, par3, par4)).isDestry) {
-            maneki.removeManeki(par2, par4);
-        }
-
-        super.breakBlock(par1World, par2, par3, par4, par5, par6);
     }
 
     @Override
