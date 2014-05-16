@@ -22,7 +22,7 @@ public class BlockCampfire extends BlockFurnace {
 
     public BlockCampfire() {
         super(true);
-        setLightLevel(1F);
+        setLightLevel(0.9F);
         setHardness(1.0F);
     }
 

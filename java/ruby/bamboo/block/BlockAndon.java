@@ -17,7 +17,7 @@ public class BlockAndon extends BlockContainer {
     public BlockAndon() {
         super(Material.glass);
         setBlockBounds(0.2F, 0.0F, 0.2F, 0.8F, 0.9F, 0.8F);
-        setLightLevel(0.90F);
+        setLightLevel(0.95F);
     }
 
     @Override
