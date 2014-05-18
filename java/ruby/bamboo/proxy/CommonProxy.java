@@ -1,5 +1,8 @@
 package ruby.bamboo.proxy;
 
+import java.util.WeakHashMap;
+
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase;
 import ruby.bamboo.BambooCore;
@@ -41,6 +44,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CommonProxy {
+    public WeakHashMap<Entity, EntityKaginawa> kagimap = new WeakHashMap<Entity, EntityKaginawa>();
     private static final int kakezikuEID = 0;
     // private static int andonEID=1;
     private static final int slidedoorEID = 2;

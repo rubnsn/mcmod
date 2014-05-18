@@ -1,6 +1,5 @@
 package ruby.bamboo.entity;
 
-import ruby.bamboo.KaginawaHandler;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.MathHelper;
@@ -11,7 +10,7 @@ public class EntityKaginawa extends EntityThrowable {
     private double vMotionX;
     private double vMotionY;
     private double vMotionZ;
-    private int timelimit;
+    public int timelimit;
 
     public EntityKaginawa(World par1World) {
         super(par1World);
@@ -47,7 +46,7 @@ public class EntityKaginawa extends EntityThrowable {
     @Override
     public void onUpdate() {
         super.onUpdate();
-
+        ;
         if (timelimit++ > 15) {
             this.setDead();
         }
@@ -84,14 +83,6 @@ public class EntityKaginawa extends EntityThrowable {
 
     @Override
     public void setDead() {
-        if (this.getThrower() != null) {
-            if (this.getThrower().worldObj.isRemote) {
-                KaginawaHandler.setUsageState(false);
-            } else {
-                KaginawaHandler.setUsageState(this.getThrower(), false);
-            }
-        }
-
         this.isDead = true;
     }
 }
