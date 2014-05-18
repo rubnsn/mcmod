@@ -1,6 +1,7 @@
 package ruby.bamboo.block;
 
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public interface IPillarRender {
     // Y+
@@ -20,6 +21,8 @@ public interface IPillarRender {
 
     // X-
     boolean setWestBoundsBox(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, boolean isSmallScale);
+
+    boolean isLink(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, ForgeDirection fd);
 
     void setCoreBoundsBox(IBlockAccess par1IBlockAccess, int par2, int par3, int par4);
 

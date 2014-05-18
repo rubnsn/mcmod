@@ -3,13 +3,10 @@ package ruby.bamboo.render.block;
 import java.util.Arrays;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
-import ruby.bamboo.block.BlockLiangBase;
-import ruby.bamboo.block.BlockPillar;
 import ruby.bamboo.block.IPillarRender;
 
 public class RenderPillar implements IRenderBlocks {
@@ -42,19 +39,12 @@ public class RenderPillar implements IRenderBlocks {
                     continue;
                 }
 
-                //このウンコード良い方法おもいついたらそのうちなおす
-                if (pillar instanceof BlockLiangBase && renderblocks.blockAccess.getBlock(par2 + fd.offsetX, par3 + fd.offsetY, par4 + fd.offsetZ) instanceof BlockPillar) {
-                    continue;
-                } else if (pillar instanceof BlockPillar && renderblocks.blockAccess.getBlock(par2 + fd.offsetX, par3 + fd.offsetY, par4 + fd.offsetZ) instanceof BlockLiangBase) {
-                    continue;
-                }
-
                 if (((IPillarRender) pillar).getSize() > ((IPillarRender) renderblocks.blockAccess.getBlock(par2 + fd.offsetX, par3 + fd.offsetY, par4 + fd.offsetZ)).getSize()) {
                     isSmallScale = true;
                 }
             }
 
-            if (renderblocks.blockAccess.getBlock(par2 + fd.offsetX, par3 + fd.offsetY, par4 + fd.offsetZ).getMaterial() == Material.wood) {
+            if (((IPillarRender) pillar).isLink(renderblocks.blockAccess, par2, par3, par4, fd)) {
                 switch (fd) {
                 case DOWN:
                     isRender[fd.ordinal()] = ((IPillarRender) pillar).setDownBoundsBox(renderblocks.blockAccess, par2, par3, par4, isSmallScale);

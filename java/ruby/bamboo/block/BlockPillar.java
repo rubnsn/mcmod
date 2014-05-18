@@ -335,6 +335,12 @@ public class BlockPillar extends Block implements IPillarRender {
         }
     }
 
+    @Override
+    public boolean isLink(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, ForgeDirection fd) {
+        Block offsetBlock = par1IBlockAccess.getBlock(par2 + fd.offsetX, par3 + fd.offsetY, par4 + fd.offsetZ);
+        return (offsetBlock.getMaterial() == Material.wood) && !(offsetBlock instanceof BlockLiangBase);
+    }
+
     public boolean canBlockPlace(World world, int posX, int posY, int posZ, int side) {
         return canStay(world, posX, posY, posZ, side);
     }

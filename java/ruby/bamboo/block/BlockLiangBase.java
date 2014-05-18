@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
@@ -73,6 +74,7 @@ public abstract class BlockLiangBase extends Block implements IPillarRender {
     }
 
     // Y+
+    @Override
     public boolean setUpBoundsBox(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, boolean isSmallScale) {
         IPillarRender block = (IPillarRender) (isSmallScale ? getOffsettedBlock(par1IBlockAccess, ForgeDirection.UP, par2, par3, par4) : this);
         this.setBlockBounds(block.getMinWidth(), block.getMaxHeight(), block.getMinWidth(), block.getMaxWidth(), 1, block.getMaxWidth());
@@ -81,6 +83,7 @@ public abstract class BlockLiangBase extends Block implements IPillarRender {
     }
 
     // Y-
+    @Override
     public boolean setDownBoundsBox(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, boolean isSmallScale) {
         IPillarRender block = (IPillarRender) (isSmallScale ? getOffsettedBlock(par1IBlockAccess, ForgeDirection.DOWN, par2, par3, par4) : this);
         this.setBlockBounds(block.getMinWidth(), 0, block.getMinWidth(), block.getMaxWidth(), block.getMinHeight(), block.getMaxWidth());
@@ -89,6 +92,7 @@ public abstract class BlockLiangBase extends Block implements IPillarRender {
     }
 
     // Z+
+    @Override
     public boolean setSouthBoundsBox(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, boolean isSmallScale) {
         IPillarRender block = (IPillarRender) (isSmallScale ? getOffsettedBlock(par1IBlockAccess, ForgeDirection.SOUTH, par2, par3, par4) : this);
         this.setBlockBounds(block.getMinWidth(), block.getMinHeight(), block.getMaxWidth(), block.getMaxWidth(), block.getMaxHeight(), 1);
@@ -97,6 +101,7 @@ public abstract class BlockLiangBase extends Block implements IPillarRender {
     }
 
     // Z-
+    @Override
     public boolean setNorthBoundsBox(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, boolean isSmallScale) {
         IPillarRender block = (IPillarRender) (isSmallScale ? getOffsettedBlock(par1IBlockAccess, ForgeDirection.NORTH, par2, par3, par4) : this);
         this.setBlockBounds(block.getMinWidth(), block.getMinHeight(), 0, block.getMaxWidth(), block.getMaxHeight(), block.getMinWidth());
@@ -105,6 +110,7 @@ public abstract class BlockLiangBase extends Block implements IPillarRender {
     }
 
     // X+
+    @Override
     public boolean setEastBoundsBox(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, boolean isSmallScale) {
         IPillarRender block = (IPillarRender) (isSmallScale ? getOffsettedBlock(par1IBlockAccess, ForgeDirection.EAST, par2, par3, par4) : this);
         this.setBlockBounds(block.getMaxWidth(), block.getMinHeight(), block.getMinWidth(), 1, block.getMaxHeight(), block.getMaxWidth());
@@ -113,11 +119,18 @@ public abstract class BlockLiangBase extends Block implements IPillarRender {
     }
 
     // X-
+    @Override
     public boolean setWestBoundsBox(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, boolean isSmallScale) {
         IPillarRender block = (IPillarRender) (isSmallScale ? getOffsettedBlock(par1IBlockAccess, ForgeDirection.WEST, par2, par3, par4) : this);
         this.setBlockBounds(0, block.getMinHeight(), block.getMinWidth(), block.getMinWidth(), block.getMaxHeight(), block.getMaxWidth());
 
         return true;
+    }
+
+    @Override
+    public boolean isLink(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, ForgeDirection fd) {
+        Block offsetBlock = par1IBlockAccess.getBlock(par2 + fd.offsetX, par3 + fd.offsetY, par4 + fd.offsetZ);
+        return !(offsetBlock instanceof BlockPillar) && offsetBlock != Blocks.air;
     }
 
     @Override
