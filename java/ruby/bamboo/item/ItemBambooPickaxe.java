@@ -32,7 +32,7 @@ public class ItemBambooPickaxe extends ItemPickaxe {
     private static Random rand = new Random();
 
     public ItemBambooPickaxe() {
-        super(ToolMaterial.GOLD);
+        super(ToolMaterial.EMERALD);
         this.setNoRepair();
         this.setMaxDamage(MAX_DMG);
 
@@ -61,11 +61,6 @@ public class ItemBambooPickaxe extends ItemPickaxe {
         }
 
         return true;
-    }
-
-    @Override
-    public int getHarvestLevel(ItemStack itemStack, String toolClass) {
-        return getSPEnchaLevel(itemStack, BambooEnchantment.power.getId());
     }
 
     @Override
