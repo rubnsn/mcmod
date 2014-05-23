@@ -26,6 +26,7 @@ public class Config {
     public static final String CATEGORY_BAMBOO = "bamboosettings";
     public static HashMap<String, Integer> maxValue;
     public static int dimensionId;
+    public static boolean updateNotify;
     static {
         maxValue = new HashMap<String, Integer>();
         windPushPlayer = true;
@@ -37,6 +38,7 @@ public class Config {
         useMagatama = false;
         isStopUpdataSnow = false;
         isStopUpdataIce = false;
+        updateNotify = true;
         reloadConfig();
     }
 
@@ -88,6 +90,10 @@ public class Config {
         prop = configuration.get(CATEGORY_BAMBOO, "UseMagatama", false);
         prop.comment = "!!!This item is to erode the terrain greatly!!!";
         useMagatama = prop.getBoolean(false);
+        //更新通知
+        prop = configuration.get(CATEGORY_BAMBOO, "UpdateNotify", true);
+        prop.comment = "Update notification";
+        updateNotify = prop.getBoolean(true);
         configuration.save();
         if (exDrop) {
             MinecraftForge.addGrassSeed(new ItemStack(BambooInit.takenoko), 10);

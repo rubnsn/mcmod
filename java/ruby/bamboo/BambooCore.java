@@ -47,7 +47,9 @@ public class BambooCore {
     @Mod.EventHandler
     public void preLoad(FMLPreInitializationEvent e) {
         proxy.preInit();
-        new Thread(new UpdateNotify()).run();
+        if (Config.updateNotify) {
+            new Thread(new UpdateNotify()).run();
+        }
     }
 
     @Mod.EventHandler
