@@ -33,8 +33,8 @@ public class BlockBamboo extends Block implements ICoordinateRenderType {
         BlockBambooShoot.bambooList.add(this);
         setLightOpacity(0);
         setTickRandomly(true);
-        setHardness(0F);
-        setResistance(0F);
+        setHardness(1.0F);
+        setResistance(1F);
         setBlockBounds(0.5F - 0.375F, 0.0F, 0.5F - 0.375F, 0.5F + 0.375F, 1.0F, 0.5F + 0.375F);
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -188,5 +188,10 @@ public class BlockBamboo extends Block implements ICoordinateRenderType {
     @Override
     public int getCoordinateRenderType() {
         return coordinateRenderType;
+    }
+
+    @Override
+    public boolean isToolEffective(String type, int metadata) {
+        return type.equals("axe");
     }
 }
