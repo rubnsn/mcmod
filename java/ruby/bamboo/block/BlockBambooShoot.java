@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
@@ -20,7 +22,7 @@ import ruby.bamboo.render.block.RenderCoordinateBlock.ICoordinateRenderType;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class BlockBambooShoot extends Block implements ICoordinateRenderType{
+public class BlockBambooShoot extends Block implements ICoordinateRenderType {
     protected static final ArrayList<Block> bambooList = new ArrayList<Block>();
 
     public BlockBambooShoot() {
@@ -70,14 +72,29 @@ public class BlockBambooShoot extends Block implements ICoordinateRenderType{
     public void harvestBlock(World world, EntityPlayer entityplayer, int i, int j, int k, int l) {
         if (!world.isRemote) {
             if (entityplayer.getCurrentEquippedItem() != null && (entityplayer.getCurrentEquippedItem().getItem() instanceof ItemHoe)) {
+                //上位素材ほど軽減率は高い
+                int itemDmg = 64 - getHarvestLevel((ItemHoe) entityplayer.getHeldItem().getItem()) * 10;
+                //ダイヤのクワでEfficiency Vの時0以下になる感じに
+                itemDmg -= EnchantmentHelper.getEfficiencyModifier(entityplayer) * 7;
+                if (itemDmg < 1) {
+                    itemDmg = 1;
+                }
                 entityplayer.addStat(StatList.mineBlockStatArray[getIdFromBlock(this)], 1);
-                entityplayer.getCurrentEquippedItem().damageItem(16, entityplayer);
+                entityplayer.getCurrentEquippedItem().damageItem(itemDmg, entityplayer);
                 if (entityplayer.getCurrentEquippedItem().stackSize == 0) {
                     entityplayer.destroyCurrentEquippedItem();
                 }
-                dropBlockAsItem(world, i, j, k, new ItemStack(BambooInit.takenoko, 1, 0));
+                //ふぉーちゅんLV*10%で経験値ドロップ
+                if (entityplayer.worldObj.rand.nextFloat() < EnchantmentHelper.getFortuneModifier(entityplayer) * 0.1F) {
+                    this.dropXpOnBlockBreak(world, i, j, k, 1);
+                }
+                this.dropBlockAsItem(world, i, j, k, new ItemStack(BambooInit.takenoko, 1, 0));
             }
         }
+    }
+
+    private int getHarvestLevel(ItemHoe item) {
+        return ToolMaterial.valueOf(item.getToolMaterialName()).getHarvestLevel();
     }
 
     @Override
