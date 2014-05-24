@@ -16,16 +16,23 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
+import cpw.mods.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
+
 public class EnumEnchantmentTypeTransformer implements IClassTransformer,
         Opcodes {
 
     private final String targetClassName = "net.minecraft.enchantment.EnumEnchantmentType";
-    private final String targetMethodName = "canEnchantItem";
-    private final String targetMethodDesc = "(Lnet/minecraft/item/Item;)Z";
+    private String enumEnchantmentTypeClassName = "net/minecraft/enchantment/EnumEnchantmentType";
+    private String itemClassName = "net/minecraft/item/Item";
 
     @Override
     public byte[] transform(String name, String transformedName, byte[] basicClass) {
+
         if (transformedName.equals(targetClassName)) {
+            if (!name.equals(transformedName)) {
+                enumEnchantmentTypeClassName = FMLDeobfuscatingRemapper.INSTANCE.unmap(enumEnchantmentTypeClassName);
+                itemClassName = FMLDeobfuscatingRemapper.INSTANCE.unmap(itemClassName);
+            }
             return addForgeEvent(basicClass);
         }
         return basicClass;
@@ -39,7 +46,7 @@ public class EnumEnchantmentTypeTransformer implements IClassTransformer,
 
         MethodNode mnode = null;
         for (MethodNode curMnode : (List<MethodNode>) cnode.methods) {
-            if (curMnode.name.equals(targetMethodName) && curMnode.desc.equals(targetMethodDesc)) {
+            if (curMnode.desc.equals("(L" + itemClassName + ";)Z")) {
                 mnode = curMnode;
                 break;
             }
@@ -48,7 +55,7 @@ public class EnumEnchantmentTypeTransformer implements IClassTransformer,
             InsnList overrideList = new InsnList();
             overrideList.add(new VarInsnNode(ALOAD, 0));
             overrideList.add(new VarInsnNode(ALOAD, 1));
-            overrideList.add(new MethodInsnNode(INVOKESTATIC, "ruby/bamboo/event/enchant/CanEnchantItemEvent", "canEnchantItem", "(Lnet/minecraft/enchantment/EnumEnchantmentType;Lnet/minecraft/item/Item;)Z"));
+            overrideList.add(new MethodInsnNode(INVOKESTATIC, "ruby/bamboo/event/enchant/CanEnchantItemEvent", "canEnchantItem", "(L" + enumEnchantmentTypeClassName + ";L" + itemClassName + ";)Z"));
             LabelNode l1 = new LabelNode();
             overrideList.add(new JumpInsnNode(IFEQ, l1));
             overrideList.add(new InsnNode(4));

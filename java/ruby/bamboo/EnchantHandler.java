@@ -28,7 +28,7 @@ public class EnchantHandler {
         if (event.item instanceof ItemHoe) {
             try {
                 event.setResult(Result.ALLOW);
-                event.enchantability = ((Item.ToolMaterial) ReflectionHelper.getPrivateValue(ItemHoe.class, (ItemHoe) event.item, "theToolMaterial")).getEnchantability();
+                event.enchantability = ((Item.ToolMaterial) ReflectionHelper.getPrivateValue(ItemHoe.class, (ItemHoe) event.item, 0)).getEnchantability();
             } catch (Exception e) {
                 e.printStackTrace();
             }

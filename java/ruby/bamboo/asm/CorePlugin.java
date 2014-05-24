@@ -12,7 +12,7 @@ public class CorePlugin implements IFMLLoadingPlugin {
 
     @Override
     public String[] getASMTransformerClass() {
-        return new String[] { "ruby.bamboo.asm.EnumEnchantmentTypeTransformer", "ruby.bamboo.asm.EnchantmentTransformaer" };
+        return new String[] { "ruby.bamboo.asm.EnumEnchantmentTypeTransformer", "ruby.bamboo.asm.ItemHoeTransformaer" };
     }
 
     @Override
