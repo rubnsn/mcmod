@@ -50,6 +50,7 @@ public class BambooCore {
         if (Config.updateNotify) {
             new Thread(new UpdateNotify()).run();
         }
+        new EnchantHandler();
     }
 
     @Mod.EventHandler
@@ -112,5 +113,4 @@ public class BambooCore {
         }
         return result;
     }
-
 }

@@ -18,6 +18,6 @@ public class ItemEnchantabilityEvent extends Event {
         if (e.getResult() == Result.ALLOW) {
             return e.enchantability;
         }
-        return item.getItemEnchantability();
+        return 0;
     }
 }

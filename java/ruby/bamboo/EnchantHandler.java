@@ -1,11 +1,14 @@
 package ruby.bamboo;
 
+import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemHoe;
 import net.minecraftforge.common.MinecraftForge;
 import ruby.bamboo.event.enchant.CanEnchantItemEvent;
 import ruby.bamboo.event.enchant.ItemEnchantabilityEvent;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 
 public class EnchantHandler {
     public EnchantHandler() {
@@ -14,16 +17,21 @@ public class EnchantHandler {
 
     @SubscribeEvent
     public void canEnchantItemEvent(CanEnchantItemEvent e) {
-        System.out.println("HOGEEEEEE");
-        e.setCanceled(true);
-        e.setResult(Result.ALLOW);
+        if (e.item instanceof ItemHoe) {
+            //判定キャンセル常にtrue
+            e.setCanceled(e.type == EnumEnchantmentType.digger);
+        }
     }
 
     @SubscribeEvent
-    public void canApplyAtEnchantingTableEvent(ItemEnchantabilityEvent e) {
-        if (e.item instanceof ItemHoe) {
-            e.setResult(Result.ALLOW);
-            e.enchantability = 3;
+    public void getItemEnchantabilityEvent(ItemEnchantabilityEvent event) {
+        if (event.item instanceof ItemHoe) {
+            try {
+                event.setResult(Result.ALLOW);
+                event.enchantability = ((Item.ToolMaterial) ReflectionHelper.getPrivateValue(ItemHoe.class, (ItemHoe) event.item, "theToolMaterial")).getEnchantability();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
