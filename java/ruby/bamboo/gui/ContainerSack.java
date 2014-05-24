@@ -10,6 +10,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemSeedFood;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import ruby.bamboo.BambooInit;
 
 public class ContainerSack extends Container {
@@ -47,14 +48,21 @@ public class ContainerSack extends Container {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
+            if (par2 == 0) {
+                if (!this.mergeItemStack(itemstack1, 1, 37, true)) {
+                    return null;
+                }
+            } else if (par2 != 0) {
+                if (par2 >= 1 && par2 < 37) {
+                    if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
+                        return null;
+                    }
+
+                }
+            }
+            slot.onSlotChanged();
             if (itemstack1.stackSize == 0) {
                 slot.putStack((ItemStack) null);
-            } else {
-                slot.onSlotChanged();
-            }
-
-            if (itemstack1.stackSize == itemstack.stackSize) {
-                return null;
             }
 
             slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
@@ -66,7 +74,17 @@ public class ContainerSack extends Container {
     @Override
     public void onContainerClosed(EntityPlayer par1EntityPlayer) {
         if (par1EntityPlayer.getCurrentEquippedItem() != null && par1EntityPlayer.getCurrentEquippedItem().getItem() == BambooInit.itemSack) {
-            ItemStack item = inventry.getStackInSlotOnClosing(0);
+            ItemStack slot0 = ((Slot) this.inventorySlots.get(0)).getStack();
+            if (itemStack != null && slot0 != null) {
+                itemStack.setTagCompound(new NBTTagCompound());
+                NBTTagCompound var4 = itemStack.getTagCompound();
+                var4.setString("type", Item.itemRegistry.getNameForObject(slot0.getItem()));
+                var4.setShort("count", (short) slot0.stackSize);
+                var4.setShort("meta", (short) slot0.getItemDamage());
+                itemStack.setItemDamage(itemStack.getMaxDamage() - 1);
+            }
+
+            ItemStack item = itemStack;
 
             if (item != null && item.getTagCompound() != null) {
                 if (isStorage(Item.itemRegistry.getObject(item.getTagCompound().getString("type")))) {

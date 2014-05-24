@@ -2,9 +2,7 @@ package ruby.bamboo.gui;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class InventorySack implements IInventory {
     private ItemStack sack;
@@ -19,7 +17,7 @@ public class InventorySack implements IInventory {
 
     @Override
     public int getSizeInventory() {
-        return 0;
+        return 1;
     }
 
     @Override
@@ -28,11 +26,23 @@ public class InventorySack implements IInventory {
     }
 
     @Override
-    public ItemStack decrStackSize(int i, int j) {
-        if (slot0 != null) {
-            ItemStack is = slot0.copy();
-            slot0 = null;
-            return is;
+    public ItemStack decrStackSize(int par1, int par2) {
+        if (this.slot0 != null) {
+            ItemStack itemstack;
+
+            if (this.slot0.stackSize <= par2) {
+                itemstack = this.slot0;
+                this.slot0 = null;
+                return itemstack;
+            } else {
+                itemstack = this.slot0.splitStack(par2);
+
+                if (this.slot0.stackSize == 0) {
+                    this.slot0 = null;
+                }
+
+                return itemstack;
+            }
         } else {
             return null;
         }
@@ -40,22 +50,21 @@ public class InventorySack implements IInventory {
 
     @Override
     public ItemStack getStackInSlotOnClosing(int i) {
-        if (sack != null && slot0 != null) {
-            sack.setTagCompound(new NBTTagCompound());
-            NBTTagCompound var4 = sack.getTagCompound();
-            var4.setString("type", Item.itemRegistry.getNameForObject(slot0.getItem()));
-            var4.setShort("count", (short) slot0.stackSize);
-            var4.setShort("meta", (short) slot0.getItemDamage());
-            sack.setItemDamage(sack.getMaxDamage() - 1);
+        if (this.slot0 != null) {
+            ItemStack itemstack = this.slot0;
+            this.slot0 = null;
+            return itemstack;
+        } else {
+            return null;
         }
-
-        return sack;
     }
 
     @Override
-    public void setInventorySlotContents(int i, ItemStack itemstack) {
-        if (itemstack != null) {
-            slot0 = itemstack;
+    public void setInventorySlotContents(int par1, ItemStack par2ItemStack) {
+        this.slot0 = par2ItemStack;
+
+        if (par2ItemStack != null && par2ItemStack.stackSize > this.getInventoryStackLimit()) {
+            par2ItemStack.stackSize = this.getInventoryStackLimit();
         }
     }
 
