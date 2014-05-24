@@ -33,7 +33,7 @@ import cpw.mods.fml.relauncher.ReflectionHelper.UnableToAccessFieldException;
 public class BambooCore {
     public static final String MODID = "BambooMod";
     public static final String MC_VER = "1.7.2";
-    public static final String BAMBOO_VER = "2.6.5.1";
+    public static final String BAMBOO_VER = "2.6.5.2";
     public static final String resourceDomain = "bamboo:";
     public static final boolean DEBUGMODE = isDevelopment();
 
