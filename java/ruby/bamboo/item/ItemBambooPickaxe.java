@@ -49,7 +49,7 @@ public class ItemBambooPickaxe extends ItemPickaxe {
         if ((double) block.getBlockHardness(world, posX, posY, posZ) != 0.0D) {
             if (!world.isRemote) {
                 if (rand.nextInt(getUnbreaking(itemStack) + 1) == 0) {
-                    int exp = MAX_LEVEL - getLevel(itemStack) + 10000;
+                    int exp = MAX_LEVEL - getLevel(itemStack);
                     if (block instanceof BlockOre) {
                         exp += block.getExpDrop(world, world.getBlockMetadata(posX, posY, posZ), 0);
                     }
@@ -187,14 +187,15 @@ public class ItemBambooPickaxe extends ItemPickaxe {
             }
             if (!map.isEmpty() && hasNewEnchant(is)) {
                 for (Entry<EnchantBase, Short> entry : map.entrySet()) {
-                    if ((short) entry.getValue() > 0) {
+                    if (entry.getKey() != null && (short) entry.getValue() > 0) {
                         NBTTagCompound nbt = new NBTTagCompound();
                         nbt.setShort("id", (short) entry.getKey().getId());
                         nbt.setShort("lvl", (short) entry.getValue());
                         nbttaglist.appendTag(nbt);
                         if (entity instanceof EntityPlayer) {
-                            ((EntityPlayer) entity).addChatMessage(new ChatComponentText(StatCollector.translateToLocal("bambooEnch." + BambooEnchantment.idToEnchantMap.get(entry.getKey()).getName()) + ":ADD"));
+                            ((EntityPlayer) entity).addChatMessage(new ChatComponentText(StatCollector.translateToLocal("bambooEnch." + entry.getKey().getName() + ":ADD")));
                         }
+
                     }
                 }
             }
