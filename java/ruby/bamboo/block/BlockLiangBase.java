@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
@@ -130,7 +129,7 @@ public abstract class BlockLiangBase extends Block implements IPillarRender {
     @Override
     public boolean isLink(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, ForgeDirection fd) {
         Block offsetBlock = par1IBlockAccess.getBlock(par2 + fd.offsetX, par3 + fd.offsetY, par4 + fd.offsetZ);
-        return !(offsetBlock instanceof BlockPillar) && offsetBlock != Blocks.air;
+        return offsetBlock.isNormalCube() || !(offsetBlock instanceof BlockPillar) && (offsetBlock.getMaterial() == Material.wood || offsetBlock.getMaterial() == Material.ground);
     }
 
     @Override
