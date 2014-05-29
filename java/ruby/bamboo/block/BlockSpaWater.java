@@ -6,15 +6,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -92,12 +89,6 @@ public class BlockSpaWater extends BlockLiquid implements ITileEntityProvider {
                 }*/
             }
         }
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister par1IconRegister) {
-        this.blockIcon = par1IconRegister.registerIcon("wool_colored_white");
     }
 
     @Override
@@ -259,11 +250,6 @@ public class BlockSpaWater extends BlockLiquid implements ITileEntityProvider {
     @Override
     public boolean isOpaqueCube() {
         return false;
-    }
-
-    @Override
-    public IIcon getIcon(int par1, int par2) {
-        return Blocks.water.getIcon(par1, par2);
     }
 
     @Override

@@ -18,6 +18,7 @@ import static ruby.bamboo.BambooInit.delude_height;
 import static ruby.bamboo.BambooInit.delude_plate;
 import static ruby.bamboo.BambooInit.delude_stair;
 import static ruby.bamboo.BambooInit.delude_width;
+import static ruby.bamboo.BambooInit.dustClay;
 import static ruby.bamboo.BambooInit.fan;
 import static ruby.bamboo.BambooInit.firecracker;
 import static ruby.bamboo.BambooInit.foods;
@@ -77,6 +78,8 @@ import ruby.bamboo.block.BlockLiangBamboo.EnumBlock;
 import ruby.bamboo.entity.EnumSlideDoor;
 import ruby.bamboo.grinder.GrindRegistory;
 import ruby.bamboo.item.EnumShavedIce;
+import ruby.bamboo.tileentity.spa.BoilDye;
+import ruby.bamboo.tileentity.spa.BoilManager;
 import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -275,10 +278,14 @@ public class BambooRecipe {
         for (int i = 0; i < 16; i++) {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BambooInit.zabuton, 1, i), "###", "#X#", "###", '#', new ItemStack(Blocks.wool, 1, 15 - i), 'X', TUDURA));
         }
+        //粉粘土から粘土へ
+        addShapedOreRecipe(new ItemStack(Items.clay_ball, 4, 0), "###", "#X#", "###", '#', "dustClay", 'X', Items.water_bucket);
         // 鉱石辞書
         addOreDictionary();
         // 粉砕レシピ
         addGrindRecipe();
+        //煮る系
+        addBileRecipe();
         // やきもの
         GameRegistry.addSmelting(singleTexDeco, new ItemStack(Items.coal, 1, 1), 0.15F);
         GameRegistry.addSmelting(sakuralog, new ItemStack(Items.coal, 1, 1), 0.15F);
@@ -293,12 +300,23 @@ public class BambooRecipe {
         GrindRegistory.addRecipe(new ItemStack(Blocks.sand), new ItemStack(Items.flint), Blocks.gravel, 7);
         GrindRegistory.addRecipe(new ItemStack(Items.dye, 3, 15), new ItemStack(Items.dye, 2, 15), Items.bone, 2);
         GrindRegistory.addRecipe(new ItemStack(Items.blaze_powder, 2, 0), new ItemStack(Items.blaze_powder, 1, 0), Items.blaze_rod, 2);
-        GrindRegistory.addRecipe(new ItemStack(Items.clay_ball, 4, 0), new ItemStack(Blocks.hardened_clay, 1, GrindRegistory.WILD_CARD));
-        GrindRegistory.addRecipe(new ItemStack(Items.clay_ball, 4, 0), new ItemStack(Blocks.stained_hardened_clay, 1, GrindRegistory.WILD_CARD));
+        GrindRegistory.addRecipe(new ItemStack(BambooInit.dustClay, 2, 0), new ItemStack(Blocks.hardened_clay, 1, GrindRegistory.WILD_CARD));
+        GrindRegistory.addRecipe(new ItemStack(BambooInit.dustClay, 2, 0), new ItemStack(Blocks.stained_hardened_clay, 1, GrindRegistory.WILD_CARD));
+        GrindRegistory.addRecipe(new ItemStack(BambooInit.dustClay), new ItemStack(Blocks.sand, 2));
         GrindRegistory.addRecipe(new ItemStack(rawrice, 1, 0), new ItemStack(riceSeed, 6, 0));
         GrindRegistory.addRecipe(new ItemStack(Blocks.sand, 4, 0), new ItemStack(Blocks.sandstone, 1, 0));
         GrindRegistory.addRecipe(new ItemStack(Items.dye, 1, 2), new ItemStack(Blocks.leaves, 4, GrindRegistory.WILD_CARD));
         GrindRegistory.addRecipe(new ItemStack(moss, 1, 0), new ItemStack(Blocks.gravel, 64, 0), new ItemStack(Blocks.mossy_cobblestone, 64, 0), 0);
+    }
+
+    private void addBileRecipe() {
+        BoilManager.addSimpleBoilItem(BambooInit.boiledEgg, 3600, Items.egg);
+        BoilManager.addSimpleBoilItem(Items.golden_axe, 5990, Items.iron_axe);
+        ItemStack is = new ItemStack(Items.dye);
+        for (int i = 0; i < 15; i++) {
+            is.setItemDamage(i);
+            BoilManager.addBoilItem(new BoilDye(), is);
+        }
     }
 
     private void addOreDictionary() {
@@ -313,6 +331,7 @@ public class BambooRecipe {
         OreDictionary.registerOre(CROP_RICE, rawrice);
         OreDictionary.registerOre("rice", rawrice);
         OreDictionary.registerOre(CROP_STRAW, straw);
+        OreDictionary.registerOre("dustClay", dustClay);
 
     }
 

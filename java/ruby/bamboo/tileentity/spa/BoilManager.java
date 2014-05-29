@@ -3,23 +3,13 @@ package ruby.bamboo.tileentity.spa;
 import java.util.HashMap;
 
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import ruby.bamboo.BambooInit;
 
 public class BoilManager {
     private static final HashMap<Item, HashMap<Integer, IBoilItem>> boilMap = new HashMap<Item, HashMap<Integer, IBoilItem>>();
+
     //クリエイティブはアイテムの消滅時間が短いため、卵は一瞬で煮える、通常は問題なし
-    static {
-        addSimpleBoilItem(BambooInit.boiledEgg, 3600, Items.egg);
-        addSimpleBoilItem(Items.golden_axe, 5990, Items.iron_axe);
-        ItemStack is = new ItemStack(Items.dye);
-        for (int i = 0; i < 15; i++) {
-            is.setItemDamage(i);
-            addBoilItem(new BoilDye(), is);
-        }
-    }
 
     public static void boil(ITileEntitySpa iTileSpa, EntityItem entity) {
         IBoilItem bileItem = search(entity.getEntityItem().getItem(), entity.getEntityItem().getItemDamage());

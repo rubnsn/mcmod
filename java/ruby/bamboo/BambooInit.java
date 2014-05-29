@@ -58,6 +58,7 @@ import ruby.bamboo.item.ItemDecoCarpet;
 import ruby.bamboo.item.ItemDecorationBlocks;
 import ruby.bamboo.item.ItemDimensionCreater;
 import ruby.bamboo.item.ItemDirtySnowball;
+import ruby.bamboo.item.ItemDustClay;
 import ruby.bamboo.item.ItemFan;
 import ruby.bamboo.item.ItemFirecracker;
 import ruby.bamboo.item.ItemFireflyBottle;
@@ -164,6 +165,7 @@ public class BambooInit {
     public static Item zabuton;
     public static Item fireflyBottle;
     public static Item bambooPickaxe;
+    public static Item dustClay;
 
     public static BambooInit instance = new BambooInit();
     //items
@@ -290,6 +292,7 @@ public class BambooInit {
         rawrice = registerItem(new ItemFood(1, false).setTextureName(BambooCore.resourceDomain + "rawrice"), "rawrice", tabBamboo);
         zabuton = registerItem(new ItemZabuton().setTextureName(BambooCore.resourceDomain + "zabuton"), "zabuton", tabBamboo);
         fireflyBottle = registerItem(new ItemFireflyBottle().setTextureName(BambooCore.resourceDomain + "firefly"), "itemFireflyBottle", tabBamboo);
+        dustClay = registerItem(new ItemDustClay().setTextureName("sugar"), "bambooDustCray", tabBamboo);
         MinecraftForge.addGrassSeed(new ItemStack(riceSeed, 1, 0), 10);
         workingItem();
     }
