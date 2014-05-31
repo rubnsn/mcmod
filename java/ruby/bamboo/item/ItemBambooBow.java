@@ -17,6 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
 import org.lwjgl.opengl.GL11;
@@ -44,6 +45,12 @@ public class ItemBambooBow extends ItemBow implements IItemRenderer {
     @Override
     public void onPlayerStoppedUsing(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer, int par4) {
         int chargeFrame = this.getMaxItemUseDuration(par1ItemStack) - par4;
+        ArrowLooseEvent event = new ArrowLooseEvent(par3EntityPlayer, par1ItemStack, chargeFrame);
+        MinecraftForge.EVENT_BUS.post(event);
+        if (event.isCanceled()) {
+            return;
+        }
+        chargeFrame = event.charge;
         boolean isNoResource = par3EntityPlayer.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, par1ItemStack) > 0;
 
         if (isNoResource || par3EntityPlayer.inventory.hasItem(BambooInit.bambooSpear)) {

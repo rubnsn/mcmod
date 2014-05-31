@@ -33,7 +33,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
     public int progress;
     public int grindMotion;
     public int isGrind;
-    private static final int MAX_GRINDTIME = 360;
+    public static final int MAX_GRINDTIME = 400;
 
     public int getRoll() {
         return (int) roll;

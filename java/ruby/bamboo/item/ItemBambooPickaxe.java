@@ -193,7 +193,7 @@ public class ItemBambooPickaxe extends ItemPickaxe {
                         nbt.setShort("lvl", (short) entry.getValue());
                         nbttaglist.appendTag(nbt);
                         if (entity instanceof EntityPlayer) {
-                            ((EntityPlayer) entity).addChatMessage(new ChatComponentText(StatCollector.translateToLocal("bambooEnch." + entry.getKey().getName() + ":ADD")));
+                            ((EntityPlayer) entity).addChatMessage(new ChatComponentText(StatCollector.translateToLocal("bambooEnch." + entry.getKey().getName()) + ":ADD"));
                         }
 
                     }

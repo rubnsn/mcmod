@@ -1,6 +1,7 @@
 package ruby.bamboo.item.enchant;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockOre;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
@@ -10,14 +11,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class EnchantChain extends EnchantBase {
-
     public EnchantChain(int id, String name, int maxLevel, float weight, float tp) {
         super(id, name, maxLevel, weight, tp);
     }
 
     @Override
     void effect(ItemStack itemStack, World world, int posX, int posY, int posZ, EntityLivingBase entity, int enchantLvl) {
-        chainBreak(world, posX, posY, posZ, getFortune(itemStack), 0);
+        Block targetBlock = world.getBlock(posX, posY, posZ);
+        if (targetBlock instanceof BlockLog || targetBlock instanceof BlockOre) {
+            chainBreak(world, posX, posY, posZ, getFortune(itemStack), 0, targetBlock);
+        }
     }
 
     private int getFortune(ItemStack is) {
@@ -33,17 +36,17 @@ public class EnchantChain extends EnchantBase {
         return 0;
     }
 
-    private void chainBreak(World world, int posX, int posY, int posZ, int fortune, int loopCount) {
+    private void chainBreak(World world, int posX, int posY, int posZ, int fortune, int loopCount, Block targetBlock) {
         if (loopCount > 100) {
             return;
         }
         Block block;
         for (ForgeDirection fd : ForgeDirection.VALID_DIRECTIONS) {
             block = world.getBlock(posX + fd.offsetX, posY + fd.offsetY, posZ + fd.offsetZ);
-            if (block instanceof BlockOre) {
+            if (block == targetBlock) {
                 block.dropBlockAsItem(world, posX, posY, posZ, world.getBlockMetadata(posX + fd.offsetX, posY + fd.offsetY, posZ + fd.offsetZ), fortune);
                 world.setBlockToAir(posX + fd.offsetX, posY + fd.offsetY, posZ + fd.offsetZ);
-                this.chainBreak(world, posX + fd.offsetX, posY + fd.offsetY, posZ + fd.offsetZ, fortune, ++loopCount);
+                this.chainBreak(world, posX + fd.offsetX, posY + fd.offsetY, posZ + fd.offsetZ, fortune, ++loopCount, targetBlock);
             }
         }
     }
