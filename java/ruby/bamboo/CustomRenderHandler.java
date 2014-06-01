@@ -11,6 +11,7 @@ import ruby.bamboo.render.block.RenderBambooPane;
 import ruby.bamboo.render.block.RenderCoordinateBlock;
 import ruby.bamboo.render.block.RenderDelude;
 import ruby.bamboo.render.block.RenderKitunebi;
+import ruby.bamboo.render.block.RenderMultiPot;
 import ruby.bamboo.render.block.RenderPillar;
 import ruby.bamboo.render.inventory.IRenderInventory;
 import ruby.bamboo.render.inventory.RenderInvAndon;
@@ -36,12 +37,14 @@ public class CustomRenderHandler {
     public static final int pillarUID;
     public static final int deludeUID;
     public static final int manekiUID;
+    public static final int multiPotUID;
     public static HashMap<Integer, IRenderBlocks> customRenderMap;
     public static HashMap<Integer, IRenderInventory> customRenderInvMap;
     private static CustomRenderHandler instance = new CustomRenderHandler();
     private final SimpleInvRender SimpleInvRenderInstance = new SimpleInvRender();
     private final Render3DInInventory Render3DInInvInstance = new Render3DInInventory();
     static {
+        //2DInv
         customRenderMap = new HashMap<Integer, IRenderBlocks>();
         customRenderInvMap = new HashMap<Integer, IRenderInventory>();
         coordinateCrossUID = getUIDAndRegistSimpleInvRender();
@@ -49,6 +52,7 @@ public class CustomRenderHandler {
         bambooPaneUID = getUIDAndRegistSimpleInvRender();
         riceFieldUID = getUIDAndRegistSimpleInvRender();
         bambooBlockUID = getUIDAndRegistSimpleInvRender();
+        multiPotUID = getUIDAndRegistSimpleInvRender();
         // 3DInv
         andonUID = getUIDAndRegist3DRender();
         campfireUID = getUIDAndRegist3DRender();
@@ -66,6 +70,7 @@ public class CustomRenderHandler {
         customRenderMap.put(bambooPaneUID, new RenderBambooPane());
         customRenderMap.put(pillarUID, new RenderPillar());
         customRenderMap.put(deludeUID, new RenderDelude());
+        customRenderMap.put(multiPotUID, new RenderMultiPot());
         //Inventory
         customRenderInvMap.put(andonUID, new RenderInvAndon());
         //customRenderInvMap.put(bambooBlockUID, new RenderInvBambooBlock());
@@ -74,7 +79,6 @@ public class CustomRenderHandler {
         customRenderInvMap.put(pillarUID, new RenderInvPillar());
         customRenderInvMap.put(deludeUID, new RenderInvDelude());
         customRenderInvMap.put(manekiUID, new RenderInvManeki());
-
     }
 
     private static int getUIDAndRegistSimpleInvRender() {

@@ -40,6 +40,7 @@ import static ruby.bamboo.BambooInit.liangVanillaWoodThick;
 import static ruby.bamboo.BambooInit.liangVanillaWoodThin;
 import static ruby.bamboo.BambooInit.millStone;
 import static ruby.bamboo.BambooInit.moss;
+import static ruby.bamboo.BambooInit.multiPot;
 import static ruby.bamboo.BambooInit.obon;
 import static ruby.bamboo.BambooInit.rawrice;
 import static ruby.bamboo.BambooInit.riceSeed;
@@ -278,6 +279,8 @@ public class BambooRecipe {
         for (int i = 0; i < 16; i++) {
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BambooInit.zabuton, 1, i), "###", "#X#", "###", '#', new ItemStack(Blocks.wool, 1, 15 - i), 'X', TUDURA));
         }
+        //うえきばち
+        addShapedOreRecipe(new ItemStack(multiPot), "#X#", " # ", '#', new ItemStack(Items.brick), 'X', TUDURA);
         //粉粘土から粘土へ
         addShapedOreRecipe(new ItemStack(Items.clay_ball, 4, 0), "###", "#X#", "###", '#', "dustClay", 'X', Items.water_bucket);
         // 鉱石辞書

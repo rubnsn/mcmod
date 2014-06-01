@@ -36,6 +36,7 @@ import ruby.bamboo.block.BlockLiangVanillaWood;
 import ruby.bamboo.block.BlockManeki;
 import ruby.bamboo.block.BlockMillStone;
 import ruby.bamboo.block.BlockMoss;
+import ruby.bamboo.block.BlockMultiPot;
 import ruby.bamboo.block.BlockPillar;
 import ruby.bamboo.block.BlockRicePlant;
 import ruby.bamboo.block.BlockSakura;
@@ -66,6 +67,7 @@ import ruby.bamboo.item.ItemHuton;
 import ruby.bamboo.item.ItemKaginawa;
 import ruby.bamboo.item.ItemKakeziku;
 import ruby.bamboo.item.ItemKatana;
+import ruby.bamboo.item.ItemMultiPot;
 import ruby.bamboo.item.ItemObon;
 import ruby.bamboo.item.ItemPillar;
 import ruby.bamboo.item.ItemSack;
@@ -133,6 +135,8 @@ public class BambooInit {
     public static Block liangVanillaLogThin;
     public static Block liangVanillaLog2Thin;
     public static Block liangVanillaWoodThin;
+
+    public static Block multiPot;
 
     public static Item takenoko;
     public static Item itembamboo;
@@ -231,6 +235,7 @@ public class BambooInit {
         ricePlant = registerBlock(new BlockRicePlant().setBlockTextureName(BambooCore.resourceDomain + "riceplant"), "ricePlant");
         millStone = registerBlock(new BlockMillStone(), "bambooMillStone", tabBamboo);
         moss = registerBlock(new BlockMoss().setBlockTextureName(BambooCore.resourceDomain + "moss"), "bambooMoss", tabBamboo);
+        multiPot = registerBlock(new BlockMultiPot().setBlockTextureName("flower_pot"), ItemMultiPot.class, "bambooMultiPot", tabBamboo);
 
         initLiang();
         registerBlock(new BlockManeki(Material.ground), "maneki", tabBamboo);

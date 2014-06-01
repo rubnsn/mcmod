@@ -36,6 +36,7 @@ import ruby.bamboo.tileentity.TileEntityCampfire;
 import ruby.bamboo.tileentity.TileEntityJPChest;
 import ruby.bamboo.tileentity.TileEntityManeki;
 import ruby.bamboo.tileentity.TileEntityMillStone;
+import ruby.bamboo.tileentity.TileEntityMultiPot;
 import ruby.bamboo.tileentity.spa.TileEntitySpaChild;
 import ruby.bamboo.tileentity.spa.TileEntitySpaParent;
 import ruby.bamboo.worldgen.GeneraterHandler;
@@ -102,6 +103,7 @@ public class CommonProxy {
         GameRegistry.registerTileEntity(TileEntityJPChest.class, "JP Chest");
         GameRegistry.registerTileEntity(TileEntitySpaParent.class, "Tile Spa");
         GameRegistry.registerTileEntity(TileEntitySpaChild.class, "Tile SpaChild");
+        GameRegistry.registerTileEntity(TileEntityMultiPot.class, "BambooMultiPot");
 
         EntityRegistry.addSpawn(EntityFirefly.class, 5, 5, 10, EnumCreatureType.ambient, BiomeGenBase.river, BiomeGenBase.plains);
     }
