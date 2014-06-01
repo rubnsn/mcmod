@@ -17,11 +17,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.BonemealEvent;
-import ruby.bamboo.BambooInit;
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.CustomRenderHandler;
 import ruby.bamboo.render.block.RenderCoordinateBlock.ICoordinateRenderType;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockBambooShoot extends Block implements ICoordinateRenderType {
     protected static final ArrayList<Block> bambooList = new ArrayList<Block>();
@@ -89,7 +91,7 @@ public class BlockBambooShoot extends Block implements ICoordinateRenderType {
                 if (entityplayer.worldObj.rand.nextFloat() < EnchantmentHelper.getFortuneModifier(entityplayer) * 0.1F) {
                     this.dropXpOnBlockBreak(world, i, j, k, 1);
                 }
-                this.dropBlockAsItem(world, i, j, k, new ItemStack(BambooInit.takenoko, 1, 0));
+                this.dropBlockAsItem(world, i, j, k, new ItemStack(this, 1, 0));
             }
         }
     }
@@ -146,6 +148,12 @@ public class BlockBambooShoot extends Block implements ICoordinateRenderType {
 
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
-        return new ItemStack(BambooInit.takenoko);
+        return new ItemStack(this);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public String getItemIconName() {
+        return BambooCore.resourceDomain + "bambooshoot";
     }
 }

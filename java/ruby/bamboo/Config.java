@@ -96,7 +96,7 @@ public class Config {
         updateNotify = prop.getBoolean(true);
         configuration.save();
         if (exDrop) {
-            MinecraftForge.addGrassSeed(new ItemStack(BambooInit.takenoko), 10);
+            MinecraftForge.addGrassSeed(new ItemStack(BambooInit.bambooShoot), 10);
             MinecraftForge.addGrassSeed(new ItemStack(BambooInit.sakura), 10);
         }
     }

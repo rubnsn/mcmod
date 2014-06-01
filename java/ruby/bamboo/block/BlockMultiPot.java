@@ -10,7 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import ruby.bamboo.BambooInit;
 import ruby.bamboo.CustomRenderHandler;
 import ruby.bamboo.tileentity.TileEntityMultiPot;
 import cpw.mods.fml.relauncher.Side;
@@ -48,15 +47,13 @@ public class BlockMultiPot extends BlockContainer {
                 }
             } else {
                 Block block = Block.getBlockFromItem(currentItem.getItem());
-                if (currentItem.getItem() == BambooInit.takenoko) {
-                    block = BambooInit.bambooShoot;
-                }
                 if (block.getRenderType() == 1 || block.getRenderType() == 13 || block.getRenderType() == CustomRenderHandler.coordinateCrossUID) {
-                    ItemStack is = tile.setItemOnSlotNumber(hitNum, currentItem.getItem(), currentItem.getItemDamage());
-                    if (is != null) {
-                        this.dropBlockAsItem(par1World, par2, par3, par4, is);
+                    if (tile.getFlowerPotItem(hitNum) == null) {
+                        tile.setItemOnSlotNumber(hitNum, currentItem.getItem(), currentItem.getItemDamage());
+                        currentItem.stackSize--;
+                    } else {
+                        this.dropBlockAsItem(par1World, par2, par3, par4, tile.removeItemOnSlotNumber(hitNum));
                     }
-                    currentItem.stackSize--;
                 } else {
                     return false;
                 }

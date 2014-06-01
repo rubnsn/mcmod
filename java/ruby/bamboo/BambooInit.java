@@ -138,7 +138,6 @@ public class BambooInit {
 
     public static Block multiPot;
 
-    public static Item takenoko;
     public static Item itembamboo;
     public static Item straw;
     public static Item bambooBasket;
@@ -186,8 +185,7 @@ public class BambooInit {
 
             @Override
             public Item getTabIconItem() {
-                // TODO 自動生成されたメソッド・スタブ
-                return takenoko;
+                return Item.getItemFromBlock(bambooShoot);
             }
         };
         instance.blocksInit();
@@ -198,7 +196,7 @@ public class BambooInit {
         bamboo = registerBlock(new BlockBamboo(9, 6).setBlockTextureName(BambooCore.resourceDomain + "bamboo"), "bamboo");
         bambooSingle = registerBlock(new BlockBamboo(9, CustomRenderHandler.coordinateCrossUID, 0).setBlockTextureName(BambooCore.resourceDomain + "bamboosingle"), "bamboosingle");
         bamboo2 = registerBlock(new BlockBamboo(9, CustomRenderHandler.coordinateCrossUID, 1).setBlockTextureName(BambooCore.resourceDomain + "bamboo"), "bamboo2");
-        bambooShoot = registerBlock(new BlockBambooShoot().setBlockTextureName(BambooCore.resourceDomain + getChiledName()), "blockbambooshoot");
+        bambooShoot = registerBlock(new BlockBambooShoot().setBlockTextureName(BambooCore.resourceDomain + getChiledName()), ItemBambooshoot.class, "blockbambooshoot", tabBamboo);
         singleTexDeco = registerBlock(new BlockCustomRenderSingleTexture(), ItemSimpleSubtype.class, "singleTexDeco", tabBamboo);
         kitunebi = registerBlock(new BlockKitunebi().setBlockTextureName("kitunebi"), "kitunebi", tabBamboo);
         jpchest = registerBlock(new BlockJpchest(), "jpChest", tabBamboo);
@@ -275,7 +273,6 @@ public class BambooInit {
         slideDoors = registerItem(new ItemSlideDoor(), "slideDoor", tabBamboo);
         kakeziku = registerItem(new ItemKakeziku(), "kakeziku", tabBamboo);
         huton = registerItem(new ItemHuton(), "huton", tabBamboo);
-        takenoko = registerItem(new ItemBambooshoot(bambooShoot), "bambooshoot", tabBamboo);
         boiledEgg = registerItem(new ItemBoiledEgg(), "boiledEgg");
         shavedIce = registerItem(new ItemShavedIce(), "shavedice", tabBamboo);
         windChime = registerItem(new ItemWindChime(), "windchime", tabBamboo);

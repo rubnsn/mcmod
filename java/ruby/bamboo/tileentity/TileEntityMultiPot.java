@@ -88,21 +88,27 @@ public class TileEntityMultiPot extends TileEntity {
     public ItemStack removeSlot(int num) {
         ItemStack res = null;
         if (matrix[num]) {
+            res = removeItemOnSlotNumber(num);
             matrix[num] = false;
-            res = slots[num];
-            slots[num] = null;
             this.markDirty();
         }
         return res;
     }
 
-    public ItemStack setItemOnSlotNumber(int slotNum, Item item, int meta) {
+    public void setItemOnSlotNumber(int slotNum, Item item, int meta) {
+        if (matrix[slotNum]) {
+            slots[slotNum] = new ItemStack(item, 1, meta);
+        }
+        this.markDirty();
+    }
+
+    public ItemStack removeItemOnSlotNumber(int slotNum) {
         ItemStack res = null;
         if (matrix[slotNum]) {
             if (slots[slotNum] != null) {
                 res = slots[slotNum];
             }
-            slots[slotNum] = new ItemStack(item, 1, meta);
+            slots[slotNum] = null;
         }
         this.markDirty();
         return res;
@@ -132,9 +138,9 @@ public class TileEntityMultiPot extends TileEntity {
         if (!world.isRemote) {
             for (int i = 0; i < MAX_LENGTH; i++) {
                 if (matrix[i]) {
-                    ((BlockMultiPot) this.blockType).dropBlockAsItem(world, this.xCoord, this.yCoord, this.zCoord, new ItemStack(BambooInit.multiPot));
+                    ((BlockMultiPot) BambooInit.multiPot).dropBlockAsItem(world, this.xCoord, this.yCoord, this.zCoord, new ItemStack(BambooInit.multiPot));
                     if (slots[i] != null) {
-                        ((BlockMultiPot) this.blockType).dropBlockAsItem(world, this.xCoord, this.yCoord, this.zCoord, slots[i]);
+                        ((BlockMultiPot) BambooInit.multiPot).dropBlockAsItem(world, this.xCoord, this.yCoord, this.zCoord, slots[i]);
                     }
                 }
             }
