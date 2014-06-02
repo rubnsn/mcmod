@@ -16,7 +16,19 @@ import ruby.bamboo.tileentity.TileEntityMultiPot;
 
 public class RenderMultiPot implements IRenderBlocks {
     private float[] offset = new float[] { -0.333F, 0, 0.333F };
+    private static final int[] PATTERN_X;
+    private static final int[] PATTERN_Z;
     private static RenderMultiPot instance;
+    static {
+        int[] i1 = new int[TileEntityMultiPot.MAX_LENGTH];
+        int[] i2 = new int[TileEntityMultiPot.MAX_LENGTH];
+        for (int i = 0; i < TileEntityMultiPot.MAX_LENGTH; i++) {
+            i1[i] = i % TileEntityMultiPot.SQ;
+            i2[i] = (int) (i / (float) TileEntityMultiPot.SQ);
+        }
+        PATTERN_X = i1;
+        PATTERN_Z = i2;
+    }
 
     public RenderMultiPot() {
         instance = this;
@@ -36,8 +48,8 @@ public class RenderMultiPot implements IRenderBlocks {
     }
 
     private boolean renderBlockMultiPot(RenderBlocks render, BlockMultiPot blockPot, TileEntity tileentity, int x, int y, int z, int num) {
-        float offsetX = offset[num % TileEntityMultiPot.SQ];
-        float offsetZ = offset[(int) (num / (float) TileEntityMultiPot.SQ)];
+        float offsetX = offset[PATTERN_X[num]];
+        float offsetZ = offset[PATTERN_Z[num]];
         Tessellator tessellator = Tessellator.instance;
         tessellator.addTranslation(offsetX, 0, offsetZ);
         float f = 0.375F;
@@ -89,7 +101,7 @@ public class RenderMultiPot implements IRenderBlocks {
                     tessellator.setColorOpaque_F(red, green, blue);
                 }
 
-                if (j1 == 1 || j1 == CustomRenderHandler.coordinateCrossUID) {
+                if (j1 == 1 || j1 == 40 || j1 == CustomRenderHandler.coordinateCrossUID) {
                     render.drawCrossedSquares(render.getBlockIconFromSideAndMetadata(block, 0, i1), (double) x, (double) y, (double) z, 0.75F);
                 } else if (j1 == 13) {
                     render.renderAllFaces = true;

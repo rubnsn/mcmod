@@ -19,7 +19,7 @@ public class BlockMultiPot extends BlockContainer {
 
     public BlockMultiPot() {
         super(Material.circuits);
-        setBlockBounds(0, 0, 0, 1, 0.5F, 1);
+        setBlockBounds(0, 0, 0, 1, 0.375F, 1);
         setHardness(1F);
     }
 
@@ -36,7 +36,11 @@ public class BlockMultiPot extends BlockContainer {
         TileEntityMultiPot tile = (TileEntityMultiPot) par1World.getTileEntity(par2, par3, par4);
         int hitNum = tile.getSlotPositionNumber(par7, par9);
         if (currentItem == null) {
-            this.removeSlot(par1World, tile, par2, par3, par4, hitNum);
+            if (tile.getFlowerPotItem(hitNum) != null) {
+                this.dropBlockAsItem(par1World, par2, par3, par4, tile.removeItemOnSlotNumber(hitNum));
+            } else {
+                this.removeSlot(par1World, tile, par2, par3, par4, hitNum);
+            }
         } else {
             if (currentItem.getItem() == Item.getItemFromBlock(this)) {
                 if (!tile.isEnable(hitNum)) {
@@ -47,15 +51,17 @@ public class BlockMultiPot extends BlockContainer {
                 }
             } else {
                 Block block = Block.getBlockFromItem(currentItem.getItem());
-                if (block.getRenderType() == 1 || block.getRenderType() == 13 || block.getRenderType() == CustomRenderHandler.coordinateCrossUID) {
-                    if (tile.getFlowerPotItem(hitNum) == null) {
-                        tile.setItemOnSlotNumber(hitNum, currentItem.getItem(), currentItem.getItemDamage());
-                        currentItem.stackSize--;
+                if (tile.isEnable(hitNum)) {
+                    if (block.getRenderType() == 1 || block.getRenderType() == 13 || block.getRenderType() == 40 || block.getRenderType() == CustomRenderHandler.coordinateCrossUID) {
+                        if (tile.getFlowerPotItem(hitNum) == null) {
+                            tile.setItemOnSlotNumber(hitNum, currentItem.getItem(), currentItem.getItemDamage());
+                            currentItem.stackSize--;
+                        } else {
+                            this.dropBlockAsItem(par1World, par2, par3, par4, tile.removeItemOnSlotNumber(hitNum));
+                        }
                     } else {
-                        this.dropBlockAsItem(par1World, par2, par3, par4, tile.removeItemOnSlotNumber(hitNum));
+                        return false;
                     }
-                } else {
-                    return false;
                 }
             }
         }
