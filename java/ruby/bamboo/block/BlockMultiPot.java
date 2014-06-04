@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.CustomRenderHandler;
 import ruby.bamboo.tileentity.TileEntityMultiPot;
 import cpw.mods.fml.relauncher.Side;
@@ -124,6 +125,6 @@ public class BlockMultiPot extends BlockContainer {
     @Override
     @SideOnly(Side.CLIENT)
     public String getItemIconName() {
-        return "flower_pot";
+        return BambooCore.resourceDomain + "flower_pot";
     }
 }
