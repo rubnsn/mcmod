@@ -36,13 +36,13 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal {
         CYAN(0x87DBF6, 1),
         LIGHT_GRAY(0xD3D3D3, 2),
         GRAY(0x8D8D8D, 1),
-        PINK(0xFF929E, 1),
+        PINK(0xFFC5CC, 1),
         LIME(0xBCF472, 0),
         YELLOW(0xf5e600, 3),
         LIGHT_BLUE(0xB8EFFF, 1),
-        MAGENTA(0xE6B2E4, 1),
+        MAGENTA(0xFF87FA, 1),
         ORANGE(0xFFC600, 3),
-        WHITE(0xffc5cc, 1);
+        WHITE(0xFFFFFF, 1);
         EnumLeave(int color, int petal) {
             this.color = color;
             this.petal = (byte) petal;
@@ -89,17 +89,17 @@ public class BlockSakuraLeaves extends BlockLeavesBase implements ICustomPetal {
     @Override
     public IIcon getIcon(int i, int j) {
         switch (EnumLeave.getLeave(j)) {
+        case WHITE:
+        case PINK:
+            return sakurapetal;
         case BLACK:
         case BLUE:
         case CYAN:
         case GRAY:
-        case WHITE:
         case LIGHT_BLUE:
         case LIGHT_GRAY:
         case MAGENTA:
-        case PINK:
         case PURPLE:
-            return sakurapetal;
         case CACAO:
         case LIME:
         case RED:
