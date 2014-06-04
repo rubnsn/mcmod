@@ -2,7 +2,6 @@ package ruby.bamboo.render;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 
 public class ModelHuton extends ModelBase {
     // variables init:
@@ -30,12 +29,12 @@ public class ModelHuton extends ModelBase {
         box3.addBox(-14F, 2F, -5F, 6, 3, 10);
     }
 
-    public void renderHead(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void renderHead(float f5) {
         box0.render(f5);
         box3.render(f5);
     }
 
-    public void renderFoot(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void renderFoot(float f5) {
         box1.render(f5);
         box2.render(f5);
     }

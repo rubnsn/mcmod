@@ -11,9 +11,9 @@ import ruby.bamboo.BambooRecipe;
 import ruby.bamboo.CraftingHandler;
 import ruby.bamboo.entity.EntityBambooSpear;
 import ruby.bamboo.entity.EntityDirtySnowball;
+import ruby.bamboo.entity.EntityDummyChair;
 import ruby.bamboo.entity.EntityFirecracker;
 import ruby.bamboo.entity.EntityFirefly;
-import ruby.bamboo.entity.EntityHuton;
 import ruby.bamboo.entity.EntityKaginawa;
 import ruby.bamboo.entity.EntityKakeziku;
 import ruby.bamboo.entity.EntityObon;
@@ -32,6 +32,7 @@ import ruby.bamboo.entity.magatama.EntityMagatama;
 import ruby.bamboo.entity.magatama.EntityShield;
 import ruby.bamboo.tileentity.TileEntityAndon;
 import ruby.bamboo.tileentity.TileEntityCampfire;
+import ruby.bamboo.tileentity.TileEntityHuton;
 import ruby.bamboo.tileentity.TileEntityJPChest;
 import ruby.bamboo.tileentity.TileEntityManeki;
 import ruby.bamboo.tileentity.TileEntityMillStone;
@@ -48,7 +49,7 @@ public class CommonProxy {
     private static final int kakezikuEID = 0;
     // private static int andonEID=1;
     private static final int slidedoorEID = 2;
-    private static final int hutonEID = 3;
+    // 3;
     private static final int bspearEID = 4;
     private static final int windbellEID = 5;
     private static final int fireCrackerEID = 6;
@@ -68,6 +69,7 @@ public class CommonProxy {
     private static final int throwZabutonEID = 20;
     //21
     private static final int fireflyEID = 22;
+    private static final int dummyChairEID = 23;
 
     public void preInit() {
         // わーるどじぇねれーとはんどら
@@ -79,7 +81,6 @@ public class CommonProxy {
         // name init 分割2
         registerEntity(EntityKakeziku.class, "Kakeziku", kakezikuEID, 80, 10, false);
         registerEntity(EntitySlideDoor.class, "Syouzi", slidedoorEID, 80, 1, true);
-        registerEntity(EntityHuton.class, "Huton", hutonEID, 80, 3, true);
         registerEntity(EntityBambooSpear.class, "BSpear", bspearEID, 80, 3, true);
         registerEntity(EntityWindChime.class, "Wind bell", windbellEID, 80, 10, false);
         registerEntity(EntityFirecracker.class, "FileCracker", fireCrackerEID, 80, 3, true);
@@ -98,6 +99,7 @@ public class CommonProxy {
         registerEntity(EntityZabuton.class, "Zabuton", zabutonEID, 80, 3, true);
         registerEntity(EntityThrowZabuton.class, "ThrowZabuton", throwZabutonEID, 80, 1, true);
         registerEntity(EntityFirefly.class, "Firefly", fireflyEID, 80, 1, true);
+        registerEntity(EntityDummyChair.class, "DummyChair", dummyChairEID, 80, 3, true);
         GameRegistry.registerTileEntity(TileEntityJPChest.class, "JP Chest");
         GameRegistry.registerTileEntity(TileEntitySpaParent.class, "Tile Spa");
         GameRegistry.registerTileEntity(TileEntitySpaChild.class, "Tile SpaChild");
@@ -111,6 +113,7 @@ public class CommonProxy {
         GameRegistry.registerTileEntity(TileEntityAndon.class, "Andon");
         GameRegistry.registerTileEntity(TileEntityMillStone.class, "MillStone");
         GameRegistry.registerTileEntity(TileEntityManeki.class, "Maneki");
+        GameRegistry.registerTileEntity(TileEntityHuton.class, "Huton");
     }
 
     public void init() {

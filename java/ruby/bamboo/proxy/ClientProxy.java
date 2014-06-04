@@ -8,9 +8,9 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.CustomRenderHandler;
 import ruby.bamboo.entity.EntityBambooSpear;
+import ruby.bamboo.entity.EntityDummyChair;
 import ruby.bamboo.entity.EntityFirecracker;
 import ruby.bamboo.entity.EntityFirefly;
-import ruby.bamboo.entity.EntityHuton;
 import ruby.bamboo.entity.EntityKaginawa;
 import ruby.bamboo.entity.EntityKakeziku;
 import ruby.bamboo.entity.EntityObon;
@@ -57,6 +57,7 @@ import ruby.bamboo.render.magatama.RenderShield;
 import ruby.bamboo.render.magatama.RenderThunderEffect;
 import ruby.bamboo.tileentity.TileEntityAndon;
 import ruby.bamboo.tileentity.TileEntityCampfire;
+import ruby.bamboo.tileentity.TileEntityHuton;
 import ruby.bamboo.tileentity.TileEntityManeki;
 import ruby.bamboo.tileentity.TileEntityMillStone;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -79,6 +80,7 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.registerTileEntity(TileEntityAndon.class, "Andon", new RenderAndon());
         ClientRegistry.registerTileEntity(TileEntityMillStone.class, "MillStone", new RenderMillStone());
         ClientRegistry.registerTileEntity(TileEntityManeki.class, "MManeki", new RenderManeki());
+        ClientRegistry.registerTileEntity(TileEntityHuton.class, "Huton", new RenderHuton());
     }
 
     private void addRenderer() {
@@ -88,19 +90,9 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntitySlideDoor.class, new RenderSlideDoor());
         RenderingRegistry.registerEntityRenderingHandler(EntityKakeziku.class, new RenderKakeziku());
         RenderingRegistry.registerEntityRenderingHandler(EntitySakuraPetal.class, new RenderPetal());
-        RenderingRegistry.registerEntityRenderingHandler(EntityHuton.class, new RenderHuton());
         RenderingRegistry.registerEntityRenderingHandler(EntityFirecracker.class, new RenderFirecracker());
         RenderingRegistry.registerEntityRenderingHandler(EntityWindChime.class, new RenderWindBell());
-        RenderingRegistry.registerEntityRenderingHandler(EntityWind.class, new Render() {
-            @Override
-            public void doRender(Entity var1, double var2, double var4, double var6, float var8, float var9) {
-            }
-
-            @Override
-            protected ResourceLocation getEntityTexture(Entity entity) {
-                return null;
-            }
-        });
+        RenderingRegistry.registerEntityRenderingHandler(EntityWind.class, dummyRender);
         RenderingRegistry.registerEntityRenderingHandler(EntityWindmill.class, new RenderWindmill());
         RenderingRegistry.registerEntityRenderingHandler(EntityWaterwheel.class, new RenderWaterwheel());
         RenderingRegistry.registerEntityRenderingHandler(EntityKaginawa.class, new RenderKaginawa());
@@ -116,5 +108,17 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityZabuton.class, new RenderZabuton());
         RenderingRegistry.registerEntityRenderingHandler(EntityThrowZabuton.class, new RenderZabuton());
         RenderingRegistry.registerEntityRenderingHandler(EntityFirefly.class, new RenderFirefly());
+        RenderingRegistry.registerEntityRenderingHandler(EntityDummyChair.class, dummyRender);
     }
+
+    private static Render dummyRender = new Render() {
+        @Override
+        public void doRender(Entity var1, double var2, double var4, double var6, float var8, float var9) {
+        }
+
+        @Override
+        protected ResourceLocation getEntityTexture(Entity entity) {
+            return null;
+        }
+    };
 }
