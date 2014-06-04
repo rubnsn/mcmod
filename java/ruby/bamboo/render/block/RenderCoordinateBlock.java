@@ -8,7 +8,7 @@ import net.minecraft.util.IIcon;
 
 public class RenderCoordinateBlock implements IRenderBlocks {
     @Override
-    public void render(RenderBlocks renderer, Block par1Block, int par2, int par3, int par4) {
+    public void renderBlock(RenderBlocks renderer, Block par1Block, int par2, int par3, int par4) {
         Tessellator tessellator = Tessellator.instance;
         tessellator.setBrightness(par1Block.getMixedBrightnessForBlock(renderer.blockAccess, par2, par3, par4));
         int l = par1Block.colorMultiplier(renderer.blockAccess, par2, par3, par4);

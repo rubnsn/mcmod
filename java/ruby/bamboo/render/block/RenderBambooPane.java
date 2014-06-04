@@ -10,7 +10,7 @@ import ruby.bamboo.block.BlockBambooPane;
 public class RenderBambooPane implements IRenderBlocks {
 
     @Override
-    public void render(RenderBlocks renderblocks, Block par1Block, int par2, int par3, int par4) {
+    public void renderBlock(RenderBlocks renderblocks, Block par1Block, int par2, int par3, int par4) {
         // バニラのPanelはメタデータによるIcon変更をサポートしないため追加
         // フチを描画しないオプションも追加
         renderBambooPane(renderblocks, (BlockBambooPane) par1Block, par2, par3, par4);

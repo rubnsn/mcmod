@@ -17,6 +17,7 @@ import ruby.bamboo.block.BlockAndon;
 import ruby.bamboo.block.BlockBamboo;
 import ruby.bamboo.block.BlockBambooPane;
 import ruby.bamboo.block.BlockBambooShoot;
+import ruby.bamboo.block.BlockBroom;
 import ruby.bamboo.block.BlockCampfire;
 import ruby.bamboo.block.BlockCustomRenderSingleTexture;
 import ruby.bamboo.block.BlockDSquare;
@@ -137,6 +138,7 @@ public class BambooInit {
     public static Block liangVanillaWoodThin;
 
     public static Block multiPot;
+    public static Block blockBroom;
 
     public static Item itembamboo;
     public static Item straw;
@@ -234,7 +236,7 @@ public class BambooInit {
         millStone = registerBlock(new BlockMillStone(), "bambooMillStone", tabBamboo);
         moss = registerBlock(new BlockMoss().setBlockTextureName(BambooCore.resourceDomain + "moss"), "bambooMoss", tabBamboo);
         multiPot = registerBlock(new BlockMultiPot().setBlockTextureName("flower_pot"), ItemMultiPot.class, "bambooMultiPot", tabBamboo);
-
+        blockBroom = registerBlock(new BlockBroom(), ItemSimpleSubtype.class, "blobkbroom", tabBamboo);
         initLiang();
         registerBlock(new BlockManeki(Material.ground), "maneki", tabBamboo);
         workingBlock();

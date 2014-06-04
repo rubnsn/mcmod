@@ -6,20 +6,19 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
 import ruby.bamboo.render.block.IRenderBlocks;
+import ruby.bamboo.render.block.IRenderInventory;
 import ruby.bamboo.render.block.RenderBambooBlock;
 import ruby.bamboo.render.block.RenderBambooPane;
 import ruby.bamboo.render.block.RenderCoordinateBlock;
 import ruby.bamboo.render.block.RenderDelude;
+import ruby.bamboo.render.block.RenderInvAndon;
+import ruby.bamboo.render.block.RenderInvCampfire;
+import ruby.bamboo.render.block.RenderInvManeki;
+import ruby.bamboo.render.block.RenderInvMillStone;
 import ruby.bamboo.render.block.RenderKitunebi;
 import ruby.bamboo.render.block.RenderMultiPot;
 import ruby.bamboo.render.block.RenderPillar;
-import ruby.bamboo.render.inventory.IRenderInventory;
-import ruby.bamboo.render.inventory.RenderInvAndon;
-import ruby.bamboo.render.inventory.RenderInvCampfire;
-import ruby.bamboo.render.inventory.RenderInvDelude;
-import ruby.bamboo.render.inventory.RenderInvManeki;
-import ruby.bamboo.render.inventory.RenderInvMillStone;
-import ruby.bamboo.render.inventory.RenderInvPillar;
+import ruby.bamboo.render.block.RenderQuadRotatedPillar;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -38,6 +37,7 @@ public class CustomRenderHandler {
     public static final int deludeUID;
     public static final int manekiUID;
     public static final int multiPotUID;
+    public static final int quadRotatedPillarUID;
     public static HashMap<Integer, IRenderBlocks> customRenderMap;
     public static HashMap<Integer, IRenderInventory> customRenderInvMap;
     private static CustomRenderHandler instance = new CustomRenderHandler();
@@ -60,25 +60,29 @@ public class CustomRenderHandler {
         pillarUID = getUIDAndRegist3DRender();
         deludeUID = getUIDAndRegist3DRender();
         manekiUID = getUIDAndRegist3DRender();
+        quadRotatedPillarUID = getUIDAndRegist3DRender();
     }
 
     @SideOnly(Side.CLIENT)
     public static void init() {
         customRenderMap.put(kitunebiUID, new RenderKitunebi());
         customRenderMap.put(coordinateCrossUID, new RenderCoordinateBlock());
-        customRenderMap.put(bambooBlockUID, new RenderBambooBlock());
+        customRenderMap.put(bambooBlockUID, RenderBambooBlock.instance);
         customRenderMap.put(bambooPaneUID, new RenderBambooPane());
-        customRenderMap.put(pillarUID, new RenderPillar());
-        customRenderMap.put(deludeUID, new RenderDelude());
+        customRenderMap.put(pillarUID, RenderPillar.instance);
+        customRenderMap.put(deludeUID, RenderDelude.instance);
         customRenderMap.put(multiPotUID, new RenderMultiPot());
+        customRenderMap.put(quadRotatedPillarUID, RenderQuadRotatedPillar.instance);
+
         //Inventory
         customRenderInvMap.put(andonUID, new RenderInvAndon());
         //customRenderInvMap.put(bambooBlockUID, new RenderInvBambooBlock());
         customRenderInvMap.put(campfireUID, new RenderInvCampfire());
         customRenderInvMap.put(millStoneUID, new RenderInvMillStone());
-        customRenderInvMap.put(pillarUID, new RenderInvPillar());
-        customRenderInvMap.put(deludeUID, new RenderInvDelude());
+        customRenderInvMap.put(pillarUID, RenderPillar.instance);
+        customRenderInvMap.put(deludeUID, RenderDelude.instance);
         customRenderInvMap.put(manekiUID, new RenderInvManeki());
+        customRenderInvMap.put(quadRotatedPillarUID, RenderQuadRotatedPillar.instance);
     }
 
     private static int getUIDAndRegistSimpleInvRender() {
@@ -101,7 +105,7 @@ public class CustomRenderHandler {
         @Override
         public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
             if (customRenderMap.containsKey(modelId)) {
-                customRenderMap.get(modelId).render(renderer, block, x, y, z);
+                customRenderMap.get(modelId).renderBlock(renderer, block, x, y, z);
                 return true;
             }
             return false;
@@ -122,7 +126,7 @@ public class CustomRenderHandler {
         @Override
         public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
             if (customRenderInvMap.containsKey(modelID)) {
-                customRenderInvMap.get(modelID).render(renderer, block, metadata);
+                customRenderInvMap.get(modelID).renderInventory(renderer, block, metadata);
             }
         }
 

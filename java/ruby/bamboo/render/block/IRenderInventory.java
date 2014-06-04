@@ -1,8 +1,8 @@
-package ruby.bamboo.render.inventory;
+package ruby.bamboo.render.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 
 public interface IRenderInventory {
-    public void render(RenderBlocks renderBlocks, Block block, int metadata);
+    public void renderInventory(RenderBlocks renderblocks, Block block, int metadata);
 }

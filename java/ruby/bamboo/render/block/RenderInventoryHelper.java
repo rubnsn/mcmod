@@ -1,4 +1,4 @@
-package ruby.bamboo.render.inventory;
+package ruby.bamboo.render.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -6,8 +6,8 @@ import net.minecraft.client.renderer.Tessellator;
 
 import org.lwjgl.opengl.GL11;
 
-public class RenderInventory {
-    public void standardItemRender(Block par1Block, RenderBlocks renderer, int par2) {
+public class RenderInventoryHelper {
+    public static void standardItemRender(Block par1Block, RenderBlocks renderer, int par2) {
         Tessellator tessellator = Tessellator.instance;
         par1Block.setBlockBoundsForItemRender();
         renderer.setRenderBoundsFromBlock(par1Block);
@@ -40,7 +40,7 @@ public class RenderInventory {
         GL11.glTranslatef(1F, 1F, 1F);
     }
 
-    public void renderItemStair(RenderBlocks renderer, Block par1Block) {
+    public static void renderItemStair(RenderBlocks renderer, Block par1Block) {
         Tessellator tessellator = Tessellator.instance;
         renderer.setRenderBoundsFromBlock(par1Block);
 
@@ -80,5 +80,12 @@ public class RenderInventory {
             tessellator.draw();
             GL11.glTranslatef(0.5F, 0.5F, 0.5F);
         }
+    }
+
+    public static void renderItemBoard() {
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.setNormal(0.0F, 1F, 0.0F);
+        tessellator.draw();
     }
 }

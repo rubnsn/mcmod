@@ -35,7 +35,7 @@ public class RenderMultiPot implements IRenderBlocks {
     }
 
     @Override
-    public void render(RenderBlocks renderblocks, Block par1Block, int par2, int par3, int par4) {
+    public void renderBlock(RenderBlocks renderblocks, Block par1Block, int par2, int par3, int par4) {
         TileEntity tileentity = renderblocks.blockAccess.getTileEntity(par2, par3, par4);
 
         if (tileentity != null && tileentity instanceof TileEntityMultiPot) {
