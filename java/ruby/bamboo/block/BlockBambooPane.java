@@ -20,7 +20,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockBambooPane extends BlockPane {
-    private final IIcon[] blockIcons = new IIcon[6];
+    private final IIcon[] blockIcons = new IIcon[7];
 
     public BlockBambooPane(Material material) {
         super("bamboopane", "bamboopane", material, true);
@@ -84,6 +84,7 @@ public class BlockBambooPane extends BlockPane {
         this.blockIcons[3] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bamboopane3");
         this.blockIcons[4] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "norenblue");
         this.blockIcons[5] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "norenpurple");
+        this.blockIcons[6] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "bambooblind");
     }
 
     @Override

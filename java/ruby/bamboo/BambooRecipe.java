@@ -127,6 +127,7 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(bamboopane, 6, 3), "#X#", "#X#", '#', BAMBOO, 'X', new ItemStack(bamboopane, 1, 2));
         addShapedOreRecipe(new ItemStack(bamboopane, 8, 4), "#X#", "###", '#', new ItemStack(Blocks.wool, 1, 11), 'X', TUDURA);
         addShapedOreRecipe(new ItemStack(bamboopane, 8, 5), "#X#", "###", '#', new ItemStack(Blocks.wool, 1, 10), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(bamboopane, 8, 6), "#X#", "#X#", '#', BAMBOO, 'X', TUDURA);
         // 爆竹類
         addShapedOreRecipe(new ItemStack(firecracker, 10, 0), " # ", " X ", " # ", '#', BUSKET, 'X', Items.gunpowder);
         addShapedOreRecipe(new ItemStack(firecracker, 1, 1), " # ", "XYX", " # ", '#', BUSKET, 'X', Items.gunpowder, 'Y', new ItemStack(firecracker, 1, 0));
