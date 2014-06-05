@@ -1,8 +1,9 @@
-package ruby.bamboo.render;
+package ruby.bamboo.render.tileentity;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.tileentity.TileEntity;
+
 import org.lwjgl.opengl.GL11;
 
 import ruby.bamboo.BambooCore;

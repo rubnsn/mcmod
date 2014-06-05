@@ -1,6 +1,6 @@
 package ruby.bamboo.render.block;
 
-import ruby.bamboo.render.RenderMillStone;
+import ruby.bamboo.render.tileentity.RenderMillStone;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 

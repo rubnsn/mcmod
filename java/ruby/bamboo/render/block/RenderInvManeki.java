@@ -1,6 +1,6 @@
 package ruby.bamboo.render.block;
 
-import ruby.bamboo.render.RenderManeki;
+import ruby.bamboo.render.tileentity.RenderManeki;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 

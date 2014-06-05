@@ -1,6 +1,6 @@
 package ruby.bamboo.render.block;
 
-import ruby.bamboo.render.RenderCampfire;
+import ruby.bamboo.render.tileentity.RenderCampfire;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 

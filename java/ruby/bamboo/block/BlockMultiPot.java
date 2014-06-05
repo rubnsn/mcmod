@@ -38,17 +38,21 @@ public class BlockMultiPot extends BlockContainer {
         int hitNum = tile.getSlotPositionNumber(par7, par9);
         if (currentItem == null) {
             if (tile.getFlowerPotItem(hitNum) != null) {
-                this.dropBlockAsItem(par1World, par2, par3, par4, tile.removeItemOnSlotNumber(hitNum));
+                if (!par5EntityPlayer.capabilities.isCreativeMode) {
+                    this.dropBlockAsItem(par1World, par2, par3, par4, tile.removeItemOnSlotNumber(hitNum));
+                }
             } else {
-                this.removeSlot(par1World, tile, par2, par3, par4, hitNum);
+                this.removeSlot(par1World, tile, par2, par3, par4, hitNum, par5EntityPlayer);
             }
         } else {
             if (currentItem.getItem() == Item.getItemFromBlock(this)) {
                 if (!tile.isEnable(hitNum)) {
                     tile.addSlot(hitNum);
-                    currentItem.stackSize--;
+                    if (!par5EntityPlayer.capabilities.isCreativeMode) {
+                        currentItem.stackSize--;
+                    }
                 } else {
-                    this.removeSlot(par1World, tile, par2, par3, par4, hitNum);
+                    this.removeSlot(par1World, tile, par2, par3, par4, hitNum, par5EntityPlayer);
                 }
             } else {
                 Block block = Block.getBlockFromItem(currentItem.getItem());
@@ -56,9 +60,14 @@ public class BlockMultiPot extends BlockContainer {
                     if (block.getRenderType() == 1 || block.getRenderType() == 13 || block.getRenderType() == 40 || block.getRenderType() == CustomRenderHandler.coordinateCrossUID) {
                         if (tile.getFlowerPotItem(hitNum) == null) {
                             tile.setItemOnSlotNumber(hitNum, currentItem.getItem(), currentItem.getItemDamage());
-                            currentItem.stackSize--;
+                            if (!par5EntityPlayer.capabilities.isCreativeMode) {
+                                currentItem.stackSize--;
+                            }
                         } else {
-                            this.dropBlockAsItem(par1World, par2, par3, par4, tile.removeItemOnSlotNumber(hitNum));
+                            ItemStack is = tile.removeItemOnSlotNumber(hitNum);
+                            if (!par5EntityPlayer.capabilities.isCreativeMode) {
+                                this.dropBlockAsItem(par1World, par2, par3, par4, is);
+                            }
                         }
                     } else {
                         return false;
@@ -71,14 +80,16 @@ public class BlockMultiPot extends BlockContainer {
         return true;
     }
 
-    private void removeSlot(World par1World, TileEntityMultiPot tile, int par2, int par3, int par4, int hitNum) {
+    private void removeSlot(World par1World, TileEntityMultiPot tile, int par2, int par3, int par4, int hitNum, EntityPlayer player) {
         if (tile.isEnable(hitNum)) {
             ItemStack res = tile.removeSlot(hitNum);
             if (!par1World.isRemote) {
-                if (res != null) {
-                    this.dropBlockAsItem(par1World, par2, par3, par4, res);
+                if (!player.capabilities.isCreativeMode) {
+                    if (res != null) {
+                        this.dropBlockAsItem(par1World, par2, par3, par4, res);
+                    }
+                    this.dropBlockAsItem(par1World, par2, par3, par4, new ItemStack(Item.getItemFromBlock(this)));
                 }
-                this.dropBlockAsItem(par1World, par2, par3, par4, new ItemStack(Item.getItemFromBlock(this)));
                 if (tile.isEmpty()) {
                     par1World.func_147480_a(par2, par3, par4, true);
                 }

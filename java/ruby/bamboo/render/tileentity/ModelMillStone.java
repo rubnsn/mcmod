@@ -1,4 +1,4 @@
-package ruby.bamboo.render;
+package ruby.bamboo.render.tileentity;
 
 import ruby.bamboo.tileentity.TileEntityMillStone;
 import net.minecraft.client.model.ModelBase;

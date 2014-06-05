@@ -1,4 +1,4 @@
-package ruby.bamboo.render;
+package ruby.bamboo.render.tileentity;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;

@@ -1,4 +1,4 @@
-package ruby.bamboo.render;
+package ruby.bamboo.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
