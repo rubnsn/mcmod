@@ -7,6 +7,7 @@ import static ruby.bamboo.BambooInit.bambooShoot;
 import static ruby.bamboo.BambooInit.bambooSpear;
 import static ruby.bamboo.BambooInit.bambooSword;
 import static ruby.bamboo.BambooInit.bamboopane;
+import static ruby.bamboo.BambooInit.blockBroom;
 import static ruby.bamboo.BambooInit.campfire;
 import static ruby.bamboo.BambooInit.dHalfSquare;
 import static ruby.bamboo.BambooInit.dSquare;
@@ -281,6 +282,9 @@ public class BambooRecipe {
         }
         //うえきばち
         addShapedOreRecipe(new ItemStack(multiPot), "#X#", " # ", '#', new ItemStack(Items.brick), 'X', TUDURA);
+        //箒目
+        addShapedOreRecipe(new ItemStack(blockBroom, 1, 0), "#X#", "#X#", "#X#", '#', new ItemStack(Blocks.sand), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(blockBroom, 1, 1), "#X#", "#XX", "###", '#', new ItemStack(Blocks.sand), 'X', TUDURA);
         //粉粘土から粘土へ
         addShapedOreRecipe(new ItemStack(Items.clay_ball, 4, 0), "###", "#X#", "###", '#', "dustClay", 'X', Items.water_bucket);
         // 鉱石辞書
