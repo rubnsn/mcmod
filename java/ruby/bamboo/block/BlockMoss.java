@@ -23,15 +23,17 @@ public class BlockMoss extends Block {
                 int i1 = posX + rand.nextInt(3) - 1;
                 int j1 = posY + rand.nextInt(5) - 3;
                 int k1 = posZ + rand.nextInt(3) - 1;
-                Block block = world.getBlock(i1, j1 + 1, k1);
 
                 if (world.getBlockMetadata(i1, j1, k1) == 0 && world.getBlockLightValue(i1, j1 + 1, k1) >= 4 && world.getBlockLightOpacity(i1, j1 + 1, k1) <= 2) {
                     if (world.getBlock(i1, j1, k1) == Blocks.dirt) {
                         world.setBlock(i1, j1, k1, this);
                     } else if (rand.nextFloat() < 0.1F) {
-                        if (world.getBlock(i1, j1, k1) == Blocks.cobblestone) {
+                        Block block = world.getBlock(i1, j1, k1);
+                        if (block == Blocks.cobblestone) {
                             world.setBlock(i1, j1, k1, Blocks.mossy_cobblestone);
-                        } else if (world.getBlock(i1, j1, k1) == Blocks.cobblestone_wall) {
+                        } else if (block == Blocks.cobblestone_wall) {
+                            world.setBlockMetadataWithNotify(i1, j1, k1, 1, 3);
+                        } else if (block == Blocks.stonebrick) {
                             world.setBlockMetadataWithNotify(i1, j1, k1, 1, 3);
                         }
                     }
