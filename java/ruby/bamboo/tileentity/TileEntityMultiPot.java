@@ -76,6 +76,13 @@ public class TileEntityMultiPot extends TileEntity {
     }
 
     public static int getSlotPositionNumber(float x, float z) {
+        //横面からクリックした時の動作改善
+        if (x == 1) {
+            x -= 0.01F;
+        }
+        if (z == 1) {
+            z -= 0.01F;
+        }
         int res = ((int) (SQ * x) + (int) ((SQ) * z) * SQ);
         return res < MAX_LENGTH ? res : MAX_LENGTH - 1;
     }
