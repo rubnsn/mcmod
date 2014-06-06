@@ -311,7 +311,7 @@ public class BambooRecipe {
         GrindRegistory.addRecipe(new ItemStack(BambooInit.dustClay, 2, 0), new ItemStack(Blocks.hardened_clay, 1, GrindRegistory.WILD_CARD));
         GrindRegistory.addRecipe(new ItemStack(BambooInit.dustClay, 2, 0), new ItemStack(Blocks.stained_hardened_clay, 1, GrindRegistory.WILD_CARD));
         GrindRegistory.addRecipe(new ItemStack(BambooInit.dustClay), new ItemStack(Blocks.sand, 2));
-        GrindRegistory.addRecipe(new ItemStack(rawrice, 1, 0), new ItemStack(riceSeed, 6, 0));
+        GrindRegistory.addRecipe(new ItemStack(rawrice, 1, 0), new ItemStack(riceSeed, 4, 0));
         GrindRegistory.addRecipe(new ItemStack(Blocks.sand, 4, 0), new ItemStack(Blocks.sandstone, 1, 0));
         GrindRegistory.addRecipe(new ItemStack(Items.dye, 1, 2), new ItemStack(Blocks.leaves, 4, GrindRegistory.WILD_CARD));
         GrindRegistory.addRecipe(new ItemStack(moss, 1, 0), new ItemStack(Blocks.gravel, 64, 0), new ItemStack(Blocks.mossy_cobblestone, 64, 0), 0);
