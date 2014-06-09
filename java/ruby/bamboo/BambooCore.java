@@ -73,16 +73,20 @@ public class BambooCore {
     @Mod.EventHandler
     public void serverStarted(FMLServerStartedEvent event) {
         Config.reloadWorldConfig();
-        provideId = 0;
-        while (!DimensionManager.registerProviderType(++provideId, WorldProviderBamboo.class, false)) {
+        if (DEBUGMODE) {
+            provideId = 0;
+            while (!DimensionManager.registerProviderType(++provideId, WorldProviderBamboo.class, false)) {
+            }
+            DimensionManager.registerDimension(Config.dimensionId, provideId);
         }
-        DimensionManager.registerDimension(Config.dimensionId, provideId);
     }
 
     @Mod.EventHandler
     public void serverStoped(FMLServerStoppedEvent event) {
-        DimensionManager.unregisterDimension(Config.dimensionId);
-        DimensionManager.unregisterProviderType(provideId);
+        if (DEBUGMODE) {
+            DimensionManager.unregisterDimension(Config.dimensionId);
+            DimensionManager.unregisterProviderType(provideId);
+        }
     }
 
     @Mod.EventHandler

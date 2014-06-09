@@ -72,8 +72,10 @@ public class CommonProxy {
     private static final int dummyChairEID = 23;
 
     public void preInit() {
-        // わーるどじぇねれーとはんどら
-        GeneraterHandler.init();
+        if (BambooCore.DEBUGMODE) {
+            // わーるどじぇねれーとはんどら
+            GeneraterHandler.init();
+        }
         // くらふとはんどら
         FMLCommonHandler.instance().bus().register(new CraftingHandler());
         // block & item init 分割1

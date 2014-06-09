@@ -242,7 +242,9 @@ public class BambooInit {
         blockHuton = registerBlock(new BlockHuton(), "bamboohuton");
         initLiang();
         registerBlock(new BlockManeki(Material.ground), "maneki", tabBamboo);
-        workingBlock();
+        if (BambooCore.DEBUGMODE) {
+            workingBlock();
+        }
     }
 
     private void initLiang() {
@@ -301,12 +303,14 @@ public class BambooInit {
         fireflyBottle = registerItem(new ItemFireflyBottle().setTextureName(BambooCore.resourceDomain + "firefly"), "itemFireflyBottle", tabBamboo);
         dustClay = registerItem(new ItemDustClay().setTextureName("sugar"), "bambooDustCray", tabBamboo);
         MinecraftForge.addGrassSeed(new ItemStack(riceSeed, 1, 0), 10);
-        workingItem();
+        bambooPickaxe = registerItem(new ItemBambooPickaxe().setTextureName(BambooCore.resourceDomain + "pickaxe"), "bamboopickaxe", tabBamboo);
+        if (BambooCore.DEBUGMODE) {
+            workingItem();
+        }
     }
 
     private void workingItem() {
         dimensionCreater = registerItem(new ItemDimensionCreater(), "dimensioncreater", tabBamboo);
-        bambooPickaxe = registerItem(new ItemBambooPickaxe().setTextureName(BambooCore.resourceDomain + "pickaxe"), "bamboopickaxe", tabBamboo);
     }
 
     private Block registerBlock(Block block, String name) {
