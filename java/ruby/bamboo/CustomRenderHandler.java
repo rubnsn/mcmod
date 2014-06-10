@@ -16,6 +16,7 @@ import ruby.bamboo.render.block.RenderInvCampfire;
 import ruby.bamboo.render.block.RenderInvManeki;
 import ruby.bamboo.render.block.RenderInvMillStone;
 import ruby.bamboo.render.block.RenderKitunebi;
+import ruby.bamboo.render.block.RenderMultiBlock;
 import ruby.bamboo.render.block.RenderMultiPot;
 import ruby.bamboo.render.block.RenderPillar;
 import ruby.bamboo.render.block.RenderQuadRotatedPillar;
@@ -38,6 +39,7 @@ public class CustomRenderHandler {
     public static final int manekiUID;
     public static final int multiPotUID;
     public static final int quadRotatedPillarUID;
+    public static final int multiBlockUID;
     public static HashMap<Integer, IRenderBlocks> customRenderMap;
     public static HashMap<Integer, IRenderInventory> customRenderInvMap;
     private static CustomRenderHandler instance = new CustomRenderHandler();
@@ -53,6 +55,7 @@ public class CustomRenderHandler {
         riceFieldUID = getUIDAndRegistSimpleInvRender();
         bambooBlockUID = getUIDAndRegistSimpleInvRender();
         multiPotUID = getUIDAndRegistSimpleInvRender();
+        multiBlockUID = getUIDAndRegistSimpleInvRender();
         // 3DInv
         andonUID = getUIDAndRegist3DRender();
         campfireUID = getUIDAndRegist3DRender();
@@ -73,6 +76,7 @@ public class CustomRenderHandler {
         customRenderMap.put(deludeUID, RenderDelude.instance);
         customRenderMap.put(multiPotUID, new RenderMultiPot());
         customRenderMap.put(quadRotatedPillarUID, RenderQuadRotatedPillar.instance);
+        customRenderMap.put(multiBlockUID, new RenderMultiBlock());
 
         //Inventory
         customRenderInvMap.put(andonUID, new RenderInvAndon());

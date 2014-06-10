@@ -38,6 +38,7 @@ import ruby.bamboo.block.BlockLiangVanillaWood;
 import ruby.bamboo.block.BlockManeki;
 import ruby.bamboo.block.BlockMillStone;
 import ruby.bamboo.block.BlockMoss;
+import ruby.bamboo.block.BlockMultiBlock;
 import ruby.bamboo.block.BlockMultiPot;
 import ruby.bamboo.block.BlockPillar;
 import ruby.bamboo.block.BlockRicePlant;
@@ -141,6 +142,7 @@ public class BambooInit {
     public static Block multiPot;
     public static Block blockBroom;
     public static Block blockHuton;
+    public static Block multiBlock;
 
     public static Item itembamboo;
     public static Item straw;
@@ -240,6 +242,7 @@ public class BambooInit {
         multiPot = registerBlock(new BlockMultiPot().setBlockTextureName("flower_pot"), ItemMultiPot.class, "bambooMultiPot", tabBamboo);
         blockBroom = registerBlock(new BlockBroom(), ItemSimpleSubtype.class, "blobkbroom", tabBamboo);
         blockHuton = registerBlock(new BlockHuton(), "bamboohuton");
+        multiBlock = registerBlock(new BlockMultiBlock(), "bamboomultiblock", tabBamboo);
         initLiang();
         registerBlock(new BlockManeki(Material.ground), "maneki", tabBamboo);
         if (BambooCore.DEBUGMODE) {
