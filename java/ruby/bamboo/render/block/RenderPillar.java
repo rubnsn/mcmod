@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 import ruby.bamboo.block.IPillarRender;
@@ -18,14 +17,12 @@ public class RenderPillar implements IRenderBlocks, IRenderInventory {
     }
 
     private void renderBlockPillar(RenderBlocks renderblocks, Block pillar, int par2, int par3, int par4) {
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.setBrightness(983055);
+
         IIcon icon = renderblocks.getBlockIcon((Block) pillar);
         int meta = renderblocks.blockAccess.getBlockMetadata(par2, par3, par4);
         boolean[] isSideRender = new boolean[] { pillar.shouldSideBeRendered(renderblocks.blockAccess, par2, par3 - 1, par4, 0), pillar.shouldSideBeRendered(renderblocks.blockAccess, par2, par3 + 1, par4, 1), pillar.shouldSideBeRendered(renderblocks.blockAccess, par2, par3, par4 - 1, 2), pillar.shouldSideBeRendered(renderblocks.blockAccess, par2, par3, par4 + 1, 3), pillar.shouldSideBeRendered(renderblocks.blockAccess, par2 - 1, par3, par4, 4), pillar.shouldSideBeRendered(renderblocks.blockAccess, par2 + 1, par3, par4, 5) };
         boolean[] isRender = new boolean[6];
         boolean isSmallScale;
-        renderblocks.enableAO = true;
 
         for (ForgeDirection fd : ForgeDirection.VALID_DIRECTIONS) {
             if (((IPillarRender) pillar).isLinkSkipp() && (fd == ForgeDirection.getOrientation(meta) || fd == ForgeDirection.getOrientation(meta).getOpposite())) {
@@ -77,46 +74,45 @@ public class RenderPillar implements IRenderBlocks, IRenderInventory {
                 renderblocks.setRenderBoundsFromBlock(pillar);
                 if (!(isRender[0] || isRender[1])) {
                     if (isSideRender[0] || isRender[2] || isRender[3] || isRender[4] || isRender[5]) {
-                        renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 1, 1, 1, 0);
+                        renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 0);
                     }
 
                     if (isSideRender[1] || isRender[2] || isRender[3] || isRender[4] || isRender[5]) {
-                        renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 1, 1, 1, 1);
+                        renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 1);
                     }
                 }
 
                 if (!(isRender[2] || isRender[3])) {
                     if (isSideRender[2] || isRender[0] || isRender[1] || isRender[4] || isRender[5]) {
-                        renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 1, 1, 1, 2);
+                        renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 2);
                     }
 
                     if (isSideRender[3] || isRender[0] || isRender[1] || isRender[4] || isRender[5]) {
-                        renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 1, 1, 1, 3);
+                        renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 3);
                     }
                 }
 
                 if (!(isRender[4] || isRender[5])) {
                     if (isSideRender[4] || isRender[0] || isRender[1] || isRender[2] || isRender[3]) {
-                        renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 1, 1, 1, 4);
+                        renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 4);
                     }
 
                     if (isSideRender[5] || isRender[0] || isRender[1] || isRender[2] || isRender[3]) {
-                        renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 1, 1, 1, 5);
+                        renderBlockWithAmbientOcclusion(renderblocks, pillar, par2, par3, par4, 5);
                     }
                 }
             }
         }
 
-        renderblocks.enableAO = false;
         ((IPillarRender) pillar).setCoreBoundsBox(renderblocks.blockAccess, par2, par3, par4);
         renderblocks.setRenderBoundsFromBlock(pillar);
-        renderblocks.renderStandardBlockWithAmbientOcclusion(pillar, par2, par3, par4, 1F, 1F, 1F);
+        renderblocks.renderStandardBlock(pillar, par2, par3, par4);
     }
 
     //RenderBlocksの同名メソッドがprivateなため?
-    private void renderBlockWithAmbientOcclusion(RenderBlocks renderer, Block par1Block, int par2, int par3, int par4, float par5, float par6, float par7, int side) {
+    private void renderBlockWithAmbientOcclusion(RenderBlocks renderer, Block par1Block, int par2, int par3, int par4, int side) {
         ((IPillarRender) par1Block).setRenderSide(side);
-        renderer.renderStandardBlockWithAmbientOcclusion(par1Block, par2, par3, par4, par5, par6, par7);
+        renderer.renderStandardBlock(par1Block, par2, par3, par4);
     }
 
     @Override

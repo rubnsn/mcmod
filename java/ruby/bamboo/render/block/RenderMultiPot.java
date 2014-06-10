@@ -47,7 +47,7 @@ public class RenderMultiPot implements IRenderBlocks {
         }
     }
 
-    private boolean renderBlockMultiPot(RenderBlocks render, BlockMultiPot blockPot, TileEntity tileentity, int x, int y, int z, int num) {
+    private void renderBlockMultiPot(RenderBlocks render, BlockMultiPot blockPot, TileEntity tileentity, int x, int y, int z, int num) {
         float offsetX = offset[PATTERN_X[num]];
         float offsetZ = offset[PATTERN_Z[num]];
         Tessellator tessellator = Tessellator.instance;
@@ -121,7 +121,6 @@ public class RenderMultiPot implements IRenderBlocks {
         }
 
         tessellator.addTranslation(-offsetX, 0, -offsetZ);
-        return true;
     }
 
     public static RenderMultiPot getInstance() {
