@@ -70,6 +70,7 @@ import ruby.bamboo.item.ItemHuton;
 import ruby.bamboo.item.ItemKaginawa;
 import ruby.bamboo.item.ItemKakeziku;
 import ruby.bamboo.item.ItemKatana;
+import ruby.bamboo.item.ItemMultiBlock;
 import ruby.bamboo.item.ItemMultiPot;
 import ruby.bamboo.item.ItemObon;
 import ruby.bamboo.item.ItemPillar;
@@ -242,7 +243,7 @@ public class BambooInit {
         multiPot = registerBlock(new BlockMultiPot().setBlockTextureName("flower_pot"), ItemMultiPot.class, "bambooMultiPot", tabBamboo);
         blockBroom = registerBlock(new BlockBroom(), ItemSimpleSubtype.class, "blobkbroom", tabBamboo);
         blockHuton = registerBlock(new BlockHuton(), "bamboohuton");
-        multiBlock = registerBlock(new BlockMultiBlock(), "bamboomultiblock", tabBamboo);
+        multiBlock = registerBlock(new BlockMultiBlock(), ItemMultiBlock.class, "bamboomultiblock", tabBamboo);
         initLiang();
         registerBlock(new BlockManeki(Material.ground), "maneki", tabBamboo);
         if (BambooCore.DEBUGMODE) {

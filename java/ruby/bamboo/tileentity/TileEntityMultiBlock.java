@@ -12,21 +12,30 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMultiBlock extends TileEntity {
-    private byte slotLength = 3;
-    private ItemStack[][][] slots = new ItemStack[this.slotLength][this.slotLength][this.slotLength];
-    private final float[] posPartition;
+    private byte slotLength;
+    private ItemStack[][][] slots;
+    private float[] posPartition;
 
     public TileEntityMultiBlock() {
+        this.setSlotLength((byte) 3);
+    }
+
+    public void setSlotLength(byte len) {
+        if (len < 1 || 64 < len) {
+            len = 3;
+        }
+        this.slotLength = len;
+        this.setPosPatition();
+        slots = new ItemStack[this.slotLength][this.slotLength][this.slotLength];
+
+    }
+
+    private void setPosPatition() {
         float[] tmp = new float[this.slotLength];
         for (int i = 0; i < this.slotLength; i++) {
             tmp[i] = ((int) ((1 / (float) (this.slotLength)) * (i + 1) * 1000)) / 1000F;
         }
         posPartition = tmp;
-    }
-
-    public TileEntityMultiBlock(byte slotLength) {
-        this();
-        this.slotLength = slotLength;
     }
 
     public byte getFieldSize() {
@@ -259,6 +268,9 @@ public class TileEntityMultiBlock extends TileEntity {
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
+        if (nbt.hasKey("this.slotLength")) {
+            this.setSlotLength(nbt.getByte("this.slotLength"));
+        }
         if (!nbt.hasKey("slotsNBT", 9)) {
             nbt.setTag("slotsNBT", new NBTTagList());
         }
@@ -274,9 +286,6 @@ public class TileEntityMultiBlock extends TileEntity {
                     }
                 }
             }
-        }
-        if (nbt.hasKey("this.slotLength")) {
-            this.slotLength = nbt.getByte("this.slotLength");
         }
     }
 
