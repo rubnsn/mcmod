@@ -32,6 +32,7 @@ public class BlockMultiBlock extends BlockContainer {
     public BlockMultiBlock() {
         super(Material.ground);
         this.setLightOpacity(0);
+        this.setHardness(1.0F);
     }
 
     @Override
@@ -42,13 +43,20 @@ public class BlockMultiBlock extends BlockContainer {
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
         ItemStack is = par5EntityPlayer.getCurrentEquippedItem();
-        if (is != null && Block.getBlockFromItem(is.getItem()).getRenderType() == 0) {
-            TileEntity tile = world.getTileEntity(x, y, z);
-            if (tile instanceof TileEntityMultiBlock) {
+        TileEntity tile = world.getTileEntity(x, y, z);
+        if (tile instanceof TileEntityMultiBlock) {
+            if (is != null && Block.getBlockFromItem(is.getItem()).getRenderType() == 0) {
                 if (((TileEntityMultiBlock) tile).setInnerBlock(par7, par8, par9, par6, is.copy())) {
                     if (!par5EntityPlayer.capabilities.isCreativeMode) {
                         is.stackSize--;
                     }
+                    world.markBlockForUpdate(x, y, z);
+                    return true;
+                }
+            } else {
+                ItemStack res = ((TileEntityMultiBlock) tile).removeInnerBlock(par7, par8, par9, par6);
+                if (res != null) {
+                    this.dropBlockAsItem(world, x, y, z, res);
                     world.markBlockForUpdate(x, y, z);
                     return true;
                 }
@@ -121,6 +129,18 @@ public class BlockMultiBlock extends BlockContainer {
         return super.collisionRayTrace(world, x, y, z, vec3Start, vec3End);
     }
 
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
+        TileEntity tile = world.getTileEntity(x, y, z);
+        if (tile instanceof TileEntityMultiBlock) {
+            if (((TileEntityMultiBlock) tile).isEmpty()) {
+                this.setBoundsForMeta(tile.getBlockMetadata());
+                return super.getSelectedBoundingBoxFromPool(world, x, y, z);
+            }
+        }
+        return AxisAlignedBB.getAABBPool().getAABB(x, y, z, x, y, z);
+    }
+
     private void setBoundsForMeta(int meta) {
         float f = 0.01F;
         switch (ForgeDirection.VALID_DIRECTIONS[meta]) {
@@ -156,27 +176,9 @@ public class BlockMultiBlock extends BlockContainer {
 
     @Override
     public int onBlockPlaced(World par1World, int par2, int par3, int par4, int par5, float par6, float par7, float par8, int par9) {
-        System.out.println(ForgeDirection.OPPOSITES[par5]);
         return ForgeDirection.OPPOSITES[par5];
     }
 
-    /*
-    @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int posX, int posY, int posZ) {
-        
-    }
-        @Override
-    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
-    }
-        @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getSelectedBoundingBoxFromPool(World p_149633_1_, int p_149633_2_, int p_149633_3_, int p_149633_4_)
-    {
-        }
-       @Override
-            public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_, int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_, List p_149743_6_, Entity p_149743_7_)
-    {
-    }
-    */
     @Override
     public boolean renderAsNormalBlock() {
         return false;

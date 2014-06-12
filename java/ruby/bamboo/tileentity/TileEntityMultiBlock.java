@@ -12,28 +12,32 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMultiBlock extends TileEntity {
-    private byte MAX_LENGTH = 3;
-    private ItemStack[][][] slots = new ItemStack[MAX_LENGTH][MAX_LENGTH][MAX_LENGTH];
+    private byte slotLength = 3;
+    private ItemStack[][][] slots = new ItemStack[this.slotLength][this.slotLength][this.slotLength];
     private final float[] posPartition;
 
     public TileEntityMultiBlock() {
-        MAX_LENGTH = 3;
-        float[] tmp = new float[MAX_LENGTH];
-        for (int i = 0; i < MAX_LENGTH; i++) {
-            tmp[i] = ((int) ((1 / (float) (MAX_LENGTH)) * (i + 1) * 1000)) / 1000F;
+        float[] tmp = new float[this.slotLength];
+        for (int i = 0; i < this.slotLength; i++) {
+            tmp[i] = ((int) ((1 / (float) (this.slotLength)) * (i + 1) * 1000)) / 1000F;
         }
         posPartition = tmp;
     }
 
+    public TileEntityMultiBlock(byte slotLength) {
+        this();
+        this.slotLength = slotLength;
+    }
+
     public byte getFieldSize() {
-        return MAX_LENGTH;
+        return this.slotLength;
     }
 
     public float[] getRenderOffset() {
-        float[] o = new float[MAX_LENGTH];
+        float[] o = new float[this.slotLength];
         int count = 0;
-        for (int i = 0; i < MAX_LENGTH; i++) {
-            o[i] = i * (1 / (float) (MAX_LENGTH));
+        for (int i = 0; i < this.slotLength; i++) {
+            o[i] = i * (1 / (float) (this.slotLength));
         }
         return o;
     }
@@ -58,6 +62,10 @@ public class TileEntityMultiBlock extends TileEntity {
         return res;
     }
 
+    public ItemStack getInnerItemStack(int x, int y, int z) {
+        return isInnerRange(x, y, z) ? slots[x][y][z] : null;
+    }
+
     public boolean isExist(int x, int y, int z) {
         if (isInnerRange(x, y, z)) {
             return slots[x][y][z] != null;
@@ -70,9 +78,9 @@ public class TileEntityMultiBlock extends TileEntity {
     }
 
     public boolean isEmpty() {
-        for (int x = 0; x < MAX_LENGTH; x++) {
-            for (int y = 0; y < MAX_LENGTH; y++) {
-                for (int z = 0; z < MAX_LENGTH; z++) {
+        for (int x = 0; x < this.slotLength; x++) {
+            for (int y = 0; y < this.slotLength; y++) {
+                for (int z = 0; z < this.slotLength; z++) {
                     if (slots[x][y][z] != null) {
                         return false;
                     }
@@ -83,9 +91,44 @@ public class TileEntityMultiBlock extends TileEntity {
     }
 
     public boolean setInnerBlock(float hitX, float hitY, float hitZ, int side, ItemStack is) {
-        byte innerX = MAX_LENGTH;
-        byte innerY = MAX_LENGTH;
-        byte innerZ = MAX_LENGTH;
+        byte[] innerPos = getInnerPos(hitX, hitY, hitZ, side);
+        if (isInnerRange(innerPos[0], innerPos[1], innerPos[2])) {
+            if (getInnerBlock(innerPos[0], innerPos[1], innerPos[2]) == Blocks.air) {
+                is.stackSize = 1;
+                this.setInnerSlot(innerPos[0], innerPos[1], innerPos[2], is);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ItemStack removeInnerBlock(float hitX, float hitY, float hitZ, int side) {
+        byte[] innerPos = getInnerPos(hitX, hitY, hitZ, ForgeDirection.OPPOSITES[side]);
+        ItemStack res = getInnerItemStack(innerPos[0], innerPos[1], innerPos[2]);
+        if (res != null) {
+            this.removeInnerSlot(innerPos[0], innerPos[1], innerPos[2]);
+        }
+        return res;
+    }
+
+    public void setInnerSlot(byte innerX, byte innerY, byte innerZ, ItemStack is) {
+        if (isInnerRange(innerX, innerY, innerZ)) {
+            slots[innerX][innerY][innerZ] = is;
+            this.markDirty();
+        }
+    }
+
+    public void removeInnerSlot(byte innerX, byte innerY, byte innerZ) {
+        if (isInnerRange(innerX, innerY, innerZ)) {
+            slots[innerX][innerY][innerZ] = null;
+            this.markDirty();
+        }
+    }
+
+    private byte[] getInnerPos(float hitX, float hitY, float hitZ, int side) {
+        byte innerX = this.slotLength;
+        byte innerY = this.slotLength;
+        byte innerZ = this.slotLength;
         hitX = (int) (hitX * 1000) / 1000F;
         hitY = (int) (hitY * 1000) / 1000F;
         hitZ = (int) (hitZ * 1000) / 1000F;
@@ -99,40 +142,33 @@ public class TileEntityMultiBlock extends TileEntity {
             if (hitZ == posPartition[i]) {
                 hitZ += ForgeDirection.VALID_DIRECTIONS[side].offsetZ * 0.01F;
             }
-            if (innerX == MAX_LENGTH && hitX < posPartition[i]) {
+            if (innerX == this.slotLength && hitX < posPartition[i]) {
                 innerX = i;
             }
-            if (innerY == MAX_LENGTH && hitY < posPartition[i]) {
+            if (innerY == this.slotLength && hitY < posPartition[i]) {
                 innerY = i;
             }
-            if (innerZ == MAX_LENGTH && hitZ < posPartition[i]) {
+            if (innerZ == this.slotLength && hitZ < posPartition[i]) {
                 innerZ = i;
             }
         }
-        if (isInnerRange(innerX, innerY, innerZ)) {
-            if (getInnerBlock(innerX, innerY, innerZ) == Blocks.air) {
-                slots[innerX][innerY][innerZ] = is;
-                this.markDirty();
-                return true;
-            }
-        }
-        return false;
+        return new byte[] { innerX, innerY, innerZ };
     }
 
     private boolean isInnerRange(int x, int y, int z) {
-        return 0 <= x && 0 <= y && 0 <= z && x < MAX_LENGTH && y < MAX_LENGTH && z < MAX_LENGTH;
+        return 0 <= x && 0 <= y && 0 <= z && x < this.slotLength && y < this.slotLength && z < this.slotLength;
     }
 
     public byte[][][] getVisibleFlg() {
-        byte[][][] flgs = new byte[MAX_LENGTH][MAX_LENGTH][MAX_LENGTH];
+        byte[][][] flgs = new byte[this.slotLength][this.slotLength][this.slotLength];
         boolean[] outerOpaqueCubeFlgs = new boolean[ForgeDirection.VALID_DIRECTIONS.length];
         //外世界
         for (ForgeDirection fd : ForgeDirection.VALID_DIRECTIONS) {
             outerOpaqueCubeFlgs[fd.ordinal()] = this.getWorldObj().getBlock(xCoord + fd.offsetX, yCoord + fd.offsetY, zCoord + fd.offsetZ).isOpaqueCube();
         }
-        for (int x = 0; x < MAX_LENGTH; x++) {
-            for (int y = 0; y < MAX_LENGTH; y++) {
-                for (int z = 0; z < MAX_LENGTH; z++) {
+        for (int x = 0; x < this.slotLength; x++) {
+            for (int y = 0; y < this.slotLength; y++) {
+                for (int z = 0; z < this.slotLength; z++) {
                     for (ForgeDirection fd : ForgeDirection.VALID_DIRECTIONS) {
                         //外の世界のブロック
                         switch (fd) {
@@ -144,7 +180,7 @@ public class TileEntityMultiBlock extends TileEntity {
                             }
                             break;
                         case EAST:
-                            if (x == MAX_LENGTH - 1) {
+                            if (x == this.slotLength - 1) {
                                 if (outerOpaqueCubeFlgs[fd.ordinal()]) {
                                     continue;
                                 }
@@ -158,14 +194,14 @@ public class TileEntityMultiBlock extends TileEntity {
                             }
                             break;
                         case SOUTH:
-                            if (z == MAX_LENGTH - 1) {
+                            if (z == this.slotLength - 1) {
                                 if (outerOpaqueCubeFlgs[fd.ordinal()]) {
                                     continue;
                                 }
                             }
                             break;
                         case UP:
-                            if (y == MAX_LENGTH - 1) {
+                            if (y == this.slotLength - 1) {
                                 if (outerOpaqueCubeFlgs[fd.ordinal()]) {
                                     continue;
                                 }
@@ -201,9 +237,9 @@ public class TileEntityMultiBlock extends TileEntity {
         }
         NBTTagList list = nbt.getTagList("slotsNBT", 10);
         NBTTagCompound parser = new NBTTagCompound();
-        for (int i = 0; i < MAX_LENGTH; i++) {
-            for (int j = 0; j < MAX_LENGTH; j++) {
-                for (int k = 0; k < MAX_LENGTH; k++) {
+        for (int i = 0; i < this.slotLength; i++) {
+            for (int j = 0; j < this.slotLength; j++) {
+                for (int k = 0; k < this.slotLength; k++) {
                     NBTTagCompound slotNBT;
                     if (slots[i][j][k] != null) {
                         slotNBT = new NBTTagCompound();
@@ -217,6 +253,7 @@ public class TileEntityMultiBlock extends TileEntity {
                 }
             }
         }
+        nbt.setByte("this.slotLength", this.slotLength);
     }
 
     @Override
@@ -227,9 +264,9 @@ public class TileEntityMultiBlock extends TileEntity {
         }
         NBTTagList list = nbt.getTagList("slotsNBT", 10);
         int count = 0;
-        for (int i = 0; i < MAX_LENGTH && i < list.tagCount(); i++) {
-            for (int j = 0; j < MAX_LENGTH && j < list.tagCount(); j++) {
-                for (int k = 0; k < MAX_LENGTH; k++) {
+        for (int i = 0; i < this.slotLength && i < list.tagCount(); i++) {
+            for (int j = 0; j < this.slotLength && j < list.tagCount(); j++) {
+                for (int k = 0; k < this.slotLength; k++) {
                     NBTTagCompound slotNBT = list.getCompoundTagAt(count++);
                     if (slotNBT.hasKey("itemNBT")) {
                         NBTTagCompound itemNBT = (NBTTagCompound) slotNBT.getTag("itemNBT");
@@ -237,6 +274,9 @@ public class TileEntityMultiBlock extends TileEntity {
                     }
                 }
             }
+        }
+        if (nbt.hasKey("this.slotLength")) {
+            this.slotLength = nbt.getByte("this.slotLength");
         }
     }
 
