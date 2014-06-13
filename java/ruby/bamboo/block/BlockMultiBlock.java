@@ -76,6 +76,11 @@ public class BlockMultiBlock extends BlockContainer {
         par3List.add(new ItemStack(par1, 1, 5));
     }
 
+    @SideOnly(Side.CLIENT)
+    public int getRenderBlockPass() {
+        return 1;
+    }
+
     @Override
     public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB bb, List list, Entity entiyt) {
 

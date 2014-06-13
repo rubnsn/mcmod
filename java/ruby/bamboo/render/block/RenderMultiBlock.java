@@ -28,6 +28,7 @@ public class RenderMultiBlock implements IRenderBlocks {
                         innerBlock = tileMulti.getInnerBlock(innerX, innerY, innerZ);
                         meta = tileMulti.getInnerMeta(innerX, innerY, innerZ);
                         if (innerBlock != Blocks.air) {
+                            par1Block.setBlockBoundsBasedOnState(renderblocks.blockAccess, par2, par3, par4);
                             renderMultiBlock(renderblocks, (BlockMultiBlock) par1Block, meta, visibleFlgs[innerX][innerY][innerZ], tileMulti.getFieldSize(), par2, par3, par4, innerX, innerY, innerZ);
                         }
                     }

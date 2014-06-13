@@ -15,13 +15,14 @@ public class TileEntityMultiBlock extends TileEntity {
     private byte slotLength;
     private ItemStack[][][] slots;
     private float[] posPartition;
+    private static final int accuracy = 100000;
 
     public TileEntityMultiBlock() {
         this.setSlotLength((byte) 3);
     }
 
     public void setSlotLength(byte len) {
-        if (len < 1 || 64 < len) {
+        if (len < 1 || 16 < len) {
             len = 3;
         }
         this.slotLength = len;
@@ -33,7 +34,7 @@ public class TileEntityMultiBlock extends TileEntity {
     private void setPosPatition() {
         float[] tmp = new float[this.slotLength];
         for (int i = 0; i < this.slotLength; i++) {
-            tmp[i] = ((int) ((1 / (float) (this.slotLength)) * (i + 1) * 1000)) / 1000F;
+            tmp[i] = ((int) ((1 / (float) (this.slotLength)) * (i + 1) * accuracy)) / (float) accuracy;
         }
         posPartition = tmp;
     }
@@ -138,19 +139,13 @@ public class TileEntityMultiBlock extends TileEntity {
         byte innerX = this.slotLength;
         byte innerY = this.slotLength;
         byte innerZ = this.slotLength;
-        hitX = (int) (hitX * 1000) / 1000F;
-        hitY = (int) (hitY * 1000) / 1000F;
-        hitZ = (int) (hitZ * 1000) / 1000F;
+        hitX = (int) (hitX * accuracy) / (float) accuracy;
+        hitY = (int) (hitY * accuracy) / (float) accuracy;
+        hitZ = (int) (hitZ * accuracy) / (float) accuracy;
+        hitX += ForgeDirection.VALID_DIRECTIONS[side].offsetX * (10 / (float) accuracy);
+        hitY += ForgeDirection.VALID_DIRECTIONS[side].offsetY * (10 / (float) accuracy);
+        hitZ += ForgeDirection.VALID_DIRECTIONS[side].offsetZ * (10 / (float) accuracy);
         for (byte i = 0; i < posPartition.length; i++) {
-            if (hitX == posPartition[i]) {
-                hitX += ForgeDirection.VALID_DIRECTIONS[side].offsetX * 0.01F;
-            }
-            if (hitY == posPartition[i]) {
-                hitY += ForgeDirection.VALID_DIRECTIONS[side].offsetY * 0.01F;
-            }
-            if (hitZ == posPartition[i]) {
-                hitZ += ForgeDirection.VALID_DIRECTIONS[side].offsetZ * 0.01F;
-            }
             if (innerX == this.slotLength && hitX < posPartition[i]) {
                 innerX = i;
             }
