@@ -208,7 +208,7 @@ public class BlockDeludeStair extends BlockStairs implements IDelude {
 
     @Override
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World par1World, int par2, int par3, int par4) {
-        return AxisAlignedBB.getAABBPool().getAABB(par2, par3, par4, (double) par2 + 1, (double) par3 + 1, (double) par4 + 1);
+        return AxisAlignedBB.getBoundingBox(par2, par3, par4, (double) par2 + 1, (double) par3 + 1, (double) par4 + 1);
     }
 
     @Override

@@ -181,7 +181,7 @@ public abstract class BlockLiangBase extends Block implements IPillarRender {
 
     @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int posX, int posY, int posZ) {
-        return AxisAlignedBB.getAABBPool().getAABB(posX, posY, posZ, posX + 1, posY + 1, posZ + 1);
+        return AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX + 1, posY + 1, posZ + 1);
     }
 
     @Override

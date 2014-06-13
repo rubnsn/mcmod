@@ -223,6 +223,8 @@ public class TileEntityMultiBlock extends TileEntity {
                                 }
                             }
                             break;
+                        default:
+                            break;
                         }
                         //内部ブロック
                         if (getOffsetedInnerBlock(x, y, z, fd).isOpaqueCube()) {

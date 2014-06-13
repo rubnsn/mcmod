@@ -106,9 +106,10 @@ public class BlockMultiBlock extends BlockContainer {
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile instanceof TileEntityMultiBlock) {
             MovingObjectPosition[] mop = new MovingObjectPosition[(int) Math.pow(((TileEntityMultiBlock) tile).getFieldSize(), 3) + 1];
+            int count = 0;
             this.setBoundsForMeta(tile.getBlockMetadata());
-            mop[0] = super.collisionRayTrace(world, x, y, z, vec3Start, vec3End);
-            int count = 1;
+            mop[count++] = super.collisionRayTrace(world, x, y, z, vec3Start, vec3End);
+
             for (int innerX = 0; innerX < ((TileEntityMultiBlock) tile).getFieldSize(); innerX++) {
                 for (int innerY = 0; innerY < ((TileEntityMultiBlock) tile).getFieldSize(); innerY++) {
                     for (int innerZ = 0; innerZ < ((TileEntityMultiBlock) tile).getFieldSize(); innerZ++) {
@@ -149,7 +150,7 @@ public class BlockMultiBlock extends BlockContainer {
                 return super.getSelectedBoundingBoxFromPool(world, x, y, z);
             }
         }
-        return AxisAlignedBB.getAABBPool().getAABB(x, y, z, x, y, z);
+        return AxisAlignedBB.getBoundingBox(x, y, z, x, y, z);
     }
 
     private void setBoundsForMeta(int meta) {

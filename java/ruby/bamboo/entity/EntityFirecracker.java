@@ -135,7 +135,7 @@ public class EntityFirecracker extends EntityThrowable {
                 int var27 = MathHelper.floor_double(this.explosionY + this.explosionSize + 1.0D);
                 int var7 = MathHelper.floor_double(this.explosionZ - this.explosionSize - 1.0D);
                 int var28 = MathHelper.floor_double(this.explosionZ + this.explosionSize + 1.0D);
-                List var9 = worldObj.getEntitiesWithinAABBExcludingEntity(this.exploder, AxisAlignedBB.getAABBPool().getAABB(var3, var5, var7, var4, var27, var28));
+                List var9 = worldObj.getEntitiesWithinAABBExcludingEntity(this.exploder, AxisAlignedBB.getBoundingBox(var3, var5, var7, var4, var27, var28));
                 Vec3 var29 = Vec3.fakePool.getVecFromPool(this.explosionX, this.explosionY, this.explosionZ);
 
                 for (int var11 = 0; var11 < var9.size(); ++var11) {
