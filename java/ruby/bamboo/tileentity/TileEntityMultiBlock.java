@@ -116,6 +116,7 @@ public class TileEntityMultiBlock extends TileEntity {
         byte[] innerPos = getInnerPos(hitX, hitY, hitZ, ForgeDirection.OPPOSITES[side]);
         ItemStack res = getInnerItemStack(innerPos[0], innerPos[1], innerPos[2]);
         if (res != null) {
+            res.setItemDamage(Block.getBlockFromItem(res.getItem()).damageDropped(res.getItemDamage()));
             this.removeInnerSlot(innerPos[0], innerPos[1], innerPos[2]);
         }
         return res;

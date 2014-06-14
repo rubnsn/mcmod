@@ -22,6 +22,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.CustomRenderHandler;
 import ruby.bamboo.tileentity.TileEntityMultiBlock;
+import ruby.bamboo.world.DummyWorld;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -50,8 +51,17 @@ public class BlockMultiBlock extends BlockContainer {
         ItemStack is = par5EntityPlayer.getCurrentEquippedItem();
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile instanceof TileEntityMultiBlock) {
-            if (is != null && Block.getBlockFromItem(is.getItem()).getRenderType() == 0) {
-                if (((TileEntityMultiBlock) tile).setInnerBlock(par7, par8, par9, par6, is.copy())) {
+            if (is != null && (Block.getBlockFromItem(is.getItem()).getRenderType() == 0 || Block.getBlockFromItem(is.getItem()).isNormalCube())) {
+                Block block = Block.getBlockFromItem(is.getItem());
+                DummyWorld.lastSetMeta = 0;
+                block.onBlockPlacedBy(DummyWorld.dummyInstance, 0, 0, 0, par5EntityPlayer, is);
+                int meta = block.onBlockPlaced(DummyWorld.dummyInstance, 0, 0, 0, par6, par7, par8, par9, is.getItemDamage());
+                if (meta == 0) {
+                    meta = DummyWorld.lastSetMeta;
+                }
+                ItemStack copy = is.copy();
+                copy.setItemDamage(meta);
+                if (((TileEntityMultiBlock) tile).setInnerBlock(par7, par8, par9, par6, copy)) {
                     if (!par5EntityPlayer.capabilities.isCreativeMode) {
                         is.stackSize--;
                     }
@@ -68,6 +78,7 @@ public class BlockMultiBlock extends BlockContainer {
                     return true;
                 }
             }
+
         }
         return false;
     }
