@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,6 +19,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.CustomRenderHandler;
 import ruby.bamboo.tileentity.TileEntityMultiBlock;
 import cpw.mods.fml.relauncher.Side;
@@ -25,11 +27,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockMultiBlock extends BlockContainer {
 
-    private byte renderSide;
+    private byte renderSide = 0x3F;
     private byte innerX;
     private byte innerY;
     private byte innerZ;
     public boolean isTopRender = false;
+    private IIcon icon;
 
     public BlockMultiBlock() {
         super(Material.ground);
@@ -58,7 +61,9 @@ public class BlockMultiBlock extends BlockContainer {
             } else {
                 ItemStack res = ((TileEntityMultiBlock) tile).removeInnerBlock(par7, par8, par9, par6);
                 if (res != null) {
-                    this.dropBlockAsItem(world, x, y, z, res);
+                    if (!par5EntityPlayer.capabilities.isCreativeMode) {
+                        this.dropBlockAsItem(world, x, y, z, res);
+                    }
                     world.markBlockForUpdate(x, y, z);
                     return true;
                 }
@@ -148,18 +153,12 @@ public class BlockMultiBlock extends BlockContainer {
 
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
-        TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile instanceof TileEntityMultiBlock) {
-            if (((TileEntityMultiBlock) tile).isEmpty()) {
-                this.setBoundsForMeta(tile.getBlockMetadata());
-                return super.getSelectedBoundingBoxFromPool(world, x, y, z);
-            }
-        }
-        return AxisAlignedBB.getBoundingBox(x, y, z, x, y, z);
+        this.setBoundsForMeta(world.getBlockMetadata(x, y, z));
+        return super.getSelectedBoundingBoxFromPool(world, x, y, z);
     }
 
-    private void setBoundsForMeta(int meta) {
-        float f = 0.01F;
+    public void setBoundsForMeta(int meta) {
+        float f = 0.001F;
         switch (ForgeDirection.VALID_DIRECTIONS[meta]) {
         case DOWN:
             this.setBlockBounds(0, 0, 0, 1, f, 1);
@@ -180,15 +179,9 @@ public class BlockMultiBlock extends BlockContainer {
             this.setBlockBounds(0, 0, 0, f, 1, 1);
             break;
         default:
-            this.setBlockBounds(0, 0, 0, 1, 1F, 1);
+            this.setBlockBounds(0, 0, 0, 1, 1, 1);
             break;
         }
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getMixedBrightnessForBlock(IBlockAccess p_149677_1_, int p_149677_2_, int p_149677_3_, int p_149677_4_) {
-        return super.getMixedBrightnessForBlock(p_149677_1_, p_149677_2_, p_149677_3_, p_149677_4_);
     }
 
     @Override
@@ -207,15 +200,11 @@ public class BlockMultiBlock extends BlockContainer {
     }
 
     @SideOnly(Side.CLIENT)
-    public void setRenderSide(byte renderSide) {
-        this.renderSide = renderSide;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public void setInnerPos(byte x, byte y, byte z) {
+    public void setInnerPos(byte x, byte y, byte z, byte renderSide) {
         this.innerX = x;
         this.innerY = y;
         this.innerZ = z;
+        this.renderSide = renderSide;
     }
 
     @Override
@@ -224,9 +213,11 @@ public class BlockMultiBlock extends BlockContainer {
         TileEntity tile = iBlockAccess.getTileEntity(x, y, z);
         if (tile instanceof TileEntityMultiBlock) {
             TileEntityMultiBlock tileMulti = (TileEntityMultiBlock) tile;
-            return tileMulti.getInnerBlock(innerX, innerY, innerZ).getIcon(side, tileMulti.getInnerMeta(innerX, innerY, innerZ));
+            if (!((TileEntityMultiBlock) tile).isEmpty()) {
+                return tileMulti.getInnerBlock(innerX, innerY, innerZ).getIcon(side, tileMulti.getInnerMeta(innerX, innerY, innerZ));
+            }
         }
-        return null;
+        return icon;
     }
 
     @Override
@@ -237,6 +228,12 @@ public class BlockMultiBlock extends BlockContainer {
     @Override
     public TileEntity createNewTileEntity(World var1, int var2) {
         return new TileEntityMultiBlock();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister p_149651_1_) {
+        this.icon = p_149651_1_.registerIcon(BambooCore.resourceDomain + "multiblock");
     }
 
 }

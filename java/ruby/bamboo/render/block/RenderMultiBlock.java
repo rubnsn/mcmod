@@ -22,17 +22,25 @@ public class RenderMultiBlock implements IRenderBlocks {
             int meta;
             byte[][][] visibleFlgs = tileMulti.getVisibleFlg();
             offset = tileMulti.getRenderOffset();
-            for (byte innerX = 0; innerX < tileMulti.getFieldSize(); innerX++) {
-                for (byte innerY = 0; innerY < tileMulti.getFieldSize(); innerY++) {
-                    for (byte innerZ = 0; innerZ < tileMulti.getFieldSize(); innerZ++) {
-                        innerBlock = tileMulti.getInnerBlock(innerX, innerY, innerZ);
-                        meta = tileMulti.getInnerMeta(innerX, innerY, innerZ);
-                        if (innerBlock != Blocks.air) {
-                            par1Block.setBlockBoundsBasedOnState(renderblocks.blockAccess, par2, par3, par4);
-                            renderMultiBlock(renderblocks, (BlockMultiBlock) par1Block, meta, visibleFlgs[innerX][innerY][innerZ], tileMulti.getFieldSize(), par2, par3, par4, innerX, innerY, innerZ);
+            if (!((TileEntityMultiBlock) tile).isEmpty()) {
+                for (byte innerX = 0; innerX < tileMulti.getFieldSize(); innerX++) {
+                    for (byte innerY = 0; innerY < tileMulti.getFieldSize(); innerY++) {
+                        for (byte innerZ = 0; innerZ < tileMulti.getFieldSize(); innerZ++) {
+                            innerBlock = tileMulti.getInnerBlock(innerX, innerY, innerZ);
+                            if (innerBlock != Blocks.air) {
+                                meta = tileMulti.getInnerMeta(innerX, innerY, innerZ);
+                                renderMultiBlock(renderblocks, (BlockMultiBlock) par1Block, meta, visibleFlgs[innerX][innerY][innerZ], tileMulti.getFieldSize(), par2, par3, par4, innerX, innerY, innerZ);
+                            }
                         }
                     }
                 }
+            } else {
+                ((BlockMultiBlock) par1Block).setBoundsForMeta(renderblocks.blockAccess.getBlockMetadata(par2, par3, par4));
+                renderblocks.setRenderBoundsFromBlock(par1Block);
+                ((BlockMultiBlock) par1Block).setInnerPos((byte) 0, (byte) 0, (byte) 0, (byte) 0x3F);
+                ((BlockMultiBlock) par1Block).isTopRender = true;
+                renderblocks.renderStandardBlock(par1Block, par2, par3, par4);
+                ((BlockMultiBlock) par1Block).isTopRender = false;
             }
         }
     }
@@ -41,12 +49,12 @@ public class RenderMultiBlock implements IRenderBlocks {
         Tessellator tessellator = Tessellator.instance;
         float size = (1 / (float) fieldSize);
         renderblocks.setRenderBounds(offset[innerX], offset[innerY], offset[innerZ], offset[innerX] + size, offset[innerY] + size, offset[innerZ] + size);
-        par1Block.setRenderSide(visibleFlg);
-        par1Block.setInnerPos(innerX, innerY, innerZ);
+        par1Block.setInnerPos(innerX, innerY, innerZ, visibleFlg);
         renderblocks.renderStandardBlock(par1Block, par2, par3, par4);
         par1Block.isTopRender = true;
         renderTop(renderblocks, par1Block, par2, par3, par4, innerX, innerZ);
         par1Block.isTopRender = false;
+
     }
 
     private void renderTop(RenderBlocks render, Block block, int x, int y, int z, byte innerX, byte innerZ) {
