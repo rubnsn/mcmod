@@ -27,7 +27,7 @@ public class TileEntityCampfire extends TileEntity implements ISidedInventory {
     private static final byte SLOT_RESULT = 10;
     private static final int MAX_FUEL = 102400;
     public int fuel;
-    public int cookTime;
+    public int cookTime = 200;
     private boolean isBurn = false;
     public ItemStack nowCookingResult;
     //クライアント側GUI
@@ -337,7 +337,7 @@ public class TileEntityCampfire extends TileEntity implements ISidedInventory {
 
     @Override
     public boolean canExtractItem(int var1, ItemStack var2, int var3) {
-        return var3 != 0 || var1 != 1 || var2.getItem() == Items.bucket;
+        return var3 != 0 || var1 != 9 || var2.getItem() == Items.bucket;
     }
 
     public int getCookAmount() {
