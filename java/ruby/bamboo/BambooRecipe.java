@@ -79,6 +79,7 @@ import ruby.bamboo.block.BlockLiangBamboo;
 import ruby.bamboo.block.BlockLiangBamboo.EnumBlock;
 import ruby.bamboo.entity.EnumSlideDoor;
 import ruby.bamboo.item.EnumShavedIce;
+import ruby.bamboo.item.crafting.CookingManager;
 import ruby.bamboo.item.crafting.GrindRegistory;
 import ruby.bamboo.tileentity.spa.BoilDye;
 import ruby.bamboo.tileentity.spa.BoilManager;
@@ -132,17 +133,7 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(firecracker, 10, 0), " # ", " X ", " # ", '#', BUSKET, 'X', Items.gunpowder);
         addShapedOreRecipe(new ItemStack(firecracker, 1, 1), " # ", "XYX", " # ", '#', BUSKET, 'X', Items.gunpowder, 'Y', new ItemStack(firecracker, 1, 0));
         addShapedOreRecipe(new ItemStack(firecracker, 1, 2), " # ", "XYX", " # ", '#', BUSKET, 'X', Items.gunpowder, 'Y', new ItemStack(firecracker, 1, 1));
-        // 飯類
-        addShapelessOreRecipe(new ItemStack(foods, 1, 1), Items.cooked_beef, COOKING_RICE);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 2), Items.cooked_porkchop, COOKING_RICE);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 3), Blocks.red_mushroom, COOKING_RICE);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 4), Items.cooked_porkchop, BAMBOO);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 5), Items.cooked_beef, BAMBOO);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 6), bambooShoot, COOKING_RICE);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 7), Items.egg, COOKING_RICE);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 8), Items.egg, Items.cooked_chicken, COOKING_RICE);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 9), Items.fish, COOKING_RICE);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 10), Items.cooked_chicken, BAMBOO);
+
         // 箪笥
         addShapedOreRecipe(new ItemStack(jpchest, 1, 0), "YYY", "Y#Y", "YYY", '#', TUDURA, 'Y', "logWood");
         // 畳 茅葺き
@@ -294,12 +285,27 @@ public class BambooRecipe {
         addGrindRecipe();
         //煮る系
         addBileRecipe();
+        //料理
+        addCookingRecipe();
         // やきもの
         GameRegistry.addSmelting(singleTexDeco, new ItemStack(Items.coal, 1, 1), 0.15F);
         GameRegistry.addSmelting(sakuralog, new ItemStack(Items.coal, 1, 1), 0.15F);
         GameRegistry.addSmelting(rawrice, new ItemStack(foods, 1, 0), 0.15F);
         //燃料
         addFuel();
+    }
+
+    private void addCookingRecipe() {
+        CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 1), Items.beef, CROP_RICE));
+        CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 2), Items.porkchop, CROP_RICE));
+        CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 3), Blocks.red_mushroom, CROP_RICE));
+        CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 4), Items.porkchop, BAMBOO));
+        CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 5), Items.beef, BAMBOO));
+        CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 6), bambooShoot, CROP_RICE));
+        CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 7), Items.egg, CROP_RICE));
+        CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 8), Items.egg, Items.chicken, CROP_RICE));
+        CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 9), Items.fish, CROP_RICE));
+        CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 10), Items.chicken, BAMBOO));
     }
 
     private void addGrindRecipe() {

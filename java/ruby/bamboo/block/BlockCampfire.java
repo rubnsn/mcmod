@@ -98,6 +98,17 @@ public class BlockCampfire extends BlockContainer {
     @Override
     public void breakBlock(World par1World, int par2, int par3, int par4, Block par5, int par6) {
         if (!keepFurnaceInventory) {
+            TileEntity tile = par1World.getTileEntity(par2, par3, par4);
+            if (tile instanceof TileEntityCampfire) {
+                ItemStack[] slots = ((TileEntityCampfire) tile).getSlots();
+                if (slots != null) {
+                    for (int i = 0; i < slots.length; i++) {
+                        if (slots[i] != null) {
+                            this.dropBlockAsItem(par1World, par2, par3, par4, slots[i]);
+                        }
+                    }
+                }
+            }
             par1World.removeTileEntity(par2, par3, par4);
         }
     }

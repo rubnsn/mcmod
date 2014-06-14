@@ -19,9 +19,10 @@ import ruby.bamboo.item.crafting.CookingManager;
 public class TileEntityCampfire extends TileEntity implements ISidedInventory {
     private int meatroll;
     private static final int[] slotsTop = new int[] { 0 };
-    private static final int[] slotsBottom = new int[] { 2, 1 };
-    private static final int[] slotsSides = new int[] { 1 };
+    private static final int[] slotsBottom = new int[] { 9, 10 };
+    private static final int[] slotsSides = new int[] { 9 };
     private ItemStack[] slots = new ItemStack[11];
+    private ItemStack[] copyMatrix = new ItemStack[9];
     private static final byte SLOT_FUEL = 9;
     private static final byte SLOT_RESULT = 10;
     private static final int MAX_FUEL = 102400;
@@ -50,19 +51,30 @@ public class TileEntityCampfire extends TileEntity implements ISidedInventory {
 
     void updateCooking() {
         if (!worldObj.isRemote) {
-            if (199 < fuel && !isBurn && this.canCooking()) {
+            if (199 < fuel && !isBurn && !isEmpty() && this.canCooking()) {
                 if (slots[SLOT_RESULT] == null) {
                     isBurn = true;
-                    updateBurn();
+                    cookTime = 200;
+                    this.setMatrix();
                 } else if (nowCookingResult.isItemEqual(slots[SLOT_RESULT]) && slots[SLOT_RESULT].stackSize < slots[SLOT_RESULT].getMaxStackSize()) {
                     isBurn = true;
-                    updateBurn();
+                    cookTime = 200;
+                    this.setMatrix();
                 }
             } else {
                 updateBurn();
             }
         }
 
+    }
+
+    private boolean isEmpty() {
+        for (int i = 0; i < 9; i++) {
+            if (slots[i] != null) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -75,18 +87,19 @@ public class TileEntityCampfire extends TileEntity implements ISidedInventory {
     }
 
     private void updateBurn() {
-        if (!isBurn) {
-            cookTime = 200;
-        } else {
+        if (isBurn) {
             if (--cookTime <= 0) {
                 if (nowCookingResult != null) {
-                    if (slots[SLOT_RESULT] == null) {
-                        materialConsumption();
-                        slots[SLOT_RESULT] = nowCookingResult.copy();
-                        slots[SLOT_RESULT].stackSize = 1;
-                    } else if (nowCookingResult.isItemEqual(slots[SLOT_RESULT]) && slots[SLOT_RESULT].stackSize < slots[SLOT_RESULT].getMaxStackSize()) {
-                        materialConsumption();
-                        slots[SLOT_RESULT].stackSize++;
+                    ItemStack nowMatrix = CookingManager.getInstance().findMatchingRecipe(slots, this.getWorldObj());
+                    if (nowMatrix != null && nowMatrix.isItemEqual(nowCookingResult)) {
+                        if (slots[SLOT_RESULT] == null) {
+                            materialConsumption();
+                            slots[SLOT_RESULT] = nowCookingResult.copy();
+                            slots[SLOT_RESULT].stackSize = 1;
+                        } else if (nowCookingResult.isItemEqual(slots[SLOT_RESULT]) && slots[SLOT_RESULT].stackSize < slots[SLOT_RESULT].getMaxStackSize()) {
+                            materialConsumption();
+                            slots[SLOT_RESULT].stackSize++;
+                        }
                     }
                 }
                 nowCookingResult = null;
@@ -94,17 +107,29 @@ public class TileEntityCampfire extends TileEntity implements ISidedInventory {
                 cookTime = 200;
             }
             if ((cookTime & 1) == 0) {
-                if (nowCookingResult != null) {
-                    ItemStack nowMatrix = CookingManager.getInstance().findMatchingRecipe(slots, this.getWorldObj());
-                    if (nowMatrix != null && !nowMatrix.isItemEqual(nowCookingResult)) {
-                        nowCookingResult = nowMatrix;
-                    } else {
-                        isBurn = false;
-                    }
+                if (!this.chkMtrix()) {
+                    nowCookingResult = null;
+                    isBurn = false;
+                    cookTime = 200;
                 }
 
             }
         }
+    }
+
+    private void setMatrix() {
+        for (int i = 0; i < 9; i++) {
+            copyMatrix[i] = getStackInSlot(i);
+        }
+    }
+
+    private boolean chkMtrix() {
+        for (int i = 0; i < 9; i++) {
+            if (copyMatrix[i] != slots[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void materialConsumption() {
@@ -125,12 +150,16 @@ public class TileEntityCampfire extends TileEntity implements ISidedInventory {
                 if (fuel + slotFuel <= MAX_FUEL) {
                     fuel += slotFuel;
                     if (--slots[SLOT_FUEL].stackSize == 0) {
-                        slots[SLOT_FUEL] = null;
+                        slots[SLOT_FUEL] = slots[SLOT_FUEL].getItem().getContainerItem(slots[SLOT_FUEL]);
                     }
 
                 }
             }
         }
+    }
+
+    public ItemStack[] getSlots() {
+        return slots;
     }
 
     public void readFromNBT(NBTTagCompound nbt) {
@@ -292,7 +321,7 @@ public class TileEntityCampfire extends TileEntity implements ISidedInventory {
 
     @Override
     public boolean isItemValidForSlot(int var1, ItemStack var2) {
-        return var1 == 2 ? false : (var1 == 1 ? TileEntityFurnace.isItemFuel(var2) : true);
+        return var1 == 2 ? false : (var1 == 9 ? TileEntityFurnace.isItemFuel(var2) : true);
 
     }
 
