@@ -42,6 +42,7 @@ import static ruby.bamboo.BambooInit.liangVanillaWoodThick;
 import static ruby.bamboo.BambooInit.liangVanillaWoodThin;
 import static ruby.bamboo.BambooInit.millStone;
 import static ruby.bamboo.BambooInit.moss;
+import static ruby.bamboo.BambooInit.multiBlock;
 import static ruby.bamboo.BambooInit.multiPot;
 import static ruby.bamboo.BambooInit.obon;
 import static ruby.bamboo.BambooInit.rawrice;
@@ -279,6 +280,15 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(blockBroom, 1, 1), "#X#", "#XX", "###", '#', new ItemStack(Blocks.sand), 'X', TUDURA);
         //粉粘土から粘土へ
         addShapedOreRecipe(new ItemStack(Items.clay_ball, 4, 0), "###", "#X#", "###", '#', "dustClay", 'X', Items.water_bucket);
+        //縮小なんとかさん
+        addShapedOreRecipe(new ItemStack(multiBlock, 1, 2), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dustGlowstone", 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(multiBlock, 1, 3), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dustGlowstone", 'X', new ItemStack(multiBlock, 1, 2));
+        addShapedOreRecipe(new ItemStack(multiBlock, 1, 4), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dustGlowstone", 'X', new ItemStack(multiBlock, 1, 3));
+        addShapedOreRecipe(new ItemStack(multiBlock, 1, 5), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dustGlowstone", 'X', new ItemStack(multiBlock, 1, 4));
+        addShapedOreRecipe(new ItemStack(multiBlock, 1, 2), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dyeBlue", 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(multiBlock, 1, 3), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dyeBlue", 'X', new ItemStack(multiBlock, 1, 2));
+        addShapedOreRecipe(new ItemStack(multiBlock, 1, 4), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dyeBlue", 'X', new ItemStack(multiBlock, 1, 3));
+        addShapedOreRecipe(new ItemStack(multiBlock, 1, 5), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dyeBlue", 'X', new ItemStack(multiBlock, 1, 4));
         // 鉱石辞書
         addOreDictionary();
         // 粉砕レシピ
@@ -299,13 +309,13 @@ public class BambooRecipe {
         CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 1), Items.beef, CROP_RICE));
         CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 2), Items.porkchop, CROP_RICE));
         CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 3), Blocks.red_mushroom, CROP_RICE));
-        CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 4), Items.porkchop, BAMBOO));
-        CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 5), Items.beef, BAMBOO));
+        CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 2, 4), Items.porkchop, BAMBOO));
+        CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 2, 5), Items.beef, BAMBOO));
         CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 6), bambooShoot, CROP_RICE));
         CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 7), Items.egg, CROP_RICE));
         CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 8), Items.egg, Items.chicken, CROP_RICE));
         CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 9), Items.fish, CROP_RICE));
-        CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 1, 10), Items.chicken, BAMBOO));
+        CookingManager.addRecipe(new ShapelessOreRecipe(new ItemStack(foods, 2, 10), Items.chicken, BAMBOO));
     }
 
     private void addGrindRecipe() {
@@ -346,7 +356,6 @@ public class BambooRecipe {
         OreDictionary.registerOre("rice", rawrice);
         OreDictionary.registerOre(CROP_STRAW, straw);
         OreDictionary.registerOre("dustClay", dustClay);
-
     }
 
     private void addFuel() {

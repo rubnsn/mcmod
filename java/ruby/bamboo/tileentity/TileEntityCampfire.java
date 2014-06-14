@@ -95,10 +95,9 @@ public class TileEntityCampfire extends TileEntity implements ISidedInventory {
                         if (slots[SLOT_RESULT] == null) {
                             materialConsumption();
                             slots[SLOT_RESULT] = nowCookingResult.copy();
-                            slots[SLOT_RESULT].stackSize = 1;
-                        } else if (nowCookingResult.isItemEqual(slots[SLOT_RESULT]) && slots[SLOT_RESULT].stackSize < slots[SLOT_RESULT].getMaxStackSize()) {
+                        } else if (nowCookingResult.isItemEqual(slots[SLOT_RESULT]) && slots[SLOT_RESULT].stackSize + nowCookingResult.stackSize < slots[SLOT_RESULT].getMaxStackSize()) {
                             materialConsumption();
-                            slots[SLOT_RESULT].stackSize++;
+                            slots[SLOT_RESULT].stackSize += nowCookingResult.stackSize;
                         }
                     }
                 }
