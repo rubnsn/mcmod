@@ -236,4 +236,9 @@ public class BlockMultiBlock extends BlockContainer {
         this.icon = p_149651_1_.registerIcon(BambooCore.resourceDomain + "multiblock");
     }
 
+    @Override
+    @SideOnly(Side.CLIENT)
+    public String getItemIconName() {
+        return BambooCore.resourceDomain + "multiblock";
+    }
 }

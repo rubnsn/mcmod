@@ -6,6 +6,8 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import ruby.bamboo.tileentity.TileEntityMultiBlock;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemMultiBlock extends ItemBlock {
 
@@ -22,6 +24,12 @@ public class ItemMultiBlock extends ItemBlock {
             ((TileEntityMultiBlock) world.getTileEntity(x, y, z)).setSlotLength((byte) stack.getItemDamage());
         }
         return res;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getSpriteNumber() {
+        return 0;
     }
 
 }
