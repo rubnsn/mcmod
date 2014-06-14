@@ -1,4 +1,4 @@
-package ruby.bamboo.grinder;
+package ruby.bamboo.item.crafting;
 
 import java.util.ArrayList;
 

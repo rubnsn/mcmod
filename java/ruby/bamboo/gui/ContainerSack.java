@@ -12,6 +12,7 @@ import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import ruby.bamboo.BambooInit;
+import ruby.bamboo.inventory.InventorySack;
 
 public class ContainerSack extends Container {
     private ItemStack itemStack;

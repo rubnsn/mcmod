@@ -17,8 +17,8 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 import ruby.bamboo.block.BlockMillStone;
-import ruby.bamboo.grinder.GrindRecipe;
-import ruby.bamboo.grinder.GrindRegistory;
+import ruby.bamboo.item.crafting.GrindRecipe;
+import ruby.bamboo.item.crafting.GrindRegistory;
 
 public class TileEntityMillStone extends TileEntity implements ISidedInventory {
     private static final int[] slots_top = new int[] { 0 };

@@ -1,4 +1,4 @@
-package ruby.bamboo.gui;
+package ruby.bamboo.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

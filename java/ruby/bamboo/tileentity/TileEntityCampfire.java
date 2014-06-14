@@ -76,7 +76,6 @@ public class TileEntityCampfire extends TileEntityFurnace {
                 }
             }
 
-            // System.out.println(meta!=getBlockMetadata()>>2);
             if (meta != getBlockMetadata() >> 2) {
                 this.worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, (meta << 2) | (getBlockMetadata() & 3), 3);
                 BlockCampfire.updateFurnaceBlockState(this.worldObj, this.xCoord, this.yCoord, this.zCoord);
