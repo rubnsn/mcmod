@@ -3,8 +3,11 @@ package ruby.bamboo.block;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFurnace;
+import net.minecraft.block.BlockContainer;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -12,19 +15,33 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.CustomRenderHandler;
+import ruby.bamboo.gui.GuiHandler;
 import ruby.bamboo.tileentity.TileEntityCampfire;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockCampfire extends BlockFurnace {
+public class BlockCampfire extends BlockContainer {
     private static boolean keepFurnaceInventory = false;
 
     public BlockCampfire() {
-        super(true);
+        super(Material.ground);
         setLightLevel(0.9F);
         setHardness(1.0F);
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+
+        TileEntityCampfire tile = (TileEntityCampfire) world.getTileEntity(x, y, z);
+
+        if (tile != null) {
+            player.openGui(BambooCore.instance, GuiHandler.GUI_CAMPFIRE, world, x, y, z);
+        }
+
+        return true;
     }
 
     @Override
@@ -81,7 +98,7 @@ public class BlockCampfire extends BlockFurnace {
     @Override
     public void breakBlock(World par1World, int par2, int par3, int par4, Block par5, int par6) {
         if (!keepFurnaceInventory) {
-            super.breakBlock(par1World, par2, par3, par4, par5, par6);
+            par1World.removeTileEntity(par2, par3, par4);
         }
     }
 
@@ -99,5 +116,11 @@ public class BlockCampfire extends BlockFurnace {
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
         return new ItemStack(BambooInit.campfire);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister par1IconRegister) {
+        this.blockIcon = par1IconRegister.registerIcon("wool_colored_black");
     }
 }

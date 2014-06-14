@@ -1,14 +1,14 @@
 package ruby.bamboo.gui;
 
-import org.lwjgl.opengl.GL11;
-
-import ruby.bamboo.BambooCore;
-import ruby.bamboo.tileentity.TileEntityMillStone;
-
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
+import ruby.bamboo.BambooCore;
+import ruby.bamboo.tileentity.TileEntityMillStone;
 
 public class GuiMillStone extends GuiContainer {
     private static final ResourceLocation RESORCE = new ResourceLocation(BambooCore.resourceDomain + "textures/guis/guimillstone.png");

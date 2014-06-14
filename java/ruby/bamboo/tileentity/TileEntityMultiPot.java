@@ -34,7 +34,6 @@ public class TileEntityMultiPot extends TileEntity {
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
-        ;
         if (!nbt.hasKey("slotsNBT", 9)) {
             nbt.setTag("slotsNBT", new NBTTagList());
         }
