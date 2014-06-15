@@ -51,15 +51,22 @@ public class TileEntityCampfire extends TileEntity implements ISidedInventory {
 
     void updateCooking() {
         if (!worldObj.isRemote) {
-            if (199 < fuel && !isBurn && !isEmpty() && this.canCooking()) {
-                if (slots[SLOT_RESULT] == null) {
-                    isBurn = true;
-                    cookTime = 200;
-                    this.setMatrix();
-                } else if (nowCookingResult.isItemEqual(slots[SLOT_RESULT]) && slots[SLOT_RESULT].stackSize < slots[SLOT_RESULT].getMaxStackSize()) {
-                    isBurn = true;
-                    cookTime = 200;
-                    this.setMatrix();
+            if (199 < fuel && !isBurn && !isEmpty()) {
+                if (slots[SLOT_RESULT] != null && slots[SLOT_RESULT].stackSize == 64) {
+                    return;
+                }
+                if (this.canCooking()) {
+                    if (nowCookingResult != null) {
+                        if (slots[SLOT_RESULT] == null) {
+                            isBurn = true;
+                            cookTime = 200;
+                            this.setMatrix();
+                        } else if (nowCookingResult.isItemEqual(slots[SLOT_RESULT]) && slots[SLOT_RESULT].stackSize + nowCookingResult.stackSize <= slots[SLOT_RESULT].getMaxStackSize()) {
+                            isBurn = true;
+                            cookTime = 200;
+                            this.setMatrix();
+                        }
+                    }
                 }
             } else {
                 updateBurn();
@@ -95,7 +102,7 @@ public class TileEntityCampfire extends TileEntity implements ISidedInventory {
                         if (slots[SLOT_RESULT] == null) {
                             materialConsumption();
                             slots[SLOT_RESULT] = nowCookingResult.copy();
-                        } else if (nowCookingResult.isItemEqual(slots[SLOT_RESULT]) && slots[SLOT_RESULT].stackSize + nowCookingResult.stackSize < slots[SLOT_RESULT].getMaxStackSize()) {
+                        } else if (nowCookingResult.isItemEqual(slots[SLOT_RESULT]) && slots[SLOT_RESULT].stackSize + nowCookingResult.stackSize <= slots[SLOT_RESULT].getMaxStackSize()) {
                             materialConsumption();
                             slots[SLOT_RESULT].stackSize += nowCookingResult.stackSize;
                         }
