@@ -52,7 +52,7 @@ public class TileEntityCampfire extends TileEntity implements ISidedInventory {
     void updateCooking() {
         if (!worldObj.isRemote) {
             if (199 < fuel && !isBurn && !isEmpty()) {
-                if (slots[SLOT_RESULT] != null && slots[SLOT_RESULT].stackSize == 64) {
+                if (slots[SLOT_RESULT] != null && slots[SLOT_RESULT].stackSize == slots[SLOT_RESULT].getMaxStackSize()) {
                     return;
                 }
                 if (this.canCooking()) {

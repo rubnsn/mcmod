@@ -94,7 +94,7 @@ public class BlockMultiBlock extends BlockContainer {
 
     @SideOnly(Side.CLIENT)
     public int getRenderBlockPass() {
-        return 1;
+        return 0;
     }
 
     @Override
@@ -128,22 +128,24 @@ public class BlockMultiBlock extends BlockContainer {
         if (tile instanceof TileEntityMultiBlock) {
             MovingObjectPosition[] mop = new MovingObjectPosition[(int) Math.pow(((TileEntityMultiBlock) tile).getFieldSize(), 3) + 1];
             int count = 0;
-            this.setBoundsForMeta(tile.getBlockMetadata());
-            mop[count++] = super.collisionRayTrace(world, x, y, z, vec3Start, vec3End);
-
-            for (int innerX = 0; innerX < ((TileEntityMultiBlock) tile).getFieldSize(); innerX++) {
-                for (int innerY = 0; innerY < ((TileEntityMultiBlock) tile).getFieldSize(); innerY++) {
-                    for (int innerZ = 0; innerZ < ((TileEntityMultiBlock) tile).getFieldSize(); innerZ++) {
-                        if (((TileEntityMultiBlock) tile).isExist(innerX, innerY, innerZ)) {
-                            float f = 1 / (float) ((TileEntityMultiBlock) tile).getFieldSize();
-                            this.setBlockBounds(f * innerX, f * innerY, f * innerZ, f * innerX + f, f * innerY + f, f * innerZ + f);
-                            mop[count++] = super.collisionRayTrace(world, x, y, z, vec3Start, vec3End);
+            if (((TileEntityMultiBlock) tile).isEmpty()) {
+                this.setBoundsForMeta(tile.getBlockMetadata());
+                mop[count++] = super.collisionRayTrace(world, x, y, z, vec3Start, vec3End);
+            } else {
+                for (int innerX = 0; innerX < ((TileEntityMultiBlock) tile).getFieldSize(); innerX++) {
+                    for (int innerY = 0; innerY < ((TileEntityMultiBlock) tile).getFieldSize(); innerY++) {
+                        for (int innerZ = 0; innerZ < ((TileEntityMultiBlock) tile).getFieldSize(); innerZ++) {
+                            if (((TileEntityMultiBlock) tile).isExist(innerX, innerY, innerZ)) {
+                                float f = 1 / (float) ((TileEntityMultiBlock) tile).getFieldSize();
+                                this.setBlockBounds(f * innerX, f * innerY, f * innerZ, f * innerX + f, f * innerY + f, f * innerZ + f);
+                                mop[count++] = super.collisionRayTrace(world, x, y, z, vec3Start, vec3End);
+                            }
                         }
                     }
                 }
             }
             double d1 = 0.0D;
-            int i2 = mop.length;
+            int i2 = count;
             MovingObjectPosition movingobjectposition1 = null;
             for (int j2 = 0; j2 < i2; ++j2) {
                 MovingObjectPosition movingobjectposition = mop[j2];

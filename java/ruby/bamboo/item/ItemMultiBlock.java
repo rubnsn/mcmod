@@ -32,4 +32,8 @@ public class ItemMultiBlock extends ItemBlock {
         return 0;
     }
 
+    @Override
+    public String getItemStackDisplayName(ItemStack par1ItemStack) {
+        return super.getItemStackDisplayName(par1ItemStack) + par1ItemStack.getItemDamage() + "x";
+    }
 }
