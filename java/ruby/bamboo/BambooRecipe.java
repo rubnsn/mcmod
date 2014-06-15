@@ -147,6 +147,7 @@ public class BambooRecipe {
         addSlabRecipe(new ItemStack(dHalfSquare, 6, 8), new ItemStack(dSquare, 1, 8));
         addSlabRecipe(new ItemStack(dHalfSquare, 6, 10), new ItemStack(dSquare, 1, 10));
         addSlabRecipe(new ItemStack(dHalfSquare, 6, 12), new ItemStack(dSquare, 1, 12));
+        //ゴザ類
         addCarpetRecipe(new ItemStack(decoCarpet, 3, 0), new ItemStack(dSquare, 1, 0));
         addCarpetRecipe(new ItemStack(decoCarpet, 3, 2), new ItemStack(dSquare, 1, 4));
         addCarpetRecipe(new ItemStack(decoCarpet, 3, 4), new ItemStack(dSquare, 1, 8));
