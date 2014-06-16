@@ -8,7 +8,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3Pool;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.MinecraftException;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldSettings;
@@ -109,7 +108,7 @@ public class DummyWorld extends World implements IBlockAccess {
         }
 
         @Override
-        public void checkSessionLock() throws MinecraftException {
+        public void checkSessionLock() {
         }
 
         @Override

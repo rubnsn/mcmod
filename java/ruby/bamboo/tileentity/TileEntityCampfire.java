@@ -32,7 +32,7 @@ public class TileEntityCampfire extends TileEntity implements ISidedInventory {
     public ItemStack nowCookingResult;
     //クライアント側GUI
     public int fuelRatio;
-    public int cookRatio;
+    public int cookRatio = 100;
 
     public TileEntityCampfire() {
         meatroll = new Random().nextInt(360);
