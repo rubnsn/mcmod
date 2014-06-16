@@ -168,7 +168,7 @@ public class BlockDelude extends Block implements IDelude {
         return onBlockActivated(par1World, par2, par3, par4, par5EntityPlayer, par6, par7, par8, par9, 0);
     }
 
-    private boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9, int par10) {
+    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9, int par10) {
         switch (getMetadata(par1World, par2, par3, par4)) {
         case 0:
             par2++;
@@ -208,7 +208,7 @@ public class BlockDelude extends Block implements IDelude {
         return tex != null ? tex : getDefaultIcon();
     }
 
-    private IIcon getIcon(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5, int par6) {
+    public IIcon getIcon(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5, int par6) {
         switch (getMetadata(par1IBlockAccess, par2, par3, par4)) {
         case 0:
             par2++;
@@ -251,7 +251,7 @@ public class BlockDelude extends Block implements IDelude {
         return colorMultiplier(par1IBlockAccess, par2, par3, par4, 0);
     }
 
-    private int colorMultiplier(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
+    public int colorMultiplier(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
         switch (getMetadata(par1IBlockAccess, par2, par3, par4)) {
         case 0:
             par2++;
@@ -282,6 +282,44 @@ public class BlockDelude extends Block implements IDelude {
             return par5 < Config.deludeTexMaxReference ? colorMultiplier(par1IBlockAccess, par2, par3, par4, par5 + 1) : 0xFFFFFF;
         } else {
             return par1IBlockAccess.getBlock(par2, par3, par4) != null && par1IBlockAccess.getBlock(par2, par3, par4).getMaterial() != Material.water ? par1IBlockAccess.getBlock(par2, par3, par4).colorMultiplier(par1IBlockAccess, par2, par3, par4) : 0xFFFFFF;
+        }
+    }
+
+    @Override
+    public int getLightValue(IBlockAccess world, int x, int y, int z) {
+        return getLightValue(world, x, y, z, 0);
+    }
+
+    public int getLightValue(IBlockAccess world, int x, int y, int z, int c) {
+        switch (getMetadata(world, x, z, y)) {
+        case 0:
+            x++;
+            break;
+
+        case 1:
+            x--;
+            break;
+
+        case 2:
+            y++;
+            break;
+
+        case 3:
+            y--;
+            break;
+
+        case 4:
+            z++;
+            break;
+
+        case 5:
+            z--;
+            break;
+        }
+        if (isDeludeBlock(world, x, y, z)) {
+            return c < Config.deludeTexMaxReference ? getLightValue(world, x, y, z, c + 1) : 0;
+        } else {
+            return world.getBlock(x, y, z) != null && world.getBlock(x, y, z).getMaterial() != Material.water ? world.getBlock(x, y, z).getLightValue(world, x, y, z) : 0xFFFFFF;
         }
     }
 
