@@ -9,13 +9,13 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMultiBlock extends TileEntity {
     private byte slotLength;
     private ItemStack[][][] slots;
     private float[] posPartition;
-    private static final int accuracy = 100000;
 
     public TileEntityMultiBlock() {
         this.setSlotLength((byte) 3);
@@ -34,7 +34,7 @@ public class TileEntityMultiBlock extends TileEntity {
     private void setPosPatition() {
         float[] tmp = new float[this.slotLength];
         for (int i = 0; i < this.slotLength; i++) {
-            tmp[i] = ((int) ((1 / (float) (this.slotLength)) * (i + 1) * accuracy)) / (float) accuracy;
+            tmp[i] = (1 / (float) (this.slotLength)) * (i + 1);
         }
         posPartition = tmp;
     }
@@ -100,12 +100,14 @@ public class TileEntityMultiBlock extends TileEntity {
         return true;
     }
 
-    public boolean setInnerBlock(float hitX, float hitY, float hitZ, int side, ItemStack is) {
+    public boolean setInnerBlock(World world, float hitX, float hitY, float hitZ, int side, ItemStack is) {
         byte[] innerPos = getInnerPos(hitX, hitY, hitZ, side);
         if (isInnerRange(innerPos[0], innerPos[1], innerPos[2])) {
             if (getInnerBlock(innerPos[0], innerPos[1], innerPos[2]) == Blocks.air) {
                 is.stackSize = 1;
                 this.setInnerSlot(innerPos[0], innerPos[1], innerPos[2], is);
+                //this.markDirty();
+
                 return true;
             }
         }
@@ -140,12 +142,11 @@ public class TileEntityMultiBlock extends TileEntity {
         byte innerX = this.slotLength;
         byte innerY = this.slotLength;
         byte innerZ = this.slotLength;
-        hitX = (int) (hitX * accuracy) / (float) accuracy;
-        hitY = (int) (hitY * accuracy) / (float) accuracy;
-        hitZ = (int) (hitZ * accuracy) / (float) accuracy;
-        hitX += ForgeDirection.VALID_DIRECTIONS[side].offsetX * (10 / (float) accuracy);
-        hitY += ForgeDirection.VALID_DIRECTIONS[side].offsetY * (10 / (float) accuracy);
-        hitZ += ForgeDirection.VALID_DIRECTIONS[side].offsetZ * (10 / (float) accuracy);
+        ForgeDirection fd = ForgeDirection.VALID_DIRECTIONS[side];
+        float offset = 1 / (float) this.getFieldSize() / 2F;
+        hitX += fd.offsetX * offset;
+        hitY += fd.offsetY * offset;
+        hitZ += fd.offsetZ * offset;
         for (byte i = 0; i < posPartition.length; i++) {
             if (innerX == this.slotLength && hitX < posPartition[i]) {
                 innerX = i;
@@ -302,5 +303,7 @@ public class TileEntityMultiBlock extends TileEntity {
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
         this.readFromNBT(pkt.func_148857_g());
+        this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
+
 }

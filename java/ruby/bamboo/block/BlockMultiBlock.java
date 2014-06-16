@@ -22,7 +22,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.CustomRenderHandler;
 import ruby.bamboo.tileentity.TileEntityMultiBlock;
-import ruby.bamboo.world.DummyWorld;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -33,12 +32,12 @@ public class BlockMultiBlock extends BlockContainer {
     private byte innerY;
     private byte innerZ;
     public boolean isTopRender = false;
-    private IIcon icon;
 
     public BlockMultiBlock() {
         super(Material.ground);
         this.setLightOpacity(0);
         this.setHardness(1.0F);
+        this.setResistance(1.0F);
     }
 
     @Override
@@ -47,44 +46,42 @@ public class BlockMultiBlock extends BlockContainer {
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
-        ItemStack is = par5EntityPlayer.getCurrentEquippedItem();
-        TileEntity tile = world.getTileEntity(x, y, z);
-        if (tile instanceof TileEntityMultiBlock) {
-            if (is != null && canPlaceBlock(Block.getBlockFromItem(is.getItem()))) {
-                Block block = Block.getBlockFromItem(is.getItem());
-                DummyWorld.lastSetMeta = 0;
-                block.onBlockPlacedBy(DummyWorld.dummyInstance, 0, 0, 0, par5EntityPlayer, is);
-                int meta = block.onBlockPlaced(DummyWorld.dummyInstance, 0, 0, 0, par6, par7, par8, par9, is.getItemDamage());
-                if (meta == 0) {
-                    meta = DummyWorld.lastSetMeta;
-                }
-                ItemStack copy = is.copy();
-                copy.setItemDamage(meta);
-                if (((TileEntityMultiBlock) tile).setInnerBlock(par7, par8, par9, par6, copy)) {
-                    if (!par5EntityPlayer.capabilities.isCreativeMode) {
-                        is.stackSize--;
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ) {
+        if (!world.isRemote) {
+            ItemStack is = par5EntityPlayer.getCurrentEquippedItem();
+            TileEntity tile = world.getTileEntity(x, y, z);
+            if (tile instanceof TileEntityMultiBlock) {
+                if (is != null && canPlaceBlock(Block.getBlockFromItem(is.getItem()))) {
+                    Block block = Block.getBlockFromItem(is.getItem());
+                    int innerMeta = block.onBlockPlaced(world, x, y, z, side, hitX, hitY, hitZ, is.getItemDamage());
+                    ItemStack copy = is.copy();
+                    copy.setItemDamage(innerMeta);
+                    if (((TileEntityMultiBlock) tile).setInnerBlock(world, hitX, hitY, hitZ, side, copy)) {
+                        if (!par5EntityPlayer.capabilities.isCreativeMode) {
+                            is.stackSize--;
+                        }
+                        world.markBlockForUpdate(x, y, z);
                     }
-                    world.markBlockForUpdate(x, y, z);
-                    return true;
-                }
-            } else {
-                ItemStack res = ((TileEntityMultiBlock) tile).removeInnerBlock(par7, par8, par9, par6);
-                if (res != null) {
-                    if (!par5EntityPlayer.capabilities.isCreativeMode) {
-                        this.dropBlockAsItem(world, x, y, z, res);
+                } else {
+                    ItemStack res = ((TileEntityMultiBlock) tile).removeInnerBlock(hitX, hitY, hitZ, side);
+                    if (res != null) {
+                        if (!par5EntityPlayer.capabilities.isCreativeMode) {
+                            this.dropBlockAsItem(world, x, y, z, res);
+                        }
+                        world.markBlockForUpdate(x, y, z);
                     }
-                    world.markBlockForUpdate(x, y, z);
-                    return true;
                 }
             }
-
         }
-        return false;
+        return true;
     }
 
     public boolean canPlaceBlock(Block block) {
-        return (block.getRenderType() == 0 && block.isNormalCube()) || block.isNormalCube();
+        return (block.getRenderType() == 0 && isCube(block)) || block.isNormalCube();
+    }
+
+    private boolean isCube(Block block) {
+        return block.getBlockBoundsMinX() == 0 && block.getBlockBoundsMinY() == 0 && block.getBlockBoundsMinZ() == 0 && block.getBlockBoundsMaxX() == 1 && block.getBlockBoundsMaxY() == 1 && block.getBlockBoundsMaxZ() == 1;
     }
 
     @Override
@@ -234,7 +231,7 @@ public class BlockMultiBlock extends BlockContainer {
                 return tileMulti.getInnerBlock(innerX, innerY, innerZ).getIcon(side, tileMulti.getInnerMeta(innerX, innerY, innerZ));
             }
         }
-        return icon;
+        return this.blockIcon;
     }
 
     @Override
@@ -250,7 +247,7 @@ public class BlockMultiBlock extends BlockContainer {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister p_149651_1_) {
-        this.icon = p_149651_1_.registerIcon(BambooCore.resourceDomain + "multiblock");
+        this.blockIcon = p_149651_1_.registerIcon(BambooCore.resourceDomain + "multiblock");
     }
 
     @Override
