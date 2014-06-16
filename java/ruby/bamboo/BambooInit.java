@@ -334,7 +334,7 @@ public class BambooInit {
             block.setCreativeTab(creativeTabs);
         }
         block.setBlockName(name);
-        return GameRegistry.registerBlock(block, cls, name, BambooCore.MODID);
+        return GameRegistry.registerBlock(block, cls, name);
     }
 
     private Item registerItem(Item item, String name) {
