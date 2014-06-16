@@ -21,7 +21,8 @@ public class BlockMultiPot extends BlockContainer {
     public BlockMultiPot() {
         super(Material.circuits);
         setBlockBounds(0, 0, 0, 1, 0.375F, 1);
-        setHardness(1F);
+        this.setHardness(1F);
+        this.setResistance(1.0F);
     }
 
     @Override

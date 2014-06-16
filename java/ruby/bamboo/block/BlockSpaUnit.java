@@ -25,6 +25,8 @@ public class BlockSpaUnit extends BlockContainer implements ITileEntityProvider 
     public BlockSpaUnit() {
         super(Material.ground);
         setTickRandomly(true);
+        this.setHardness(0.5F);
+        this.setResistance(1.0F);
     }
 
     @Override

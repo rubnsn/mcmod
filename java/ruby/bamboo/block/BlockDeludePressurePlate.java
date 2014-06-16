@@ -17,6 +17,8 @@ public class BlockDeludePressurePlate extends BlockPressurePlate implements
 
     public BlockDeludePressurePlate() {
         super(BambooCore.resourceDomain + "delude", Material.ground, BlockPressurePlate.Sensitivity.everything);
+        this.setHardness(0.1F);
+        this.setResistance(1.0F);
     }
 
     @Override

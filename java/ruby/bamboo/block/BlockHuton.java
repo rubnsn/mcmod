@@ -24,6 +24,8 @@ public class BlockHuton extends BlockBed implements ITileEntityProvider,
     public BlockHuton() {
         super();
         this.setBounds();
+        this.setHardness(0.5F);
+        this.setResistance(1.0F);
     }
 
     @Override

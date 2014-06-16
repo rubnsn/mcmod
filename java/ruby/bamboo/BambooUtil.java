@@ -21,4 +21,13 @@ public class BambooUtil {
     public static boolean isUnbreakBlock(World world, int posX, int posY, int posZ) {
         return world.getBlock(posX, posY, posZ) != null ? world.getBlock(posX, posY, posZ).getBlockHardness(world, posX, posY, posZ) < 0 : true;
     }
+
+    public static void print(Object... obj) {
+        StringBuilder stb = new StringBuilder();
+        for (Object o : obj) {
+            stb.append(o);
+            stb.append(" ");
+        }
+        System.out.println(stb.toString());
+    }
 }

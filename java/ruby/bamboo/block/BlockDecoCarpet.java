@@ -20,6 +20,8 @@ public class BlockDecoCarpet extends BlockCarpet {
         super();
         setTickRandomly(false);
         setStepSound(Block.soundTypeSand);
+        this.setHardness(0.1F);
+        this.setResistance(1.0F);
     }
 
     @Override
