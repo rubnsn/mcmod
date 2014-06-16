@@ -51,7 +51,7 @@ public class BlockMultiBlock extends BlockContainer {
         ItemStack is = par5EntityPlayer.getCurrentEquippedItem();
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile instanceof TileEntityMultiBlock) {
-            if (is != null && (Block.getBlockFromItem(is.getItem()).getRenderType() == 0 || Block.getBlockFromItem(is.getItem()).isNormalCube())) {
+            if (is != null && canPlaceBlock(Block.getBlockFromItem(is.getItem()))) {
                 Block block = Block.getBlockFromItem(is.getItem());
                 DummyWorld.lastSetMeta = 0;
                 block.onBlockPlacedBy(DummyWorld.dummyInstance, 0, 0, 0, par5EntityPlayer, is);
@@ -81,6 +81,10 @@ public class BlockMultiBlock extends BlockContainer {
 
         }
         return false;
+    }
+
+    public boolean canPlaceBlock(Block block) {
+        return (block.getRenderType() == 0 && block.isNormalCube()) || block.isNormalCube();
     }
 
     @Override
