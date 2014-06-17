@@ -364,7 +364,7 @@ public class ItemBambooPickaxe extends ItemPickaxe {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack par1ItemStack) {
+    public boolean hasEffect(ItemStack par1ItemStack, int pass) {
         return true;
     }
 
