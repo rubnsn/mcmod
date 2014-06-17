@@ -18,9 +18,13 @@ public class BambooChestContent extends WeightedRandomChestContent {
         super(par1ItemStack, par2, par3, par4);
     }
 
+    public float getLotteryRate() {
+        return 0.001F;
+    }
+
     @Override
     protected ItemStack[] generateChestContent(Random random, IInventory newInventory) {
-        if (random.nextFloat() < 0.001) {
+        if (random.nextFloat() < getLotteryRate()) {
             return super.generateChestContent(random, newInventory);
         } else {
             return new ItemStack[] { new ItemStack(random.nextBoolean() ? Item.getItemFromBlock(BambooInit.bambooShoot) : Item.getItemFromBlock(BambooInit.sakura), 1, 0) };

@@ -307,7 +307,7 @@ public class BambooInit {
         fireflyBottle = registerItem(new ItemFireflyBottle().setTextureName(BambooCore.resourceDomain + "firefly"), "itemFireflyBottle", tabBamboo);
         dustClay = registerItem(new ItemDustClay().setTextureName("sugar"), "bambooDustCray", tabBamboo);
         MinecraftForge.addGrassSeed(new ItemStack(riceSeed, 1, 0), 10);
-        bambooPickaxe = registerItem(new ItemBambooPickaxe().setTextureName(BambooCore.resourceDomain + "pickaxe"), "bamboopickaxe", tabBamboo);
+        bambooPickaxe = registerItem(new ItemBambooPickaxe(), "bamboopickaxe", tabBamboo);
         if (BambooCore.DEBUGMODE) {
             workingItem();
         }

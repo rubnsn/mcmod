@@ -2,6 +2,7 @@ package ruby.bamboo.item.enchant;
 
 import java.util.HashMap;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
@@ -19,11 +20,23 @@ public class BambooEnchantment {
     public static final EnchantBase burst = new EnchantBurst(7, "burst", 3, 0.05F, 0.1F);
     public static final EnchantBase chain = new EnchantChain(8, "chain", 1, 0.25F, 1F);
     public static final EnchantBase eat = new EnchantEat(9, "eat", 1, 0.5F, 1F);
+    public static final EnchantBase fire = new EnchantFire(10, "fire", 1, 0.01F, 1F);
 
     public static void activate(ItemStack itemStack, World world, EntityLivingBase entity, int posX, int posY, int posZ) {
-        NBTTagList nbttaglist = itemStack.stackTagCompound.getTagList("spench", 10);
-        for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-            idToEnchantMap.get(nbttaglist.getCompoundTagAt(i).getShort("id")).activate(itemStack, world, posX, posY, posZ, entity, nbttaglist.getCompoundTagAt(i).getShort("lvl"));
+        if (itemStack.stackTagCompound != null) {
+            NBTTagList nbttaglist = itemStack.stackTagCompound.getTagList("spench", 10);
+            for (int i = 0; i < nbttaglist.tagCount(); ++i) {
+                idToEnchantMap.get(nbttaglist.getCompoundTagAt(i).getShort("id")).activate(itemStack, world, posX, posY, posZ, entity, nbttaglist.getCompoundTagAt(i).getShort("lvl"));
+            }
+        }
+    }
+
+    public static void onUpdate(ItemStack itemStack, World world, Entity entity) {
+        if (itemStack.stackTagCompound != null && itemStack.stackTagCompound.hasKey("spench")) {
+            NBTTagList nbttaglist = itemStack.stackTagCompound.getTagList("spench", 10);
+            for (int i = 0; i < nbttaglist.tagCount(); ++i) {
+                idToEnchantMap.get(nbttaglist.getCompoundTagAt(i).getShort("id")).onUpdate(itemStack, world, entity);
+            }
         }
     }
 }

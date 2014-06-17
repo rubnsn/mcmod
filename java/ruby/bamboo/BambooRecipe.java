@@ -3,6 +3,7 @@ package ruby.bamboo;
 import static ruby.bamboo.BambooInit.andon;
 import static ruby.bamboo.BambooInit.bambooBasket;
 import static ruby.bamboo.BambooInit.bambooBow;
+import static ruby.bamboo.BambooInit.bambooPickaxe;
 import static ruby.bamboo.BambooInit.bambooShoot;
 import static ruby.bamboo.BambooInit.bambooSpear;
 import static ruby.bamboo.BambooInit.bambooSword;
@@ -290,6 +291,8 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(multiBlock, 1, 3), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dyeBlue", 'X', new ItemStack(multiBlock, 1, 2));
         addShapedOreRecipe(new ItemStack(multiBlock, 1, 4), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dyeBlue", 'X', new ItemStack(multiBlock, 1, 3));
         addShapedOreRecipe(new ItemStack(multiBlock, 1, 5), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dyeBlue", 'X', new ItemStack(multiBlock, 1, 4));
+        //ちゅるはし
+        addShapedOreRecipe(new ItemStack(bambooPickaxe, 1, 0), "YXY", " # ", " Z ", 'Y', Items.nether_star, 'X', Blocks.dragon_egg, '#', TUDURA, 'Z', Blocks.diamond_block);
         // 鉱石辞書
         addOreDictionary();
         // 粉砕レシピ

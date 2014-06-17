@@ -6,6 +6,7 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,25 +18,43 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import ruby.bamboo.BambooCore;
 import ruby.bamboo.item.enchant.BambooEnchantment;
 import ruby.bamboo.item.enchant.EnchantBase;
+import ruby.bamboo.item.magatama.BambooChestContent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemBambooPickaxe extends ItemPickaxe {
     public static final int MAX_DMG = 10000;
     public static final int MAX_LEVEL = 30;
-    public static final Enchantment[] enchs = { Enchantment.efficiency, Enchantment.fortune, Enchantment.silkTouch };//, Enchantment.unbreaking };
+    public static final byte MAX_ENCHANTNUM = 10;
+    public static final Enchantment[] enchs = { Enchantment.efficiency, Enchantment.fortune, Enchantment.silkTouch, Enchantment.unbreaking };
+    private IIcon[] icons = new IIcon[7];
     private static Random rand = new Random();
 
     public ItemBambooPickaxe() {
         super(ToolMaterial.EMERALD);
         this.setNoRepair();
         this.setMaxDamage(MAX_DMG);
-
+        WeightedRandomChestContent content = new BambooChestContent(this, 0, 1, 1, 1) {
+            @Override
+            public float getLotteryRate() {
+                return 0.1F;
+            }
+        };
+        ChestGenHooks.addItem(ChestGenHooks.PYRAMID_DESERT_CHEST, content);
+        ChestGenHooks.addItem(ChestGenHooks.PYRAMID_JUNGLE_CHEST, content);
+        ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CORRIDOR, content);
+        ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CROSSING, content);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -50,6 +69,11 @@ public class ItemBambooPickaxe extends ItemPickaxe {
             if (!world.isRemote) {
                 if (rand.nextInt(getUnbreaking(itemStack) + 1) == 0) {
                     int exp = MAX_LEVEL - getLevel(itemStack);
+                    float hardness = block.getBlockHardness(world, posX, posY, posZ);
+                    if (1 < hardness) {
+                        exp *= hardness;
+                    }
+
                     if (block instanceof BlockOre) {
                         exp += block.getExpDrop(world, world.getBlockMetadata(posX, posY, posZ), 0);
                     }
@@ -64,8 +88,10 @@ public class ItemBambooPickaxe extends ItemPickaxe {
     }
 
     @Override
-    public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {
-
+    public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
+        if (par5) {
+            BambooEnchantment.onUpdate(itemStack, world, entity);
+        }
     }
 
     private void addExp(int exp, ItemStack is, EntityLivingBase entity) {
@@ -204,14 +230,16 @@ public class ItemBambooPickaxe extends ItemPickaxe {
     }
 
     private boolean hasNewEnchant(ItemStack is) {
-        return (is.stackTagCompound.getTagList("spench", 10).tagCount() + is.getEnchantmentTagList().tagCount()) < 10;
+        return (is.stackTagCompound.getTagList("spench", 10).tagCount() + is.getEnchantmentTagList().tagCount()) < MAX_ENCHANTNUM;
     }
 
     private int getSPEnchaLevel(ItemStack is, int enchId) {
-        NBTTagList nbttaglist = is.stackTagCompound.getTagList("spench", 10);
-        for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-            if (nbttaglist.getCompoundTagAt(i).getShort("id") == enchId) {
-                return nbttaglist.getCompoundTagAt(i).getShort("lvl");
+        if (is.stackTagCompound != null) {
+            NBTTagList nbttaglist = is.stackTagCompound.getTagList("spench", 10);
+            for (int i = 0; i < nbttaglist.tagCount(); ++i) {
+                if (nbttaglist.getCompoundTagAt(i).getShort("id") == enchId) {
+                    return nbttaglist.getCompoundTagAt(i).getShort("lvl");
+                }
             }
         }
         return 0;
@@ -236,6 +264,9 @@ public class ItemBambooPickaxe extends ItemPickaxe {
     }
 
     private int getUnbreaking(ItemStack is) {
+        if (is.stackTagCompound == null) {
+            initTagCompound(is);
+        }
         if (!is.stackTagCompound.hasKey("ench", 9)) {
             is.stackTagCompound.setTag("ench", new NBTTagList());
         }
@@ -319,5 +350,45 @@ public class ItemBambooPickaxe extends ItemPickaxe {
         par3EntityPlayer.getFoodStats().func_151686_a(new ItemFood(2, false), par1ItemStack);
         par2World.playSoundAtEntity(par3EntityPlayer, "random.burp", 0.5F, par2World.rand.nextFloat() * 0.1F + 0.9F);
         return par1ItemStack;
+    }
+
+    @Override
+    public int getItemEnchantability() {
+        return 0;
+    }
+
+    @Override
+    public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
+        return false;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean hasEffect(ItemStack par1ItemStack) {
+        return true;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister par1IconRegister) {
+        for (int i = 0; i < icons.length; i++) {
+            this.icons[i] = par1IconRegister.registerIcon(BambooCore.resourceDomain + "pickaxe_" + i);
+        }
+    }
+
+    @Override
+    public IIcon getIconIndex(ItemStack stack) {
+        if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey("iconNum")) {
+            return icons[stack.stackTagCompound.getByte("iconNum")];
+        }
+        return icons[0];
+    }
+
+    @Override
+    public IIcon getIcon(ItemStack stack, int pass) {
+        if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey("iconNum")) {
+            return icons[stack.stackTagCompound.getByte("iconNum")];
+        }
+        return icons[0];
     }
 }

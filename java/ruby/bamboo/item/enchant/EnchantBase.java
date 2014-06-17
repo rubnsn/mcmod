@@ -2,6 +2,7 @@ package ruby.bamboo.item.enchant;
 
 import java.util.Random;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -57,5 +58,9 @@ public abstract class EnchantBase {
         }
     }
 
-    abstract void effect(ItemStack itemStack, World world, int posX, int posY, int posZ, EntityLivingBase entity, int enchantLvl);
+    void effect(ItemStack itemStack, World world, int posX, int posY, int posZ, EntityLivingBase entity, int enchantLvl) {
+    }
+
+    void onUpdate(ItemStack itemStack, World world, Entity entity) {
+    }
 }
