@@ -14,8 +14,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockBroom extends BlockQuadRotatePillar {
 
-    public static final String[] ICON_NAME = new String[] { "broom_straight", "broom_curve" };
-
     public BlockBroom() {
         super(Material.sand);
     }
@@ -30,9 +28,10 @@ public class BlockBroom extends BlockQuadRotatePillar {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister p_149651_1_) {
-        icons = new IIcon[ICON_NAME.length];
-        for (int i = 0; i < this.ICON_NAME.length; ++i) {
-            this.icons[i] = p_149651_1_.registerIcon(BambooCore.resourceDomain + ICON_NAME[i]);
+        String[] iconName = new String[] { "broom_straight", "broom_curve" };
+        icons = new IIcon[iconName.length];
+        for (int i = 0; i < iconName.length; ++i) {
+            this.icons[i] = p_149651_1_.registerIcon(BambooCore.resourceDomain + iconName[i]);
         }
     }
 

@@ -92,8 +92,11 @@ public class RenderMultiPot implements IRenderBlocks {
                 float f7 = 4.0F;
                 float f8 = 0.0F;
                 tessellator.addTranslation(f6 / 16.0F, f7 / 16.0F, f8 / 16.0F);
-                l = block.colorMultiplier(render.blockAccess, x, y, z);
-
+                if (block == Blocks.tallgrass || (block == Blocks.double_plant && (i1 == 2 || i1 == 3))) {
+                    l = render.blockAccess.getBiomeGenForCoords(x, z).getBiomeGrassColor(x, y, z);
+                } else {
+                    l = block.colorMultiplier(render.blockAccess, x, y, z);
+                }
                 if (l != 16777215) {
                     red = (float) (l >> 16 & 255) / 255.0F;
                     green = (float) (l >> 8 & 255) / 255.0F;

@@ -1,7 +1,12 @@
 package ruby.bamboo.tileentity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -11,6 +16,8 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityMultiBlock extends TileEntity {
     private byte slotLength;
@@ -18,7 +25,7 @@ public class TileEntityMultiBlock extends TileEntity {
     private float[] posPartition;
 
     public TileEntityMultiBlock() {
-        this.setSlotLength((byte) 3);
+        this.setSlotLength((byte) 1);
     }
 
     public void setSlotLength(byte len) {
@@ -45,9 +52,9 @@ public class TileEntityMultiBlock extends TileEntity {
 
     public float[] getRenderOffset() {
         float[] o = new float[this.slotLength];
-        int count = 0;
+        float offset = (1 / (float) (this.slotLength));
         for (int i = 0; i < this.slotLength; i++) {
-            o[i] = i * (1 / (float) (this.slotLength));
+            o[i] = i * offset;
         }
         return o;
     }
@@ -106,8 +113,6 @@ public class TileEntityMultiBlock extends TileEntity {
             if (getInnerBlock(innerPos[0], innerPos[1], innerPos[2]) == Blocks.air) {
                 is.stackSize = 1;
                 this.setInnerSlot(innerPos[0], innerPos[1], innerPos[2], is);
-                //this.markDirty();
-
                 return true;
             }
         }
@@ -165,6 +170,7 @@ public class TileEntityMultiBlock extends TileEntity {
         return 0 <= x && 0 <= y && 0 <= z && x < this.slotLength && y < this.slotLength && z < this.slotLength;
     }
 
+    @SideOnly(Side.CLIENT)
     public byte[][][] getVisibleFlg() {
         byte[][][] flgs = new byte[this.slotLength][this.slotLength][this.slotLength];
         boolean[] outerOpaqueCubeFlgs = new boolean[ForgeDirection.VALID_DIRECTIONS.length];
@@ -175,61 +181,63 @@ public class TileEntityMultiBlock extends TileEntity {
         for (int x = 0; x < this.slotLength; x++) {
             for (int y = 0; y < this.slotLength; y++) {
                 for (int z = 0; z < this.slotLength; z++) {
-                    for (ForgeDirection fd : ForgeDirection.VALID_DIRECTIONS) {
-                        //外の世界のブロック
-                        switch (fd) {
-                        case DOWN:
-                            if (y == 0) {
-                                if (outerOpaqueCubeFlgs[fd.ordinal()]) {
-                                    continue;
+                    if (getInnerBlock(x, y, z) != Blocks.air) {
+                        for (ForgeDirection fd : ForgeDirection.VALID_DIRECTIONS) {
+                            //外の世界のブロック
+                            switch (fd) {
+                            case DOWN:
+                                if (y == 0) {
+                                    if (outerOpaqueCubeFlgs[fd.ordinal()]) {
+                                        continue;
+                                    }
                                 }
-                            }
-                            break;
-                        case EAST:
-                            if (x == this.slotLength - 1) {
-                                if (outerOpaqueCubeFlgs[fd.ordinal()]) {
-                                    continue;
+                                break;
+                            case EAST:
+                                if (x == this.slotLength - 1) {
+                                    if (outerOpaqueCubeFlgs[fd.ordinal()]) {
+                                        continue;
+                                    }
                                 }
-                            }
-                            break;
-                        case NORTH:
-                            if (z == 0) {
-                                if (outerOpaqueCubeFlgs[fd.ordinal()]) {
-                                    continue;
+                                break;
+                            case NORTH:
+                                if (z == 0) {
+                                    if (outerOpaqueCubeFlgs[fd.ordinal()]) {
+                                        continue;
+                                    }
                                 }
-                            }
-                            break;
-                        case SOUTH:
-                            if (z == this.slotLength - 1) {
-                                if (outerOpaqueCubeFlgs[fd.ordinal()]) {
-                                    continue;
+                                break;
+                            case SOUTH:
+                                if (z == this.slotLength - 1) {
+                                    if (outerOpaqueCubeFlgs[fd.ordinal()]) {
+                                        continue;
+                                    }
                                 }
-                            }
-                            break;
-                        case UP:
-                            if (y == this.slotLength - 1) {
-                                if (outerOpaqueCubeFlgs[fd.ordinal()]) {
-                                    continue;
+                                break;
+                            case UP:
+                                if (y == this.slotLength - 1) {
+                                    if (outerOpaqueCubeFlgs[fd.ordinal()]) {
+                                        continue;
+                                    }
                                 }
-                            }
-                            break;
-                        case WEST:
-                            if (x == 0) {
-                                if (outerOpaqueCubeFlgs[fd.ordinal()]) {
-                                    continue;
+                                break;
+                            case WEST:
+                                if (x == 0) {
+                                    if (outerOpaqueCubeFlgs[fd.ordinal()]) {
+                                        continue;
+                                    }
                                 }
+                                break;
+                            default:
+                                break;
                             }
-                            break;
-                        default:
-                            break;
+                            //内部ブロック
+                            if (getOffsetedInnerBlock(x, y, z, fd).isOpaqueCube()) {
+                                continue;
+                            } else if (getOffsetedInnerBlock(x, y, z, fd) == getInnerBlock(x, y, z)) {
+                                continue;
+                            }
+                            flgs[x][y][z] |= 1 << fd.ordinal();
                         }
-                        //内部ブロック
-                        if (getOffsetedInnerBlock(x, y, z, fd).isOpaqueCube()) {
-                            continue;
-                        } else if (getOffsetedInnerBlock(x, y, z, fd) == getInnerBlock(x, y, z)) {
-                            continue;
-                        }
-                        flgs[x][y][z] |= 1 << fd.ordinal();
                     }
                 }
             }
@@ -240,6 +248,10 @@ public class TileEntityMultiBlock extends TileEntity {
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
+        this.writeToSlotNBT(nbt);
+    }
+
+    public void writeToSlotNBT(NBTTagCompound nbt) {
         if (!nbt.hasKey("slotsNBT", 9)) {
             nbt.setTag("slotsNBT", new NBTTagList());
         }
@@ -250,10 +262,7 @@ public class TileEntityMultiBlock extends TileEntity {
                 for (int k = 0; k < this.slotLength; k++) {
                     NBTTagCompound slotNBT;
                     if (slots[i][j][k] != null) {
-                        slotNBT = new NBTTagCompound();
-                        NBTTagCompound itemNBT = new NBTTagCompound();
-                        slots[i][j][k].writeToNBT(itemNBT);
-                        slotNBT.setTag("itemNBT", itemNBT);
+                        slotNBT = slots[i][j][k].writeToNBT(new NBTTagCompound());
                     } else {
                         slotNBT = parser;
                     }
@@ -267,6 +276,10 @@ public class TileEntityMultiBlock extends TileEntity {
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
+        this.readFromSlotNBT(nbt);
+    }
+
+    public void readFromSlotNBT(NBTTagCompound nbt) {
         if (nbt.hasKey("this.slotLength")) {
             this.setSlotLength(nbt.getByte("this.slotLength"));
         }
@@ -275,13 +288,16 @@ public class TileEntityMultiBlock extends TileEntity {
         }
         NBTTagList list = nbt.getTagList("slotsNBT", 10);
         int count = 0;
-        for (int i = 0; i < this.slotLength && i < list.tagCount(); i++) {
-            for (int j = 0; j < this.slotLength && j < list.tagCount(); j++) {
+        for (int i = 0; i < this.slotLength; i++) {
+            for (int j = 0; j < this.slotLength; j++) {
                 for (int k = 0; k < this.slotLength; k++) {
                     NBTTagCompound slotNBT = list.getCompoundTagAt(count++);
-                    if (slotNBT.hasKey("itemNBT")) {
-                        NBTTagCompound itemNBT = (NBTTagCompound) slotNBT.getTag("itemNBT");
-                        slots[i][j][k] = ItemStack.loadItemStackFromNBT(itemNBT);
+                    if (slotNBT.hasKey("id")) {
+                        if (slots[i][j][k] != null) {
+                            slots[i][j][k].readFromNBT(slotNBT);
+                        } else {
+                            slots[i][j][k] = ItemStack.loadItemStackFromNBT(slotNBT);
+                        }
                     }
                 }
             }
@@ -296,14 +312,42 @@ public class TileEntityMultiBlock extends TileEntity {
     @Override
     public Packet getDescriptionPacket() {
         NBTTagCompound var1 = new NBTTagCompound();
-        this.writeToNBT(var1);
+        this.writeToSlotNBT(var1);
         return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 5, var1);
     }
 
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
-        this.readFromNBT(pkt.func_148857_g());
+        this.readFromSlotNBT(pkt.func_148857_g());
         this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
+    public List<ItemStack> getInnnerBlocks() {
+        HashMap<Item, HashMap<Integer, Integer>> temp = new HashMap<Item, HashMap<Integer, Integer>>();
+        ArrayList<ItemStack> res;
+        for (int i = 0; i < this.slotLength; i++) {
+            for (int j = 0; j < this.slotLength; j++) {
+                for (int k = 0; k < this.slotLength; k++) {
+                    if (slots[i][j][k] != null) {
+                        if (!temp.containsKey(slots[i][j][k].getItem())) {
+                            temp.put(slots[i][j][k].getItem(), new HashMap<Integer, Integer>());
+                        }
+                        HashMap<Integer, Integer> innerMap = temp.get(slots[i][j][k].getItem());
+                        if (innerMap.containsKey(slots[i][j][k].getItemDamage())) {
+                            innerMap.put(slots[i][j][k].getItemDamage(), innerMap.get(slots[i][j][k].getItemDamage()) + 1);
+                        } else {
+                            innerMap.put(slots[i][j][k].getItemDamage(), 1);
+                        }
+                    }
+                }
+            }
+        }
+        res = new ArrayList<ItemStack>(temp.size());
+        for (Item item : temp.keySet()) {
+            for (int dmg : temp.get(item).keySet()) {
+                res.add(new ItemStack(item, temp.get(item).get(dmg), Block.getBlockFromItem(item).damageDropped(dmg)));
+            }
+        }
+        return res;
+    }
 }

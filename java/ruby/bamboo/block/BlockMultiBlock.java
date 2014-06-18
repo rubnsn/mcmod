@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
@@ -31,13 +32,23 @@ public class BlockMultiBlock extends BlockContainer {
     private byte innerX;
     private byte innerY;
     private byte innerZ;
-    public boolean isTopRender = false;
 
     public BlockMultiBlock() {
         super(Material.ground);
         this.setLightOpacity(0);
         this.setHardness(1.0F);
         this.setResistance(1.0F);
+    }
+
+    @Override
+    public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+        TileEntity tile = world.getTileEntity(x, y, z);
+        if (tile instanceof TileEntityMultiBlock) {
+            for (ItemStack is : ((TileEntityMultiBlock) tile).getInnnerBlocks()) {
+                this.dropBlockAsItem(world, x, y, z, is);
+            }
+        }
+        super.breakBlock(world, x, y, z, block, meta);
     }
 
     @Override
@@ -108,11 +119,11 @@ public class BlockMultiBlock extends BlockContainer {
                 this.setBoundsForMeta(meta);
                 super.addCollisionBoxesToList(world, x, y, z, bb, list, entiyt);
             } else {
+                float f = 1 / (float) ((TileEntityMultiBlock) tile).getFieldSize();
                 for (int innerX = 0; innerX < ((TileEntityMultiBlock) tile).getFieldSize(); innerX++) {
                     for (int innerY = 0; innerY < ((TileEntityMultiBlock) tile).getFieldSize(); innerY++) {
                         for (int innerZ = 0; innerZ < ((TileEntityMultiBlock) tile).getFieldSize(); innerZ++) {
                             if (((TileEntityMultiBlock) tile).isExist(innerX, innerY, innerZ)) {
-                                float f = 1 / (float) ((TileEntityMultiBlock) tile).getFieldSize();
                                 this.setBlockBounds(f * innerX, f * innerY, f * innerZ, f * innerX + f, f * innerY + f, f * innerZ + f);
                                 super.addCollisionBoxesToList(world, x, y, z, bb, list, entiyt);
                             }
@@ -133,11 +144,11 @@ public class BlockMultiBlock extends BlockContainer {
                 this.setBoundsForMeta(tile.getBlockMetadata());
                 mop[count++] = super.collisionRayTrace(world, x, y, z, vec3Start, vec3End);
             } else {
+                float f = 1 / (float) ((TileEntityMultiBlock) tile).getFieldSize();
                 for (int innerX = 0; innerX < ((TileEntityMultiBlock) tile).getFieldSize(); innerX++) {
                     for (int innerY = 0; innerY < ((TileEntityMultiBlock) tile).getFieldSize(); innerY++) {
                         for (int innerZ = 0; innerZ < ((TileEntityMultiBlock) tile).getFieldSize(); innerZ++) {
                             if (((TileEntityMultiBlock) tile).isExist(innerX, innerY, innerZ)) {
-                                float f = 1 / (float) ((TileEntityMultiBlock) tile).getFieldSize();
                                 this.setBlockBounds(f * innerX, f * innerY, f * innerZ, f * innerX + f, f * innerY + f, f * innerZ + f);
                                 mop[count++] = super.collisionRayTrace(world, x, y, z, vec3Start, vec3End);
                             }
@@ -236,7 +247,7 @@ public class BlockMultiBlock extends BlockContainer {
 
     @Override
     public boolean shouldSideBeRendered(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
-        return (((renderSide >> par5) & 1) == 1) && (isTopRender || par5 != 1);
+        return (par5 != 1) && (((renderSide >> par5) & 1) == 1);
     }
 
     @Override
@@ -254,5 +265,19 @@ public class BlockMultiBlock extends BlockContainer {
     @SideOnly(Side.CLIENT)
     public String getItemIconName() {
         return BambooCore.resourceDomain + "multiblock";
+    }
+
+    @Override
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
+        ItemStack is = super.getPickBlock(target, world, x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
+        if (tile instanceof TileEntityMultiBlock) {
+            is.setItemDamage(((TileEntityMultiBlock) tile).getFieldSize());
+            is.stackTagCompound = new NBTTagCompound();
+            ((TileEntityMultiBlock) tile).writeToSlotNBT(is.stackTagCompound);
+        } else {
+            is.setItemDamage(3);
+        }
+        return is;
     }
 }

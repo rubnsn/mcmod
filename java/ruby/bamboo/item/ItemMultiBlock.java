@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import ruby.bamboo.tileentity.TileEntityMultiBlock;
 import cpw.mods.fml.relauncher.Side;
@@ -21,7 +22,13 @@ public class ItemMultiBlock extends ItemBlock {
     public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata) {
         boolean res = super.placeBlockAt(stack, player, world, x, y, z, side, hitX, hitY, hitZ, metadata);
         if (res) {
-            ((TileEntityMultiBlock) world.getTileEntity(x, y, z)).setSlotLength((byte) stack.getItemDamage());
+            TileEntity tile = world.getTileEntity(x, y, z);
+            if (tile instanceof TileEntityMultiBlock) {
+                ((TileEntityMultiBlock) tile).setSlotLength((byte) stack.getItemDamage());
+                if (stack.hasTagCompound()) {
+                    ((TileEntityMultiBlock) tile).readFromSlotNBT(stack.stackTagCompound);
+                }
+            }
         }
         return res;
     }
@@ -34,6 +41,11 @@ public class ItemMultiBlock extends ItemBlock {
 
     @Override
     public String getItemStackDisplayName(ItemStack par1ItemStack) {
-        return super.getItemStackDisplayName(par1ItemStack) + par1ItemStack.getItemDamage() + "x";
+        StringBuffer stb = new StringBuffer(super.getItemStackDisplayName(par1ItemStack));
+        stb.append(par1ItemStack.getItemDamage()).append("x");
+        if (par1ItemStack.hasTagCompound()) {
+            stb.append(" Copy");
+        }
+        return stb.toString();
     }
 }

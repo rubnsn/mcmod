@@ -50,6 +50,8 @@ import static ruby.bamboo.BambooInit.rawrice;
 import static ruby.bamboo.BambooInit.riceSeed;
 import static ruby.bamboo.BambooInit.rooftile;
 import static ruby.bamboo.BambooInit.sakura;
+import static ruby.bamboo.BambooInit.sakuraCarpet;
+import static ruby.bamboo.BambooInit.sakuraleavs;
 import static ruby.bamboo.BambooInit.sakuralog;
 import static ruby.bamboo.BambooInit.shavedIce;
 import static ruby.bamboo.BambooInit.singleTexDeco;
@@ -154,6 +156,9 @@ public class BambooRecipe {
         addCarpetRecipe(new ItemStack(decoCarpet, 3, 4), new ItemStack(dSquare, 1, 8));
         addCarpetRecipe(new ItemStack(decoCarpet, 3, 6), new ItemStack(dSquare, 1, 10));
         addCarpetRecipe(new ItemStack(decoCarpet, 3, 8), new ItemStack(dSquare, 1, 12));
+        addCarpetRecipe(new ItemStack(sakuraCarpet, 3, 0), new ItemStack(sakuraleavs, 1, 15));
+        addCarpetRecipe(new ItemStack(sakuraCarpet, 3, 1), new ItemStack(sakuraleavs, 1, 1));
+        addCarpetRecipe(new ItemStack(sakuraCarpet, 3, 2), new ItemStack(sakuraleavs, 1, 11));
         // 掛け軸
         addShapedOreRecipe(new ItemStack(kakeziku, 1, 0), "YYY", "X#X", "XXX", '#', TUDURA, 'Y', Items.stick, 'X', Items.paper);
         // 行灯

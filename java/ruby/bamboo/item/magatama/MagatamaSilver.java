@@ -23,6 +23,8 @@ public class MagatamaSilver implements IMagatama {
     static {
         try {
             duration = PotionEffect.class.getDeclaredField("duration");
+        } catch (NoSuchFieldException e) {
+            duration = PotionEffect.class.getDeclaredFields()[1];
         } catch (Exception e) {
             e.printStackTrace();
         }

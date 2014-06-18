@@ -23,7 +23,6 @@ public abstract class BlockQuadRotatePillar extends Block {
 
     @Override
     public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack) {
-
         int j1 = par1World.getBlockMetadata(par2, par3, par4) & 3;
         byte dir = 0;
         switch (BambooUtil.getPlayerDir(par5EntityLivingBase)) {
@@ -45,16 +44,6 @@ public abstract class BlockQuadRotatePillar extends Block {
         par1World.setBlockMetadataWithNotify(par2, par3, par4, j1 | (dir << 2), 3);
     }
 
-    @SideOnly(Side.CLIENT)
-    public IIcon getSideIcon(int var1) {
-        return icons[var1 % icons.length];
-    }
-
-    @SideOnly(Side.CLIENT)
-    public IIcon getTopIcon(int var1) {
-        return icons[var1 % icons.length];
-    }
-
     @Override
     public int damageDropped(int meta) {
         return meta & 3;
@@ -63,7 +52,7 @@ public abstract class BlockQuadRotatePillar extends Block {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side_, int meta) {
-        return icons[meta % icons.length];
+        return icons[(meta & 3) % icons.length];
     }
 
     @Override

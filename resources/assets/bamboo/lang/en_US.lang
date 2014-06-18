@@ -99,6 +99,7 @@ tile.blockbambooshoot.name=Bambooshoot
 tile.blobkbroom.0.name=BroomMark(straight)
 tile.blobkbroom.1.name=BroomMark(curve)
 tile.bamboomultiblock.name=MiniBlock
+tile.sakuracarpet.name=SakuraCarpet
 item.itembamboo.name=ItemBamboo
 item.bamboobasket.name=BambooBasket
 item.firecracker.0.name=Firecracker(S)

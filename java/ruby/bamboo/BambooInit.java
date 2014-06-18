@@ -43,6 +43,7 @@ import ruby.bamboo.block.BlockMultiPot;
 import ruby.bamboo.block.BlockPillar;
 import ruby.bamboo.block.BlockRicePlant;
 import ruby.bamboo.block.BlockSakura;
+import ruby.bamboo.block.BlockSakuraCarpet;
 import ruby.bamboo.block.BlockSakuraLeaves;
 import ruby.bamboo.block.BlockSakuraLog;
 import ruby.bamboo.block.BlockSpaUnit;
@@ -75,9 +76,9 @@ import ruby.bamboo.item.ItemMultiPot;
 import ruby.bamboo.item.ItemObon;
 import ruby.bamboo.item.ItemPillar;
 import ruby.bamboo.item.ItemSack;
-import ruby.bamboo.item.ItemSakuraPetal;
 import ruby.bamboo.item.ItemShavedIce;
 import ruby.bamboo.item.ItemSimpleSubtype;
+import ruby.bamboo.item.ItemSingleNameSubtype;
 import ruby.bamboo.item.ItemSlideDoor;
 import ruby.bamboo.item.ItemTudura;
 import ruby.bamboo.item.ItemWaterwheel;
@@ -144,6 +145,7 @@ public class BambooInit {
     public static Block blockBroom;
     public static Block blockHuton;
     public static Block multiBlock;
+    public static Block sakuraCarpet;
 
     public static Item itembamboo;
     public static Item straw;
@@ -211,7 +213,7 @@ public class BambooInit {
         dHalfSquare = registerBlock(new BlockDSquare(true).addTexName("tatami_x", "tatami_y", "tatami_x", "tatami_y", "kaya_x", "kaya_y", "kaya_x", "kaya_y").addTexName("tatami_tan_x", "tatami_tan_y", "tatami_tan_nsx", "tatami_tan_nsy", "tatami_nsx", "tatami_nsy", "tatami_nsx", "tatami_nsy"), ItemSimpleSubtype.class, "halfDirSquare", tabBamboo);
         andon = registerBlock(new BlockAndon(), "andon", tabBamboo);
         bamboopane = registerBlock(new BlockBambooPane(Material.ground), ItemBambooPane.class, "bambooPanel", tabBamboo);
-        sakuraleavs = registerBlock(new BlockSakuraLeaves(), ItemSakuraPetal.class, "sakuraLeaves", tabBamboo);
+        sakuraleavs = registerBlock(new BlockSakuraLeaves(), ItemSingleNameSubtype.class, "sakuraLeaves", tabBamboo);
         sakura = registerBlock(new BlockSakura().setBlockTextureName("sakura"), "sakuraSapling", tabBamboo);
         rooftile = registerBlock(new BlockKayabukiRoof(), "kayabukiRoof", tabBamboo);
         spa_water = registerBlock(new BlockSpaWater(), "spaWater");
@@ -244,6 +246,7 @@ public class BambooInit {
         blockBroom = registerBlock(new BlockBroom(), ItemSimpleSubtype.class, "blobkbroom", tabBamboo);
         blockHuton = registerBlock(new BlockHuton(), "bamboohuton");
         multiBlock = registerBlock(new BlockMultiBlock(), ItemMultiBlock.class, "bamboomultiblock", tabBamboo);
+        sakuraCarpet = registerBlock(new BlockSakuraCarpet(), ItemSingleNameSubtype.class, "sakuracarpet", tabBamboo);
         initLiang();
         registerBlock(new BlockManeki(Material.ground), "maneki", tabBamboo);
         if (BambooCore.DEBUGMODE) {

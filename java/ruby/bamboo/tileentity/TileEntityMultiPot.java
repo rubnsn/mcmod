@@ -11,6 +11,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.block.BlockMultiPot;
 
@@ -57,12 +58,20 @@ public class TileEntityMultiPot extends TileEntity {
             nbt.setTag("slotsNBT", new NBTTagList());
         }
         NBTTagList list = nbt.getTagList("slotsNBT", 10);
-        for (int i = 0; i < MAX_LENGTH && i < list.tagCount(); i++) {
+        for (int i = 0; i < MAX_LENGTH; i++) {
             NBTTagCompound slotNBT = list.getCompoundTagAt(i);
             matrix[i] = slotNBT.getBoolean("matrix");
-            if (matrix[i] && slotNBT.hasKey("itemNBT")) {
-                NBTTagCompound itemNBT = (NBTTagCompound) slotNBT.getTag("itemNBT");
-                slots[i] = ItemStack.loadItemStackFromNBT(itemNBT);
+            if (matrix[i]) {
+                if (slotNBT.hasKey("itemNBT")) {
+                    NBTTagCompound itemNBT = (NBTTagCompound) slotNBT.getTag("itemNBT");
+                    if (slots[i] != null) {
+                        slots[i].readFromNBT(itemNBT);
+                    } else {
+                        slots[i] = ItemStack.loadItemStackFromNBT(itemNBT);
+                    }
+                } else {
+                    slots[i] = null;
+                }
             }
         }
     }
@@ -77,17 +86,14 @@ public class TileEntityMultiPot extends TileEntity {
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
         this.readFromNBT(pkt.func_148857_g());
+        this.getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
-    public static int getSlotPositionNumber(float x, float z) {
-        //横面からクリックした時の動作改善
-        if (x == 1) {
-            x -= 0.01F;
-        }
-        if (z == 1) {
-            z -= 0.01F;
-        }
-        int res = ((int) (SQ * x) + (int) ((SQ) * z) * SQ);
+    public static int getSlotPositionNumber(float hitX, float hitZ, ForgeDirection fd) {
+        float offset = 1 / (float) SQ / 2F;
+        hitX += fd.offsetX * offset;
+        hitZ += fd.offsetZ * offset;
+        int res = ((int) (SQ * hitX) + (int) (SQ * hitZ) * SQ);
         return res < MAX_LENGTH ? res : MAX_LENGTH - 1;
     }
 
@@ -121,7 +127,7 @@ public class TileEntityMultiPot extends TileEntity {
             }
             slots[slotNum] = null;
         }
-        this.markDirty();
+        //this.markDirty();
         return res;
     }
 
