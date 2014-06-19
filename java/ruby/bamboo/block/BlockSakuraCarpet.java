@@ -15,7 +15,7 @@ import ruby.bamboo.BambooCore;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockSakuraCarpet extends BlockQuadRotatePillar {
+public class BlockSakuraCarpet extends BlockQuadRotateBlockBase {
 
     public BlockSakuraCarpet() {
         super(Material.carpet);

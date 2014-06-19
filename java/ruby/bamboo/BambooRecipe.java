@@ -1,5 +1,6 @@
 package ruby.bamboo;
 
+import static ruby.bamboo.BambooInit.alphaMultiBlock;
 import static ruby.bamboo.BambooInit.andon;
 import static ruby.bamboo.BambooInit.bambooBasket;
 import static ruby.bamboo.BambooInit.bambooBow;
@@ -158,7 +159,7 @@ public class BambooRecipe {
         addCarpetRecipe(new ItemStack(decoCarpet, 3, 8), new ItemStack(dSquare, 1, 12));
         addCarpetRecipe(new ItemStack(sakuraCarpet, 3, 0), new ItemStack(sakuraleavs, 1, 15));
         addCarpetRecipe(new ItemStack(sakuraCarpet, 3, 1), new ItemStack(sakuraleavs, 1, 1));
-        addCarpetRecipe(new ItemStack(sakuraCarpet, 3, 2), new ItemStack(sakuraleavs, 1, 11));
+        addCarpetRecipe(new ItemStack(sakuraCarpet, 3, 2), new ItemStack(sakuraleavs, 1, 14));
         // 掛け軸
         addShapedOreRecipe(new ItemStack(kakeziku, 1, 0), "YYY", "X#X", "XXX", '#', TUDURA, 'Y', Items.stick, 'X', Items.paper);
         // 行灯
@@ -289,13 +290,15 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(Items.clay_ball, 4, 0), "###", "#X#", "###", '#', "dustClay", 'X', Items.water_bucket);
         //縮小なんとかさん
         addShapedOreRecipe(new ItemStack(multiBlock, 1, 2), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dustGlowstone", 'X', TUDURA);
-        addShapedOreRecipe(new ItemStack(multiBlock, 1, 3), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dustGlowstone", 'X', new ItemStack(multiBlock, 1, 2));
-        addShapedOreRecipe(new ItemStack(multiBlock, 1, 4), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dustGlowstone", 'X', new ItemStack(multiBlock, 1, 3));
-        addShapedOreRecipe(new ItemStack(multiBlock, 1, 5), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dustGlowstone", 'X', new ItemStack(multiBlock, 1, 4));
         addShapedOreRecipe(new ItemStack(multiBlock, 1, 2), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dyeBlue", 'X', TUDURA);
-        addShapedOreRecipe(new ItemStack(multiBlock, 1, 3), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dyeBlue", 'X', new ItemStack(multiBlock, 1, 2));
-        addShapedOreRecipe(new ItemStack(multiBlock, 1, 4), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dyeBlue", 'X', new ItemStack(multiBlock, 1, 3));
-        addShapedOreRecipe(new ItemStack(multiBlock, 1, 5), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dyeBlue", 'X', new ItemStack(multiBlock, 1, 4));
+        GameRegistry.addShapelessRecipe(new ItemStack(alphaMultiBlock, 1, 2), new ItemStack(multiBlock, 1, 2));
+        GameRegistry.addShapelessRecipe(new ItemStack(multiBlock, 1, 2), new ItemStack(alphaMultiBlock, 1, 2));
+        for (int i = 2; i < 5; i++) {
+            addShapedOreRecipe(new ItemStack(multiBlock, 1, i + 1), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dustGlowstone", 'X', new ItemStack(multiBlock, 1, i));
+            addShapedOreRecipe(new ItemStack(multiBlock, 1, i + 1), "Y#Y", "#X#", "Y#Y", '#', Items.redstone, 'Y', "dyeBlue", 'X', new ItemStack(multiBlock, 1, i));
+            GameRegistry.addShapelessRecipe(new ItemStack(alphaMultiBlock, 1, i + 1), new ItemStack(multiBlock, 1, i + 1));
+            GameRegistry.addShapelessRecipe(new ItemStack(multiBlock, 1, i + 1), new ItemStack(alphaMultiBlock, 1, i + 1));
+        }
         //ちゅるはし
         addShapedOreRecipe(new ItemStack(bambooPickaxe, 1, 0), "YXY", " # ", " Z ", 'Y', Items.nether_star, 'X', Blocks.dragon_egg, '#', TUDURA, 'Z', Blocks.diamond_block);
         // 鉱石辞書

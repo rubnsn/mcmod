@@ -11,11 +11,12 @@ import ruby.bamboo.CustomRenderHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class BlockQuadRotatePillar extends Block {
+public abstract class BlockQuadRotateBlockBase extends Block implements
+        IRotateBlock {
     //1ブロック辺り4個まで!
     IIcon[] icons;
 
-    public BlockQuadRotatePillar(Material p_i45394_1_) {
+    public BlockQuadRotateBlockBase(Material p_i45394_1_) {
         super(p_i45394_1_);
         this.setHardness(0.2F);
         this.setResistance(1.0F);
@@ -41,18 +42,31 @@ public abstract class BlockQuadRotatePillar extends Block {
         default:
             break;
         }
-        par1World.setBlockMetadataWithNotify(par2, par3, par4, j1 | (dir << 2), 3);
+        par1World.setBlockMetadataWithNotify(par2, par3, par4, j1 | (dir << getDirShiftBit()), 3);
     }
 
     @Override
     public int damageDropped(int meta) {
-        return meta & 3;
+        return meta & getMetaMask();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side_, int meta) {
-        return icons[(meta & 3) % icons.length];
+        return icons[(meta & getMetaMask()) % icons.length];
+    }
+
+    public int getMetaMask() {
+        return 3;
+    }
+
+    public int getDirShiftBit() {
+        return 2;
+    }
+
+    @Override
+    public int getRotateMeta(int meta) {
+        return meta >> getDirShiftBit();
     }
 
     @Override

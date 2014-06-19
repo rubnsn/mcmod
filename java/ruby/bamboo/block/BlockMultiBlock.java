@@ -57,6 +57,16 @@ public class BlockMultiBlock extends BlockContainer {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public int colorMultiplier(IBlockAccess iblockaccess, int x, int y, int z) {
+        TileEntity tile = iblockaccess.getTileEntity(x, y, z);
+        if (tile instanceof TileEntityMultiBlock) {
+            return ((TileEntityMultiBlock) tile).getInnerBlock(innerX, innerY, innerZ).colorMultiplier((IBlockAccess) tile, innerX, innerY, innerZ);
+        }
+        return super.colorMultiplier(iblockaccess, x, y, z);
+    }
+
+    @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ) {
         if (!world.isRemote) {
             ItemStack is = par5EntityPlayer.getCurrentEquippedItem();
@@ -91,7 +101,7 @@ public class BlockMultiBlock extends BlockContainer {
         return (block.getRenderType() == 0 && isCube(block)) || block.isNormalCube();
     }
 
-    private boolean isCube(Block block) {
+    public boolean isCube(Block block) {
         return block.getBlockBoundsMinX() == 0 && block.getBlockBoundsMinY() == 0 && block.getBlockBoundsMinZ() == 0 && block.getBlockBoundsMaxX() == 1 && block.getBlockBoundsMaxY() == 1 && block.getBlockBoundsMaxZ() == 1;
     }
 
@@ -102,11 +112,6 @@ public class BlockMultiBlock extends BlockContainer {
         par3List.add(new ItemStack(par1, 1, 3));
         par3List.add(new ItemStack(par1, 1, 4));
         par3List.add(new ItemStack(par1, 1, 5));
-    }
-
-    @SideOnly(Side.CLIENT)
-    public int getRenderBlockPass() {
-        return 0;
     }
 
     @Override

@@ -12,7 +12,7 @@ import ruby.bamboo.BambooCore;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockBroom extends BlockQuadRotatePillar {
+public class BlockBroom extends BlockQuadRotateBlockBase {
 
     public BlockBroom() {
         super(Material.sand);
@@ -34,5 +34,4 @@ public class BlockBroom extends BlockQuadRotatePillar {
             this.icons[i] = p_149651_1_.registerIcon(BambooCore.resourceDomain + iconName[i]);
         }
     }
-
 }

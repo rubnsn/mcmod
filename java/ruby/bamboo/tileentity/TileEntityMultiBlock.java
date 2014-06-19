@@ -14,12 +14,15 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3Pool;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityMultiBlock extends TileEntity {
+public class TileEntityMultiBlock extends TileEntity implements IBlockAccess {
     private byte slotLength;
     private ItemStack[][][] slots;
     private float[] posPartition;
@@ -349,5 +352,60 @@ public class TileEntityMultiBlock extends TileEntity {
             }
         }
         return res;
+    }
+
+    @Override
+    public Block getBlock(int var1, int var2, int var3) {
+        return getInnerBlock(var1, var2, var3);
+    }
+
+    @Override
+    public TileEntity getTileEntity(int var1, int var2, int var3) {
+        return this;
+    }
+
+    @Override
+    public int getLightBrightnessForSkyBlocks(int var1, int var2, int var3, int var4) {
+        return this.getWorldObj().getLightBrightnessForSkyBlocks(this.xCoord, this.yCoord, this.zCoord, var4);
+    }
+
+    @Override
+    public int getBlockMetadata(int var1, int var2, int var3) {
+        return this.getInnerMeta(var1, var2, var3);
+    }
+
+    @Override
+    public boolean isAirBlock(int var1, int var2, int var3) {
+        return this.getInnerBlock(var1, var2, var3) == Blocks.air;
+    }
+
+    @Override
+    public BiomeGenBase getBiomeGenForCoords(int var1, int var2) {
+        return this.worldObj.getBiomeGenForCoords(this.xCoord, this.zCoord);
+    }
+
+    @Override
+    public int getHeight() {
+        return this.worldObj.getHeight();
+    }
+
+    @Override
+    public boolean extendedLevelsInChunkCache() {
+        return this.worldObj.extendedLevelsInChunkCache();
+    }
+
+    @Override
+    public Vec3Pool getWorldVec3Pool() {
+        return this.worldObj.getWorldVec3Pool();
+    }
+
+    @Override
+    public int isBlockProvidingPowerTo(int var1, int var2, int var3, int var4) {
+        return this.worldObj.isBlockProvidingPowerTo(var1, var2, var3, var4);
+    }
+
+    @Override
+    public boolean isSideSolid(int x, int y, int z, ForgeDirection side, boolean _default) {
+        return this.worldObj.isSideSolid(x, y, z, side, _default);
     }
 }

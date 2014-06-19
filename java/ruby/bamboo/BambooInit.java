@@ -13,6 +13,7 @@ import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.MinecraftForge;
+import ruby.bamboo.block.BlockAlphaMultiBlock;
 import ruby.bamboo.block.BlockAndon;
 import ruby.bamboo.block.BlockBamboo;
 import ruby.bamboo.block.BlockBambooPane;
@@ -145,6 +146,7 @@ public class BambooInit {
     public static Block blockBroom;
     public static Block blockHuton;
     public static Block multiBlock;
+    public static Block alphaMultiBlock;
     public static Block sakuraCarpet;
 
     public static Item itembamboo;
@@ -246,6 +248,7 @@ public class BambooInit {
         blockBroom = registerBlock(new BlockBroom(), ItemSimpleSubtype.class, "blobkbroom", tabBamboo);
         blockHuton = registerBlock(new BlockHuton(), "bamboohuton");
         multiBlock = registerBlock(new BlockMultiBlock(), ItemMultiBlock.class, "bamboomultiblock", tabBamboo);
+        alphaMultiBlock = registerBlock(new BlockAlphaMultiBlock(), ItemMultiBlock.class, "alphamultiblock", tabBamboo);
         sakuraCarpet = registerBlock(new BlockSakuraCarpet(), ItemSingleNameSubtype.class, "sakuracarpet", tabBamboo);
         initLiang();
         registerBlock(new BlockManeki(Material.ground), "maneki", tabBamboo);

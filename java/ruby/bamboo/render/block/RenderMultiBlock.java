@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import ruby.bamboo.block.BlockMultiBlock;
 import ruby.bamboo.tileentity.TileEntityMultiBlock;
@@ -17,7 +16,6 @@ public class RenderMultiBlock implements IRenderBlocks {
         TileEntity tile = renderblocks.blockAccess.getTileEntity(par2, par3, par4);
         if (tile instanceof TileEntityMultiBlock) {
             TileEntityMultiBlock tileMulti = (TileEntityMultiBlock) tile;
-            Block innerBlock;
             byte[][][] visibleFlgs = tileMulti.getVisibleFlg();
             offset = tileMulti.getRenderOffset();
             if (!((TileEntityMultiBlock) tile).isEmpty()) {
@@ -25,8 +23,7 @@ public class RenderMultiBlock implements IRenderBlocks {
                 for (byte innerX = 0; innerX < tileMulti.getFieldSize(); innerX++) {
                     for (byte innerY = 0; innerY < tileMulti.getFieldSize(); innerY++) {
                         for (byte innerZ = 0; innerZ < tileMulti.getFieldSize(); innerZ++) {
-                            innerBlock = tileMulti.getInnerBlock(innerX, innerY, innerZ);
-                            if (innerBlock != Blocks.air && visibleFlgs[innerX][innerY][innerZ] != 0) {
+                            if (visibleFlgs[innerX][innerY][innerZ] != 0) {
                                 renderMultiBlock(renderblocks, (BlockMultiBlock) par1Block, visibleFlgs[innerX][innerY][innerZ], size, par2, par3, par4, innerX, innerY, innerZ);
                             }
                         }

@@ -19,7 +19,7 @@ import ruby.bamboo.render.block.RenderKitunebi;
 import ruby.bamboo.render.block.RenderMultiBlock;
 import ruby.bamboo.render.block.RenderMultiPot;
 import ruby.bamboo.render.block.RenderPillar;
-import ruby.bamboo.render.block.RenderQuadRotatedPillar;
+import ruby.bamboo.render.block.RenderRotatedBlock;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -75,7 +75,7 @@ public class CustomRenderHandler {
         customRenderMap.put(pillarUID, RenderPillar.instance);
         customRenderMap.put(deludeUID, RenderDelude.instance);
         customRenderMap.put(multiPotUID, new RenderMultiPot());
-        customRenderMap.put(quadRotatedPillarUID, RenderQuadRotatedPillar.instance);
+        customRenderMap.put(quadRotatedPillarUID, RenderRotatedBlock.instance);
         customRenderMap.put(multiBlockUID, new RenderMultiBlock());
 
         //Inventory
@@ -86,7 +86,7 @@ public class CustomRenderHandler {
         customRenderInvMap.put(pillarUID, RenderPillar.instance);
         customRenderInvMap.put(deludeUID, RenderDelude.instance);
         customRenderInvMap.put(manekiUID, new RenderInvManeki());
-        customRenderInvMap.put(quadRotatedPillarUID, RenderQuadRotatedPillar.instance);
+        customRenderInvMap.put(quadRotatedPillarUID, RenderRotatedBlock.instance);
     }
 
     private static int getUIDAndRegistSimpleInvRender() {

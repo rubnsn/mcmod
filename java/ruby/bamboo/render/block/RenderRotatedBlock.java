@@ -2,13 +2,14 @@ package ruby.bamboo.render.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
+import ruby.bamboo.block.IRotateBlock;
 
-public class RenderQuadRotatedPillar implements IRenderBlocks, IRenderInventory {
-    public static final RenderQuadRotatedPillar instance = new RenderQuadRotatedPillar();
+public class RenderRotatedBlock implements IRenderBlocks, IRenderInventory {
+    public static final RenderRotatedBlock instance = new RenderRotatedBlock();
 
     @Override
     public void renderBlock(RenderBlocks renderblocks, Block par1Block, int par2, int par3, int par4) {
-        byte rotateMeta = (byte) (renderblocks.blockAccess.getBlockMetadata(par2, par3, par4) >> 2);
+        int rotateMeta = (((IRotateBlock) par1Block).getRotateMeta(renderblocks.blockAccess.getBlockMetadata(par2, par3, par4)));
         renderblocks.uvRotateSouth = rotateMeta;
         renderblocks.uvRotateEast = rotateMeta;
         renderblocks.uvRotateWest = rotateMeta;
