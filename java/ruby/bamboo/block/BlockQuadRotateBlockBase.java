@@ -2,6 +2,7 @@ package ruby.bamboo.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -24,9 +25,14 @@ public abstract class BlockQuadRotateBlockBase extends Block implements
 
     @Override
     public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack) {
-        int j1 = par1World.getBlockMetadata(par2, par3, par4) & 3;
-        byte dir = 0;
-        switch (BambooUtil.getPlayerDir(par5EntityLivingBase)) {
+        int j1 = par1World.getBlockMetadata(par2, par3, par4) & this.getMetaMask();
+        int dir = this.getPlayerDir(par5EntityLivingBase);
+        par1World.setBlockMetadataWithNotify(par2, par3, par4, j1 | (dir << getDirShiftBit()), 3);
+    }
+
+    public int getPlayerDir(Entity e) {
+        int dir = 0;
+        switch (BambooUtil.getPlayerDir(e)) {
         case 0:
             dir = 3;
             break;
@@ -39,10 +45,8 @@ public abstract class BlockQuadRotateBlockBase extends Block implements
         case 3:
             dir = 1;
             break;
-        default:
-            break;
         }
-        par1World.setBlockMetadataWithNotify(par2, par3, par4, j1 | (dir << getDirShiftBit()), 3);
+        return dir;
     }
 
     @Override
@@ -56,14 +60,17 @@ public abstract class BlockQuadRotateBlockBase extends Block implements
         return icons[(meta & getMetaMask()) % icons.length];
     }
 
+    //アイコン用
     public int getMetaMask() {
         return 3;
     }
 
+    //方向用
     public int getDirShiftBit() {
         return 2;
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public int getRotateMeta(int meta) {
         return meta >> getDirShiftBit();
