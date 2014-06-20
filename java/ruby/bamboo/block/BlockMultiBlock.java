@@ -35,7 +35,6 @@ public class BlockMultiBlock extends BlockContainer {
 
     public BlockMultiBlock() {
         super(Material.ground);
-        this.setLightOpacity(0);
         this.setHardness(1.0F);
         this.setResistance(1.0F);
     }
