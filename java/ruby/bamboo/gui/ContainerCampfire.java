@@ -24,7 +24,7 @@ public class ContainerCampfire extends Container {
             this.addSlotToContainer(new Slot(tile, slotNum++, 30 + i % 3 * 18, 17 + i / 3 * 18));
         }
         //燃料
-        this.addSlotToContainer(new Slot(tileEntity, slotNum++, 8, 62));
+        this.addSlotToContainer(new Slot(tileEntity, slotNum++, 8, 53));
         //出来上がり
         this.addSlotToContainer(new SlotCampfire(inventoryPlayer.player, tileEntity, slotNum++, 124, 35));
 
