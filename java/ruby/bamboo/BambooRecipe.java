@@ -331,7 +331,7 @@ public class BambooRecipe {
     }
 
     private void addGrindRecipe() {
-        GrindRegistory.addRecipe(new ItemStack(Blocks.gravel), new ItemStack(Blocks.sand), new ItemStack(Blocks.stone, 3), 5);
+        GrindRegistory.addRecipe(new ItemStack(Blocks.gravel), new ItemStack(Blocks.sand, 2), new ItemStack(Blocks.stone, 1), 5);
         GrindRegistory.addRecipe(new ItemStack(Blocks.gravel), new ItemStack(Blocks.sand), Blocks.cobblestone, 10);
         GrindRegistory.addRecipe(new ItemStack(Blocks.sand), new ItemStack(Items.flint), Blocks.gravel, 7);
         GrindRegistory.addRecipe(new ItemStack(Items.dye, 3, 15), new ItemStack(Items.dye, 2, 15), Items.bone, 2);

@@ -2,6 +2,7 @@ package ruby.bamboo.nei;
 
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.gui.GuiCampfire;
+import ruby.bamboo.gui.GuiMillStone;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import codechicken.nei.recipe.DefaultOverlayHandler;
@@ -23,6 +24,11 @@ public class NEIBambooConfig implements IConfigureNEI {
         API.registerGuiOverlay(GuiCampfire.class, campfireSharplessRecipe.getOverlayIdentifier(), 0, 0);
         API.registerGuiOverlay(GuiCampfire.class, campfireSharplessRecipe.RECIPE_NAME);
         API.registerGuiOverlayHandler(GuiCampfire.class, new DefaultOverlayHandler(), campfireSharplessRecipe.RECIPE_NAME);
+
+        GrindRecipeHandler grindRecipeHandler = new GrindRecipeHandler();
+        API.registerRecipeHandler(grindRecipeHandler);
+        API.registerUsageHandler(grindRecipeHandler);
+        API.registerGuiOverlay(GuiMillStone.class, grindRecipeHandler.getOverlayIdentifier(), 0, 0);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package ruby.bamboo.item.crafting;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -56,7 +57,10 @@ public class GrindRegistory {
                 }
             }
         }
-
         return result;
+    }
+
+    public static List<GrindRecipe> getRecipeList() {
+        return recipe;
     }
 }
