@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
@@ -21,6 +22,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import ruby.bamboo.BambooCore;
+import ruby.bamboo.Config;
 import ruby.bamboo.CustomRenderHandler;
 import ruby.bamboo.tileentity.TileEntityMultiBlock;
 import cpw.mods.fml.relauncher.Side;
@@ -67,7 +69,7 @@ public class BlockMultiBlock extends BlockContainer {
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ) {
-        if (!world.isRemote) {
+        if (!world.isRemote && this.canUse(par5EntityPlayer)) {
             ItemStack is = par5EntityPlayer.getCurrentEquippedItem();
             TileEntity tile = world.getTileEntity(x, y, z);
             if (tile instanceof TileEntityMultiBlock) {
@@ -94,6 +96,19 @@ public class BlockMultiBlock extends BlockContainer {
             }
         }
         return true;
+    }
+
+    public boolean canUse(EntityPlayer player) {
+        if (Config.multiBlockRestraint == 0) {
+            return true;
+        } else if (Config.multiBlockRestraint == 1) {
+            return player.capabilities.isCreativeMode;
+        } else if (Config.multiBlockRestraint == 2) {
+            return player.capabilities.isCreativeMode || MinecraftServer.getServer().getConfigurationManager().isPlayerOpped(player.getCommandSenderName());
+        } else if (Config.multiBlockRestraint == 3) {
+            return MinecraftServer.getServer().getConfigurationManager().isPlayerOpped(player.getCommandSenderName());
+        }
+        return false;
     }
 
     public boolean canPlaceBlock(Block block) {

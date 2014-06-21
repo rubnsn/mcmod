@@ -69,6 +69,12 @@ public class ItemShavedIce extends ItemFood {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIconFromDamage(int par1) {
+        return syrup;
+    }
+
+    @Override
     public IIcon getIconFromDamageForRenderPass(int dmg, int par2) {
         if (par2 == 2) {
             if (dmg < MAX_ELEMENT_COUNT) {
