@@ -70,9 +70,9 @@ public class BlockMultiBlock extends BlockContainer {
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ) {
         if (!world.isRemote && this.canUse(par5EntityPlayer)) {
-            ItemStack is = par5EntityPlayer.getCurrentEquippedItem();
             TileEntity tile = world.getTileEntity(x, y, z);
             if (tile instanceof TileEntityMultiBlock) {
+                ItemStack is = par5EntityPlayer.getCurrentEquippedItem();
                 if (is != null && canPlaceBlock(Block.getBlockFromItem(is.getItem()))) {
                     Block block = Block.getBlockFromItem(is.getItem());
                     int innerMeta = block.onBlockPlaced(world, x, y, z, side, hitX, hitY, hitZ, is.getItemDamage());
@@ -82,7 +82,7 @@ public class BlockMultiBlock extends BlockContainer {
                         if (!par5EntityPlayer.capabilities.isCreativeMode) {
                             is.stackSize--;
                         }
-                        world.markBlockForUpdate(x, y, z);
+                        //world.markBlockForUpdate(x, y, z);
                     }
                 } else {
                     ItemStack res = ((TileEntityMultiBlock) tile).removeInnerBlock(hitX, hitY, hitZ, side);
@@ -90,7 +90,7 @@ public class BlockMultiBlock extends BlockContainer {
                         if (!par5EntityPlayer.capabilities.isCreativeMode) {
                             this.dropBlockAsItem(world, x, y, z, res);
                         }
-                        world.markBlockForUpdate(x, y, z);
+                        //world.markBlockForUpdate(x, y, z);
                     }
                 }
             }

@@ -26,6 +26,8 @@ public class TileEntityMultiBlock extends TileEntity implements IBlockAccess {
     private byte slotLength;
     private ItemStack[][][] slots;
     private float[] posPartition;
+    private byte[][][] sideRenderCache;
+    private static HashMap<Byte, float[]> renderOffsetCache;
 
     public TileEntityMultiBlock() {
         this.setSlotLength((byte) 1);
@@ -54,12 +56,20 @@ public class TileEntityMultiBlock extends TileEntity implements IBlockAccess {
     }
 
     public float[] getRenderOffset() {
-        float[] o = new float[this.slotLength];
-        float offset = (1 / (float) (this.slotLength));
-        for (int i = 0; i < this.slotLength; i++) {
-            o[i] = i * offset;
+        if (renderOffsetCache == null) {
+            renderOffsetCache = new HashMap<Byte, float[]>();
         }
-        return o;
+        if (renderOffsetCache.containsKey(slotLength)) {
+            return renderOffsetCache.get(slotLength);
+        } else {
+            float[] o = new float[this.slotLength];
+            float offset = (1 / (float) (this.slotLength));
+            for (int i = 0; i < this.slotLength; i++) {
+                o[i] = i * offset;
+            }
+            renderOffsetCache.put(slotLength, o);
+            return o;
+        }
     }
 
     public Block getInnerBlock(int x, int y, int z) {
@@ -173,8 +183,16 @@ public class TileEntityMultiBlock extends TileEntity implements IBlockAccess {
         return 0 <= x && 0 <= y && 0 <= z && x < this.slotLength && y < this.slotLength && z < this.slotLength;
     }
 
+
     @SideOnly(Side.CLIENT)
     public byte[][][] getVisibleFlg() {
+        if (sideRenderCache != null) {
+            return sideRenderCache;
+        }
+        return sideRenderCache = getSideRender();
+    }
+
+    public byte[][][] getSideRender() {
         byte[][][] flgs = new byte[this.slotLength][this.slotLength][this.slotLength];
         boolean[] outerOpaqueCubeFlgs = new boolean[ForgeDirection.VALID_DIRECTIONS.length];
         //外世界
@@ -322,7 +340,8 @@ public class TileEntityMultiBlock extends TileEntity implements IBlockAccess {
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
         this.readFromSlotNBT(pkt.func_148857_g());
-        this.worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        this.sideRenderCache = null;
+        this.worldObj.markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord, xCoord, yCoord, zCoord);
     }
 
     public List<ItemStack> getInnnerBlocks() {
@@ -408,4 +427,5 @@ public class TileEntityMultiBlock extends TileEntity implements IBlockAccess {
     public boolean isSideSolid(int x, int y, int z, ForgeDirection side, boolean _default) {
         return this.worldObj.isSideSolid(x, y, z, side, _default);
     }
+
 }
