@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -21,6 +22,11 @@ public class BlockSakuraCarpet extends BlockQuadRotateBlockBase {
         super(Material.carpet);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0325F, 1.0F);
         this.setLightOpacity(0);
+    }
+
+    @Override
+    public int getPlayerDir(Entity e) {
+        return e.worldObj.rand.nextInt(4);
     }
 
     @Override
