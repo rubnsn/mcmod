@@ -71,9 +71,44 @@ public abstract class BlockQuadRotateBlockBase extends Block implements
     }
 
     @SideOnly(Side.CLIENT)
-    @Override
     public int getRotateMeta(int meta) {
         return meta >> getDirShiftBit();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getuvRotateSouth(int meta) {
+        return this.getRotateMeta(meta);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getuvRotateEast(int meta) {
+        return this.getRotateMeta(meta);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getuvRotateWest(int meta) {
+        return this.getRotateMeta(meta);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getuvRotateNorth(int meta) {
+        return this.getRotateMeta(meta);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getuvRotateTop(int meta) {
+        return this.getRotateMeta(meta);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getuvRotateBottom(int meta) {
+        return this.getRotateMeta(meta);
     }
 
     @Override

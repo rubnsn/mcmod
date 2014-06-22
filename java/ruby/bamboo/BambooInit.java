@@ -23,6 +23,7 @@ import ruby.bamboo.block.BlockCampfire;
 import ruby.bamboo.block.BlockCustomRenderSingleTexture;
 import ruby.bamboo.block.BlockDSquare;
 import ruby.bamboo.block.BlockDecoCarpet;
+import ruby.bamboo.block.BlockDecoPlaster;
 import ruby.bamboo.block.BlockDecorations;
 import ruby.bamboo.block.BlockDelude;
 import ruby.bamboo.block.BlockDeludePressurePlate;
@@ -61,6 +62,7 @@ import ruby.bamboo.item.ItemBambooSword;
 import ruby.bamboo.item.ItemBambooshoot;
 import ruby.bamboo.item.ItemBoiledEgg;
 import ruby.bamboo.item.ItemDecoCarpet;
+import ruby.bamboo.item.ItemDecoPlaster;
 import ruby.bamboo.item.ItemDecorationBlocks;
 import ruby.bamboo.item.ItemDimensionCreater;
 import ruby.bamboo.item.ItemDirtySnowball;
@@ -148,6 +150,8 @@ public class BambooInit {
     public static Block multiBlock;
     public static Block alphaMultiBlock;
     public static Block sakuraCarpet;
+
+    public static Block decoPlaster;
 
     public static Item itembamboo;
     public static Item straw;
@@ -250,6 +254,7 @@ public class BambooInit {
         multiBlock = registerBlock(new BlockMultiBlock(), ItemMultiBlock.class, "bamboomultiblock", tabBamboo);
         alphaMultiBlock = registerBlock(new BlockAlphaMultiBlock(), ItemMultiBlock.class, "alphamultiblock", tabBamboo);
         sakuraCarpet = registerBlock(new BlockSakuraCarpet(), ItemSingleNameSubtype.class, "sakuracarpet", tabBamboo);
+        decoPlaster = registerBlock(new BlockDecoPlaster(), ItemDecoPlaster.class, "decoPlaster", tabBamboo);
         initLiang();
         registerBlock(new BlockManeki(Material.ground), "maneki", tabBamboo);
         if (BambooCore.DEBUGMODE) {
