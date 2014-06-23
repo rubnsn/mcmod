@@ -307,7 +307,7 @@ public class BambooRecipe {
         //ちゅるはし
         addShapedOreRecipe(new ItemStack(bambooPickaxe, 1, 0), "YXY", " # ", " Z ", 'Y', Items.nether_star, 'X', Blocks.dragon_egg, '#', TUDURA, 'Z', Blocks.diamond_block);
         //もち
-        addShapedOreRecipe(new ItemStack(foods, 2, 22), "##", "##", '#', CROP_RICE);
+        addShapedOreRecipe(new ItemStack(foods, 2, 22), "##", "##", '#', COOKING_RICE);
         //めしEX
         addShapelessOreRecipe(new ItemStack(foods, 1, 28), NATTO, COOKING_RICE);
         addShapelessOreRecipe(new ItemStack(foods, 1, 29), NATTO, COOKING_RICE, Items.egg);
@@ -350,7 +350,7 @@ public class BambooRecipe {
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 17), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, Items.sugar, SOY_BEANS);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 18), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, bean);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 19), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, Items.sugar);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 20), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, new ItemStack(sakuraleavs, 1, 32767), Blocks.grass);
+        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 20), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, new ItemStack(sakuraleavs, 1, 32767), Blocks.tallgrass);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 21), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, ZUNDA, ZUNDA);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 24), new ItemStack(foods, 1, 22), Items.sugar, Items.sugar, SOY_BEANS);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 25), new ItemStack(foods, 1, 22), Items.sugar, bean);
@@ -361,7 +361,6 @@ public class BambooRecipe {
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 30), new ItemStack(foods, 1, 22), new ItemStack(sakuraleavs, 1, 32767));
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 31), Items.beef, CROP_RICE, Items.egg);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 32), Items.porkchop, CROP_RICE, Items.egg);
-
     }
 
     private void addGrindRecipe() {
