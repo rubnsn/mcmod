@@ -1,7 +1,5 @@
 package ruby.bamboo.block;
 
-import java.util.ArrayList;
-
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -11,25 +9,16 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import ruby.bamboo.BambooInit;
 
-public class BlockRicePlant extends BlockGrowableBase {
+public class BlockBeanPlant extends BlockGrowableBase {
 
     @Override
     public Item getSeed() {
-        return BambooInit.riceSeed;
+        return BambooInit.bean;
     }
 
     @Override
     public Item getProduct() {
-        return BambooInit.straw;
-    }
-
-    @Override
-    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
-        ArrayList<ItemStack> ret = super.getDrops(world, x, y, z, metadata, fortune);
-        if (metadata >= this.getMaxGrowthStage() - 1) {
-            ret.add(new ItemStack(this.getSeed(), 1, 0));
-        }
-        return ret;
+        return BambooInit.bean;
     }
 
     @Override
@@ -48,7 +37,7 @@ public class BlockRicePlant extends BlockGrowableBase {
 
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
-        return new ItemStack(BambooInit.riceSeed);
+        return new ItemStack(BambooInit.bean);
     }
 
     @Override
@@ -65,4 +54,5 @@ public class BlockRicePlant extends BlockGrowableBase {
     public int getRenderType() {
         return 6;
     }
+
 }

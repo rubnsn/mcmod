@@ -2,6 +2,7 @@ package ruby.bamboo.worldgen;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -41,6 +42,30 @@ public class GeneraterHandler implements IWorldGenerator {
                         break;
                     }
                 }
+            } else if (BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.BEACH) || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.WATER) || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.SWAMP)) {
+                switch (random.nextInt(4)) {
+                case 0:
+                    generateSeaweed(random, world, chunkX, chunkZ, 80);
+                }
+            }
+        }
+    }
+
+    private void generateSeaweed(Random random, World world, int chunkX, int chunkZ, int maxHeight) {
+        for (int l = random.nextInt(20); 0 < l; l--) {
+            int x = chunkX * 16 + random.nextInt(16);
+            int y = random.nextInt(maxHeight);
+            int z = chunkZ * 16 + random.nextInt(16);
+            int posX, posY, posZ;
+            for (int var6 = 0; var6 < 20; ++var6) {
+                posX = x + random.nextInt(8) - random.nextInt(8);
+                posY = y + random.nextInt(4) - random.nextInt(4);
+                posZ = z + random.nextInt(8) - random.nextInt(8);
+                Block blockid = world.getBlock(posX, posY - 1, posZ);
+
+                if (world.isAirBlock(posX, posY, posZ) && BambooInit.seaWeedPlant.canBlockStay(world, posX, posY, posZ)) {
+                    world.setBlock(posX, posY, posZ, BambooInit.seaWeedPlant, 0, 0);
+                }
             }
         }
     }
@@ -50,7 +75,7 @@ public class GeneraterHandler implements IWorldGenerator {
             int x = chunkX * 16 + random.nextInt(16);
             int y = random.nextInt(maxHeight) + 60;
             int z = chunkZ * 16 + random.nextInt(16);
-            (new WorldGenBamboo()).generate(world, random, x, y, z);
+            WorldGenBamboo.instance.generate(world, random, x, y, z);
         }
     }
 

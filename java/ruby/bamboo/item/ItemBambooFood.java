@@ -10,6 +10,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import ruby.bamboo.BambooCore;
@@ -72,10 +74,19 @@ public class ItemBambooFood extends ItemFood {
     public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
         if (!par2World.isRemote) {
             heal = foodMap.get(par1ItemStack.getItemDamage() % MAX_ELEMENT_COUNT).getHeal();
-            int dmg = par1ItemStack.getItemDamage();
         }
-
+        EnumFood ef = this.getType(par1ItemStack);
+        if (ef == EnumFood.TAKEMESI || ef == EnumFood.TAKEONI) {
+            par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.digSpeed.getId(), 600 + par2World.rand.nextInt(600), 0));
+        }
+        if (ef == EnumFood.TEKKA || ef == EnumFood.SAKEONI || ef == EnumFood.TUNAONI) {
+            par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.waterBreathing.getId(), 3600 + par2World.rand.nextInt(3600), 0));
+        }
         return super.onEaten(par1ItemStack, par2World, par3EntityPlayer);
+    }
+
+    private EnumFood getType(ItemStack par1ItemStack) {
+        return EnumFood.values()[par1ItemStack.getItemDamage() % EnumFood.values().length];
     }
 
     private void returnItem(EntityPlayer entity, ItemStack is) {

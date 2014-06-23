@@ -9,6 +9,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemReed;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
@@ -18,6 +19,7 @@ import ruby.bamboo.block.BlockAndon;
 import ruby.bamboo.block.BlockBamboo;
 import ruby.bamboo.block.BlockBambooPane;
 import ruby.bamboo.block.BlockBambooShoot;
+import ruby.bamboo.block.BlockBeanPlant;
 import ruby.bamboo.block.BlockBroom;
 import ruby.bamboo.block.BlockCampfire;
 import ruby.bamboo.block.BlockCustomRenderSingleTexture;
@@ -48,6 +50,7 @@ import ruby.bamboo.block.BlockSakura;
 import ruby.bamboo.block.BlockSakuraCarpet;
 import ruby.bamboo.block.BlockSakuraLeaves;
 import ruby.bamboo.block.BlockSakuraLog;
+import ruby.bamboo.block.BlockSeaweedPlant;
 import ruby.bamboo.block.BlockSpaUnit;
 import ruby.bamboo.block.BlockSpaWater;
 import ruby.bamboo.block.BlockTwoDirections;
@@ -150,8 +153,9 @@ public class BambooInit {
     public static Block multiBlock;
     public static Block alphaMultiBlock;
     public static Block sakuraCarpet;
-
     public static Block decoPlaster;
+    public static Block seaWeedPlant;
+    public static Block beanPlant;
 
     public static Item itembamboo;
     public static Item straw;
@@ -184,6 +188,9 @@ public class BambooInit {
     public static Item fireflyBottle;
     public static Item bambooPickaxe;
     public static Item dustClay;
+    public static Item seaweedSeed;;
+    public static Item itemSeaweed;
+    public static Item bean;
 
     public static BambooInit instance = new BambooInit();
     //items
@@ -255,6 +262,8 @@ public class BambooInit {
         alphaMultiBlock = registerBlock(new BlockAlphaMultiBlock(), ItemMultiBlock.class, "alphamultiblock", tabBamboo);
         sakuraCarpet = registerBlock(new BlockSakuraCarpet(), ItemSingleNameSubtype.class, "sakuracarpet", tabBamboo);
         decoPlaster = registerBlock(new BlockDecoPlaster(), ItemDecoPlaster.class, "decoPlaster", tabBamboo);
+        seaWeedPlant = registerBlock(new BlockSeaweedPlant().setBlockTextureName(BambooCore.resourceDomain + "seaweed"), "seaweed");
+        beanPlant = registerBlock(new BlockBeanPlant().setBlockTextureName(BambooCore.resourceDomain + "beanplant"), "beanPlant");
         initLiang();
         registerBlock(new BlockManeki(Material.ground), "maneki", tabBamboo);
         if (BambooCore.DEBUGMODE) {
@@ -317,8 +326,12 @@ public class BambooInit {
         zabuton = registerItem(new ItemZabuton().setTextureName(BambooCore.resourceDomain + "zabuton"), "zabuton", tabBamboo);
         fireflyBottle = registerItem(new ItemFireflyBottle().setTextureName(BambooCore.resourceDomain + "firefly"), "itemFireflyBottle", tabBamboo);
         dustClay = registerItem(new ItemDustClay().setTextureName("sugar"), "bambooDustCray", tabBamboo);
-        MinecraftForge.addGrassSeed(new ItemStack(riceSeed, 1, 0), 10);
         bambooPickaxe = registerItem(new ItemBambooPickaxe(), "bamboopickaxe", tabBamboo);
+        seaweedSeed = registerItem(new ItemReed(seaWeedPlant).setTextureName(BambooCore.resourceDomain + "seedseaweed"), "seedseaweed", tabBamboo);
+        itemSeaweed = registerItem(new ItemFood(2, 0.3F, false).setTextureName(BambooCore.resourceDomain + "itemseaweed"), "itemseaweed", tabBamboo);
+        bean = registerItem(new ItemSeeds(beanPlant, Blocks.farmland).setTextureName(BambooCore.resourceDomain + "itembean"), "itembean", tabBamboo);
+        MinecraftForge.addGrassSeed(new ItemStack(riceSeed, 1, 0), 10);
+        MinecraftForge.addGrassSeed(new ItemStack(bean, 1, 0), 10);
         if (BambooCore.DEBUGMODE) {
             workingItem();
         }

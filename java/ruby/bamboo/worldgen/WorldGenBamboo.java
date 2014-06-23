@@ -10,6 +10,8 @@ import ruby.bamboo.BambooInit;
 import ruby.bamboo.block.BlockBambooShoot;
 
 public class WorldGenBamboo extends WorldGenerator {
+    public static final WorldGenBamboo instance = new WorldGenBamboo();
+
     @Override
     public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5) {
         int posX, posY, posZ;

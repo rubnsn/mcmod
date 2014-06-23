@@ -13,6 +13,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class CookingManager {
     private static ArrayList<IRecipe> recipes = new ArrayList<IRecipe>();
@@ -103,4 +104,7 @@ public class CookingManager {
         return null;
     }
 
+    public static void addShapelessOreRecipe(ItemStack out, Object... objects) {
+        addRecipe(new ShapelessOreRecipe(out, objects));
+    }
 }

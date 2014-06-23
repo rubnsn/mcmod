@@ -96,6 +96,7 @@ public class Config {
         prop.comment = "Update notification";
         updateNotify = prop.getBoolean(true);
         //縮小君の設置制限
+        maxValue.put("MultiblockRestriction", 4);
         prop = configuration.get(CATEGORY_BAMBOO, "MultiblockRestriction", 0);
         prop.comment = "Multi-block add block restriction 0:None 1:Creative 2:Creative or OP 3:OP 4:ALLUser";
         multiBlockRestraint = prop.getInt();
@@ -103,6 +104,7 @@ public class Config {
         if (exDrop) {
             MinecraftForge.addGrassSeed(new ItemStack(BambooInit.bambooShoot), 10);
             MinecraftForge.addGrassSeed(new ItemStack(BambooInit.sakura), 10);
+            MinecraftForge.addGrassSeed(new ItemStack(BambooInit.seaweedSeed), 10);
         }
     }
 

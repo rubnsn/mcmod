@@ -13,7 +13,29 @@ public enum EnumFood {
     TAMAKAKE(7, 5, 24),
     OYAKO(8, 12, 64),
     TEKKA(9, 7, 36),
-    TORIKUSI(10, 9, 12);
+    TORIKUSI(10, 9, 12),
+    UMEONI(11, 4, 18),
+    SAKEONI(12, 7, 24),
+    TUNAONI(13, 8, 24),
+    KINOONI(14, 5, 24),
+    TAKEONI(15, 6, 24),
+    WAKAMEONI(16, 6, 24),
+    DANANKO(17, 7, 16),
+    DANKINAKO(18, 7, 16),
+    DANMITARASHI(19, 7, 16),
+    DANSANSYOKU(20, 7, 16),
+    DANZUNDA(21, 7, 16),
+    MOCHI(22, 6, 72),
+    COOKEDMOCHI(23, 6, 36),
+    OHAANKO(24, 7, 36),
+    OHAKINAKO(25, 7, 36),
+    OHAZUNDA(26, 7, 36),
+    NATTO(27, 2, 16),
+    NATTOMESHI(28, 5, 16),
+    TAMANATTOMESHI(29, 7, 16),
+    SAKURAMOCHI(30, 7, 36),
+    TAMAGYUMESHI(31, 11, 24),
+    KATSUDON(32, 11, 24), ;
 
     private EnumFood(int dmgid, int heal, int duration) {
         this.dmgid = dmgid;
