@@ -313,7 +313,6 @@ public class BambooRecipe {
         addShapelessOreRecipe(new ItemStack(foods, 1, 29), NATTO, COOKING_RICE, Items.egg);
         addShapelessOreRecipe(new ItemStack(foods, 1, 31), new ItemStack(foods, 1, 1), Items.egg);
         addShapelessOreRecipe(new ItemStack(foods, 1, 7), Items.egg, COOKING_RICE);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 31), new ItemStack(foods, 1, 1), Items.egg);
 
         // 鉱石辞書
         addOreDictionary();

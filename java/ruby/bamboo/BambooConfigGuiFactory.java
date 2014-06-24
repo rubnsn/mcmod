@@ -57,11 +57,12 @@ public class BambooConfigGuiFactory implements IModGuiFactory {
             int height;
             int width = 35;
             for (Property m : Config.configuration.getCategory(Config.CATEGORY_BAMBOO).values()) {
-                height = count > 7 ? 195 : 20;
-                width = count > 7 ? 35 + (count - 8) * 18 : 35 + count * 18;
-                this.buttonList.add(new GuiButtonEx(count + 10, height, width, 175, 17, m.getName() + ": " + m.getString()).setParentAndProp(this, m));
-
-                count++;
+                if (m.getType() == Type.BOOLEAN || m.getType() == Type.INTEGER) {
+                    height = count > 7 ? 195 : 20;
+                    width = count > 7 ? 35 + (count - 8) * 18 : 35 + count * 18;
+                    this.buttonList.add(new GuiButtonEx(count + 10, height, width, 175, 17, m.getName() + ": " + m.getString()).setParentAndProp(this, m));
+                    count++;
+                }
             }
         }
 

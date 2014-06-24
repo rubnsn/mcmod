@@ -4,11 +4,14 @@ import java.util.WeakHashMap;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.BiomeGenBase;
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.BambooRecipe;
 import ruby.bamboo.CraftingHandler;
+import ruby.bamboo.LivingDropsEventHandler;
 import ruby.bamboo.entity.EntityBambooSpear;
 import ruby.bamboo.entity.EntityDirtySnowball;
 import ruby.bamboo.entity.EntityDummyChair;
@@ -120,6 +123,9 @@ public class CommonProxy {
 
     public void init() {
         new BambooRecipe();
+        LivingDropsEventHandler.instance.addRareDrop(EntityZombie.class, new ItemStack(BambooInit.bambooShoot));
+        LivingDropsEventHandler.instance.addRareDrop(EntityZombie.class, new ItemStack(BambooInit.sakura));
+        LivingDropsEventHandler.instance.addRareDrop(EntityZombie.class, new ItemStack(BambooInit.seaweedSeed));
     }
 
     private void registerEntity(Class entityClass, String entityName, int id, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {

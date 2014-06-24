@@ -82,7 +82,7 @@ public class BlockMultiBlock extends BlockContainer {
                         if (!par5EntityPlayer.capabilities.isCreativeMode) {
                             is.stackSize--;
                         }
-                        //world.markBlockForUpdate(x, y, z);
+                        world.markBlockForUpdate(x, y, z);
                     }
                 } else {
                     ItemStack res = ((TileEntityMultiBlock) tile).removeInnerBlock(hitX, hitY, hitZ, side);
@@ -90,7 +90,7 @@ public class BlockMultiBlock extends BlockContainer {
                         if (!par5EntityPlayer.capabilities.isCreativeMode) {
                             this.dropBlockAsItem(world, x, y, z, res);
                         }
-                        //world.markBlockForUpdate(x, y, z);
+                        world.markBlockForUpdate(x, y, z);
                     }
                 }
             }

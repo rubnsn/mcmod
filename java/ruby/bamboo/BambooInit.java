@@ -192,9 +192,7 @@ public class BambooInit {
     public static Item itemSeaweed;
     public static Item bean;
 
-    public static BambooInit instance = new BambooInit();
-    //items
-    public static final String TAKENOKO = "takenoko";
+    public static final BambooInit instance = new BambooInit();
 
     private static CreativeTabs tabBamboo;
 

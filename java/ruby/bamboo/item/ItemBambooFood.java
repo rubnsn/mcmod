@@ -77,10 +77,10 @@ public class ItemBambooFood extends ItemFood {
         }
         EnumFood ef = this.getType(par1ItemStack);
         if (ef == EnumFood.TAKEMESI || ef == EnumFood.TAKEONI) {
-            par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.digSpeed.getId(), 600 + par2World.rand.nextInt(600), 0));
+            par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.digSpeed.getId(), 600 + par2World.rand.nextInt(1200), 0));
         }
         if (ef == EnumFood.TEKKA || ef == EnumFood.SAKEONI || ef == EnumFood.TUNAONI) {
-            par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.waterBreathing.getId(), 3600 + par2World.rand.nextInt(3600), 0));
+            par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.waterBreathing.getId(), 1800 + par2World.rand.nextInt(3600), 0));
         }
         return super.onEaten(par1ItemStack, par2World, par3EntityPlayer);
     }

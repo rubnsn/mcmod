@@ -28,6 +28,7 @@ public class Config {
     public static int dimensionId;
     public static boolean updateNotify;
     public static int multiBlockRestraint;
+    public static HashMap<String, String> nameMap = new HashMap<String, String>();
     static {
         maxValue = new HashMap<String, Integer>();
         windPushPlayer = true;
@@ -100,6 +101,15 @@ public class Config {
         prop = configuration.get(CATEGORY_BAMBOO, "MultiblockRestriction", 0);
         prop.comment = "Multi-block add block restriction 0:None 1:Creative 2:Creative or OP 3:OP 4:ALLUser";
         multiBlockRestraint = prop.getInt();
+        //おなまえ
+        prop = configuration.get(CATEGORY_BAMBOO, "Nickname", new String[] {});
+        prop.comment = "S:Nickname <\n\"name:nickname\"\n\"name2:nickname2\">\n Nickname has none (\"name:\") to not display name";
+        for (String str : prop.getStringList()) {
+            str = str.replace('\"', ' ').trim();
+            String[] s = str.split(":");
+            if (1 < s.length)
+                nameMap.put(s[0], s[1]);
+        }
         configuration.save();
         if (exDrop) {
             MinecraftForge.addGrassSeed(new ItemStack(BambooInit.bambooShoot), 10);
