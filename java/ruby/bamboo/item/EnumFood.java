@@ -35,7 +35,9 @@ public enum EnumFood {
     TAMANATTOMESHI(29, 7, 16),
     SAKURAMOCHI(30, 7, 36),
     TAMAGYUMESHI(31, 11, 24),
-    KATSUDON(32, 11, 24), ;
+    KATSUDON(32, 11, 24),
+    SEKIHAN(33, 5, 36),
+    ONISEKIHAN(34, 7, 28), ;
 
     private EnumFood(int dmgid, int heal, int duration) {
         this.dmgid = dmgid;

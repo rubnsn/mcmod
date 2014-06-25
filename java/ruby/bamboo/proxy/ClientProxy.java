@@ -7,6 +7,7 @@ import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.CustomRenderHandler;
+import ruby.bamboo.PlayerDisplayNameHandler;
 import ruby.bamboo.entity.EntityBambooSpear;
 import ruby.bamboo.entity.EntityDummyChair;
 import ruby.bamboo.entity.EntityFirecracker;
@@ -121,4 +122,9 @@ public class ClientProxy extends CommonProxy {
             return null;
         }
     };
+
+    @Override
+    public void init() {
+        new PlayerDisplayNameHandler();
+    }
 }

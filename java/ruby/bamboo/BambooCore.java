@@ -60,7 +60,6 @@ public class BambooCore {
         proxy.init();
         proxy.registerTESTileEntity();
         registDispencer();
-        new PlayerDisplayNameHandler();
         // debug
         if (DEBUGMODE) {
             System.out.println("DEBUG MODE Enable");

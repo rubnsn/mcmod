@@ -103,12 +103,17 @@ public class Config {
         multiBlockRestraint = prop.getInt();
         //おなまえ
         prop = configuration.get(CATEGORY_BAMBOO, "Nickname", new String[] {});
-        prop.comment = "S:Nickname <\n\"name:nickname\"\n\"name2:nickname2\">\n Nickname has none (\"name:\") to not display name";
-        for (String str : prop.getStringList()) {
-            str = str.replace('\"', ' ').trim();
-            String[] s = str.split(":");
-            if (1 < s.length)
-                nameMap.put(s[0], s[1]);
+        prop.comment = "The use of UTF-8 encoding if using a 2byte character\nUsed to change only the name of overhead\nS:Nickname <\n\"name:nickname\"\n\"name2:nickname2\">\n Nickname has none (\"name:\") to not display name";
+        if (prop != null) {
+            for (String str : prop.getStringList()) {
+                str = str.replace('\"', ' ').trim();
+                String[] s = str.split(":");
+                if (1 < s.length) {
+                    nameMap.put(s[0], s[1]);
+                } else if (s.length == 1) {
+                    nameMap.put(s[0], "");
+                }
+            }
         }
         configuration.save();
         if (exDrop) {

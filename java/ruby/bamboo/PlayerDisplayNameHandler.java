@@ -5,6 +5,8 @@ import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class PlayerDisplayNameHandler {
 
@@ -20,6 +22,7 @@ public class PlayerDisplayNameHandler {
     }
 
     @SubscribeEvent
+    @SideOnly(Side.CLIENT)
     public void onRenderEntitySpecial(RenderLivingEvent.Specials.Pre event) {
         if (event.entity instanceof EntityPlayer) {
             event.setCanceled(((EntityPlayer) event.entity).getDisplayName().equals(""));

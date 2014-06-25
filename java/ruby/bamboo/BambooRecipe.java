@@ -104,6 +104,7 @@ public class BambooRecipe {
     public final String NATTO = "natto";
     public final String ZUNDA = "zunda";
     public final String SOY_BEANS = "soybeans";
+    public final String RED_BEANS = "redbeans";
 
     public BambooRecipe() {
         recipeInit();
@@ -313,6 +314,12 @@ public class BambooRecipe {
         addShapelessOreRecipe(new ItemStack(foods, 1, 29), NATTO, COOKING_RICE, Items.egg);
         addShapelessOreRecipe(new ItemStack(foods, 1, 31), new ItemStack(foods, 1, 1), Items.egg);
         addShapelessOreRecipe(new ItemStack(foods, 1, 7), Items.egg, COOKING_RICE);
+        /*焼き海苔増えたらにしよ
+        addShapelessOreRecipe(new ItemStack(foods, 1, 34), new ItemStack(foods, 1, 33), itemSeaweed);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 11), COOKING_RICE, itemSeaweed);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 14), new ItemStack(foods, 1,3), itemSeaweed);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 15), new ItemStack(foods, 1,6), itemSeaweed);
+        */
 
         // 鉱石辞書
         addOreDictionary();
@@ -349,19 +356,21 @@ public class BambooRecipe {
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 15), CROP_RICE, itemSeaweed, bambooShoot);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 16), CROP_RICE, itemSeaweed, itemSeaweed);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 17), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, Items.sugar, SOY_BEANS);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 18), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, bean);
+        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 18), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, RED_BEANS);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 19), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, Items.sugar);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 20), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, new ItemStack(sakuraleavs, 1, 32767), Blocks.tallgrass);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 21), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, ZUNDA, ZUNDA);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 24), new ItemStack(foods, 1, 22), Items.sugar, Items.sugar, SOY_BEANS);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 25), new ItemStack(foods, 1, 22), Items.sugar, bean);
+        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 25), new ItemStack(foods, 1, 22), Items.sugar, RED_BEANS);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 26), new ItemStack(foods, 1, 22), Items.sugar, ZUNDA, ZUNDA);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 27), CROP_STRAW, bean);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 28), CROP_STRAW, bean, CROP_RICE);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 29), CROP_STRAW, bean, CROP_RICE, Items.egg);
+        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 27), CROP_STRAW, SOY_BEANS);
+        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 28), CROP_STRAW, SOY_BEANS, CROP_RICE);
+        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 29), CROP_STRAW, SOY_BEANS, CROP_RICE, Items.egg);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 30), new ItemStack(foods, 1, 22), new ItemStack(sakuraleavs, 1, 32767));
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 31), Items.beef, CROP_RICE, Items.egg);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 32), Items.porkchop, CROP_RICE, Items.egg);
+        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 33), CROP_RICE, RED_BEANS);
+        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 34), CROP_RICE, RED_BEANS, itemSeaweed);
     }
 
     private void addGrindRecipe() {
@@ -405,6 +414,8 @@ public class BambooRecipe {
         OreDictionary.registerOre(NATTO, new ItemStack(foods, 1, 27));
         OreDictionary.registerOre(ZUNDA, bean);
         OreDictionary.registerOre(SOY_BEANS, bean);
+        OreDictionary.registerOre(RED_BEANS, bean);
+
     }
 
     private void addFuel() {
