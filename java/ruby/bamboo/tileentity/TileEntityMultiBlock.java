@@ -14,7 +14,6 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Vec3Pool;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -182,7 +181,6 @@ public class TileEntityMultiBlock extends TileEntity implements IBlockAccess {
     private boolean isInnerRange(int x, int y, int z) {
         return 0 <= x && 0 <= y && 0 <= z && x < this.slotLength && y < this.slotLength && z < this.slotLength;
     }
-
 
     @SideOnly(Side.CLIENT)
     public byte[][][] getVisibleFlg() {
@@ -411,11 +409,6 @@ public class TileEntityMultiBlock extends TileEntity implements IBlockAccess {
     @Override
     public boolean extendedLevelsInChunkCache() {
         return this.worldObj.extendedLevelsInChunkCache();
-    }
-
-    @Override
-    public Vec3Pool getWorldVec3Pool() {
-        return this.worldObj.getWorldVec3Pool();
     }
 
     @Override

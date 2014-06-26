@@ -113,10 +113,10 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
             float pitch = 0;
             float yaw = this.worldObj.rand.nextFloat() * 2 - 1;
             for (int j = 0; j < 1; ++j) {
-                Vec3 vec3 = this.worldObj.getWorldVec3Pool().getVecFromPool((this.worldObj.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
+                Vec3 vec3 = Vec3.createVectorHelper((this.worldObj.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
                 vec3.rotateAroundX(-pitch * (float) Math.PI / 180.0F);
                 vec3.rotateAroundY(-yaw * (float) Math.PI);
-                Vec3 vec31 = this.worldObj.getWorldVec3Pool().getVecFromPool((this.worldObj.rand.nextFloat() - 0.5D) * 0.3D, (-this.worldObj.rand.nextFloat()) * 0.6D - 0.3D, 0.6D);
+                Vec3 vec31 = Vec3.createVectorHelper((this.worldObj.rand.nextFloat() - 0.5D) * 0.3D, (-this.worldObj.rand.nextFloat()) * 0.6D - 0.3D, 0.6D);
                 vec31.rotateAroundX(-pitch * (float) Math.PI / 180.0F);
                 vec31.rotateAroundY(-yaw * (float) Math.PI);
                 vec31 = vec31.addVector(this.xCoord + 0.5F, this.yCoord + 1F, this.zCoord + 0.5F);

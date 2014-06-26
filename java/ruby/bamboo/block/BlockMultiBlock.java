@@ -104,9 +104,9 @@ public class BlockMultiBlock extends BlockContainer {
         } else if (Config.multiBlockRestraint == 1) {
             return player.capabilities.isCreativeMode;
         } else if (Config.multiBlockRestraint == 2) {
-            return player.capabilities.isCreativeMode || MinecraftServer.getServer().getConfigurationManager().isPlayerOpped(player.getCommandSenderName());
+            return player.capabilities.isCreativeMode || MinecraftServer.getServer().getConfigurationManager().func_152596_g(player.getGameProfile());
         } else if (Config.multiBlockRestraint == 3) {
-            return MinecraftServer.getServer().getConfigurationManager().isPlayerOpped(player.getCommandSenderName());
+            return MinecraftServer.getServer().getConfigurationManager().func_152596_g(player.getGameProfile());
         }
         return false;
     }
