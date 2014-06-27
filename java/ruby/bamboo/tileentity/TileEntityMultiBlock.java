@@ -183,7 +183,6 @@ public class TileEntityMultiBlock extends TileEntity implements IBlockAccess {
         return 0 <= x && 0 <= y && 0 <= z && x < this.slotLength && y < this.slotLength && z < this.slotLength;
     }
 
-
     @SideOnly(Side.CLIENT)
     public byte[][][] getVisibleFlg() {
         if (sideRenderCache != null) {
@@ -414,11 +413,6 @@ public class TileEntityMultiBlock extends TileEntity implements IBlockAccess {
     }
 
     @Override
-    public Vec3Pool getWorldVec3Pool() {
-        return this.worldObj.getWorldVec3Pool();
-    }
-
-    @Override
     public int isBlockProvidingPowerTo(int var1, int var2, int var3, int var4) {
         return this.worldObj.isBlockProvidingPowerTo(var1, var2, var3, var4);
     }
@@ -426,6 +420,10 @@ public class TileEntityMultiBlock extends TileEntity implements IBlockAccess {
     @Override
     public boolean isSideSolid(int x, int y, int z, ForgeDirection side, boolean _default) {
         return this.worldObj.isSideSolid(x, y, z, side, _default);
+    }
+
+    public Vec3Pool getWorldVec3Pool() {
+        return this.getWorldObj().getWorldVec3Pool();
     }
 
 }

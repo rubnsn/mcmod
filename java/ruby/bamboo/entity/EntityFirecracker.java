@@ -136,7 +136,7 @@ public class EntityFirecracker extends EntityThrowable {
                 int var7 = MathHelper.floor_double(this.explosionZ - this.explosionSize - 1.0D);
                 int var28 = MathHelper.floor_double(this.explosionZ + this.explosionSize + 1.0D);
                 List var9 = worldObj.getEntitiesWithinAABBExcludingEntity(this.exploder, AxisAlignedBB.getBoundingBox(var3, var5, var7, var4, var27, var28));
-                Vec3 var29 = Vec3.fakePool.getVecFromPool(this.explosionX, this.explosionY, this.explosionZ);
+                Vec3 var29 = Vec3.createVectorHelper(this.explosionX, this.explosionY, this.explosionZ);
 
                 for (int var11 = 0; var11 < var9.size(); ++var11) {
                     Entity var30 = (Entity) var9.get(var11);
@@ -160,7 +160,7 @@ public class EntityFirecracker extends EntityThrowable {
                             var30.motionZ += var19 * var33;
 
                             if (var30 instanceof EntityPlayer) {
-                                this.field_77288_k.put(var30, Vec3.fakePool.getVecFromPool(var15 * var33, var17 * var33, var19 * var33));
+                                this.field_77288_k.put(var30, Vec3.createVectorHelper(var15 * var33, var17 * var33, var19 * var33));
                             }
                         }
                     }
