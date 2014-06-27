@@ -423,7 +423,7 @@ public class TileEntityMultiBlock extends TileEntity implements IBlockAccess {
     }
 
     public Vec3Pool getWorldVec3Pool() {
-        return this.getWorldObj().getWorldVec3Pool();
+        return null;
     }
 
 }
