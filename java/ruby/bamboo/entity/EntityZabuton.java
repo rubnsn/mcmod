@@ -77,6 +77,14 @@ public class EntityZabuton extends Entity implements IZabuton {
     }
 
     @Override
+    public void setDead() {
+        if (this.riddenByEntity != null) {
+            this.riddenByEntity.mountEntity(null);
+        }
+        super.setDead();
+    }
+
+    @Override
     public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
         // server用
         if (!isDead && !this.worldObj.isRemote) {
