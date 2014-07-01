@@ -123,9 +123,9 @@ public class CommonProxy {
 
     public void init() {
         new BambooRecipe();
-        LivingDropsEventHandler.instance.addRareDrop(EntityZombie.class, new ItemStack(BambooInit.bambooShoot));
-        LivingDropsEventHandler.instance.addRareDrop(EntityZombie.class, new ItemStack(BambooInit.sakura));
-        LivingDropsEventHandler.instance.addRareDrop(EntityZombie.class, new ItemStack(BambooInit.seaweedSeed));
+        LivingDropsEventHandler.addRareDrop(EntityZombie.class, new ItemStack(BambooInit.bambooShoot));
+        LivingDropsEventHandler.addRareDrop(EntityZombie.class, new ItemStack(BambooInit.sakura));
+        LivingDropsEventHandler.addRareDrop(EntityZombie.class, new ItemStack(BambooInit.seaweedSeed));
     }
 
     private void registerEntity(Class entityClass, String entityName, int id, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {

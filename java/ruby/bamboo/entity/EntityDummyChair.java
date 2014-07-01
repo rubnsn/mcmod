@@ -34,6 +34,14 @@ public class EntityDummyChair extends Entity {
         updateDummy();
     }
 
+    @Override
+    public void setDead() {
+        if (this.riddenByEntity != null) {
+            this.riddenByEntity.mountEntity(null);
+        }
+        super.setDead();
+    }
+
     public void setChairBlock(int x, int y, int z) {
         this.cx = x;
         this.cy = y;

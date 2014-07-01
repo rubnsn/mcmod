@@ -14,11 +14,11 @@ import com.google.common.collect.Multimap;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class LivingDropsEventHandler {
-    public static final LivingDropsEventHandler instance = new LivingDropsEventHandler();
+    private static final LivingDropsEventHandler instance = new LivingDropsEventHandler();
     private Multimap<Class<? extends Entity>, ItemStack> dropRareTable = ArrayListMultimap.create();
 
-    public void addRareDrop(Class<? extends Entity> dropEntity, ItemStack dropItem) {
-        this.dropRareTable.put(dropEntity, dropItem);
+    public static void addRareDrop(Class<? extends Entity> dropEntity, ItemStack dropItem) {
+        instance.dropRareTable.put(dropEntity, dropItem);
     }
 
     private LivingDropsEventHandler() {
