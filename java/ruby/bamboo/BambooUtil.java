@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 public class BambooUtil {
 
     public static byte getPlayerDir(Entity entity) {
-        return (byte) (MathHelper.floor_double((entity.rotationYaw * 4F) / 360F + 0.5D) & 3);
+        return entity != null ? (byte) (MathHelper.floor_double((entity.rotationYaw * 4F) / 360F + 0.5D) & 3) : 0;
     }
 
     public static boolean isInnerCircleCollision(int posX, int posY, int posZ, int tposX, int tposY, int tposZ, int r) {

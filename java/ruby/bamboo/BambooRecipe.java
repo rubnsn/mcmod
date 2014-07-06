@@ -15,6 +15,8 @@ import static ruby.bamboo.BambooInit.campfire;
 import static ruby.bamboo.BambooInit.dHalfSquare;
 import static ruby.bamboo.BambooInit.dSquare;
 import static ruby.bamboo.BambooInit.decoCarpet;
+import static ruby.bamboo.BambooInit.decoPlasterCurve;
+import static ruby.bamboo.BambooInit.decoPlasterStraight;
 import static ruby.bamboo.BambooInit.decoration;
 import static ruby.bamboo.BambooInit.decoration_dir;
 import static ruby.bamboo.BambooInit.decoration_dir_half;
@@ -322,7 +324,10 @@ public class BambooRecipe {
         addShapelessOreRecipe(new ItemStack(foods, 1, 14), new ItemStack(foods, 1,3), itemSeaweed);
         addShapelessOreRecipe(new ItemStack(foods, 1, 15), new ItemStack(foods, 1,6), itemSeaweed);
         */
-
+        //飾りつき漆喰
+        addShapedOreRecipe(new ItemStack(decoPlasterStraight, 6, 0), "###", "###", "XXX", '#', new ItemStack(decoration, 8, 0), 'X', "plankWood");
+        addShapedOreRecipe(new ItemStack(decoPlasterCurve, 4, 0), "##X", "##X", "XXX", '#', new ItemStack(decoration, 8, 0), 'X', "plankWood");
+        addShapedOreRecipe(new ItemStack(decoPlasterCurve, 3, 4), "##X", "#XX", "XXX", '#', new ItemStack(decoration, 8, 0), 'X', "plankWood");
         // 鉱石辞書
         addOreDictionary();
         // 粉砕レシピ

@@ -25,7 +25,8 @@ import ruby.bamboo.block.BlockCampfire;
 import ruby.bamboo.block.BlockCustomRenderSingleTexture;
 import ruby.bamboo.block.BlockDSquare;
 import ruby.bamboo.block.BlockDecoCarpet;
-import ruby.bamboo.block.BlockDecoPlaster;
+import ruby.bamboo.block.BlockDecoPlasterCurve;
+import ruby.bamboo.block.BlockDecoPlasterStraight;
 import ruby.bamboo.block.BlockDecorations;
 import ruby.bamboo.block.BlockDelude;
 import ruby.bamboo.block.BlockDeludePressurePlate;
@@ -65,7 +66,6 @@ import ruby.bamboo.item.ItemBambooSword;
 import ruby.bamboo.item.ItemBambooshoot;
 import ruby.bamboo.item.ItemBoiledEgg;
 import ruby.bamboo.item.ItemDecoCarpet;
-import ruby.bamboo.item.ItemDecoPlaster;
 import ruby.bamboo.item.ItemDecorationBlocks;
 import ruby.bamboo.item.ItemDimensionCreater;
 import ruby.bamboo.item.ItemDirtySnowball;
@@ -81,6 +81,7 @@ import ruby.bamboo.item.ItemMultiBlock;
 import ruby.bamboo.item.ItemMultiPot;
 import ruby.bamboo.item.ItemObon;
 import ruby.bamboo.item.ItemPillar;
+import ruby.bamboo.item.ItemRotateBlock;
 import ruby.bamboo.item.ItemSack;
 import ruby.bamboo.item.ItemShavedIce;
 import ruby.bamboo.item.ItemSimpleSubtype;
@@ -153,7 +154,8 @@ public class BambooInit {
     public static Block multiBlock;
     public static Block alphaMultiBlock;
     public static Block sakuraCarpet;
-    public static Block decoPlaster;
+    public static Block decoPlasterStraight;
+    public static Block decoPlasterCurve;
     public static Block seaWeedPlant;
     public static Block beanPlant;
 
@@ -259,7 +261,8 @@ public class BambooInit {
         multiBlock = registerBlock(new BlockMultiBlock(), ItemMultiBlock.class, "bamboomultiblock", tabBamboo);
         alphaMultiBlock = registerBlock(new BlockAlphaMultiBlock(), ItemMultiBlock.class, "alphamultiblock", tabBamboo);
         sakuraCarpet = registerBlock(new BlockSakuraCarpet(), ItemSingleNameSubtype.class, "sakuracarpet", tabBamboo);
-        decoPlaster = registerBlock(new BlockDecoPlaster(), ItemDecoPlaster.class, "decoPlaster", tabBamboo);
+        decoPlasterStraight = registerBlock(new BlockDecoPlasterStraight(), ItemRotateBlock.class, "decoPlaster", tabBamboo);
+        decoPlasterCurve = registerBlock(new BlockDecoPlasterCurve(), ItemRotateBlock.class, "decoCurvePlaster", tabBamboo);
         seaWeedPlant = registerBlock(new BlockSeaweedPlant().setBlockTextureName(BambooCore.resourceDomain + "seaweed"), "seaweed");
         beanPlant = registerBlock(new BlockBeanPlant().setBlockTextureName(BambooCore.resourceDomain + "beanplant"), "beanPlant");
         initLiang();
@@ -426,7 +429,11 @@ public class BambooInit {
             }
 
             break;
-
+        case Calendar.JULY:
+            if (date == 07) {
+                chiledName = "bambooshoot0707";
+            }
+            break;
         case Calendar.JUNE:
             ci.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
             ci.set(Calendar.DAY_OF_WEEK_IN_MONTH, 3);
