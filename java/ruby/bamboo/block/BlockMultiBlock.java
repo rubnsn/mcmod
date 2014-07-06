@@ -48,6 +48,7 @@ public class BlockMultiBlock extends BlockContainer {
             for (ItemStack is : ((TileEntityMultiBlock) tile).getInnnerBlocks()) {
                 this.dropBlockAsItem(world, x, y, z, is);
             }
+            this.dropBlockAsItem(world, x, y, z, new ItemStack(block, 1, ((TileEntityMultiBlock) tile).getFieldSize()));
         }
         super.breakBlock(world, x, y, z, block, meta);
     }
@@ -298,5 +299,9 @@ public class BlockMultiBlock extends BlockContainer {
             is.setItemDamage(3);
         }
         return is;
+    }
+
+    @Override
+    public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float dropRate, int fortune) {
     }
 }
