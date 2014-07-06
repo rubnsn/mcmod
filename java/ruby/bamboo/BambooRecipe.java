@@ -292,8 +292,8 @@ public class BambooRecipe {
         //うえきばち
         addShapedOreRecipe(new ItemStack(multiPot), "#X#", " # ", '#', new ItemStack(Items.brick), 'X', TUDURA);
         //箒目
-        addShapedOreRecipe(new ItemStack(blockBroom, 1, 0), "#X#", "#X#", "#X#", '#', new ItemStack(Blocks.sand), 'X', TUDURA);
-        addShapedOreRecipe(new ItemStack(blockBroom, 1, 1), "#X#", "#XX", "###", '#', new ItemStack(Blocks.sand), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(blockBroom, 8, 0), "#X#", "#X#", "#X#", '#', new ItemStack(Blocks.sand), 'X', TUDURA);
+        addShapedOreRecipe(new ItemStack(blockBroom, 8, 1), "#X#", "#XX", "###", '#', new ItemStack(Blocks.sand), 'X', TUDURA);
         //粉粘土から粘土へ
         addShapedOreRecipe(new ItemStack(Items.clay_ball, 4, 0), "###", "#X#", "###", '#', "dustClay", 'X', Items.water_bucket);
         //縮小なんとかさん
