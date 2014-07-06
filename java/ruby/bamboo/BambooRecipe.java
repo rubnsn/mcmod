@@ -105,6 +105,8 @@ public class BambooRecipe {
     public final String ZUNDA = "zunda";
     public final String SOY_BEANS = "soybeans";
     public final String RED_BEANS = "redbeans";
+    public final String MOCHI = "mochi";
+    public final String COOKED_MOCHI = "cookedMochi";
 
     public BambooRecipe() {
         recipeInit();
@@ -415,6 +417,8 @@ public class BambooRecipe {
         OreDictionary.registerOre(ZUNDA, bean);
         OreDictionary.registerOre(SOY_BEANS, bean);
         OreDictionary.registerOre(RED_BEANS, bean);
+        OreDictionary.registerOre(MOCHI, new ItemStack(foods, 2, 22));
+        OreDictionary.registerOre(COOKED_MOCHI, new ItemStack(foods, 2, 23));
 
     }
 
