@@ -11,6 +11,11 @@ import net.minecraft.world.World;
 import ruby.bamboo.BambooInit;
 
 public class BlockSeaweedPlant extends BlockGrowableBase {
+    public BlockSeaweedPlant() {
+        super();
+        float f = 0.2F;
+        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 3.0F, 0.5F + f);
+    }
 
     @Override
     public Item getSeed() {

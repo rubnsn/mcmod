@@ -13,12 +13,6 @@ import ruby.bamboo.BambooInit;
 
 public class BlockRicePlant extends BlockGrowableBase {
 
-    public BlockRicePlant() {
-        super();
-        float f = 0.5F;
-        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
-    }
-
     @Override
     public Item getSeed() {
         return BambooInit.riceSeed;

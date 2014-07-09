@@ -1,10 +1,11 @@
 package ruby.bamboo.item.magatama;
 
-import ruby.bamboo.entity.magatama.EntityMagatama;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import ruby.bamboo.entity.magatama.EntityMagatama;
+import ruby.bamboo.entity.magatama.EntityThunderStorm;
 
 public class MagatamaBlue implements IMagatama {
     // 水属性？
@@ -15,7 +16,7 @@ public class MagatamaBlue implements IMagatama {
 
     @Override
     public Class getEffectClass() {
-        return null;
+        return EntityThunderStorm.class;
     }
 
     @Override
