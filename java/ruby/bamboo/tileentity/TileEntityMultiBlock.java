@@ -14,7 +14,6 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Vec3Pool;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -420,10 +419,6 @@ public class TileEntityMultiBlock extends TileEntity implements IBlockAccess {
     @Override
     public boolean isSideSolid(int x, int y, int z, ForgeDirection side, boolean _default) {
         return this.worldObj.isSideSolid(x, y, z, side, _default);
-    }
-
-    public Vec3Pool getWorldVec3Pool() {
-        return null;
     }
 
 }
