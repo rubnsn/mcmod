@@ -109,6 +109,7 @@ public class BambooRecipe {
     public final String RED_BEANS = "redbeans";
     public final String MOCHI = "mochi";
     public final String COOKED_MOCHI = "cookedMochi";
+    public final int WILD_CARD = Short.MAX_VALUE;
 
     public BambooRecipe() {
         recipeInit();
@@ -128,7 +129,7 @@ public class BambooRecipe {
         // うつわ
         addShapedOreRecipe(new ItemStack(bambooBasket, 1, 0), "# #", " # ", '#', BAMBOO);
         // 竹槍
-        GameRegistry.addRecipe(new ItemStack(bambooSpear, 2, 0), "##", '#', new ItemStack(singleTexDeco, 1, 32767));
+        GameRegistry.addRecipe(new ItemStack(bambooSpear, 2, 0), "##", '#', new ItemStack(singleTexDeco, 1, WILD_CARD));
         // 引き戸類
         addShapedOreRecipe(new ItemStack(slideDoors, 2, EnumSlideDoor.HUSUMA.getId()), "XYX", "X#X", "XYX", 'X', Items.stick, 'Y', Items.paper, '#', TUDURA);
         addShapedOreRecipe(new ItemStack(slideDoors, 2, EnumSlideDoor.SHOZI.getId()), "XYX", "Y#Y", "XYX", '#', TUDURA, 'X', Items.stick, 'Y', Items.paper);
@@ -199,7 +200,7 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(windChime, 1, 0), "#", "X", "B", '#', Items.string, 'X', TUDURA, 'B', Items.paper);
         // ふくろ
         addShapedOreRecipe(new ItemStack(itemSack, 1, 0), "###", "WXW", "WWW", 'X', TUDURA, '#', Items.string, 'W', Blocks.wool);
-        GameRegistry.addShapelessRecipe(new ItemStack(itemSack, 1, 0), new ItemStack(itemSack, 1, 32767));
+        GameRegistry.addShapelessRecipe(new ItemStack(itemSack, 1, 0), new ItemStack(itemSack, 1, WILD_CARD));
         // 雪球
         GameRegistry.addRecipe(new ItemStack(snowBall, 32, 0), "###", "#X#", "###", '#', Blocks.snow, 'X', Blocks.cobblestone);
         GameRegistry.addRecipe(new ItemStack(snowBall, 32, 1), "###", "#X#", "###", '#', Blocks.snow, 'X', Blocks.ice);
@@ -365,7 +366,7 @@ public class BambooRecipe {
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 17), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, Items.sugar, SOY_BEANS);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 18), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, RED_BEANS);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 19), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, Items.sugar);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 20), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, new ItemStack(sakuraleavs, 1, 32767), Blocks.tallgrass);
+        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 20), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, new ItemStack(sakuraleavs, 1, WILD_CARD), new ItemStack(Blocks.tallgrass, 1, WILD_CARD));
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 21), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, ZUNDA, ZUNDA);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 24), new ItemStack(foods, 1, 22), Items.sugar, Items.sugar, SOY_BEANS);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 25), new ItemStack(foods, 1, 22), Items.sugar, RED_BEANS);
@@ -373,7 +374,7 @@ public class BambooRecipe {
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 27), CROP_STRAW, SOY_BEANS);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 28), CROP_STRAW, SOY_BEANS, CROP_RICE);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 29), CROP_STRAW, SOY_BEANS, CROP_RICE, Items.egg);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 30), new ItemStack(foods, 1, 22), new ItemStack(sakuraleavs, 1, 32767));
+        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 30), new ItemStack(foods, 1, 22), new ItemStack(sakuraleavs, 1, WILD_CARD));
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 31), Items.beef, CROP_RICE, Items.egg);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 32), Items.porkchop, CROP_RICE, Items.egg);
         CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 33), CROP_RICE, RED_BEANS);
