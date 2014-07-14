@@ -35,10 +35,13 @@ public class EntityThunderStorm extends Entity implements IEntitySelector {
                     entitylist.addAll(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(100, 40, 100), this));
                 }
                 if (timer % 10 == 0 && entitylist.size() > 0) {
-                    Entity e = entitylist.get(this.rand.nextInt(entitylist.size()));
-                    this.worldObj.updateWeatherBody();
+                    int num = this.rand.nextInt(entitylist.size());
+                    Entity e = entitylist.get(num);
                     this.worldObj.addWeatherEffect(new EntityLightningBolt(this.worldObj, e.posX, e.posY, e.posZ));
                     this.worldObj.createExplosion(this, e.posX, e.posY, e.posZ, 5, true);
+                    if (e.isDead) {
+                        entitylist.remove(num);
+                    }
                 }
             }
             if (timer > MAX_TIME) {

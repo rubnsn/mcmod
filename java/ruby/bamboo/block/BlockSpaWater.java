@@ -182,7 +182,12 @@ public class BlockSpaWater extends BlockLiquid implements ITileEntityProvider {
 
     private void setThisChildBlock(World world, int posX, int posY, int posZ, int amount, ForgeDirection dir) {
         world.setBlock(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ, this, amount, 3);
-        ((TileEntitySpaChild) world.getTileEntity(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ)).setParentPosition(((ITileEntitySpa) world.getTileEntity(posX, posY, posZ)).getParentPosition());
+        TileEntity tile = world.getTileEntity(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ);
+        if (tile instanceof TileEntitySpaChild) {
+            ((TileEntitySpaChild) tile).setParentPosition(((ITileEntitySpa) world.getTileEntity(posX, posY, posZ)).getParentPosition());
+        } else {
+            world.setBlockToAir(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ);
+        }
     }
 
     private void setThisChildBlock(World world, int posX, int posY, int posZ, ForgeDirection dir) {
