@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import cpw.mods.fml.common.FMLLog;
 
 public class GrindRegistory {
     private static final ArrayList<GrindRecipe> recipe = new ArrayList<GrindRecipe>();
@@ -42,7 +43,7 @@ public class GrindRegistory {
                 recipe.add(new GrindRecipe(input, output, null, bonusWeight));
             }
         } else {
-            System.out.println("Grinding recipe wrong:" + output.getItem().getUnlocalizedName());
+            FMLLog.warning("Grinding recipe wrong: out:" + output + " in:" + input);
         }
     }
 

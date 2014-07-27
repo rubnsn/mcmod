@@ -82,21 +82,15 @@ public class ContainerCampfire extends Container {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
-            if (par2 == 0) {
-                if (!this.mergeItemStack(itemstack1, 12, 46, true)) {
-                    return null;
-                }
-
-                slot.onSlotChange(itemstack1, itemstack);
-            } else if (par2 >= 11 && par2 < 38) {
-                if (!this.mergeItemStack(itemstack1, 38, 46, false)) {
+            if (par2 >= 11 && par2 < 38) {
+                if (!this.mergeItemStack(itemstack1, 38, 47, false)) {
                     return null;
                 }
             } else if (par2 >= 38 && par2 < 47) {
-                if (!this.mergeItemStack(itemstack1, 11, 37, false)) {
+                if (!this.mergeItemStack(itemstack1, 11, 38, false)) {
                     return null;
                 }
-            } else if (!this.mergeItemStack(itemstack1, 11, 46, false)) {
+            } else if (!this.mergeItemStack(itemstack1, 11, 47, false)) {
                 return null;
             }
 
