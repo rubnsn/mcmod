@@ -213,6 +213,7 @@ item.bambooDustCray.name=dustClay
 item.itemseaweed.name=Seaweed
 item.seedseaweed.name=SeaweedSeed
 item.itembean.name=Bean
+item.cookingrecipe.name=CookingRecipe
 bambooEnch.blood=Blood
 bambooEnch.accele=Accele
 bambooEnch.teleport=Teleport

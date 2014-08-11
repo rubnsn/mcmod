@@ -78,7 +78,7 @@ public class EntityWind extends EntityThrowable {
                         Block var10 = this.worldObj.getBlock(var7, var8, var9);
 
                         if (var10 != Blocks.air) {
-                            if (var10.getMaterial() == Material.leaves || var10.getMaterial() == Material.vine || var10 instanceof BlockDoublePlant) {
+                            if (isRemove(var10, this.worldObj.getBlockMetadata(var7, var8, var9))) {
                                 removeLeaves(this.worldObj, var7, var8, var9, this, var10);
                             }
                         }
@@ -86,6 +86,16 @@ public class EntityWind extends EntityThrowable {
                 }
             }
         }
+    }
+
+    private boolean isRemove(Block block, int meta) {
+        if (block.getMaterial() == Material.leaves || block.getMaterial() == Material.vine) {
+            return true;
+        }
+        if (block instanceof BlockDoublePlant && meta == 2) {
+            return true;
+        }
+        return false;
     }
 
     private void removeLeaves(World par1World, int par2, int par3, int par4, EntityWind par5Entity, Block block) {

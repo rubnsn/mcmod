@@ -12,6 +12,7 @@ import static ruby.bamboo.BambooInit.bamboopane;
 import static ruby.bamboo.BambooInit.bean;
 import static ruby.bamboo.BambooInit.blockBroom;
 import static ruby.bamboo.BambooInit.campfire;
+import static ruby.bamboo.BambooInit.cookBook;
 import static ruby.bamboo.BambooInit.dHalfSquare;
 import static ruby.bamboo.BambooInit.dSquare;
 import static ruby.bamboo.BambooInit.decoCarpet;
@@ -329,6 +330,8 @@ public class BambooRecipe {
         addShapedOreRecipe(new ItemStack(decoPlasterStraight, 6, 0), "###", "###", "XXX", '#', new ItemStack(decoration, 8, 0), 'X', "plankWood");
         addShapedOreRecipe(new ItemStack(decoPlasterCurve, 4, 0), "##X", "##X", "XXX", '#', new ItemStack(decoration, 8, 0), 'X', "plankWood");
         addShapedOreRecipe(new ItemStack(decoPlasterCurve, 3, 4), "##X", "#XX", "XXX", '#', new ItemStack(decoration, 8, 0), 'X', "plankWood");
+        //レシピ本
+        addShapelessOreRecipe(new ItemStack(cookBook, 1, 0), new ItemStack(Items.book), BAMBOO);
         // 鉱石辞書
         addOreDictionary();
         // 粉砕レシピ

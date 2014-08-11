@@ -65,6 +65,7 @@ import ruby.bamboo.item.ItemBambooSpear;
 import ruby.bamboo.item.ItemBambooSword;
 import ruby.bamboo.item.ItemBambooshoot;
 import ruby.bamboo.item.ItemBoiledEgg;
+import ruby.bamboo.item.ItemCookBook;
 import ruby.bamboo.item.ItemDecoCarpet;
 import ruby.bamboo.item.ItemDecorationBlocks;
 import ruby.bamboo.item.ItemDimensionCreater;
@@ -193,6 +194,7 @@ public class BambooInit {
     public static Item seaweedSeed;;
     public static Item itemSeaweed;
     public static Item bean;
+    public static Item cookBook;
 
     public static final BambooInit instance = new BambooInit();
 
@@ -331,6 +333,7 @@ public class BambooInit {
         seaweedSeed = registerItem(new ItemReed(seaWeedPlant).setTextureName(BambooCore.resourceDomain + "seedseaweed"), "seedseaweed", tabBamboo);
         itemSeaweed = registerItem(new ItemFood(2, 0.3F, false).setTextureName(BambooCore.resourceDomain + "itemseaweed"), "itemseaweed", tabBamboo);
         bean = registerItem(new ItemSeeds(beanPlant, Blocks.farmland).setTextureName(BambooCore.resourceDomain + "itembean"), "itembean", tabBamboo);
+        cookBook = registerItem(new ItemCookBook().setTextureName("book_written"), "cookingrecipe", tabBamboo);
         MinecraftForge.addGrassSeed(new ItemStack(riceSeed, 1, 0), 10);
         MinecraftForge.addGrassSeed(new ItemStack(bean, 1, 0), 10);
         if (BambooCore.DEBUGMODE) {
