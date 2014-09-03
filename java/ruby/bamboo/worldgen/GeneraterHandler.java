@@ -31,7 +31,7 @@ public class GeneraterHandler implements IWorldGenerator {
         if (worldchunkmanager != null) {
             BiomeGenBase biome = worldchunkmanager.getBiomeGenAt(chunkX * 16, chunkZ * 16);
             if (BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.MOUNTAIN) || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.FOREST)) {
-                if (!BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.FROZEN)) {
+                if (!BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.SNOWY)) {
                     switch (random.nextInt(4)) {
                     case BAMBOO:
                         generateBambooshoot(random, world, chunkX, chunkZ, 60);
