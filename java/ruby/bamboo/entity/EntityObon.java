@@ -1,5 +1,7 @@
 package ruby.bamboo.entity;
 
+import java.util.Arrays;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -44,9 +46,10 @@ public class EntityObon extends Entity {
     }
 
     private void setDisplayItem(ItemStack is) {
-        setItemName(Item.itemRegistry.getNameForObject(is.getItem()));
-        setItemDmg(is.getItemDamage());
-        is.stackSize--;
+        if (setItemName(Item.itemRegistry.getNameForObject(is.getItem()))) {
+            setItemDmg(is.getItemDamage());
+            is.stackSize--;
+        }
     }
 
     private void changeItem(ItemStack is) {
@@ -120,8 +123,14 @@ public class EntityObon extends Entity {
         nbttagcompound.setInteger("displayItemDmg", getItemDmg());
     }
 
-    private void setItemName(String itemName) {
-        dataWatcher.updateObject(ITEM_NAME, itemName);
+    private boolean setItemName(String itemName) {
+        String[] ignore = { "minecraft:baked_potato" };
+        Arrays.sort(ignore);
+        if (Arrays.binarySearch(ignore, itemName) < 0) {
+            dataWatcher.updateObject(ITEM_NAME, itemName);
+            return true;
+        }
+        return false;
     }
 
     private String getItemName() {
