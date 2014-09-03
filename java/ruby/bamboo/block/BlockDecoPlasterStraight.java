@@ -7,12 +7,14 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import ruby.bamboo.BambooCore;
+import ruby.bamboo.BambooInit;
 import ruby.bamboo.BambooUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,6 +27,17 @@ public class BlockDecoPlasterStraight extends Block implements
         super(Material.ground);
         this.setHardness(0.2F);
         this.setResistance(1.0F);
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+        ItemStack is = player.getCurrentEquippedItem();
+        if (is != null && is.getItem() == BambooInit.itembamboo) {
+            int meta = world.getBlockMetadata(x, y, z);
+            world.setBlockMetadataWithNotify(x, y, z, meta % 4 < 3 ? meta + 1 : meta - 3, 3);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -48,7 +61,8 @@ public class BlockDecoPlasterStraight extends Block implements
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
-        return icons[meta % icons.length];
+        byte[][] iconsDir = new byte[][] { { 0, 0, 0, 0, 0, 0 }, { 1, 1, 1, 1, 1, 1 }, { 2, 2, 3, 2, 3, 2 }, { 3, 3, 2, 3, 2, 3 } };
+        return icons[(iconsDir[meta % iconsDir.length][side]) % icons.length];
     }
 
     @Override
@@ -68,7 +82,7 @@ public class BlockDecoPlasterStraight extends Block implements
                     dir = 3;
                 }
             } else {
-                if (0.5F > hitZ) {
+                if (0.5F < hitZ) {
                     dir = 3;
                 }
             }

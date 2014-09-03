@@ -7,12 +7,14 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import ruby.bamboo.BambooCore;
+import ruby.bamboo.BambooInit;
 import ruby.bamboo.BambooUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -24,6 +26,17 @@ public class BlockDecoPlasterCurve extends Block implements IExOnBLockPlacedBy {
         super(Material.ground);
         this.setHardness(0.2F);
         this.setResistance(1.0F);
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+        ItemStack is = player.getCurrentEquippedItem();
+        if (is != null && is.getItem() == BambooInit.itembamboo) {
+            int meta = world.getBlockMetadata(x, y, z);
+            world.setBlockMetadataWithNotify(x, y, z, meta % 4 < 3 ? meta + 1 : meta - 3, 3);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -48,7 +61,8 @@ public class BlockDecoPlasterCurve extends Block implements IExOnBLockPlacedBy {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
-        return icons[meta % icons.length];
+        byte[][] iconsDir = new byte[][] { { 0, 0, 0, 3, 0, 3 }, { 1, 1, 1, 2, 1, 2 }, { 2, 2, 2, 1, 2, 1 }, { 3, 3, 3, 0, 3, 0 } };
+        return icons[(iconsDir[meta % 4][side] + (((meta & 12) >> 2) * 4)) % icons.length];
     }
 
     @Override
@@ -58,7 +72,7 @@ public class BlockDecoPlasterCurve extends Block implements IExOnBLockPlacedBy {
         ForgeDirection fd = ForgeDirection.VALID_DIRECTIONS[side];
         if (fd != ForgeDirection.DOWN && fd != ForgeDirection.UP) {
             int playerDir = BambooUtil.getPlayerDir(entity);
-            if (playerDir == 0 || playerDir == 3) {
+            if (playerDir == 3 || playerDir == 2) {
                 dir = 3;
                 if (0.5F <= hitY) {
                     dir = 2;
@@ -70,17 +84,19 @@ public class BlockDecoPlasterCurve extends Block implements IExOnBLockPlacedBy {
             }
         } else {
             int playerDir = BambooUtil.getPlayerDir(entity);
-            dir = 2;
             if (playerDir == 0 || playerDir == 2) {
+                dir = 0;
                 if (0.5F < hitX) {
-                    dir = 1;
+                    dir = 3;
                 }
             } else {
+                dir = 3;
                 if (0.5F < hitZ) {
-                    dir = 1;
+                    dir = 0;
                 }
             }
         }
+
         world.setBlockMetadataWithNotify(x, y, z, iconMeta | dir, 2);
     }
 
