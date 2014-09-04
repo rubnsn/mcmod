@@ -25,8 +25,8 @@ import ruby.bamboo.block.BlockCampfire;
 import ruby.bamboo.block.BlockCustomRenderSingleTexture;
 import ruby.bamboo.block.BlockDSquare;
 import ruby.bamboo.block.BlockDecoCarpet;
-import ruby.bamboo.block.BlockDecoPlasterCurve;
-import ruby.bamboo.block.BlockDecoPlasterStraight;
+import ruby.bamboo.block.BlockDecoPlaster;
+import ruby.bamboo.block.BlockDecoPlaster.EnumPattern;
 import ruby.bamboo.block.BlockDecorations;
 import ruby.bamboo.block.BlockDelude;
 import ruby.bamboo.block.BlockDeludePressurePlate;
@@ -155,8 +155,9 @@ public class BambooInit {
     public static Block multiBlock;
     public static Block alphaMultiBlock;
     public static Block sakuraCarpet;
-    public static Block decoPlasterStraight;
-    public static Block decoPlasterCurve;
+    public static Block decoPlaster_I;
+    public static Block decoPlaster_L;
+    public static Block decoPlaster_D;
     public static Block seaWeedPlant;
     public static Block beanPlant;
 
@@ -263,8 +264,9 @@ public class BambooInit {
         multiBlock = registerBlock(new BlockMultiBlock(), ItemMultiBlock.class, "bamboomultiblock", tabBamboo);
         alphaMultiBlock = registerBlock(new BlockAlphaMultiBlock(), ItemMultiBlock.class, "alphamultiblock", tabBamboo);
         sakuraCarpet = registerBlock(new BlockSakuraCarpet(), ItemSingleNameSubtype.class, "sakuracarpet", tabBamboo);
-        decoPlasterStraight = registerBlock(new BlockDecoPlasterStraight(), ItemRotateBlock.class, "decoPlaster", tabBamboo);
-        decoPlasterCurve = registerBlock(new BlockDecoPlasterCurve(), ItemRotateBlock.class, "decoCurvePlaster", tabBamboo);
+        decoPlaster_I = registerBlock(new BlockDecoPlaster(EnumPattern.straight).setBlockTextureName("decoplaster_i"), ItemRotateBlock.class, "decoPlaster", tabBamboo);
+        decoPlaster_L = registerBlock(new BlockDecoPlaster(EnumPattern.curve).setBlockTextureName("decoplaster_l"), ItemRotateBlock.class, "decoCurvePlaster", tabBamboo);
+        decoPlaster_D = registerBlock(new BlockDecoPlaster(EnumPattern.curve).setBlockTextureName("decoplaster_d"), ItemRotateBlock.class, "decoDCurvePlaster", tabBamboo);
         seaWeedPlant = registerBlock(new BlockSeaweedPlant().setBlockTextureName(BambooCore.resourceDomain + "seaweed"), "seaweed");
         beanPlant = registerBlock(new BlockBeanPlant().setBlockTextureName(BambooCore.resourceDomain + "beanplant"), "beanPlant");
         initLiang();
