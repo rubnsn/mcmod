@@ -15,7 +15,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockDecoPlaster extends Block implements IExOnBLockPlacedBy {
-    private IIcon[] icons;
+    private IIcon[] icons = new IIcon[4];
     private EnumPattern pattern;
 
     public enum EnumPattern {
@@ -54,7 +54,6 @@ public class BlockDecoPlaster extends Block implements IExOnBLockPlacedBy {
     @Override
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister p_149651_1_) {
-        this.icons = new IIcon[4];
         for (int i = 0; i < 4; i++) {
             this.icons[i] = p_149651_1_.registerIcon(BambooCore.resourceDomain + this.getTextureName() + "_" + i);
         }
@@ -67,7 +66,7 @@ public class BlockDecoPlaster extends Block implements IExOnBLockPlacedBy {
             return BambooInit.decoration.getIcon(0, 0);
         }
         byte[][] iconsDir;
-        return icons[(pattern.getPattern()[meta & 3][side]) % icons.length];
+        return icons[(pattern.getPattern()[meta & 3][side]) % 4];
     }
 
     @Override
@@ -80,8 +79,4 @@ public class BlockDecoPlaster extends Block implements IExOnBLockPlacedBy {
         world.setBlockMetadataWithNotify(x, y, z, sideMeta << 2, 2);
     }
 
-    @Override
-    public int damageDropped(int meta) {
-        return 0;
-    }
 }

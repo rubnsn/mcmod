@@ -1,7 +1,5 @@
 package ruby.bamboo.entity;
 
-import java.util.Arrays;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -124,9 +122,7 @@ public class EntityObon extends Entity {
     }
 
     private boolean setItemName(String itemName) {
-        String[] ignore = { "minecraft:baked_potato" };
-        Arrays.sort(ignore);
-        if (Arrays.binarySearch(ignore, itemName) < 0) {
+        if (itemName.length() != 22) {
             dataWatcher.updateObject(ITEM_NAME, itemName);
             return true;
         }
