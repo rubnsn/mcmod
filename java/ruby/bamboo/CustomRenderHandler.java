@@ -5,21 +5,7 @@ import java.util.HashMap;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
-import ruby.bamboo.render.block.IRenderBlocks;
-import ruby.bamboo.render.block.IRenderInventory;
-import ruby.bamboo.render.block.RenderBambooBlock;
-import ruby.bamboo.render.block.RenderBambooPane;
-import ruby.bamboo.render.block.RenderCoordinateBlock;
-import ruby.bamboo.render.block.RenderDelude;
-import ruby.bamboo.render.block.RenderInvAndon;
-import ruby.bamboo.render.block.RenderInvCampfire;
-import ruby.bamboo.render.block.RenderInvManeki;
-import ruby.bamboo.render.block.RenderInvMillStone;
-import ruby.bamboo.render.block.RenderKitunebi;
-import ruby.bamboo.render.block.RenderMultiBlock;
-import ruby.bamboo.render.block.RenderMultiPot;
-import ruby.bamboo.render.block.RenderPillar;
-import ruby.bamboo.render.block.RenderRotatedBlock;
+import ruby.bamboo.render.block.*;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -40,6 +26,7 @@ public class CustomRenderHandler {
     public static final int multiPotUID;
     public static final int quadRotatedPillarUID;
     public static final int multiBlockUID;
+    public static final int villagerBlockUID;
     public static HashMap<Integer, IRenderBlocks> customRenderMap;
     public static HashMap<Integer, IRenderInventory> customRenderInvMap;
     private static CustomRenderHandler instance = new CustomRenderHandler();
@@ -64,6 +51,7 @@ public class CustomRenderHandler {
         deludeUID = getUIDAndRegist3DRender();
         manekiUID = getUIDAndRegist3DRender();
         quadRotatedPillarUID = getUIDAndRegist3DRender();
+        villagerBlockUID = getUIDAndRegist3DRender();
     }
 
     @SideOnly(Side.CLIENT)
@@ -87,6 +75,7 @@ public class CustomRenderHandler {
         customRenderInvMap.put(deludeUID, RenderDelude.instance);
         customRenderInvMap.put(manekiUID, new RenderInvManeki());
         customRenderInvMap.put(quadRotatedPillarUID, RenderRotatedBlock.instance);
+        customRenderInvMap.put(villagerBlockUID, new RenderInvVillagerBlock());
     }
 
     private static int getUIDAndRegistSimpleInvRender() {

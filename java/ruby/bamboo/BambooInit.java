@@ -84,6 +84,7 @@ public class BambooInit {
     public static Block decoPlaster_D;
     public static Block seaWeedPlant;
     public static Block beanPlant;
+    public static Block villagerBlock;
 
     public static Item itembamboo;
     public static Item straw;
@@ -197,6 +198,7 @@ public class BambooInit {
         decoPlaster_D = registerBlock(new BlockDecoPlaster(EnumPattern.curve).setBlockTextureName("decoplaster_d"), ItemRotateBlock.class, "decoDCurvePlaster", tabBamboo);
         seaWeedPlant = registerBlock(new BlockSeaweedPlant().setBlockTextureName(BambooCore.resourceDomain + "seaweed"), "seaweed");
         beanPlant = registerBlock(new BlockBeanPlant().setBlockTextureName(BambooCore.resourceDomain + "beanplant"), "beanPlant");
+        villagerBlock = registerBlock(new BlockVillager(), ItemVillagerBlock.class, "villagerBlock", tabBamboo);
         initLiang();
         registerBlock(new BlockManeki(Material.ground), "maneki", tabBamboo);
         if (BambooCore.DEBUGMODE) {
