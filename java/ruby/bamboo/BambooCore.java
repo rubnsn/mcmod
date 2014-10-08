@@ -20,6 +20,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStoppedEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.toposort.ModSortingException;
 import cpw.mods.fml.relauncher.CoreModManager;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.ReflectionHelper.UnableToAccessFieldException;
@@ -95,7 +96,11 @@ public class BambooCore {
 
     @Mod.EventHandler
     public void onAvalible(FMLLoadCompleteEvent event) {
-        RecipeSorter.sortCraftManager();
+        try {
+            RecipeSorter.sortCraftManager();
+        } catch (ModSortingException e) {
+            FMLLog.warning("OreDict sort exception!!", e);
+        }
     }
 
     private void registDispencer() {

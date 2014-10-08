@@ -12,21 +12,7 @@ import ruby.bamboo.BambooInit;
 import ruby.bamboo.BambooRecipe;
 import ruby.bamboo.CraftingHandler;
 import ruby.bamboo.LivingDropsEventHandler;
-import ruby.bamboo.entity.EntityBambooSpear;
-import ruby.bamboo.entity.EntityDirtySnowball;
-import ruby.bamboo.entity.EntityDummyChair;
-import ruby.bamboo.entity.EntityFirecracker;
-import ruby.bamboo.entity.EntityFirefly;
-import ruby.bamboo.entity.EntityKaginawa;
-import ruby.bamboo.entity.EntityKakeziku;
-import ruby.bamboo.entity.EntityObon;
-import ruby.bamboo.entity.EntitySlideDoor;
-import ruby.bamboo.entity.EntityThrowZabuton;
-import ruby.bamboo.entity.EntityWaterwheel;
-import ruby.bamboo.entity.EntityWind;
-import ruby.bamboo.entity.EntityWindChime;
-import ruby.bamboo.entity.EntityWindmill;
-import ruby.bamboo.entity.EntityZabuton;
+import ruby.bamboo.entity.*;
 import ruby.bamboo.entity.magatama.EntityClock;
 import ruby.bamboo.entity.magatama.EntityDummy;
 import ruby.bamboo.entity.magatama.EntityFlareEffect;
@@ -42,6 +28,7 @@ import ruby.bamboo.tileentity.TileEntityManeki;
 import ruby.bamboo.tileentity.TileEntityMillStone;
 import ruby.bamboo.tileentity.TileEntityMultiBlock;
 import ruby.bamboo.tileentity.TileEntityMultiPot;
+import ruby.bamboo.tileentity.TileEntityVillagerBlock;
 import ruby.bamboo.tileentity.spa.TileEntitySpaChild;
 import ruby.bamboo.tileentity.spa.TileEntitySpaParent;
 import ruby.bamboo.worldgen.GeneraterHandler;
@@ -112,6 +99,7 @@ public class CommonProxy {
         GameRegistry.registerTileEntity(TileEntitySpaChild.class, "Tile SpaChild");
         GameRegistry.registerTileEntity(TileEntityMultiPot.class, "BambooMultiPot");
         GameRegistry.registerTileEntity(TileEntityMultiBlock.class, "BambooMultiBlock");
+        GameRegistry.registerTileEntity(TileEntityVillagerBlock.class, "BambooVillagerBlock");
 
         EntityRegistry.addSpawn(EntityFirefly.class, 5, 5, 10, EnumCreatureType.ambient, BiomeGenBase.river, BiomeGenBase.plains);
     }

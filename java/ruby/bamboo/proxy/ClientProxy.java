@@ -8,21 +8,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import ruby.bamboo.BambooInit;
 import ruby.bamboo.CustomRenderHandler;
 import ruby.bamboo.PlayerDisplayNameHandler;
-import ruby.bamboo.entity.EntityBambooSpear;
-import ruby.bamboo.entity.EntityDummyChair;
-import ruby.bamboo.entity.EntityFirecracker;
-import ruby.bamboo.entity.EntityFirefly;
-import ruby.bamboo.entity.EntityKaginawa;
-import ruby.bamboo.entity.EntityKakeziku;
-import ruby.bamboo.entity.EntityObon;
-import ruby.bamboo.entity.EntitySakuraPetal;
-import ruby.bamboo.entity.EntitySlideDoor;
-import ruby.bamboo.entity.EntityThrowZabuton;
-import ruby.bamboo.entity.EntityWaterwheel;
-import ruby.bamboo.entity.EntityWind;
-import ruby.bamboo.entity.EntityWindChime;
-import ruby.bamboo.entity.EntityWindmill;
-import ruby.bamboo.entity.EntityZabuton;
+import ruby.bamboo.entity.*;
 import ruby.bamboo.entity.magatama.EntityClock;
 import ruby.bamboo.entity.magatama.EntityDummy;
 import ruby.bamboo.entity.magatama.EntityFlareEffect;
@@ -57,11 +43,13 @@ import ruby.bamboo.render.tileentity.RenderCampfire;
 import ruby.bamboo.render.tileentity.RenderHuton;
 import ruby.bamboo.render.tileentity.RenderManeki;
 import ruby.bamboo.render.tileentity.RenderMillStone;
+import ruby.bamboo.render.tileentity.RenderVillagerBlock;
 import ruby.bamboo.tileentity.TileEntityAndon;
 import ruby.bamboo.tileentity.TileEntityCampfire;
 import ruby.bamboo.tileentity.TileEntityHuton;
 import ruby.bamboo.tileentity.TileEntityManeki;
 import ruby.bamboo.tileentity.TileEntityMillStone;
+import ruby.bamboo.tileentity.TileEntityVillagerBlock;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -83,6 +71,7 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.registerTileEntity(TileEntityMillStone.class, "MillStone", new RenderMillStone());
         ClientRegistry.registerTileEntity(TileEntityManeki.class, "MManeki", new RenderManeki());
         ClientRegistry.registerTileEntity(TileEntityHuton.class, "Huton", new RenderHuton());
+        ClientRegistry.registerTileEntity(TileEntityVillagerBlock.class, "VillagerBlock", new RenderVillagerBlock());
     }
 
     private void addRenderer() {
@@ -112,6 +101,7 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityFirefly.class, new RenderFirefly());
         RenderingRegistry.registerEntityRenderingHandler(EntityDummyChair.class, dummyRender);
         RenderingRegistry.registerEntityRenderingHandler(EntityThunderStorm.class, dummyRender);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTrueVillager.class, new RenderTrueVillager());
     }
 
     private static Render dummyRender = new Render() {
