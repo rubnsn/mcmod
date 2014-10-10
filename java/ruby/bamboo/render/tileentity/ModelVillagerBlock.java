@@ -13,9 +13,6 @@ public class ModelVillagerBlock extends ModelVillager {
     public void render(Entity p_78088_1_, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float p_78088_7_) {
         this.villagerHead.rotateAngleY = 180 / (180F / (float) Math.PI);
         this.villagerHead.rotateAngleX = 180 / (180F / (float) Math.PI);
-
-        //this.villagerNose.rotationPointY = 0;
-        //this.villagerNose.offsetY = -0.15F;
         this.villagerHead.render(p_78088_7_);
     }
 

@@ -8,6 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IMerchant;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -17,6 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import ruby.bamboo.BambooUtil;
 import ruby.bamboo.CustomRenderHandler;
 import ruby.bamboo.tileentity.TileEntityVillagerBlock;
@@ -90,11 +92,37 @@ public class BlockVillager extends BlockContainer {
     public void onBlockPlacedBy(World world, int posX, int posY, int posZ, EntityLivingBase living, ItemStack itemstack) {
         if (!world.isRemote) {
             world.setBlockMetadataWithNotify(posX, posY, posZ, BambooUtil.getPlayerDir(living), 3);
-        }
-        if (itemstack.hasTagCompound()) {
-            TileEntity tile = world.getTileEntity(posX, posY, posZ);
-            if (tile instanceof TileEntityVillagerBlock) {
-                ((TileEntityVillagerBlock) tile).readFromVillagerNBT(itemstack.getTagCompound());
+            if (itemstack.hasTagCompound() && itemstack.getTagCompound().hasKey("list")) {
+                if (world.getBlock(posX, posY - 1, posZ) == Blocks.soul_sand) {
+                    ForgeDirection[] dir = new ForgeDirection[] { ForgeDirection.EAST, ForgeDirection.NORTH };
+                    for (ForgeDirection fd : dir) {
+                        if (world.getBlock(posX + fd.offsetX, posY - 1, posZ + fd.offsetZ) == Blocks.soul_sand) {
+                            if (world.getBlock(posX + fd.getOpposite().offsetX, posY - 1, posZ + fd.getOpposite().offsetZ) == Blocks.soul_sand) {
+                                if (world.getBlock(posX, posY - 2, posZ) == Blocks.soul_sand) {
+                                    world.setBlockToAir(posX, posY, posZ);
+                                    world.setBlockToAir(posX, posY - 1, posZ);
+                                    world.setBlockToAir(posX, posY - 2, posZ);
+                                    world.setBlockToAir(posX + fd.offsetX, posY - 1, posZ + fd.offsetZ);
+                                    world.setBlockToAir(posX + fd.getOpposite().offsetX, posY - 1, posZ + fd.getOpposite().offsetZ);
+                                    EntityVillager entity = new EntityVillager(world);
+                                    NBTTagCompound nbt = new NBTTagCompound();
+                                    entity.writeEntityToNBT(nbt);
+                                    nbt.setTag("Offers", itemstack.getTagCompound().getTag("list"));
+                                    entity.readFromNBT(nbt);
+                                    entity.setPosition(posX, posY, posZ);
+                                    world.spawnEntityInWorld(entity);
+                                    System.out.println(entity.posX);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    TileEntity tile = world.getTileEntity(posX, posY, posZ);
+                    if (tile instanceof TileEntityVillagerBlock) {
+                        ((TileEntityVillagerBlock) tile).readFromVillagerNBT(itemstack.getTagCompound());
+                    }
+                }
             }
         }
     }

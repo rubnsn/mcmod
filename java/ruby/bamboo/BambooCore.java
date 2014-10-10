@@ -2,7 +2,6 @@ package ruby.bamboo;
 
 import net.minecraft.block.BlockDispenser;
 import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.oredict.RecipeSorter;
 import ruby.bamboo.dispenser.DispenserBehaviorBambooSpear;
 import ruby.bamboo.dispenser.DispenserBehaviorDirtySnowball;
 import ruby.bamboo.dispenser.DispenserBehaviorFireCracker;
@@ -14,13 +13,11 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStoppedEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.toposort.ModSortingException;
 import cpw.mods.fml.relauncher.CoreModManager;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.ReflectionHelper.UnableToAccessFieldException;
@@ -94,6 +91,7 @@ public class BambooCore {
         NetworkRegistry.INSTANCE.registerGuiHandler(BambooCore.getInstance(), new GuiHandler());
     }
 
+    /*Forgeの更新でいつの間にか必要なくなったかもしれない
     @Mod.EventHandler
     public void onAvalible(FMLLoadCompleteEvent event) {
         try {
@@ -102,6 +100,7 @@ public class BambooCore {
             FMLLog.warning("OreDict sort exception!!", e);
         }
     }
+    */
 
     private void registDispencer() {
         BlockDispenser.dispenseBehaviorRegistry.putObject(BambooInit.snowBall, new DispenserBehaviorDirtySnowball());
