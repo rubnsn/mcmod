@@ -19,6 +19,7 @@ import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -68,6 +69,8 @@ public class KatanaDropManager {
         // Bat
         addDrop(EntityBat.class, new KatanaDropItem(new ItemStack(Items.apple), 0.5F).setRandomAddAmount(2));
         addDrop(EntityBat.class, new KatanaDropItem(new ItemStack(Items.golden_apple), 0.01F));
+        // Villager
+        addDrop(EntityVillager.class, new KatanaDropItem(new ItemStack(BambooInit.villagerBlock), 0.002F));
         // Witch
         addDrop(EntityWitch.class, new KatanaDropItem(new ItemStack(Blocks.waterlily), 0.5F).setRandomAddAmount(4));
         addDrop(EntityWitch.class, new KatanaDropItem(new ItemStack(Items.glass_bottle), 0.5F).setRandomAddAmount(4));
