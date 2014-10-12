@@ -18,18 +18,10 @@ import ruby.bamboo.entity.magatama.EntityRuneEffect;
 import ruby.bamboo.entity.magatama.EntityShield;
 import ruby.bamboo.entity.magatama.EntityThunderEffect;
 import ruby.bamboo.entity.magatama.EntityThunderStorm;
-import ruby.bamboo.render.RenderBSpear;
-import ruby.bamboo.render.RenderFirecracker;
-import ruby.bamboo.render.RenderFirefly;
-import ruby.bamboo.render.RenderKaginawa;
-import ruby.bamboo.render.RenderKakeziku;
-import ruby.bamboo.render.RenderObon;
-import ruby.bamboo.render.RenderPetal;
-import ruby.bamboo.render.RenderSlideDoor;
-import ruby.bamboo.render.RenderWaterwheel;
-import ruby.bamboo.render.RenderWindBell;
-import ruby.bamboo.render.RenderWindmill;
-import ruby.bamboo.render.RenderZabuton;
+import ruby.bamboo.entity.villager.EntityTrueVillager;
+import ruby.bamboo.entity.villager.EntityVillagerHead;
+import ruby.bamboo.entity.villager.RenderVillagerHead;
+import ruby.bamboo.render.*;
 import ruby.bamboo.render.magatama.RenderClock;
 import ruby.bamboo.render.magatama.RenderDummy;
 import ruby.bamboo.render.magatama.RenderFlareEffect;
@@ -102,6 +94,7 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityDummyChair.class, dummyRender);
         RenderingRegistry.registerEntityRenderingHandler(EntityThunderStorm.class, dummyRender);
         RenderingRegistry.registerEntityRenderingHandler(EntityTrueVillager.class, new RenderTrueVillager());
+        RenderingRegistry.registerEntityRenderingHandler(EntityVillagerHead.class, new RenderVillagerHead());
     }
 
     private static Render dummyRender = new Render() {

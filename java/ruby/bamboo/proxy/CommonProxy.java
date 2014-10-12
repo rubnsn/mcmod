@@ -20,6 +20,8 @@ import ruby.bamboo.entity.magatama.EntityGravityHole;
 import ruby.bamboo.entity.magatama.EntityMagatama;
 import ruby.bamboo.entity.magatama.EntityShield;
 import ruby.bamboo.entity.magatama.EntityThunderStorm;
+import ruby.bamboo.entity.villager.EntityTrueVillager;
+import ruby.bamboo.entity.villager.EntityVillagerHead;
 import ruby.bamboo.tileentity.TileEntityAndon;
 import ruby.bamboo.tileentity.TileEntityCampfire;
 import ruby.bamboo.tileentity.TileEntityHuton;
@@ -59,10 +61,11 @@ public class CommonProxy {
     private static final int dummyEID = 18;
     private static final int zabutonEID = 19;
     private static final int throwZabutonEID = 20;
-    //21
+    private static final int trueVillagerEID = 21;
     private static final int fireflyEID = 22;
     private static final int dummyChairEID = 23;
     private static final int thunderStormEID = 24;
+    private static final int villagerHeadEID = 25;
 
     public void preInit() {
         // わーるどじぇねれーとはんどら
@@ -94,6 +97,8 @@ public class CommonProxy {
         registerEntity(EntityFirefly.class, "Firefly", fireflyEID, 80, 1, true);
         registerEntity(EntityDummyChair.class, "DummyChair", dummyChairEID, 80, 3, true);
         registerEntity(EntityThunderStorm.class, "ThunderStorm", thunderStormEID, 304, 3, true);
+        registerEntity(EntityTrueVillager.class, "TrueVillager", trueVillagerEID, 304, 3, true);
+        registerEntity(EntityVillagerHead.class, "villagerHead", villagerHeadEID, 304, 3, true);
         GameRegistry.registerTileEntity(TileEntityJPChest.class, "JP Chest");
         GameRegistry.registerTileEntity(TileEntitySpaParent.class, "Tile Spa");
         GameRegistry.registerTileEntity(TileEntitySpaChild.class, "Tile SpaChild");

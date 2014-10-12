@@ -119,4 +119,8 @@ public class ItemMagatama extends Item {
     public void registerIcons(IIconRegister par1IconRegister) {
         this.itemIcon = par1IconRegister.registerIcon(BambooCore.resourceDomain + "magatama");
     }
+
+    public int getMagatamaMaxValue() {
+        return magatamaMap.size();
+    }
 }
