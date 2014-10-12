@@ -43,17 +43,19 @@ public class ItemNinjaHelm extends ItemNinjaArmor {
 
     @SubscribeEvent
     public void playerAtackEvent(AttackEntityEvent ae) {
-        int[] butPotionIds = new int[] { Potion.poison.getId(), Potion.moveSlowdown.getId(), Potion.blindness.getId(), Potion.weakness.getId(), Potion.harm.getId() };
-        int[] goodPotionIds = new int[] { Potion.damageBoost.getId(), Potion.moveSpeed.getId(), Potion.invisibility.getId(), Potion.regeneration.getId() };
-        if (!ae.entityPlayer.worldObj.isRemote && ae.target instanceof EntityLivingBase) {
-            EntityLivingBase entity = (EntityLivingBase) ae.target;
-            ItemStack is = ae.entityPlayer.getEquipmentInSlot(0);
-            if (is != null && is.getItem() instanceof ItemSword && entity.worldObj.rand.nextFloat() < 0.25F) {
-                if (!this.isEqNinjaArmor(ae.entityPlayer, CHEST) && entity.worldObj.rand.nextFloat() < 0.1F) {
-                    entity.addPotionEffect(new PotionEffect(goodPotionIds[entity.worldObj.rand.nextInt(goodPotionIds.length)], 100, 10));
-                    return;
+        if (isEqNinjaArmor(ae.entityPlayer, HELM)) {
+            int[] butPotionIds = new int[] { Potion.poison.getId(), Potion.moveSlowdown.getId(), Potion.blindness.getId(), Potion.weakness.getId(), Potion.harm.getId() };
+            int[] goodPotionIds = new int[] { Potion.damageBoost.getId(), Potion.moveSpeed.getId(), Potion.invisibility.getId(), Potion.regeneration.getId() };
+            if (!ae.entityPlayer.worldObj.isRemote && ae.target instanceof EntityLivingBase) {
+                EntityLivingBase entity = (EntityLivingBase) ae.target;
+                ItemStack is = ae.entityPlayer.getEquipmentInSlot(0);
+                if (is != null && is.getItem() instanceof ItemSword && entity.worldObj.rand.nextFloat() < 0.25F) {
+                    if (!this.isEqNinjaArmor(ae.entityPlayer, CHEST) && entity.worldObj.rand.nextFloat() < 0.1F) {
+                        entity.addPotionEffect(new PotionEffect(goodPotionIds[entity.worldObj.rand.nextInt(goodPotionIds.length)], 100, 10));
+                        return;
+                    }
+                    entity.addPotionEffect(new PotionEffect(butPotionIds[entity.worldObj.rand.nextInt(butPotionIds.length)], 100, 20));
                 }
-                entity.addPotionEffect(new PotionEffect(butPotionIds[entity.worldObj.rand.nextInt(butPotionIds.length)], 100, 20));
             }
         }
     }

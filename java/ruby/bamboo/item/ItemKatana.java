@@ -43,7 +43,7 @@ public class ItemKatana extends ItemSword {
 
     @Override
     public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase) {
-        par2EntityLivingBase.attackEntityFrom(DamageSource.causeMobDamage(par2EntityLivingBase), getDamageVsEntity(par2EntityLivingBase));
+        par2EntityLivingBase.attackEntityFrom(DamageSource.causeMobDamage(par3EntityLivingBase), getDamageVsEntity(par2EntityLivingBase));
         if (!par2EntityLivingBase.worldObj.isRemote) {
             if (par2EntityLivingBase.hurtResistantTime == par2EntityLivingBase.maxHurtResistantTime) {
                 if (par2EntityLivingBase.getHealth() <= 0) {

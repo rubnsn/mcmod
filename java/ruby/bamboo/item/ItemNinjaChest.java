@@ -15,6 +15,9 @@ public class ItemNinjaChest extends ItemNinjaArmor {
         if (player.isPotionActive(Potion.poison)) {
             player.removePotionEffect(Potion.poison.id);
         }
+        if (player.isPotionActive(Potion.hunger) && isEqNinjaArmor(player, LEG) && isEqNinjaArmor(player, BOOTS)) {
+            player.removePotionEffect(Potion.hunger.id);
+        }
         if (player.isSneaking() && player.onGround && isEqNinjaArmor(player, LEG)) {
             player.motionX *= 1.5;
             player.motionZ *= 1.5;
