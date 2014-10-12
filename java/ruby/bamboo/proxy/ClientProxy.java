@@ -63,7 +63,7 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.registerTileEntity(TileEntityMillStone.class, "MillStone", new RenderMillStone());
         ClientRegistry.registerTileEntity(TileEntityManeki.class, "MManeki", new RenderManeki());
         ClientRegistry.registerTileEntity(TileEntityHuton.class, "Huton", new RenderHuton());
-        ClientRegistry.registerTileEntity(TileEntityVillagerBlock.class, "VillagerBlock", new RenderVillagerBlock());
+        ClientRegistry.registerTileEntity(TileEntityVillagerBlock.class, "ClientBambooVillagerBlock", new RenderVillagerBlock());
     }
 
     private void addRenderer() {
