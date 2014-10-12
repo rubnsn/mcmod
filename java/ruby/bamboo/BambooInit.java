@@ -266,10 +266,7 @@ public class BambooInit {
         itemSeaweed = registerItem(new ItemFood(2, 0.3F, false).setTextureName(BambooCore.resourceDomain + "itemseaweed"), "itemseaweed", tabBamboo);
         bean = registerItem(new ItemSeeds(beanPlant, Blocks.farmland).setTextureName(BambooCore.resourceDomain + "itembean"), "itembean", tabBamboo);
         cookBook = registerItem(new ItemCookBook().setTextureName("book_written"), "cookingrecipe", tabBamboo);
-        ninjaHelm = registerItem(new ItemNinjaHelm(0).setTextureName("ninja_helmet"), "ninja_helmet", tabBamboo);
-        ninjaChest = registerItem(new ItemNinjaChest(1).setTextureName("ninja_chestplate"), "ninja_chestplate", tabBamboo);
-        ninjaLeg = registerItem(new ItemNinjaLeg(2).setTextureName("ninja_leggings"), "ninja_leggings", tabBamboo);
-        ninjaBoots = registerItem(new ItemNinjaBoots(3).setTextureName("ninja_boots"), "ninja_boots", tabBamboo);
+
         MinecraftForge.addGrassSeed(new ItemStack(riceSeed, 1, 0), 10);
         MinecraftForge.addGrassSeed(new ItemStack(bean, 1, 0), 10);
         if (BambooCore.DEBUGMODE) {
@@ -279,6 +276,10 @@ public class BambooInit {
 
     private void workingItem() {
         dimensionCreater = registerItem(new ItemDimensionCreater(), "dimensioncreater", tabBamboo);
+        ninjaHelm = registerItem(new ItemNinjaHelm(0).setTextureName("ninja_helmet"), "ninja_helmet", tabBamboo);
+        ninjaChest = registerItem(new ItemNinjaChest(1).setTextureName("ninja_chestplate"), "ninja_chestplate", tabBamboo);
+        ninjaLeg = registerItem(new ItemNinjaLeg(2).setTextureName("ninja_leggings"), "ninja_leggings", tabBamboo);
+        ninjaBoots = registerItem(new ItemNinjaBoots(3).setTextureName("ninja_boots"), "ninja_boots", tabBamboo);
     }
 
     private Block registerBlock(Block block, String name) {

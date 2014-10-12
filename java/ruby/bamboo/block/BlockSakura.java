@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.BlockSapling;
+import net.minecraft.block.IGrowable;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,22 +14,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.BonemealEvent;
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.worldgen.WorldGenBigSakura;
 import ruby.bamboo.worldgen.WorldGenSakura;
-import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockSakura extends BlockSapling {
+public class BlockSakura extends BlockSapling implements IGrowable {
     public BlockSakura() {
         super();
         float f = 0.4F;
         setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
-        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
@@ -47,19 +43,6 @@ public class BlockSakura extends BlockSapling {
         }
 
         return false;
-    }
-
-    @SubscribeEvent
-    public void onBonemealEvent(BonemealEvent event) {
-        if (event.block == this) {
-            if (event.entityPlayer.capabilities.isCreativeMode) {
-                event.setCanceled(true);
-            }
-            if (!event.entityPlayer.worldObj.isRemote) {
-                growTree(event.world, event.x, event.y, event.z, event.world.rand, 0x0F);
-            }
-            event.setResult(Result.ALLOW);
-        }
     }
 
     @Override
@@ -105,4 +88,18 @@ public class BlockSakura extends BlockSapling {
         return this.blockIcon;
     }
 
+    @Override
+    public boolean func_149851_a(World world, int posX, int posY, int posZ, boolean isRemote) {
+        return true;
+    }
+
+    @Override
+    public boolean func_149852_a(World world, Random rand, int posX, int posY, int posZ) {
+        return true;
+    }
+
+    @Override
+    public void func_149853_b(World world, Random rand, int posX, int posY, int posZ) {
+        growTree(world, posX, posY, posZ, rand, 0x0F);
+    }
 }
