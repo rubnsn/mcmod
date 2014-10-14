@@ -3,4 +3,8 @@
 /bin
 /build
 /eclipse
+/gradle
 .*
+*.bat
+*.txt
+gradlew
