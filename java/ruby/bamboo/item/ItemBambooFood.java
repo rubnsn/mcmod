@@ -15,10 +15,14 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import ruby.bamboo.BambooCore;
+import shift.sextiarysector.api.IDrink;
+import cpw.mods.fml.common.Optional.Interface;
+import cpw.mods.fml.common.Optional.Method;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemBambooFood extends ItemFood {
+@Interface(iface = "shift.sextiarysector.api.IDrink", modid = "SextiarySector")
+public class ItemBambooFood extends ItemFood implements IDrink {
     private static Map<Integer, EnumFood> foodMap;
     private int heal;
     private static final int MAX_ELEMENT_COUNT;
@@ -26,7 +30,7 @@ public class ItemBambooFood extends ItemFood {
         foodMap = new HashMap<Integer, EnumFood>();
 
         for (EnumFood ef : EnumFood.values()) {
-            foodMap.put(ef.getId(), ef);
+            foodMap.put(ef.dmgid, ef);
         }
 
         MAX_ELEMENT_COUNT = foodMap.size();
@@ -50,7 +54,7 @@ public class ItemBambooFood extends ItemFood {
 
     @Override
     public int getMaxItemUseDuration(ItemStack par1ItemStack) {
-        return foodMap.get(par1ItemStack.getItemDamage() % MAX_ELEMENT_COUNT).getDuration();
+        return foodMap.get(par1ItemStack.getItemDamage() % MAX_ELEMENT_COUNT).duration;
     }
 
     @Override
@@ -73,7 +77,7 @@ public class ItemBambooFood extends ItemFood {
     @Override
     public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
         if (!par2World.isRemote) {
-            heal = foodMap.get(par1ItemStack.getItemDamage() % MAX_ELEMENT_COUNT).getHeal();
+            heal = foodMap.get(par1ItemStack.getItemDamage() % MAX_ELEMENT_COUNT).heal;
         }
         EnumFood ef = this.getType(par1ItemStack);
         if (ef == EnumFood.TAKEMESI || ef == EnumFood.TAKEONI) {
@@ -101,5 +105,18 @@ public class ItemBambooFood extends ItemFood {
         for (EnumFood ef : EnumFood.values()) {
             ef.setTex(par1IconRegister.registerIcon(BambooCore.resourceDomain + ef.name().toLowerCase()));
         }
+    }
+
+    //水分
+    @Method(modid = "SextiarySector")
+    @Override
+    public int getMoisture(ItemStack drink) {
+        return foodMap.get(drink.getItemDamage() % MAX_ELEMENT_COUNT).water;
+    }
+
+    @Method(modid = "SextiarySector")
+    @Override
+    public float getMoistureSaturation(ItemStack drink) {
+        return foodMap.get(drink.getItemDamage() % MAX_ELEMENT_COUNT).waterS;
     }
 }
