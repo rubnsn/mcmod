@@ -9,8 +9,7 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.FMLLog;
 
 public class GrindRegistory {
-    private static final ArrayList<GrindRecipe> recipe = new ArrayList<GrindRecipe>();
-    public static final short WILD_CARD = Short.MAX_VALUE;
+    private static final ArrayList<IGrindRecipe> recipe = new ArrayList<IGrindRecipe>();
 
     private GrindRegistory() {
     }
@@ -23,11 +22,11 @@ public class GrindRegistory {
         addRecipe(output, null, new ItemStack(input), 0);
     }
 
-    public static void addRecipe(ItemStack output, ItemStack bonus, Block input, int bonusWeight) {
+    public static void addRecipe(ItemStack output, ItemStack bonus, Block input, float bonusWeight) {
         addRecipe(output, bonus, new ItemStack(input), bonusWeight);
     }
 
-    public static void addRecipe(ItemStack output, ItemStack bonus, Item input, int bonusWeight) {
+    public static void addRecipe(ItemStack output, ItemStack bonus, Item input, float bonusWeight) {
         addRecipe(output, bonus, new ItemStack(input), bonusWeight);
     }
 
@@ -35,7 +34,7 @@ public class GrindRegistory {
         addRecipe(output, null, input, 0);
     }
 
-    public static void addRecipe(ItemStack output, ItemStack bonus, ItemStack input, int bonusWeight) {
+    public static void addRecipe(ItemStack output, ItemStack bonus, ItemStack input, float bonusWeight) {
         if (output != null && input != null) {
             if (bonus != null) {
                 recipe.add(new GrindRecipe(input, output, bonus, bonusWeight));
@@ -47,12 +46,16 @@ public class GrindRegistory {
         }
     }
 
-    public static GrindRecipe getOutput(ItemStack input) {
-        GrindRecipe result = null;
+    public static void addRecipe(IGrindRecipe recipe) {
 
-        for (GrindRecipe gr : recipe) {
+    }
+
+    public static IGrindRecipe getOutput(ItemStack input) {
+        IGrindRecipe result = null;
+
+        for (IGrindRecipe gr : recipe) {
             if (input.getItem() == gr.getInput().getItem() && gr.getInput().stackSize <= input.stackSize) {
-                if (gr.getInput().getItemDamage() == WILD_CARD || input.getItemDamage() == gr.getInput().getItemDamage()) {
+                if (gr.getInput().getItemDamage() == IGrindRecipe.WILD_CARD || input.getItemDamage() == gr.getInput().getItemDamage()) {
                     result = gr;
                     break;
                 }
@@ -61,7 +64,7 @@ public class GrindRegistory {
         return result;
     }
 
-    public static List<GrindRecipe> getRecipeList() {
+    public static List<IGrindRecipe> getRecipeList() {
         return recipe;
     }
 }

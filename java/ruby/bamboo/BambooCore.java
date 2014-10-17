@@ -1,11 +1,15 @@
 package ruby.bamboo;
 
+import java.util.Collections;
+
 import net.minecraft.block.BlockDispenser;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.oredict.RecipeSorter;
 import ruby.bamboo.dispenser.DispenserBehaviorBambooSpear;
 import ruby.bamboo.dispenser.DispenserBehaviorDirtySnowball;
 import ruby.bamboo.dispenser.DispenserBehaviorFireCracker;
 import ruby.bamboo.gui.GuiHandler;
+import ruby.bamboo.item.crafting.CookingManager;
 import ruby.bamboo.proxy.CommonProxy;
 import ruby.bamboo.world.WorldProviderBamboo;
 import cpw.mods.fml.common.FMLLog;
@@ -13,11 +17,13 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStoppedEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.toposort.ModSortingException;
 import cpw.mods.fml.relauncher.CoreModManager;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.ReflectionHelper.UnableToAccessFieldException;
@@ -65,6 +71,11 @@ public class BambooCore {
 
     }
 
+    @Mod.EventHandler
+    public void postLoad(FMLPostInitializationEvent e) {
+        proxy.postInit();
+    }
+
     private int provideId;
 
     @Mod.EventHandler
@@ -91,16 +102,14 @@ public class BambooCore {
         NetworkRegistry.INSTANCE.registerGuiHandler(BambooCore.getInstance(), new GuiHandler());
     }
 
-    /*Forgeの更新でいつの間にか必要なくなったかもしれない
     @Mod.EventHandler
     public void onAvalible(FMLLoadCompleteEvent event) {
         try {
-            RecipeSorter.sortCraftManager();
+            Collections.sort(CookingManager.getInstance().getRecipeList(), RecipeSorter.INSTANCE);
         } catch (ModSortingException e) {
             FMLLog.warning("OreDict sort exception!!", e);
         }
     }
-    */
 
     private void registDispencer() {
         BlockDispenser.dispenseBehaviorRegistry.putObject(BambooInit.snowBall, new DispenserBehaviorDirtySnowball());

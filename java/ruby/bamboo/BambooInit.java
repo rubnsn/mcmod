@@ -126,11 +126,9 @@ public class BambooInit {
     public static Item ninjaBoots;
     public static Item ninjaLeg;
 
-    public static final BambooInit instance = new BambooInit();
+    private CreativeTabs tabBamboo;
 
-    private static CreativeTabs tabBamboo;
-
-    public static void init() {
+    public BambooInit() {
         tabBamboo = new CreativeTabs("Bamboo") {
             @Override
             public String getTranslatedTabLabel() {
@@ -142,8 +140,8 @@ public class BambooInit {
                 return Item.getItemFromBlock(bambooShoot);
             }
         };
-        instance.blocksInit();
-        instance.itemsInit();
+        blocksInit();
+        itemsInit();
     }
 
     private void blocksInit() {

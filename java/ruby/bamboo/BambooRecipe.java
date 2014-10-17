@@ -14,6 +14,7 @@ import ruby.bamboo.entity.EnumSlideDoor;
 import ruby.bamboo.item.EnumShavedIce;
 import ruby.bamboo.item.crafting.CookingManager;
 import ruby.bamboo.item.crafting.GrindRegistory;
+import ruby.bamboo.item.crafting.IGrindRecipe;
 import ruby.bamboo.tileentity.spa.BoilDye;
 import ruby.bamboo.tileentity.spa.BoilManager;
 import cpw.mods.fml.common.IFuelHandler;
@@ -273,53 +274,53 @@ public class BambooRecipe {
     }
 
     private void addCookingRecipe() {
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 1), Items.beef, CROP_RICE);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 2), Items.porkchop, CROP_RICE);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 3), Blocks.brown_mushroom, CROP_RICE);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 2, 4), Items.porkchop, BAMBOO);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 2, 5), Items.beef, BAMBOO);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 6), bambooShoot, CROP_RICE);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 7), Items.egg, CROP_RICE);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 8), Items.egg, Items.chicken, CROP_RICE);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 9), Items.fish, CROP_RICE);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 2, 10), Items.chicken, BAMBOO);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 11), CROP_RICE, itemSeaweed);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 12), CROP_RICE, itemSeaweed, new ItemStack(Items.fish, 1, 1));
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 13), CROP_RICE, itemSeaweed, new ItemStack(Items.fish, 1, 0), Items.egg);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 14), CROP_RICE, itemSeaweed, Blocks.brown_mushroom);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 15), CROP_RICE, itemSeaweed, bambooShoot);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 16), CROP_RICE, itemSeaweed, itemSeaweed);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 17), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, Items.sugar, SOY_BEANS);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 18), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, RED_BEANS);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 19), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, Items.sugar);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 20), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, new ItemStack(sakuraleavs, 1, WILD_CARD), new ItemStack(Blocks.tallgrass, 1, WILD_CARD));
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 21), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, ZUNDA, ZUNDA);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 24), new ItemStack(foods, 1, 22), Items.sugar, Items.sugar, SOY_BEANS);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 25), new ItemStack(foods, 1, 22), Items.sugar, RED_BEANS);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 26), new ItemStack(foods, 1, 22), Items.sugar, ZUNDA, ZUNDA);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 27), CROP_STRAW, SOY_BEANS);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 28), CROP_STRAW, SOY_BEANS, CROP_RICE);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 29), CROP_STRAW, SOY_BEANS, CROP_RICE, Items.egg);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 30), new ItemStack(foods, 1, 22), new ItemStack(sakuraleavs, 1, WILD_CARD));
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 31), Items.beef, CROP_RICE, Items.egg);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 32), Items.porkchop, CROP_RICE, Items.egg);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 33), CROP_RICE, RED_BEANS);
-        CookingManager.addShapelessOreRecipe(new ItemStack(foods, 1, 34), CROP_RICE, RED_BEANS, itemSeaweed);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 1), Items.beef, CROP_RICE);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 2), Items.porkchop, CROP_RICE);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 3), Blocks.brown_mushroom, CROP_RICE);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 2, 4), Items.porkchop, BAMBOO);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 2, 5), Items.beef, BAMBOO);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 6), bambooShoot, CROP_RICE);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 7), Items.egg, CROP_RICE);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 8), Items.egg, Items.chicken, CROP_RICE);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 9), Items.fish, CROP_RICE);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 2, 10), Items.chicken, BAMBOO);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 11), CROP_RICE, itemSeaweed);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 12), CROP_RICE, itemSeaweed, new ItemStack(Items.fish, 1, 1));
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 13), CROP_RICE, itemSeaweed, new ItemStack(Items.fish, 1, 0), Items.egg);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 14), CROP_RICE, itemSeaweed, Blocks.brown_mushroom);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 15), CROP_RICE, itemSeaweed, bambooShoot);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 16), CROP_RICE, itemSeaweed, itemSeaweed);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 17), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, Items.sugar, SOY_BEANS);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 18), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, RED_BEANS);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 19), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, Items.sugar);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 20), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, new ItemStack(sakuraleavs, 1, WILD_CARD), new ItemStack(Blocks.tallgrass, 1, WILD_CARD));
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 21), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, ZUNDA, ZUNDA);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 24), new ItemStack(foods, 1, 22), Items.sugar, Items.sugar, SOY_BEANS);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 25), new ItemStack(foods, 1, 22), Items.sugar, RED_BEANS);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 26), new ItemStack(foods, 1, 22), Items.sugar, ZUNDA, ZUNDA);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 27), CROP_STRAW, SOY_BEANS);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 28), CROP_STRAW, SOY_BEANS, CROP_RICE);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 29), CROP_STRAW, SOY_BEANS, CROP_RICE, Items.egg);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 30), new ItemStack(foods, 1, 22), new ItemStack(sakuraleavs, 1, WILD_CARD));
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 31), Items.beef, CROP_RICE, Items.egg);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 32), Items.porkchop, CROP_RICE, Items.egg);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 33), CROP_RICE, RED_BEANS);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 34), CROP_RICE, RED_BEANS, itemSeaweed);
     }
 
     private void addGrindRecipe() {
-        GrindRegistory.addRecipe(new ItemStack(Blocks.gravel), new ItemStack(Blocks.sand, 2), new ItemStack(Blocks.stone, 1), 5);
-        GrindRegistory.addRecipe(new ItemStack(Blocks.gravel), new ItemStack(Blocks.sand), Blocks.cobblestone, 10);
-        GrindRegistory.addRecipe(new ItemStack(Blocks.sand), new ItemStack(Items.flint), Blocks.gravel, 7);
-        GrindRegistory.addRecipe(new ItemStack(Items.dye, 3, 15), new ItemStack(Items.dye, 2, 15), Items.bone, 2);
-        GrindRegistory.addRecipe(new ItemStack(Items.blaze_powder, 2, 0), new ItemStack(Items.blaze_powder, 1, 0), Items.blaze_rod, 2);
-        GrindRegistory.addRecipe(new ItemStack(BambooInit.dustClay, 2, 0), new ItemStack(Blocks.hardened_clay, 1, GrindRegistory.WILD_CARD));
-        GrindRegistory.addRecipe(new ItemStack(BambooInit.dustClay, 2, 0), new ItemStack(Blocks.stained_hardened_clay, 1, GrindRegistory.WILD_CARD));
+        GrindRegistory.addRecipe(new ItemStack(Blocks.gravel), new ItemStack(Blocks.sand, 2), new ItemStack(Blocks.stone, 1), 0.2F);
+        GrindRegistory.addRecipe(new ItemStack(Blocks.gravel), new ItemStack(Blocks.sand), Blocks.cobblestone, 0.1F);
+        GrindRegistory.addRecipe(new ItemStack(Blocks.sand), new ItemStack(Items.flint), Blocks.gravel, 0.14F);
+        GrindRegistory.addRecipe(new ItemStack(Items.dye, 3, 15), new ItemStack(Items.dye, 2, 15), Items.bone, 0.5F);
+        GrindRegistory.addRecipe(new ItemStack(Items.blaze_powder, 2, 0), new ItemStack(Items.blaze_powder, 1, 0), Items.blaze_rod, 0.5F);
+        GrindRegistory.addRecipe(new ItemStack(BambooInit.dustClay, 2, 0), new ItemStack(Blocks.hardened_clay, 1, IGrindRecipe.WILD_CARD));
+        GrindRegistory.addRecipe(new ItemStack(BambooInit.dustClay, 2, 0), new ItemStack(Blocks.stained_hardened_clay, 1, IGrindRecipe.WILD_CARD));
         GrindRegistory.addRecipe(new ItemStack(BambooInit.dustClay), new ItemStack(Blocks.sand, 2));
         GrindRegistory.addRecipe(new ItemStack(rawrice, 1, 0), new ItemStack(riceSeed, 4, 0));
         GrindRegistory.addRecipe(new ItemStack(Blocks.sand, 4, 0), new ItemStack(Blocks.sandstone, 1, 0));
-        GrindRegistory.addRecipe(new ItemStack(Items.dye, 1, 2), new ItemStack(Blocks.leaves, 4, GrindRegistory.WILD_CARD));
-        GrindRegistory.addRecipe(new ItemStack(moss, 1, 0), new ItemStack(Blocks.gravel, 64, 0), new ItemStack(Blocks.mossy_cobblestone, 64, 0), 0);
+        GrindRegistory.addRecipe(new ItemStack(Items.dye, 1, 2), new ItemStack(Blocks.leaves, 4, IGrindRecipe.WILD_CARD));
+        GrindRegistory.addRecipe(new ItemStack(moss, 1, 0), new ItemStack(Blocks.gravel, 64, 0), new ItemStack(Blocks.mossy_cobblestone, 64, 0), 1F);
     }
 
     private void addBileRecipe() {

@@ -73,7 +73,7 @@ public class CommonProxy {
         // くらふとはんどら
         FMLCommonHandler.instance().bus().register(new CraftingHandler());
         // block & item init 分割1
-        BambooInit.init();
+        new BambooInit();
         // name init 分割2
         registerEntity(EntityKakeziku.class, "Kakeziku", kakezikuEID, 80, 10, false);
         registerEntity(EntitySlideDoor.class, "Syouzi", slidedoorEID, 80, 1, true);
@@ -138,5 +138,9 @@ public class CommonProxy {
         EntityRegistry.registerModEntity(entityClass, entityName, id, BambooCore.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
         // EntityRegistry.instance().lookupModSpawn(entityClass,false).setCustomSpawning(ClientSpawnHandler.getInstance(),
         // false);
+    }
+
+    public void postInit() {
+
     }
 }

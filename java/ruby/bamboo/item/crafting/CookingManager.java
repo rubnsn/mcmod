@@ -11,8 +11,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class CookingManager {
@@ -27,30 +27,6 @@ public class CookingManager {
     private InventoryCrafting crafting = new InventoryCrafting(dummyContainer, 3, 3);
 
     private CookingManager() {
-    }
-
-    public static void addRecipe(ItemStack par1ItemStack, Object... par2ArrayOfObj) {
-        ArrayList arraylist = new ArrayList();
-        Object[] aobject = par2ArrayOfObj;
-        int i = par2ArrayOfObj.length;
-
-        for (int j = 0; j < i; ++j) {
-            Object object1 = aobject[j];
-
-            if (object1 instanceof ItemStack) {
-                arraylist.add(((ItemStack) object1).copy());
-            } else if (object1 instanceof Item) {
-                arraylist.add(new ItemStack((Item) object1));
-            } else {
-                if (!(object1 instanceof Block)) {
-                    throw new RuntimeException("Invalid shapeless recipy!");
-                }
-
-                arraylist.add(new ItemStack((Block) object1));
-            }
-        }
-
-        recipes.add(new ShapelessRecipes(par1ItemStack, arraylist));
     }
 
     public static void addRecipe(IRecipe recipe) {
@@ -104,7 +80,19 @@ public class CookingManager {
         return null;
     }
 
-    public static void addShapelessOreRecipe(ItemStack out, Object... objects) {
-        addRecipe(new ShapelessOreRecipe(out, objects));
+    public static void addShapedRecipe(Block out, Object... recipe) {
+        addRecipe(new ShapedOreRecipe(out, recipe));
+    }
+
+    public static void addShapedRecipe(Item out, Object... recipe) {
+        addRecipe(new ShapedOreRecipe(out, recipe));
+    }
+
+    public static void addShapedRecipe(ItemStack out, Object... recipe) {
+        addRecipe(new ShapedOreRecipe(out, recipe));
+    }
+
+    public static void addShapelessRecipe(ItemStack out, Object... recipe) {
+        addRecipe(new ShapelessOreRecipe(out, recipe));
     }
 }

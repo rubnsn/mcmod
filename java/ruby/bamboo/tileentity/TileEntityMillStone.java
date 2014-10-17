@@ -17,8 +17,8 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 import ruby.bamboo.block.BlockMillStone;
-import ruby.bamboo.item.crafting.GrindRecipe;
 import ruby.bamboo.item.crafting.GrindRegistory;
+import ruby.bamboo.item.crafting.IGrindRecipe;
 
 public class TileEntityMillStone extends TileEntity implements ISidedInventory {
     private static final int[] slots_top = new int[] { 0 };
@@ -270,7 +270,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
         if (this.slot[0] == null) {
             return false;
         } else {
-            GrindRecipe gr = GrindRegistory.getOutput(slot[0]);
+            IGrindRecipe gr = GrindRegistory.getOutput(slot[0]);
 
             if (gr == null) {
                 return false;
@@ -328,9 +328,9 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
      */
     private void grindItem() {
         if (Item.itemRegistry.getObject(nowGrindItemName) != Item.getItemFromBlock(Blocks.air)) {
-            GrindRecipe gr = GrindRegistory.getOutput(new ItemStack((Item) Item.itemRegistry.getObject(nowGrindItemName), 64, nowGrindItemDmg));
+            IGrindRecipe gr = GrindRegistory.getOutput(new ItemStack((Item) Item.itemRegistry.getObject(nowGrindItemName), 64, nowGrindItemDmg));
             ItemStack output = gr.getOutput();
-            ItemStack bonus = worldObj.rand.nextInt(gr.getBonusWeight() + 1) == 0 ? gr.getBonus() : null;
+            ItemStack bonus = worldObj.rand.nextFloat() <= gr.getBonusWeight() ? gr.getBonus() : null;
 
             if (this.slot[1] == null) {
                 this.slot[1] = output.copy();
