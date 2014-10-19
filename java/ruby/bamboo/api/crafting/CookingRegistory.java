@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import ruby.bamboo.api.BambooAPI;
 import cpw.mods.fml.common.Loader;
 
 public class CookingRegistory {
@@ -26,7 +27,7 @@ public class CookingRegistory {
     }
 
     public static void addRecipe(IRecipe recipe) {
-        if (Loader.isModLoaded("BambooMod")) {
+        if (Loader.isModLoaded(BambooAPI.OWNER)) {
             ruby.bamboo.item.crafting.CookingManager.addRecipe(recipe);
         }
     }

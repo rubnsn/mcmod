@@ -47,7 +47,7 @@ public class BambooCore {
             clientSide = "ruby.bamboo.proxy.ClientProxy")
     public static CommonProxy proxy;
 
-    @Instance("BambooMod")
+    @Instance(MODID)
     public static BambooCore instance;
 
     @Mod.EventHandler
