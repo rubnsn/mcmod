@@ -8,13 +8,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import ruby.bamboo.api.crafting.grind.IGrindRecipe;
 import ruby.bamboo.block.BlockLiangBamboo;
 import ruby.bamboo.block.BlockLiangBamboo.EnumBlock;
 import ruby.bamboo.entity.EnumSlideDoor;
 import ruby.bamboo.item.EnumShavedIce;
 import ruby.bamboo.item.crafting.CookingManager;
-import ruby.bamboo.item.crafting.GrindRegistory;
-import ruby.bamboo.item.crafting.IGrindRecipe;
+import ruby.bamboo.item.crafting.GrindManager;
 import ruby.bamboo.tileentity.spa.BoilDye;
 import ruby.bamboo.tileentity.spa.BoilManager;
 import cpw.mods.fml.common.IFuelHandler;
@@ -34,6 +34,7 @@ public class BambooRecipe {
     public final String RED_BEANS = "redbeans";
     public final String MOCHI = "mochi";
     public final String COOKED_MOCHI = "cookedMochi";
+    public final String FLOUR = "flour";
     public final int WILD_CARD = Short.MAX_VALUE;
 
     public BambooRecipe() {
@@ -309,18 +310,19 @@ public class BambooRecipe {
     }
 
     private void addGrindRecipe() {
-        GrindRegistory.addRecipe(new ItemStack(Blocks.gravel), new ItemStack(Blocks.sand, 2), new ItemStack(Blocks.stone, 1), 0.2F);
-        GrindRegistory.addRecipe(new ItemStack(Blocks.gravel), new ItemStack(Blocks.sand), Blocks.cobblestone, 0.1F);
-        GrindRegistory.addRecipe(new ItemStack(Blocks.sand), new ItemStack(Items.flint), Blocks.gravel, 0.14F);
-        GrindRegistory.addRecipe(new ItemStack(Items.dye, 3, 15), new ItemStack(Items.dye, 2, 15), Items.bone, 0.5F);
-        GrindRegistory.addRecipe(new ItemStack(Items.blaze_powder, 2, 0), new ItemStack(Items.blaze_powder, 1, 0), Items.blaze_rod, 0.5F);
-        GrindRegistory.addRecipe(new ItemStack(BambooInit.dustClay, 2, 0), new ItemStack(Blocks.hardened_clay, 1, IGrindRecipe.WILD_CARD));
-        GrindRegistory.addRecipe(new ItemStack(BambooInit.dustClay, 2, 0), new ItemStack(Blocks.stained_hardened_clay, 1, IGrindRecipe.WILD_CARD));
-        GrindRegistory.addRecipe(new ItemStack(BambooInit.dustClay), new ItemStack(Blocks.sand, 2));
-        GrindRegistory.addRecipe(new ItemStack(rawrice, 1, 0), new ItemStack(riceSeed, 4, 0));
-        GrindRegistory.addRecipe(new ItemStack(Blocks.sand, 4, 0), new ItemStack(Blocks.sandstone, 1, 0));
-        GrindRegistory.addRecipe(new ItemStack(Items.dye, 1, 2), new ItemStack(Blocks.leaves, 4, IGrindRecipe.WILD_CARD));
-        GrindRegistory.addRecipe(new ItemStack(moss, 1, 0), new ItemStack(Blocks.gravel, 64, 0), new ItemStack(Blocks.mossy_cobblestone, 64, 0), 1F);
+        GrindManager.addRecipe(new ItemStack(Blocks.gravel), new ItemStack(Blocks.sand, 2), new ItemStack(Blocks.stone, 1), 0.2F);
+        GrindManager.addRecipe(new ItemStack(Blocks.gravel), new ItemStack(Blocks.sand), Blocks.cobblestone, 0.1F);
+        GrindManager.addRecipe(new ItemStack(Blocks.sand), new ItemStack(Items.flint), Blocks.gravel, 0.14F);
+        GrindManager.addRecipe(new ItemStack(Items.dye, 3, 15), new ItemStack(Items.dye, 2, 15), Items.bone, 0.5F);
+        GrindManager.addRecipe(new ItemStack(Items.blaze_powder, 2, 0), new ItemStack(Items.blaze_powder, 1, 0), Items.blaze_rod, 0.5F);
+        GrindManager.addRecipe(new ItemStack(BambooInit.dustClay, 2, 0), new ItemStack(Blocks.hardened_clay, 1, IGrindRecipe.WILD_CARD));
+        GrindManager.addRecipe(new ItemStack(BambooInit.dustClay, 2, 0), new ItemStack(Blocks.stained_hardened_clay, 1, IGrindRecipe.WILD_CARD));
+        GrindManager.addRecipe(new ItemStack(BambooInit.dustClay), new ItemStack(Blocks.sand, 2));
+        GrindManager.addRecipe(new ItemStack(rawrice, 1, 0), new ItemStack(riceSeed, 4, 0));
+        GrindManager.addRecipe(new ItemStack(Blocks.sand, 4, 0), new ItemStack(Blocks.sandstone, 1, 0));
+        GrindManager.addRecipe(new ItemStack(Items.dye, 1, 2), new ItemStack(Blocks.leaves, 4, IGrindRecipe.WILD_CARD));
+        GrindManager.addRecipe(new ItemStack(moss, 1, 0), new ItemStack(Blocks.gravel, 64, 0), new ItemStack(Blocks.mossy_cobblestone, 64, 0), 1F);
+        GrindManager.addRecipe(new ItemStack(BambooInit.flour), new ItemStack(Items.wheat, 2));
     }
 
     private void addBileRecipe() {
@@ -352,6 +354,8 @@ public class BambooRecipe {
         OreDictionary.registerOre(RED_BEANS, bean);
         OreDictionary.registerOre(MOCHI, new ItemStack(foods, 2, 22));
         OreDictionary.registerOre(COOKED_MOCHI, new ItemStack(foods, 2, 23));
+        OreDictionary.registerOre(FLOUR, BambooInit.flour);
+        OreDictionary.registerOre("cropWheat", Items.stick);
 
     }
 

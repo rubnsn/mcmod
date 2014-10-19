@@ -1,8 +1,9 @@
-package ruby.bamboo.api.crafting;
+package ruby.bamboo.api.crafting.grind;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import ruby.bamboo.api.BambooAPI;
 import cpw.mods.fml.common.Loader;
 
 public class GrindRegistory {
@@ -69,8 +70,8 @@ public class GrindRegistory {
      * @param bonusWeight (rand.nectFloat()<=bonusWeight)
      */
     public static void addRecipe(ItemStack output, ItemStack bonus, ItemStack input, float bonusWeight) {
-        if (Loader.isModLoaded("BambooMod")) {
-            ruby.bamboo.item.crafting.GrindRegistory.addRecipe(output, bonus, input, bonusWeight);
+        if (Loader.isModLoaded(BambooAPI.OWNER)) {
+            ruby.bamboo.item.crafting.GrindManager.addRecipe(output, bonus, input, bonusWeight);
         }
     }
 }

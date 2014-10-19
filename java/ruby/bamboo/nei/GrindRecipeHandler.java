@@ -7,9 +7,9 @@ import java.util.List;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 import ruby.bamboo.BambooCore;
+import ruby.bamboo.api.crafting.grind.IGrindRecipe;
 import ruby.bamboo.gui.GuiMillStone;
-import ruby.bamboo.item.crafting.GrindRegistory;
-import ruby.bamboo.item.crafting.IGrindRecipe;
+import ruby.bamboo.item.crafting.GrindManager;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
@@ -28,7 +28,7 @@ public class GrindRecipeHandler extends TemplateRecipeHandler {
         }
 
         public CachedGrindRecipe(IGrindRecipe recipe) {
-            this(recipe.getInput(), recipe.getOutput(), recipe.getBonus());
+            this(recipe.getInput().getItemStack(), recipe.getOutput(), recipe.getBonus());
         }
 
         @Override
@@ -75,7 +75,7 @@ public class GrindRecipeHandler extends TemplateRecipeHandler {
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
         if (outputId.equals(RECIPE_NAME)) {
-            for (IGrindRecipe recipe : GrindRegistory.getRecipeList()) {
+            for (IGrindRecipe recipe : GrindManager.getRecipeList()) {
                 arecipes.add(new CachedGrindRecipe(recipe));
             }
         } else {
@@ -85,7 +85,7 @@ public class GrindRecipeHandler extends TemplateRecipeHandler {
 
     @Override
     public void loadCraftingRecipes(ItemStack result) {
-        for (IGrindRecipe recipe : GrindRegistory.getRecipeList()) {
+        for (IGrindRecipe recipe : GrindManager.getRecipeList()) {
             if (result.isItemEqual(recipe.getOutput()) || (recipe.getBonus() != null && (result.isItemEqual(recipe.getBonus())))) {
                 arecipes.add(new CachedGrindRecipe(recipe));
             }
@@ -94,7 +94,7 @@ public class GrindRecipeHandler extends TemplateRecipeHandler {
 
     @Override
     public void loadUsageRecipes(ItemStack input) {
-        for (IGrindRecipe recipe : GrindRegistory.getRecipeList()) {
+        for (IGrindRecipe recipe : GrindManager.getRecipeList()) {
             if (input.getItem() == recipe.getInput().getItem()) {
                 if (recipe.getInput().getItemDamage() == IGrindRecipe.WILD_CARD || input.getItemDamage() == recipe.getInput().getItemDamage()) {
                     arecipes.add(new CachedGrindRecipe(recipe));

@@ -2,7 +2,7 @@ package ruby.bamboo.gui;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ruby.bamboo.item.crafting.GrindRegistory;
+import ruby.bamboo.item.crafting.GrindManager;
 import ruby.bamboo.tileentity.TileEntityMillStone;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -105,7 +105,7 @@ public class ContainerMillStone extends Container {
 
                 slot.onSlotChange(itemstack1, itemstack);
             } else if (par2 != 0) {
-                if (GrindRegistory.getOutput(itemstack1) != null) {
+                if (GrindManager.getOutput(itemstack1) != null) {
                     if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
                         return null;
                     }

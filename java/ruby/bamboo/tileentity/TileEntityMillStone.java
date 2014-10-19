@@ -16,9 +16,9 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
+import ruby.bamboo.api.crafting.grind.IGrindRecipe;
 import ruby.bamboo.block.BlockMillStone;
-import ruby.bamboo.item.crafting.GrindRegistory;
-import ruby.bamboo.item.crafting.IGrindRecipe;
+import ruby.bamboo.item.crafting.GrindManager;
 
 public class TileEntityMillStone extends TileEntity implements ISidedInventory {
     private static final int[] slots_top = new int[] { 0 };
@@ -270,7 +270,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
         if (this.slot[0] == null) {
             return false;
         } else {
-            IGrindRecipe gr = GrindRegistory.getOutput(slot[0]);
+            IGrindRecipe gr = GrindManager.getOutput(slot[0]);
 
             if (gr == null) {
                 return false;
@@ -316,7 +316,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
             nowGrindItemName = Block.blockRegistry.getNameForObject(Blocks.air);
         }
         nowGrindItemDmg = slot[0].getItemDamage();
-        this.slot[0].stackSize -= GrindRegistory.getOutput(slot[0]).getInput().stackSize;
+        this.slot[0].stackSize -= GrindManager.getOutput(slot[0]).getInput().getStackSize();
 
         if (this.slot[0].stackSize <= 0) {
             this.slot[0] = null;
@@ -328,7 +328,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
      */
     private void grindItem() {
         if (Item.itemRegistry.getObject(nowGrindItemName) != Item.getItemFromBlock(Blocks.air)) {
-            IGrindRecipe gr = GrindRegistory.getOutput(new ItemStack((Item) Item.itemRegistry.getObject(nowGrindItemName), 64, nowGrindItemDmg));
+            IGrindRecipe gr = GrindManager.getOutput(new ItemStack((Item) Item.itemRegistry.getObject(nowGrindItemName), 64, nowGrindItemDmg));
             ItemStack output = gr.getOutput();
             ItemStack bonus = worldObj.rand.nextFloat() <= gr.getBonusWeight() ? gr.getBonus() : null;
 
