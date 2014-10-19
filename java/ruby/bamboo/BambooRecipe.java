@@ -355,7 +355,6 @@ public class BambooRecipe {
         OreDictionary.registerOre(MOCHI, new ItemStack(foods, 2, 22));
         OreDictionary.registerOre(COOKED_MOCHI, new ItemStack(foods, 2, 23));
         OreDictionary.registerOre(FLOUR, BambooInit.flour);
-        OreDictionary.registerOre("cropWheat", Items.stick);
 
     }
 
