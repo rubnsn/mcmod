@@ -126,6 +126,7 @@ public class BambooInit {
     public static Item ninjaBoots;
     public static Item ninjaLeg;
     public static Item flour;
+    public static Item dough;
 
     private CreativeTabs tabBamboo;
 
@@ -266,6 +267,7 @@ public class BambooInit {
         bean = registerItem(new ItemSeeds(beanPlant, Blocks.farmland).setTextureName(BambooCore.resourceDomain + "itembean"), "itembean", tabBamboo);
         cookBook = registerItem(new ItemCookBook().setTextureName("book_written"), "cookingrecipe", tabBamboo);
         flour = registerItem(new Item().setTextureName(BambooCore.resourceDomain + "flour"), "bambooflour", tabBamboo);
+        dough = registerItem(new Item().setTextureName(BambooCore.resourceDomain + "dough"), "bamboodough", tabBamboo);
 
         MinecraftForge.addGrassSeed(new ItemStack(riceSeed, 1, 0), 10);
         MinecraftForge.addGrassSeed(new ItemStack(bean, 1, 0), 10);

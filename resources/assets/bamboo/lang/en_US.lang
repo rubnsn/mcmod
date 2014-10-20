@@ -216,6 +216,7 @@ item.seedseaweed.name=SeaweedSeed
 item.itembean.name=Bean
 item.cookingrecipe.name=CookingRecipe
 item.bambooflour.name=Flour
+item.bamboodough.name=Dough
 bambooEnch.blood=Blood
 bambooEnch.accele=Accele
 bambooEnch.teleport=Teleport

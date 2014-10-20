@@ -34,7 +34,8 @@ public class BambooRecipe {
     public final String RED_BEANS = "redbeans";
     public final String MOCHI = "mochi";
     public final String COOKED_MOCHI = "cookedMochi";
-    public final String FLOUR = "flour";
+    public final String FLOUR = "foodFlour";
+    public final String DOUGH = "foodDough";
     public final int WILD_CARD = Short.MAX_VALUE;
 
     public BambooRecipe() {
@@ -245,18 +246,20 @@ public class BambooRecipe {
         addShapelessOreRecipe(new ItemStack(foods, 1, 29), NATTO, COOKING_RICE, Items.egg);
         addShapelessOreRecipe(new ItemStack(foods, 1, 31), new ItemStack(foods, 1, 1), Items.egg);
         addShapelessOreRecipe(new ItemStack(foods, 1, 7), Items.egg, COOKING_RICE);
-        /*焼き海苔増えたらにしよ
+
         addShapelessOreRecipe(new ItemStack(foods, 1, 34), new ItemStack(foods, 1, 33), itemSeaweed);
         addShapelessOreRecipe(new ItemStack(foods, 1, 11), COOKING_RICE, itemSeaweed);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 14), new ItemStack(foods, 1,3), itemSeaweed);
-        addShapelessOreRecipe(new ItemStack(foods, 1, 15), new ItemStack(foods, 1,6), itemSeaweed);
-        */
+        addShapelessOreRecipe(new ItemStack(foods, 1, 14), new ItemStack(foods, 1, 3), itemSeaweed);
+        addShapelessOreRecipe(new ItemStack(foods, 1, 15), new ItemStack(foods, 1, 6), itemSeaweed);
+
         //飾りつき漆喰
         addShapedOreRecipe(new ItemStack(decoPlaster_I, 6, 0), "###", "###", "XXX", '#', new ItemStack(decoration, 8, 0), 'X', "plankWood");
         addShapedOreRecipe(new ItemStack(decoPlaster_L, 4, 0), "##X", "##X", "XXX", '#', new ItemStack(decoration, 8, 0), 'X', "plankWood");
         addShapedOreRecipe(new ItemStack(decoPlaster_D, 4, 0), "##X", "#XX", "XXX", '#', new ItemStack(decoration, 8, 0), 'X', "plankWood");
         //レシピ本
         addShapelessOreRecipe(new ItemStack(cookBook, 1, 0), new ItemStack(Items.book), BAMBOO);
+        //生地
+        addShapelessOreRecipe(new ItemStack(dough, 3), FLOUR, Items.water_bucket, Items.egg, Items.milk_bucket);
         // 鉱石辞書
         addOreDictionary();
         // 粉砕レシピ
@@ -270,6 +273,7 @@ public class BambooRecipe {
         GameRegistry.addSmelting(sakuralog, new ItemStack(Items.coal, 1, 1), 0.15F);
         GameRegistry.addSmelting(rawrice, new ItemStack(foods, 1, 0), 0.15F);
         GameRegistry.addSmelting(new ItemStack(foods, 2, 22), new ItemStack(foods, 2, 23), 0.15F);
+        GameRegistry.addSmelting(dough, new ItemStack(Items.bread), 0.15F);
         //燃料
         addFuel();
     }
@@ -307,6 +311,8 @@ public class BambooRecipe {
         CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 32), Items.porkchop, CROP_RICE, Items.egg);
         CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 33), CROP_RICE, RED_BEANS);
         CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 34), CROP_RICE, RED_BEANS, itemSeaweed);
+        CookingManager.addShapelessRecipe(new ItemStack(Items.pumpkin_pie, 2), DOUGH, Items.sugar, Blocks.lit_pumpkin);
+        CookingManager.addShapelessRecipe(new ItemStack(Blocks.cake, 2), DOUGH, Items.sugar, Items.milk_bucket);
     }
 
     private void addGrindRecipe() {
@@ -355,6 +361,7 @@ public class BambooRecipe {
         OreDictionary.registerOre(MOCHI, new ItemStack(foods, 2, 22));
         OreDictionary.registerOre(COOKED_MOCHI, new ItemStack(foods, 2, 23));
         OreDictionary.registerOre(FLOUR, BambooInit.flour);
+        OreDictionary.registerOre(DOUGH, BambooInit.dough);
 
     }
 
