@@ -41,14 +41,17 @@ public class RenderObon extends Render {
     }
 
     private List<ItemStack> renderItems = new ArrayList<ItemStack>();
+    private float f;
 
     public void doRender(EntityObon entity, double d0, double d1, double d2, float f, float f1) {
         GL11.glPushMatrix();
         this.bindEntityTexture(entity);
         GL11.glTranslatef((float) d0, (float) d1 + 0.2F, (float) d2);
         GL11.glRotatef(180, 1.0F, 0, 0);
+        GL11.glRotatef(entity.rotationYaw + 180.0F, 0.0F, 1.0F, 0.0F);
         model.render(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
         GL11.glPopMatrix();
+
         GL11.glPushMatrix();
         GL11.glScalef(0.7F, 0.7F, 0.7F);
         renderItems.clear();
@@ -63,7 +66,7 @@ public class RenderObon extends Render {
         float angle = 360 / (float) renderItems.size();
         if (renderItems.size() != 1) {
             for (ItemStack is : renderItems) {
-                float rad = (float) Math.toRadians(angle * b++);
+                double rad = Math.toRadians(angle * b++ + (entity.rotationYaw + 180.0F));
                 if (renderItems.size() == 3) {
                     rad += 0.5;
                 } else if (renderItems.size() == 4) {
@@ -75,9 +78,9 @@ public class RenderObon extends Render {
                     rad -= 0.32;
                     distance = 0.325F;
                 }
-                float offsetX = (float) (distance * Math.cos(rad));
-                float offsetZ = (float) (distance * Math.sin(rad));
-                doRenderItem(is, d0 + offsetX, d1 + 0.18, d2 + offsetZ, 0, 0.0625F);
+                double offsetX = distance * Math.cos(rad);
+                double offsetZ = distance * Math.sin(rad);
+                doRenderItem(is, d0 + offsetX, d1 + 0.18, d2 + offsetZ, f, f1);
             }
         } else {
             doRenderItem(renderItems.get(0), d0, d1 + 0.18, d2, 0, 0.0625F);
