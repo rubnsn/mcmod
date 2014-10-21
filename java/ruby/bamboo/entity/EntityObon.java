@@ -1,24 +1,22 @@
 package ruby.bamboo.entity;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import ruby.bamboo.BambooInit;
 
 public class EntityObon extends Entity {
-    private static final byte ITEM_NAME = 17;
-    private static final byte ITEM_DMG = 18;
-    private static final String NOTHING = Block.blockRegistry.getNameForObject(Blocks.air);
-    private EntityItem entityItem;
+    private static final byte ITEM_DATA = 17;
+    public static final ItemStack EMPTY = new ItemStack(Blocks.dirt, 0, 0);
+    public static final byte MAX_SIZE = 5;
 
     public EntityObon(World par1World) {
         super(par1World);
@@ -29,34 +27,16 @@ public class EntityObon extends Entity {
     public boolean interactFirst(EntityPlayer par1EntityPlayer) {
         ItemStack is = par1EntityPlayer.getCurrentEquippedItem();
 
-        if (is != null && is.getItem() instanceof ItemFood) {
-            if (getItemName() == NOTHING) {
-                setDisplayItem(is);
-            } else {
-                changeItem(is);
-                setDisplayItem(is);
+        if (is != null && is.getItem() instanceof Item && !(is.getItem() instanceof ItemBlock)) {
+            ItemStack itemData = is.copy();
+            itemData.stackSize = 1;
+            if (this.setItemData(itemData)) {
+                is.stackSize--;
+                return true;
             }
-
-            return true;
         }
 
         return false;
-    }
-
-    private void setDisplayItem(ItemStack is) {
-        if (setItemName(Item.itemRegistry.getNameForObject(is.getItem()))) {
-            setItemDmg(is.getItemDamage());
-            is.stackSize--;
-        }
-    }
-
-    private void changeItem(ItemStack is) {
-        if (!worldObj.isRemote) {
-            this.entityDropItem(new ItemStack((Item) Item.itemRegistry.getObject(getItemName()), 1, getItemDmg()), 1F);
-            setItemName(NOTHING);
-        }
-
-        entityItem = null;
     }
 
     @Override
@@ -85,9 +65,10 @@ public class EntityObon extends Entity {
             if (entityplayer != null && entityplayer.capabilities.isCreativeMode) {
                 return true;
             }
-
-            if (getItemName() != NOTHING) {
-                this.entityDropItem(new ItemStack((Item) Item.itemRegistry.getObject(getItemName()), 1, getItemDmg()), 1F);
+            for (int i = 0; i < MAX_SIZE; i++) {
+                if (getItemData(i) != EMPTY) {
+                    this.entityDropItem(this.getItemData(i), 1F);
+                }
             }
 
             this.entityDropItem(new ItemStack(BambooInit.obon, 1, 0), 1F);
@@ -103,53 +84,62 @@ public class EntityObon extends Entity {
 
     @Override
     protected void entityInit() {
-        dataWatcher.addObject(ITEM_NAME, NOTHING);
-        dataWatcher.addObject(ITEM_DMG, 0);
-    }
-
-    @Override
-    protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-        if (nbttagcompound.hasKey("displayItemName")) {
-            setItemName(nbttagcompound.getString("displayItemName"));
+        for (int i = 0; i < MAX_SIZE; i++) {
+            dataWatcher.addObjectByDataType(ITEM_DATA + i, 5);
         }
-        setItemDmg(nbttagcompound.getInteger("displayItemDmg"));
     }
 
     @Override
-    protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-        nbttagcompound.setString("displayItemName", getItemName());
-        nbttagcompound.setInteger("displayItemDmg", getItemDmg());
+    protected void readEntityFromNBT(NBTTagCompound nbt) {
+        if (nbt.hasKey("displayItemList")) {
+            NBTTagList list = nbt.getTagList("displayItemList", 10);
+            for (int i = 0; i < list.tagCount(); i++) {
+                NBTTagCompound comp = list.getCompoundTagAt(i);
+                if (!this.setItemData(ItemStack.loadItemStackFromNBT(comp), i)) {
+                    return;
+                }
+            }
+        } else {
+            for (int i = 0; i < MAX_SIZE; i++) {
+                this.setItemData(EMPTY, i);
+            }
+        }
     }
 
-    private boolean setItemName(String itemName) {
-        if (itemName.length() != 22) {
-            dataWatcher.updateObject(ITEM_NAME, itemName);
+    @Override
+    protected void writeEntityToNBT(NBTTagCompound nbt) {
+        NBTTagList list = new NBTTagList();
+        for (int i = 0; i < MAX_SIZE; i++) {
+            NBTTagCompound comp = new NBTTagCompound();
+            this.getItemData(i).writeToNBT(comp);
+            list.appendTag(comp);
+        }
+        nbt.setTag("displayItemList", list);
+    }
+
+    public boolean setItemData(ItemStack itemData) {
+        for (int i = 0; i < MAX_SIZE; i++) {
+            if (this.getItemData(i) == EMPTY) {
+                return this.setItemData(itemData, i);
+            }
+        }
+        return false;
+    }
+
+    private boolean setItemData(ItemStack itemData, int num) {
+        if (num < MAX_SIZE) {
+            dataWatcher.updateObject(ITEM_DATA + num, itemData != null ? itemData : EMPTY);
             return true;
         }
         return false;
     }
 
-    private String getItemName() {
-        return dataWatcher.getWatchableObjectString(ITEM_NAME);
-    }
-
-    private void setItemDmg(int itemDmg) {
-        dataWatcher.updateObject(ITEM_DMG, itemDmg);
-    }
-
-    private int getItemDmg() {
-        return dataWatcher.getWatchableObjectInt(ITEM_DMG);
-    }
-
-    public EntityItem getEntityItem() {
-        if (entityItem == null) {
-            if (getItemName() != NOTHING) {
-                entityItem = new EntityItem(worldObj);
-                entityItem.hoverStart = 0;
-                entityItem.setEntityItemStack(new ItemStack((Item) Item.itemRegistry.getObject(getItemName()), 1, getItemDmg()));
-            }
+    public ItemStack getItemData(int num) {
+        if (num < MAX_SIZE) {
+            ItemStack is = dataWatcher.getWatchableObjectItemStack(ITEM_DATA + num);
+            return is != null ? is : EMPTY;
         }
-
-        return entityItem;
+        return EMPTY;
     }
+
 }
