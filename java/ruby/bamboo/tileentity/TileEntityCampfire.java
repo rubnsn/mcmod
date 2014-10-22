@@ -12,12 +12,12 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import ruby.bamboo.block.BlockCampfire;
+import net.minecraft.world.World;
 import ruby.bamboo.item.crafting.CookingManager;
 
-public class TileEntityCampfire extends TileEntity implements ISidedInventory {
+public class TileEntityCampfire extends TileEntityEnergyUser implements
+        ISidedInventory {
     private int meatroll;
     private static final int[] slotsTop = new int[] { 0 };
     private static final int[] slotsBottom = new int[] { 9, 10 };
@@ -160,6 +160,17 @@ public class TileEntityCampfire extends TileEntity implements ISidedInventory {
                         slots[SLOT_FUEL] = slots[SLOT_FUEL].getItem().getContainerItem(slots[SLOT_FUEL]);
                     }
 
+                }
+            }
+            if (this.getMinUseEnergy() < this.innerEnerygy) {
+                int fuelEnergy = innerEnerygy / this.getMinUseEnergy();
+                innerEnerygy = innerEnerygy - (fuelEnergy * this.getMinUseEnergy());
+                if (fuel + fuelEnergy <= MAX_FUEL) {
+                    fuel += fuelEnergy;
+                } else {
+                    fuelEnergy -= MAX_FUEL - fuel;
+                    fuel = MAX_FUEL;
+                    innerEnerygy += fuelEnergy * this.getMinUseEnergy();
                 }
             }
         }
@@ -361,6 +372,16 @@ public class TileEntityCampfire extends TileEntity implements ISidedInventory {
 
     private int getRatio(float par0, float par1, int par3) {
         return Math.round(par0 / par1 * par3);
+    }
+
+    @Override
+    int getMinUseEnergy() {
+        return 4;
+    }
+
+    @Override
+    int getMaxUseEnergy() {
+        return 7200;
     }
 
 }

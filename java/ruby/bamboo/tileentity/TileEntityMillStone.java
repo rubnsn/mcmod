@@ -14,13 +14,13 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 import ruby.bamboo.api.crafting.grind.IGrindRecipe;
-import ruby.bamboo.block.BlockMillStone;
 import ruby.bamboo.item.crafting.GrindManager;
 
-public class TileEntityMillStone extends TileEntity implements ISidedInventory {
+public class TileEntityMillStone extends TileEntityEnergyUser implements
+        ISidedInventory {
     private static final int[] slots_top = new int[] { 0 };
     private static final int[] slots_bottom = new int[] { 2, 1 };
     private static final int[] slots_sides = new int[] { 0 };
@@ -51,42 +51,49 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
     public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int newMeta, World world, int x, int y, int z) {
         return oldBlock != newBlock;
     }
+
+    @Override
     public void updateEntity() {
+        byte magnification = 1;
+        if (this.grindTime != 0 && this.getMinUseEnergy() < this.innerEnerygy) {
+            magnification = (byte) (this.innerEnerygy / this.getMinUseEnergy() + 1);
+            this.innerEnerygy -= this.getMinUseEnergy() * magnification;
+        } else {
+            magnification = 1;
+        }
         boolean flag1 = false;
 
         if (!worldObj.isRemote) {
             if (grindTime == 0 && canGrind()) {
                 decrementSlot0();
-                ++grindTime;
+                grindTime += magnification;
+                updateMeta(magnification);
             } else if (grindTime > 0) {
                 flag1 = true;
-                ++grindTime;
+                grindTime += magnification;
 
                 if (grindTime > MAX_GRINDTIME) {
                     grindTime = 0;
                     this.grindItem();
                 }
+                updateMeta(magnification);
+            } else {
+                updateMeta(0);
             }
 
             if (grindTime > 0) {
-                if (grindTime % 10 == 0) {
-                    grindMotion = grindMotion++ < 3 ? grindMotion : 0;
-                }
+                grindMotion = grindTime % 40 / 10;
             } else {
-                roll = 0;
-            }
-
-            if (flag1 || grindTime == 0) {
-                BlockMillStone.updateBlockState(grindTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+                grindMotion = 0;
             }
         } else {
-            if (getBlockMetadata() == 1) {
-                roll = ++roll < 360 ? roll : 0;
-                Object nowgi = Item.itemRegistry.getObject(nowGrindItemName);
+            if (getBlockMetadata() != 0) {
+                this.roll = this.roll + getBlockMetadata() < 360 ? this.roll + getBlockMetadata() : 0;
+                Object nowgi = Item.itemRegistry.getObject(this.nowGrindItemName);
 
                 if (nowgi != null) {
                     if (nowgi instanceof ItemBlock) {
-                        Block block = (Block) Block.blockRegistry.getObject(nowGrindItemName);
+                        Block block = (Block) Block.blockRegistry.getObject(this.nowGrindItemName);
                         float xRand = 0;
                         float zRand = 0;
                         if (((int) roll & 1) == 1) {
@@ -108,6 +115,12 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
 
         if (flag1) {
             this.markDirty();
+        }
+    }
+
+    private void updateMeta(int meta) {
+        if (getBlockMetadata() != meta) {
+            worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta, 2);
         }
     }
 
@@ -134,9 +147,9 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
-        super.readFromNBT(par1NBTTagCompound);
-        NBTTagList nbttaglist = par1NBTTagCompound.getTagList("Items", 10);
+    public void readFromNBT(NBTTagCompound nbt) {
+        super.readFromNBT(nbt);
+        NBTTagList nbttaglist = nbt.getTagList("Items", 10);
         this.slot = new ItemStack[this.getSizeInventory()];
 
         for (int i = 0; i < nbttaglist.tagCount(); ++i) {
@@ -147,20 +160,23 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
                 this.slot[b0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
             }
         }
-
-        grindTime = par1NBTTagCompound.getInteger("grindTime");
-        nowGrindItemDmg = par1NBTTagCompound.getInteger("grindItemDmg");
-        if (par1NBTTagCompound.hasKey("grindItemName")) {
-            nowGrindItemName = par1NBTTagCompound.getString("grindItemName");
+        if (nbt.hasKey("grindTime")) {
+            grindTime = nbt.getInteger("grindTime");
+        }
+        if (nbt.hasKey("grindItemDmg")) {
+            nowGrindItemDmg = nbt.getInteger("grindItemDmg");
+        }
+        if (nbt.hasKey("grindItemName")) {
+            nowGrindItemName = nbt.getString("grindItemName");
         }
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
-        super.writeToNBT(par1NBTTagCompound);
-        par1NBTTagCompound.setInteger("grindTime", grindTime);
-        par1NBTTagCompound.setString("grindItemName", nowGrindItemName == null ? Block.blockRegistry.getNameForObject(Blocks.air) : nowGrindItemName);
-        par1NBTTagCompound.setInteger("grindItemDmg", nowGrindItemDmg);
+    public void writeToNBT(NBTTagCompound nbt) {
+        super.writeToNBT(nbt);
+        nbt.setInteger("grindTime", grindTime);
+        nbt.setString("grindItemName", nowGrindItemName == null ? Block.blockRegistry.getNameForObject(Blocks.air) : nowGrindItemName);
+        nbt.setInteger("grindItemDmg", nowGrindItemDmg);
         NBTTagList nbttaglist = new NBTTagList();
 
         for (int i = 0; i < this.slot.length; ++i) {
@@ -172,7 +188,7 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
             }
         }
 
-        par1NBTTagCompound.setTag("Items", nbttaglist);
+        nbt.setTag("Items", nbttaglist);
     }
 
     @Override
@@ -400,4 +416,15 @@ public class TileEntityMillStone extends TileEntity implements ISidedInventory {
     public boolean canExtractItem(int i, ItemStack itemstack, int j) {
         return j != 0 || i != 0;
     }
+
+    @Override
+    protected int getMaxUseEnergy() {
+        return 500;
+    }
+
+    @Override
+    int getMinUseEnergy() {
+        return 100;
+    }
+
 }
