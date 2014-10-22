@@ -24,8 +24,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCampfire extends BlockContainer {
-    private static boolean keepFurnaceInventory = false;
-
     public BlockCampfire() {
         super(Material.ground);
         setLightLevel(0.9F);
@@ -81,36 +79,20 @@ public class BlockCampfire extends BlockContainer {
         par1World.setBlockMetadataWithNotify(par2, par3, par4, var6, 3);
     }
 
-    public static void updateFurnaceBlockState(World par1World, int par2, int par3, int par4) {
-        int var5 = par1World.getBlockMetadata(par2, par3, par4);
-        TileEntity var6 = par1World.getTileEntity(par2, par3, par4);
-        keepFurnaceInventory = true;
-        par1World.setBlock(par2, par3, par4, BambooInit.campfire, 0, 3);
-        keepFurnaceInventory = false;
-        par1World.setBlockMetadataWithNotify(par2, par3, par4, var5, 3);
-
-        if (var6 != null) {
-            var6.validate();
-            par1World.setTileEntity(par2, par3, par4, var6);
-        }
-    }
-
     @Override
     public void breakBlock(World par1World, int par2, int par3, int par4, Block par5, int par6) {
-        if (!keepFurnaceInventory) {
-            TileEntity tile = par1World.getTileEntity(par2, par3, par4);
-            if (tile instanceof TileEntityCampfire) {
-                ItemStack[] slots = ((TileEntityCampfire) tile).getSlots();
-                if (slots != null) {
-                    for (int i = 0; i < slots.length; i++) {
-                        if (slots[i] != null) {
-                            this.dropBlockAsItem(par1World, par2, par3, par4, slots[i]);
-                        }
+        TileEntity tile = par1World.getTileEntity(par2, par3, par4);
+        if (tile instanceof TileEntityCampfire) {
+            ItemStack[] slots = ((TileEntityCampfire) tile).getSlots();
+            if (slots != null) {
+                for (int i = 0; i < slots.length; i++) {
+                    if (slots[i] != null) {
+                        this.dropBlockAsItem(par1World, par2, par3, par4, slots[i]);
                     }
                 }
             }
-            par1World.removeTileEntity(par2, par3, par4);
         }
+        par1World.removeTileEntity(par2, par3, par4);
     }
 
     @SideOnly(Side.CLIENT)

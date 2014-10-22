@@ -2,6 +2,7 @@ package ruby.bamboo.tileentity;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
@@ -240,9 +241,13 @@ public class TileEntityCampfire extends TileEntity implements ISidedInventory {
 
             if (meta != getBlockMetadata() >> 2) {
                 this.worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, (meta << 2) | (getBlockMetadata() & 3), 3);
-                BlockCampfire.updateFurnaceBlockState(this.worldObj, this.xCoord, this.yCoord, this.zCoord);
             }
         }
+    }
+
+    @Override
+    public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int newMeta, World world, int x, int y, int z) {
+        return oldBlock != newBlock;
     }
 
     @Override
