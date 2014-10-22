@@ -36,7 +36,7 @@ public class ItemHoeTransformaer implements IClassTransformer, Opcodes {
 
         MethodNode mnode = new MethodNode(ASM4, ACC_PUBLIC, methodName, "()I", null, new String[0]);
         mnode.visitVarInsn(ALOAD, 0);
-        mnode.visitMethodInsn(INVOKESTATIC, "ruby/bamboo/event/enchant/ItemEnchantabilityEvent", "getItemEnchantability", "(L" + cnode.superName + ";)I");
+        mnode.visitMethodInsn(INVOKESTATIC, "ruby/bamboo/event/enchant/ItemEnchantabilityEvent", "getItemEnchantability", "(L" + cnode.superName + ";)I", false);
         mnode.visitInsn(IRETURN);
 
         cnode.methods.add(mnode);
