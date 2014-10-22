@@ -34,11 +34,23 @@ public class ItemKatana extends ItemSword {
         super(Item.ToolMaterial.IRON);
         this.setMaxDamage(150);
         weaponDamage = 0;
+        this.setContainerItem(this);
     }
 
     @Override
     public float func_150931_i() {
         return 0;
+    }
+
+    @Override
+    public ItemStack getContainerItem(ItemStack itemStack) {
+        itemStack.setItemDamage(itemStack.getItemDamage() + 1);
+        return itemStack;
+    }
+
+    @Override
+    public boolean doesContainerItemLeaveCraftingGrid(ItemStack p_77630_1_) {
+        return false;
     }
 
     @Override

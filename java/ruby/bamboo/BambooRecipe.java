@@ -36,6 +36,9 @@ public class BambooRecipe {
     public final String COOKED_MOCHI = "cookedMochi";
     public final String FLOUR = "foodFlour";
     public final String DOUGH = "foodDough";
+    public final String TOFU_KINU = "tofuKinu";
+    public final String MEN = "foodNoodle";
+    public final String SEAWEED = "foodSeaweed";
     public final int WILD_CARD = Short.MAX_VALUE;
 
     public BambooRecipe() {
@@ -260,6 +263,8 @@ public class BambooRecipe {
         addShapelessOreRecipe(new ItemStack(cookBook, 1, 0), new ItemStack(Items.book), BAMBOO);
         //生地
         addShapelessOreRecipe(new ItemStack(dough, 3), FLOUR, Items.water_bucket, Items.egg, Items.milk_bucket);
+        //麺
+        addShapelessOreRecipe(new ItemStack(foods, 2, 37), DOUGH, new ItemStack(katana, 1, WILD_CARD));
         // 鉱石辞書
         addOreDictionary();
         // 粉砕レシピ
@@ -289,12 +294,12 @@ public class BambooRecipe {
         CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 8), Items.egg, Items.chicken, CROP_RICE);
         CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 9), Items.fish, CROP_RICE);
         CookingManager.addShapelessRecipe(new ItemStack(foods, 2, 10), Items.chicken, BAMBOO);
-        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 11), CROP_RICE, itemSeaweed);
-        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 12), CROP_RICE, itemSeaweed, new ItemStack(Items.fish, 1, 1));
-        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 13), CROP_RICE, itemSeaweed, new ItemStack(Items.fish, 1, 0), Items.egg);
-        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 14), CROP_RICE, itemSeaweed, Blocks.brown_mushroom);
-        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 15), CROP_RICE, itemSeaweed, bambooShoot);
-        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 16), CROP_RICE, itemSeaweed, itemSeaweed);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 11), CROP_RICE, SEAWEED);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 12), CROP_RICE, SEAWEED, new ItemStack(Items.fish, 1, 1));
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 13), CROP_RICE, SEAWEED, new ItemStack(Items.fish, 1, 0), Items.egg);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 14), CROP_RICE, SEAWEED, Blocks.brown_mushroom);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 15), CROP_RICE, SEAWEED, bambooShoot);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 16), CROP_RICE, SEAWEED, SEAWEED);
         CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 17), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, Items.sugar, SOY_BEANS);
         CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 18), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, RED_BEANS);
         CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 19), new ItemStack(foods, 1, 22), BAMBOO, Items.sugar, Items.sugar);
@@ -310,10 +315,17 @@ public class BambooRecipe {
         CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 31), Items.beef, CROP_RICE, Items.egg);
         CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 32), Items.porkchop, CROP_RICE, Items.egg);
         CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 33), CROP_RICE, RED_BEANS);
-        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 34), CROP_RICE, RED_BEANS, itemSeaweed);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 34), CROP_RICE, RED_BEANS, SEAWEED);
         CookingManager.addShapelessRecipe(new ItemStack(Items.pumpkin_pie, 2), DOUGH, Items.sugar, Blocks.lit_pumpkin);
         CookingManager.addShapelessRecipe(new ItemStack(Blocks.cake, 2), DOUGH, Items.sugar, Items.milk_bucket);
         CookingManager.addShapelessRecipe(new ItemStack(Items.cookie, 4), DOUGH, Items.sugar, new ItemStack(Items.dye, 1, 3));
+
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 35), SOY_BEANS, Items.water_bucket);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 36), TOFU_KINU, FLOUR);
+
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 38), MEN, SOY_BEANS, Items.water_bucket, Items.fish);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 39), MEN, SOY_BEANS, Items.water_bucket, Items.fish, Items.egg);
+        CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 40), MEN, SOY_BEANS, Items.water_bucket, Items.fish, Items.egg, SEAWEED, Items.porkchop);
     }
 
     private void addGrindRecipe() {
@@ -363,6 +375,9 @@ public class BambooRecipe {
         OreDictionary.registerOre(COOKED_MOCHI, new ItemStack(foods, 2, 23));
         OreDictionary.registerOre(FLOUR, BambooInit.flour);
         OreDictionary.registerOre(DOUGH, BambooInit.dough);
+        OreDictionary.registerOre(TOFU_KINU, new ItemStack(foods, 1, 35));
+        OreDictionary.registerOre(MEN, new ItemStack(foods, 1, 37));
+        OreDictionary.registerOre(SEAWEED, itemSeaweed);
 
     }
 
