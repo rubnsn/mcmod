@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemReed;
+import net.minecraft.item.ItemSeedFood;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
@@ -85,6 +86,7 @@ public class BambooInit {
     public static Block seaWeedPlant;
     public static Block beanPlant;
     public static Block villagerBlock;
+    public static Block tomatoPlant;
 
     public static Item itembamboo;
     public static Item straw;
@@ -127,6 +129,7 @@ public class BambooInit {
     public static Item ninjaLeg;
     public static Item flour;
     public static Item dough;
+    public static Item tomato;
 
     private CreativeTabs tabBamboo;
 
@@ -198,6 +201,7 @@ public class BambooInit {
         decoPlaster_D = registerBlock(new BlockDecoPlaster(EnumPattern.curve).setBlockTextureName("decoplaster_d"), ItemRotateBlock.class, "decoDCurvePlaster", tabBamboo);
         seaWeedPlant = registerBlock(new BlockSeaweedPlant().setBlockTextureName(BambooCore.resourceDomain + "seaweed"), "seaweed");
         beanPlant = registerBlock(new BlockBeanPlant().setBlockTextureName(BambooCore.resourceDomain + "beanplant"), "beanPlant");
+        tomatoPlant = registerBlock(new BlockTamatoPlant().setBlockTextureName(BambooCore.resourceDomain + "tomato"), "tomatoPlant");
         villagerBlock = registerBlock(new BlockVillager(), ItemVillagerBlock.class, "villagerBlock", tabBamboo);
         initLiang();
         registerBlock(new BlockManeki(Material.ground), "maneki", tabBamboo);
@@ -268,6 +272,7 @@ public class BambooInit {
         cookBook = registerItem(new ItemCookBook().setTextureName("book_written"), "cookingrecipe", tabBamboo);
         flour = registerItem(new Item().setTextureName(BambooCore.resourceDomain + "flour"), "bambooflour", tabBamboo);
         dough = registerItem(new Item().setTextureName(BambooCore.resourceDomain + "dough"), "bamboodough", tabBamboo);
+        tomato = registerItem(new ItemSeedFood(2, 0.3F, tomatoPlant, Blocks.farmland).setTextureName(BambooCore.resourceDomain + "itemtomato"), "itemtomato", tabBamboo);
 
         MinecraftForge.addGrassSeed(new ItemStack(riceSeed, 1, 0), 10);
         MinecraftForge.addGrassSeed(new ItemStack(bean, 1, 0), 10);
