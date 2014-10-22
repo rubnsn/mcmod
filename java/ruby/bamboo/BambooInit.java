@@ -87,6 +87,7 @@ public class BambooInit {
     public static Block beanPlant;
     public static Block villagerBlock;
     public static Block tomatoPlant;
+    public static Block crossLamp;
 
     public static Item itembamboo;
     public static Item straw;
@@ -203,6 +204,7 @@ public class BambooInit {
         beanPlant = registerBlock(new BlockBeanPlant().setBlockTextureName(BambooCore.resourceDomain + "beanplant"), "beanPlant");
         tomatoPlant = registerBlock(new BlockTamatoPlant().setBlockTextureName(BambooCore.resourceDomain + "tomato"), "tomatoPlant");
         villagerBlock = registerBlock(new BlockVillager(), ItemVillagerBlock.class, "villagerBlock", tabBamboo);
+        crossLamp = registerBlock(new BlockCrossLamp(), ItemSimpleSubtype.class, "crossLamp", tabBamboo);
         initLiang();
         registerBlock(new BlockManeki(Material.ground), "maneki", tabBamboo);
         if (BambooCore.DEBUGMODE) {

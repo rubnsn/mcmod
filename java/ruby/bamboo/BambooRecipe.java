@@ -266,6 +266,9 @@ public class BambooRecipe {
         addShapelessOreRecipe(new ItemStack(dough, 3), FLOUR, Items.water_bucket, Items.egg, Items.milk_bucket);
         //麺
         addShapelessOreRecipe(new ItemStack(foods, 2, 37), DOUGH, new ItemStack(katana, 1, WILD_CARD));
+        //クロスランプ
+        addShapedOreRecipe(new ItemStack(crossLamp, 8, 0), "YXY", " # ", "Y Y", 'Y', Items.stick, 'X', new ItemStack(Items.coal, 1, WILD_CARD), '#', TUDURA);
+        addShapedOreRecipe(new ItemStack(crossLamp, 6, 1), "X", "#", "Y", 'Y', Items.stick, 'X', new ItemStack(Items.coal, 1, WILD_CARD), '#', TUDURA);
         // 鉱石辞書
         addOreDictionary();
         // 粉砕レシピ
