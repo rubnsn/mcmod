@@ -46,7 +46,7 @@ public enum EnumFood {
     RAMEN(40, 18, 128, 3, 3),
     PIZZA(41, 10, 64, 1, 0),
     KAISENOYAKO(42, 8, 36, 1, 2);
-
+    //ユニークID,回復量,食べる時間,水分,隠し水分
     private EnumFood(int dmgid, int heal, int duration, int water, float waterS) {
         this.dmgid = dmgid;
         this.heal = heal;

@@ -85,7 +85,7 @@ public class CommonProxy {
         registerEntity(EntityWindmill.class, "WindMill", windMillEID, 80, 10, false);
         registerEntity(EntityWaterwheel.class, "WaterMill", waterMillEID, 80, 10, false);
         registerEntity(EntityKaginawa.class, "Kaginawa", kaginawaEID, 80, 3, true);
-        registerEntity(EntityObon.class, "Obon", obonEID, 80, 3, false);
+        registerEntity(EntityObon.class, "Obon", obonEID, 80, 3, true);
         registerEntity(EntityMagatama.class, "Magatama", magatamaEID, 80, 3, true);
         registerEntity(EntityFlareEffect.class, "FlareEffect", flareEID, 80, 3, true);
         registerEntity(EntityGravityHole.class, "GravityHole", gravityHoleEID, 304, 3, true);
