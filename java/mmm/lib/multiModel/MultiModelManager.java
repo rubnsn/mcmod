@@ -17,6 +17,7 @@ import mmm.lib.MMMLib;
 import mmm.lib.multiModel.model.AbstractModelBase;
 import mmm.lib.multiModel.model.mc162.ModelLittleMaid_Orign;
 import mmm.lib.multiModel.texture.MultiModelContainer;
+import mmm.littleMaidMob.littleMaidMob;
 import net.minecraft.util.ResourceLocation;
 
 public class MultiModelManager extends FileLoaderBase {
@@ -56,7 +57,7 @@ public class MultiModelManager extends FileLoaderBase {
         preFixs = new ArrayList<String>();
         preFixs.add("/mob/littleMaid/");
         preFixs.add("/textures/entity/littleMaid/");
-        preFixs.add("/multiModel/");
+        preFixs.add("/multimodel/");
         textures = new HashMap<String, MultiModelContainer>();
     }
 
@@ -138,13 +139,14 @@ public class MultiModelManager extends FileLoaderBase {
                     if (lcol > -1) {
                         lname = pFileName.substring(lindex + lfix.length(), pFileName.lastIndexOf('/'));
                         lname.replace('/', '.');
+                        pFileName = pFileName.replaceFirst("/assets/multimodel/", "");
                         MultiModelContainer lcon = textures.get(lname);
                         if (lcon == null) {
                             lcon = new MultiModelContainer(lname);
                             textures.put(lname, lcon);
                         }
                         //						MMMLib.Debug("addTexturePack: %s - %d: %s", lname, lcol, pFileName);
-                        lcon.addTexture(lcol, new ResourceLocation(pFileName));
+                        lcon.addTexture(lcol, new ResourceLocation(littleMaidMob.MMULTI_MODEL_DOMAIN + pFileName));
                         return true;
                     }
                 }
