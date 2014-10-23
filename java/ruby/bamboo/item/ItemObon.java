@@ -27,7 +27,7 @@ public class ItemObon extends Item {
             EntityObon e = new EntityObon(par3World);
 
             if (par2EntityPlayer.isSneaking()) {
-                e.setPosition(par4 + 0.5, par5 + par9 + yOffset, par6 + 0.57);
+                e.setPosition(par4 + 0.5, par5 + par9 + yOffset, par6 + 0.45);
             } else {
                 e.setPositionAndRotation(par4 + par8, par5 + par9 + yOffset, par6 + par10, par2EntityPlayer.rotationYaw, par2EntityPlayer.rotationPitch);
             }

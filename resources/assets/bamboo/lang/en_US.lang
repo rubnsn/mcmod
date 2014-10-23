@@ -1,5 +1,6 @@
 #en_US
 tile.bamboo.name=Bamboo
+tile.bamboo2.name=Bamboo
 tile.singleTexDeco.0.name=BambooBlock
 tile.kitunebi.name=Kitunebi
 tile.jpChest.name=JpChest
@@ -107,6 +108,10 @@ tile.decoDCurvePlaster.0.name=DecoPlaster(D)
 tile.villagerBlock.name=VillagerBlock
 tile.crossLamp.0.name=Bonfire
 tile.crossLamp.1.name=Lampstand
+tile.ricePlant.name=RicePlant
+tile.tomatoPlant.name=TomatoPlant
+tile.beanPlant.name=BeanPlant
+tile.seaweed.name=SeaWeed
 item.itembamboo.name=ItemBamboo
 item.bamboobasket.name=BambooBasket
 item.firecracker.0.name=Firecracker(S)

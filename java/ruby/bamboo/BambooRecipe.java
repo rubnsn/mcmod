@@ -320,8 +320,8 @@ public class BambooRecipe {
         CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 32), Items.porkchop, CROP_RICE, Items.egg);
         CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 33), CROP_RICE, RED_BEANS);
         CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 34), CROP_RICE, RED_BEANS, SEAWEED);
-        CookingManager.addShapelessRecipe(new ItemStack(Items.pumpkin_pie, 2), DOUGH, Items.sugar, Blocks.lit_pumpkin);
-        CookingManager.addShapelessRecipe(new ItemStack(Blocks.cake, 2), DOUGH, Items.sugar, Items.milk_bucket);
+        CookingManager.addShapelessRecipe(new ItemStack(Items.pumpkin_pie, 2), DOUGH, Items.sugar, Blocks.pumpkin);
+        CookingManager.addShapelessRecipe(new ItemStack(Items.cake, 2, 0), DOUGH, Items.sugar, Items.milk_bucket);
         CookingManager.addShapelessRecipe(new ItemStack(Items.cookie, 4), DOUGH, Items.sugar, new ItemStack(Items.dye, 1, 3));
         CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 35), SOY_BEANS, Items.water_bucket);
         CookingManager.addShapelessRecipe(new ItemStack(foods, 1, 36), TOFU_KINU, FLOUR);

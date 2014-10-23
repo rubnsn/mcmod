@@ -1,5 +1,6 @@
 #ja_JP
 tile.bamboo.name=竹
+tile.bamboo2.name=竹
 tile.singleTexDeco.0.name=竹ブロック
 tile.kitunebi.name=狐火
 tile.jpChest.name=和箪笥
@@ -107,6 +108,10 @@ tile.decoDCurvePlaster.0.name=飾り漆喰(D)
 tile.villagerBlock.name=村人風ブロック
 tile.crossLamp.0.name=篝火
 tile.crossLamp.1.name=燭台
+tile.ricePlant.name=稲畑
+tile.tomatoPlant.name=トマト畑
+tile.beanPlant.name=豆畑
+tile.seaweed.name=海草
 item.itembamboo.name=竹
 item.bamboobasket.name=竹ボウル
 item.firecracker.0.name=かんしゃく玉(小)

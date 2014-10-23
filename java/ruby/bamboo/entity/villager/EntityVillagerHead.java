@@ -70,5 +70,8 @@ public class EntityVillagerHead extends EntityWitherSkull {
     @Override
     public void onUpdate() {
         super.onUpdate();
+        if (200 < timer++) {
+            setDead();
+        }
     }
 }
