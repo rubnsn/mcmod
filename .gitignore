@@ -1,10 +1,2 @@
-*.zip
-*.class
-/bin
-/build
-/eclipse
-/gradle
-.*
-*.bat
-*.txt
-gradlew
+*.png
+ruby/*
