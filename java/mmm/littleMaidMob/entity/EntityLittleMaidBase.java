@@ -21,6 +21,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -33,8 +34,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.common.util.FakePlayerFactory;
 
 import com.mojang.authlib.GameProfile;
 
@@ -54,7 +53,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
     protected static AttributeModifier attAxeAmp = (new AttributeModifier(maidUUID, "Axe Attack boost", 0.5D, 1)).setSaved(false);
     protected static AttributeModifier attSneakingSpeed = (new AttributeModifier(maidUUIDSneak, "Sneking speed ampd", -0.4D, 2)).setSaved(false);
 
-    public FakePlayer avatar;
+    public EntityLittleMaidAvatar avatar;
     public InventoryLittleMaid inventory;
     //	public MultiModelContainer multiModel;
     //	public int color;
@@ -86,7 +85,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
         this.setSize(0.6F, 2.8F);
 
         if (par1World instanceof WorldServer) {
-            avatar = FakePlayerFactory.get((WorldServer) par1World, new GameProfile(null, "littleMaidMob"));
+            avatar = new EntityLittleMaidAvatar((WorldServer) par1World, new GameProfile(null, "littleMaidMob"));
         }
         inventory = new InventoryLittleMaid(this);
         modeController = ModeManager.instance.getModeControler(this);
@@ -624,6 +623,14 @@ public class EntityLittleMaidBase extends EntityTameable implements
     public void onMultiModelChange() {
         // TODO Auto-generated method stub
 
+    }
+
+    public void setMaidMode(String string) {
+        modeController.setMode(string);
+    }
+
+    public InventoryPlayer getInventory() {
+        return avatar.inventory;
     }
 
 }
