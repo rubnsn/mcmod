@@ -1,4 +1,4 @@
-package mmm.littleMaidMob.ai;
+package mmm.littleMaidMob.mode.ai;
 
 import mmm.littleMaidMob.entity.EntityLittleMaidBase;
 import net.minecraft.entity.ai.EntityAISit;

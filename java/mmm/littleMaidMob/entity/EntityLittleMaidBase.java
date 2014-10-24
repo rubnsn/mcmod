@@ -13,6 +13,7 @@ import mmm.littleMaidMob.TileContainer;
 import mmm.littleMaidMob.littleMaidMob;
 import mmm.littleMaidMob.inventory.InventoryLittleMaid;
 import mmm.littleMaidMob.mode.ModeController;
+import mmm.littleMaidMob.mode.ModeManager;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
@@ -32,6 +33,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.common.util.FakePlayerFactory;
 
 import com.mojang.authlib.GameProfile;
 
@@ -51,7 +54,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
     protected static AttributeModifier attAxeAmp = (new AttributeModifier(maidUUID, "Axe Attack boost", 0.5D, 1)).setSaved(false);
     protected static AttributeModifier attSneakingSpeed = (new AttributeModifier(maidUUIDSneak, "Sneking speed ampd", -0.4D, 2)).setSaved(false);
 
-    public EntityLittleMaidAvatar avatar;
+    public FakePlayer avatar;
     public InventoryLittleMaid inventory;
     //	public MultiModelContainer multiModel;
     //	public int color;
@@ -83,10 +86,12 @@ public class EntityLittleMaidBase extends EntityTameable implements
         this.setSize(0.6F, 2.8F);
 
         if (par1World instanceof WorldServer) {
-            avatar = new EntityLittleMaidAvatar((WorldServer) par1World, new GameProfile((UUID) null, "maid"));
+            avatar = FakePlayerFactory.get((WorldServer) par1World, new GameProfile(null, "littleMaidMob"));
         }
         inventory = new InventoryLittleMaid(this);
-
+        modeController = ModeManager.instance.getModeControler(this);
+        this.tasks.taskEntries.clear();
+        this.targetTasks.taskEntries.clear();
         //		multiModel = MultiModelManager.instance.getMultiModel("MMM_SR2");
         //		setModel("MMM_Aug");
 
@@ -221,7 +226,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
     @Override
     public String getOwnerName() {
         // TODO Auto-generated method stub
-        return null;
+        return super.getOwner().getCommandSenderName();
     }
 
     @Override
@@ -250,6 +255,11 @@ public class EntityLittleMaidBase extends EntityTameable implements
     //	@Override
     public void setContract(boolean flag) {
         super.setTamed(flag);
+    }
+
+    public void onLivingUpdate() {
+        super.onLivingUpdate();
+        this.updateRemainsContract();
     }
 
     /**
@@ -338,37 +348,44 @@ public class EntityLittleMaidBase extends EntityTameable implements
     @Override
     protected boolean isAIEnabled() {
         // TODO 設定変えること
-        return false;
+        return true;
     }
 
     @Override
     public boolean interact(EntityPlayer par1EntityPlayer) {
-        if (true) {
-            ItemStack lis = par1EntityPlayer.getCurrentEquippedItem();
-            if (isContractEX()) {
-                if (lis.getItem() == Items.cake) {
-
-                } else {
-                    // インベントリの表示
-                    displayGUIInventry(par1EntityPlayer);
-                    return true;
-                }
+        ItemStack lis = par1EntityPlayer.getCurrentEquippedItem();
+        if (isContractEX()) {
+            if (lis != null && lis.getItem() == Items.cake) {
+                return true;
             } else {
-                if (lis.getItem() == Items.cake) {
-                    // 契約
-                    setOwner("");
-                    setContract(true);
-                }
+                // インベントリの表示7
+                this.setMaidWait(true);
+                displayGUIInventry(par1EntityPlayer);
+                return true;
+            }
+        } else {
+            if (lis != null && lis.getItem() == Items.cake) {
+                // 契約
+                setOwner(par1EntityPlayer.getCommandSenderName());
+                setContract(true);
+                setMaidWait(false);
+                setFreedom(false);
+
+                setModel("default");
+                multiModel.forceChanged(true);
+                maidContractLimit = 168000;
+                func_146082_f(par1EntityPlayer);
+                return true;
             }
         }
 
-        return super.interact(par1EntityPlayer);
+        return false;
     }
 
     // 状態識別変数郡
 
     public void setOwner(String string) {
-
+        super.func_152115_b(string);
     }
 
     /**
@@ -522,7 +539,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
      * GUIを閉めた時にサーバー側で呼ばれる。
      */
     public void onGuiClosed() {
-        setMaidWaitCount(modeController.activeMode.getWaitDelayTime());
+        setMaidWaitCount(modeController.getActiveMode().getWaitDelayTime());
     }
 
     // 自由行動
@@ -572,12 +589,14 @@ public class EntityLittleMaidBase extends EntityTameable implements
         // TODO Auto-generated method stub
         super.readEntityFromNBT(par1nbtTagCompound);
         multiModel.setChange();
+        modeController.readModeNBT(par1nbtTagCompound);
     }
 
     @Override
     public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound) {
         // TODO Auto-generated method stub
         super.writeEntityToNBT(par1nbtTagCompound);
+        modeController.writeModeNBT(par1nbtTagCompound);
     }
 
     // MultiModel関連

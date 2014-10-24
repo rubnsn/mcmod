@@ -7,8 +7,11 @@ import mmm.lib.multiModel.MultiModelHandler;
 import mmm.lib.multiModel.texture.MultiModelData;
 import mmm.littleMaidMob.entity.EntityLittleMaidBase;
 import mmm.littleMaidMob.gui.GuiHandler;
+import mmm.littleMaidMob.item.ItemLMMSpawnEgg;
+import mmm.littleMaidMob.mode.ModeManager;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
@@ -23,15 +26,16 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = "littleMaidMob", name = "LittleMaidMob")
+@Mod(modid = littleMaidMob.MOD_ID, name = "LittleMaidMob")
 public class littleMaidMob {
 
     @SidedProxy(clientSide = "mmm.littleMaidMob.ProxyClient",
             serverSide = "mmm.lib.ProxyCommon")
     public static ProxyCommon proxy;
-    @Instance("littleMaidMob")
+    @Instance(littleMaidMob.MOD_ID)
     public static littleMaidMob instance;
 
+    public static final String MOD_ID = "littleMaidMob";
     public static boolean isDebugMessage = true;
 
     public static int spawnWeight = 5;
@@ -72,10 +76,13 @@ public class littleMaidMob {
         addSpawnEggRecipe = lconf.get(ls, "addSpawnEggRecipe", false).getBoolean(false);
         lconf.save();
 
-        gueid = EntityRegistry.findGlobalUniqueEntityId();
-        EntityRegistry.registerGlobalEntityID(EntityLittleMaidBase.class, ls, gueid, 0xefffef, 0x9f5f5f);
+        //2重登録のため除去、スポーンエッグは…うーん、独自で追加してもえんちゃうか
+        //gueid = EntityRegistry.findGlobalUniqueEntityId();
+        //EntityRegistry.registerGlobalEntityID(EntityLittleMaidBase.class, ls, gueid, 0xefffef, 0x9f5f5f);
+        Item egg = new ItemLMMSpawnEgg().setUnlocalizedName("monsterPlacer").setTextureName("spawn_egg");
+        GameRegistry.registerItem(egg, "lmmegg", MOD_ID);
         EntityRegistry.registerModEntity(EntityLittleMaidBase.class, ls, gueid, this, 80, 3, true);
-
+        ModeManager.instance.init();
     }
 
     @Mod.EventHandler
