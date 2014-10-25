@@ -55,7 +55,7 @@ public class EnumEnchantmentTypeTransformer implements IClassTransformer,
             InsnList overrideList = new InsnList();
             overrideList.add(new VarInsnNode(ALOAD, 0));
             overrideList.add(new VarInsnNode(ALOAD, 1));
-            overrideList.add(new MethodInsnNode(INVOKESTATIC, "ruby/bamboo/event/enchant/CanEnchantItemEvent", "canEnchantItem", "(L" + enumEnchantmentTypeClassName + ";L" + itemClassName + ";)Z", false));
+            overrideList.add(new MethodInsnNode(INVOKESTATIC, "ruby/bamboo/event/enchant/CanEnchantItemEvent", "canEnchantItem", "(L" + enumEnchantmentTypeClassName + ";L" + itemClassName + ";)Z"));
             LabelNode l1 = new LabelNode();
             overrideList.add(new JumpInsnNode(IFEQ, l1));
             overrideList.add(new InsnNode(4));
