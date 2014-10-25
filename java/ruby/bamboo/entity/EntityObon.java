@@ -2,7 +2,6 @@ package ruby.bamboo.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -15,7 +14,7 @@ import ruby.bamboo.BambooInit;
 
 public class EntityObon extends Entity {
     private static final byte ITEM_DATA = 17;
-    public static final ItemStack EMPTY = new ItemStack(Blocks.dirt, 0, 0);
+    public static final ItemStack EMPTY = new ItemStack(BambooInit.obon, 0, 0);
     public static final byte MAX_SIZE = 5;
 
     public EntityObon(World par1World) {
@@ -27,7 +26,7 @@ public class EntityObon extends Entity {
     public boolean interactFirst(EntityPlayer par1EntityPlayer) {
         ItemStack is = par1EntityPlayer.getCurrentEquippedItem();
 
-        if (is != null && is.getItem() instanceof Item && !(is.getItem() instanceof ItemBlock)) {
+        if (is != null && is.getItem() instanceof Item && !(is.getItem() instanceof ItemBlock) && is.getItem() != BambooInit.obon) {
             ItemStack itemData = is.copy();
             itemData.stackSize = 1;
             if (this.setItemData(itemData)) {
@@ -84,24 +83,22 @@ public class EntityObon extends Entity {
 
     @Override
     protected void entityInit() {
+        //if (EMPTY == null) {
+        //}
         for (int i = 0; i < MAX_SIZE; i++) {
-            dataWatcher.addObjectByDataType(ITEM_DATA + i, 5);
+            dataWatcher.addObject(ITEM_DATA + i, EMPTY);
         }
     }
 
     @Override
     protected void readEntityFromNBT(NBTTagCompound nbt) {
-        if (nbt.hasKey("displayItemList")) {
-            NBTTagList list = nbt.getTagList("displayItemList", 10);
+        if (nbt.hasKey("displayItemList2")) {
+            NBTTagList list = nbt.getTagList("displayItemList2", 10);
             for (int i = 0; i < list.tagCount(); i++) {
                 NBTTagCompound comp = list.getCompoundTagAt(i);
                 if (!this.setItemData(ItemStack.loadItemStackFromNBT(comp), i)) {
                     return;
                 }
-            }
-        } else {
-            for (int i = 0; i < MAX_SIZE; i++) {
-                this.setItemData(EMPTY, i);
             }
         }
     }
@@ -114,7 +111,7 @@ public class EntityObon extends Entity {
             this.getItemData(i).writeToNBT(comp);
             list.appendTag(comp);
         }
-        nbt.setTag("displayItemList", list);
+        nbt.setTag("displayItemList2", list);
     }
 
     public boolean setItemData(ItemStack itemData) {

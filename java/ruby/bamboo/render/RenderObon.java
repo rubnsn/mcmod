@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
@@ -57,7 +56,7 @@ public class RenderObon extends Render {
         renderItems.clear();
         for (int i = 0; i < entity.MAX_SIZE; i++) {
             ItemStack is = entity.getItemData(i);
-            if (is != null && !(is.getItem() instanceof ItemBlock)) {
+            if (is != null && is.getItem() != entity.EMPTY.getItem()) {
                 renderItems.add(is);
             }
         }
