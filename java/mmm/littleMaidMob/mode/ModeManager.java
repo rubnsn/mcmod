@@ -1,41 +1,68 @@
 package mmm.littleMaidMob.mode;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import mmm.littleMaidMob.entity.EntityLittleMaidBase;
+import mmm.littleMaidMob.littleMaidMob;
 
 /**
  * 動作モードの登録、管理
  * 
  */
 public class ModeManager {
-    private ArrayList<Class<? extends EntityModeBase>> modeList = new ArrayList<Class<? extends EntityModeBase>>();
+    private static Map<String, Class<? extends EntityModeBase>> nameToModeMap = new HashMap<String, Class<? extends EntityModeBase>>();
     public static final ModeManager instance = new ModeManager();
 
     private ModeManager() {
     };
 
     public void init() {
-        this.addModes(ModeDefault.class);
+        this.addModes(ModeDefault.class, "default");
     }
 
     /**
      * Modeは利用者が少ないので、ローダー形式はやめてAPIによる任意追加とする
      */
-    public void addModes(Class<? extends EntityModeBase> modebase) {
-        this.modeList.add(modebase);
+    public void addModes(Class<? extends EntityModeBase> modebase, String modeName) {
+        nameToModeMap.put(modeName, modebase);
     }
 
-    public ModeController getModeControler(EntityLittleMaidBase maid) {
-        ModeController modeController = new ModeController();
-        for (Class<? extends EntityModeBase> clazz : modeList) {
+    public EntityModeBase createModeInstance(ModeController controller, String modeName) {
+        try {
+            if (nameToModeMap.containsKey(modeName)) {
+                return nameToModeMap.get(modeName).getConstructor(ModeController.class).newInstance(controller);
+            } else {
+                littleMaidMob.Debug("ModeClass is Not found: %s", modeName);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ModeDefault(controller);
+    }
+
+    public List<EntityModeBase> getModeList(ModeController controller) {
+        Comparator<EntityModeBase> comp = new Comparator<EntityModeBase>() {
+            @Override
+            public int compare(EntityModeBase o1, EntityModeBase o2) {
+                if (o1.priority() == o2.priority()) {
+                    return 0;
+                }
+                return o1.priority() < o2.priority() ? 1 : -1;
+            }
+        };
+        ArrayList<EntityModeBase> list = new ArrayList<EntityModeBase>();
+        for (Class<? extends EntityModeBase> clazz : nameToModeMap.values()) {
             try {
-                modeController.addMode(clazz.getConstructor(EntityLittleMaidBase.class).newInstance(maid));
+                list.add(clazz.getConstructor(ModeController.class).newInstance(controller));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return modeController;
+        Collections.sort(list, comp);
+        return list;
     }
-
 }

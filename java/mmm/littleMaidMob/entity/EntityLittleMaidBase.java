@@ -13,7 +13,8 @@ import mmm.littleMaidMob.TileContainer;
 import mmm.littleMaidMob.littleMaidMob;
 import mmm.littleMaidMob.inventory.InventoryLittleMaid;
 import mmm.littleMaidMob.mode.ModeController;
-import mmm.littleMaidMob.mode.ModeManager;
+import mmm.littleMaidMob.sound.EnumSound;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
@@ -88,7 +89,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
             avatar = new EntityLittleMaidAvatar((WorldServer) par1World, new GameProfile(null, "littleMaidMob"));
         }
         inventory = new InventoryLittleMaid(this);
-        modeController = ModeManager.instance.getModeControler(this);
+        modeController = new ModeController(this);
         this.tasks.taskEntries.clear();
         this.targetTasks.taskEntries.clear();
         //		multiModel = MultiModelManager.instance.getMultiModel("MMM_SR2");
@@ -626,11 +627,40 @@ public class EntityLittleMaidBase extends EntityTameable implements
     }
 
     public void setMaidMode(String string) {
-        modeController.setMode(string);
+        modeController.addModeFromName(string);
     }
 
     public InventoryPlayer getInventory() {
         return avatar.inventory;
+    }
+
+    public boolean isBlocking() {
+        return false;
+    }
+
+    public boolean getIFF(Entity pTarget) {
+        return false;
+    }
+
+    public boolean isLookSuger() {
+        return false;
+    }
+
+    public void setLookSuger(boolean b) {
+    }
+
+    public void setLooksWithInterest(boolean b) {
+    }
+
+    public double mstatMasterDistanceSq() {
+        return this.getDistanceSqToEntity(this.mstatMasterEntity);
+    }
+
+    public void playSound(EnumSound enumSound, boolean b) {
+    }
+
+    public boolean isMaskedMaid() {
+        return false;
     }
 
 }

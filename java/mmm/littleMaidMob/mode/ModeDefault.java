@@ -1,6 +1,5 @@
 package mmm.littleMaidMob.mode;
 
-import mmm.littleMaidMob.entity.EntityLittleMaidBase;
 import mmm.littleMaidMob.mode.ai.EntityAICovet;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIPanic;
@@ -10,7 +9,7 @@ import net.minecraft.entity.ai.EntityAIWander;
 
 public class ModeDefault extends EntityModeBase {
 
-    public ModeDefault(EntityLittleMaidBase pEntity) {
+    public ModeDefault(ModeController pEntity) {
         super(pEntity);
     }
 

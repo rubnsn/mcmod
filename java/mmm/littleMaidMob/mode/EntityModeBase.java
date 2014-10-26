@@ -26,8 +26,8 @@ import net.minecraft.world.World;
  * インスタンス化する事によりローカル変数を保持。
  */
 public abstract class EntityModeBase {
-
-    public final EntityLittleMaidBase owner;
+    public final ModeController controller;
+    private EntityModeBase subMode = null;;
 
     /**
      * モード名は必須
@@ -37,8 +37,11 @@ public abstract class EntityModeBase {
     /**
      * 初期化
      */
-    public EntityModeBase(EntityLittleMaidBase pEntity) {
-        owner = pEntity;
+    public EntityModeBase(ModeController controller) {
+        this.controller = controller;
+        if (getSubModeName() != null) {
+            subMode = ModeManager.instance.createModeInstance(controller, getSubModeName());
+        }
     }
 
     public int fpriority;
@@ -197,19 +200,19 @@ public abstract class EntityModeBase {
      * 限界距離を超えた時の処理
      */
     public void farrangeBlock() {
-        owner.getNavigator().clearPathEntity();
+        this.controller.owner.getNavigator().clearPathEntity();
     }
 
     /**
      * 有効射程距離を超えた時の処理
      */
     public boolean outrangeBlock(int pMode, int pX, int pY, int pZ) {
-        return owner.getNavigator().tryMoveToXYZ(pX, pY, pZ, 1.0F);
+        return this.getOwner().getNavigator().tryMoveToXYZ(pX, pY, pZ, 1.0F);
     }
 
     public boolean outrangeBlock(int pMode) {
-        if (owner.tiles.size() > 0) {
-            int[] li = owner.tiles.get(0);
+        if (this.getOwner().tiles.size() > 0) {
+            int[] li = this.getOwner().tiles.get(0);
             return outrangeBlock(pMode, li[0], li[1], li[2]);
         }
         return false;
@@ -224,8 +227,8 @@ public abstract class EntityModeBase {
     }
 
     public boolean executeBlock(int pMode) {
-        if (owner.tiles.size() > 0) {
-            int[] li = owner.tiles.get(0);
+        if (this.getOwner().tiles.size() > 0) {
+            int[] li = this.getOwner().tiles.get(0);
             return executeBlock(pMode, li[0], li[1], li[2]);
         }
         return false;
@@ -259,7 +262,7 @@ public abstract class EntityModeBase {
     /**
      * 独自索敵処理
      */
-    public boolean checkEntity(int pMode, Entity pEntity) {
+    public boolean checkEntity(Entity pEntity) {
         return false;
     }
 
@@ -308,7 +311,7 @@ public abstract class EntityModeBase {
      */
     protected boolean canBlockBeSeen(int pX, int pY, int pZ, boolean toTop, boolean do1, boolean do2) {
         // ブロックの可視判定
-        World worldObj = owner.worldObj;
+        World worldObj = this.getOwner().worldObj;
         Block lblock = worldObj.getBlock(pX, pY, pZ);
         if (lblock == Blocks.air) {
             littleMaidMob.Debug("block-null: %d, %d, %d", pX, pY, pZ);
@@ -316,7 +319,7 @@ public abstract class EntityModeBase {
         }
         lblock.setBlockBoundsBasedOnState(worldObj, pX, pY, pZ);
 
-        Vec3 vec3do = Vec3.createVectorHelper(owner.posX, owner.posY + owner.getEyeHeight(), owner.posZ);
+        Vec3 vec3do = Vec3.createVectorHelper(this.getOwner().posX, this.getOwner().posY + this.getOwner().getEyeHeight(), this.getOwner().posZ);
         Vec3 vec3dt = Vec3.createVectorHelper((double) pX + ((lblock.getBlockBoundsMinX() + lblock.getBlockBoundsMaxX()) * 0.5D), (double) pY + ((lblock.getBlockBoundsMinY() + lblock.getBlockBoundsMaxY()) * (toTop ? 0.9D : 0.5D)), (double) pZ + ((lblock.getBlockBoundsMinZ() + lblock.getBlockBoundsMaxZ()) * 0.5D));
         MovingObjectPosition movingobjectposition = worldObj.func_147447_a(vec3do, vec3dt, do1, do2, true);
 
@@ -348,12 +351,24 @@ public abstract class EntityModeBase {
      * @return
      */
     public boolean isChangeTartget(Entity pTarget) {
-        return !owner.isBloodsuck();
+        return !this.getOwner().isBloodsuck();
     }
 
     public int getWaitDelayTime() {
-        int li = 0;//owner.maidMode & 0x0080;
+        int li = 0;//this.getOwner().maidMode & 0x0080;
         return (li == 0) ? 50 : 0;
+    }
+
+    public String getSubModeName() {
+        return null;
+    }
+
+    public EntityModeBase getSubMode() {
+        return subMode;
+    }
+
+    public EntityLittleMaidBase getOwner() {
+        return this.controller.owner;
     }
 
 }
