@@ -39,9 +39,6 @@ public abstract class EntityModeBase {
      */
     public EntityModeBase(ModeController controller) {
         this.controller = controller;
-        if (getSubModeName() != null) {
-            subMode = ModeManager.instance.createModeInstance(controller, getSubModeName());
-        }
     }
 
     public int fpriority;
@@ -357,14 +354,6 @@ public abstract class EntityModeBase {
     public int getWaitDelayTime() {
         int li = 0;//this.getOwner().maidMode & 0x0080;
         return (li == 0) ? 50 : 0;
-    }
-
-    public String getSubModeName() {
-        return null;
-    }
-
-    public EntityModeBase getSubMode() {
-        return subMode;
     }
 
     public EntityLittleMaidBase getOwner() {

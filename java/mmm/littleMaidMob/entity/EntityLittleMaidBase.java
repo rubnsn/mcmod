@@ -2,6 +2,7 @@ package mmm.littleMaidMob.entity;
 
 import static mmm.littleMaidMob.Statics.*;
 
+import java.util.Random;
 import java.util.UUID;
 
 import mmm.lib.Client;
@@ -9,6 +10,8 @@ import mmm.lib.multiModel.MultiModelManager;
 import mmm.lib.multiModel.model.IModelCaps;
 import mmm.lib.multiModel.texture.IMultiModelEntity;
 import mmm.lib.multiModel.texture.MultiModelData;
+import mmm.littleMaidMob.Counter;
+import mmm.littleMaidMob.SwingController;
 import mmm.littleMaidMob.TileContainer;
 import mmm.littleMaidMob.littleMaidMob;
 import mmm.littleMaidMob.inventory.InventoryLittleMaid;
@@ -70,7 +73,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
     protected boolean maidWait;
     protected int mstatWaitCount;
     /** 動作状態 */
-    protected short maidMode;
+    public short maidMode;
     /** 待機判定 */
     protected boolean maidFreedom;
 
@@ -79,7 +82,13 @@ public class EntityLittleMaidBase extends EntityTameable implements
     public IModelCaps modelCaps;
 
     /** 処理対象となるブロック群 */
-    public TileContainer tiles;
+    private TileContainer tiles;
+    /** ほーむせかい */
+    public int homeWorld;
+    /** 腕振り関係 */
+    public SwingController swingController;
+    /** おしごとかうんたー */
+    private Counter mstatWorkingCount;
 
     public EntityLittleMaidBase(World par1World) {
         super(par1World);
@@ -89,9 +98,10 @@ public class EntityLittleMaidBase extends EntityTameable implements
             avatar = new EntityLittleMaidAvatar((WorldServer) par1World, new GameProfile(null, "littleMaidMob"));
         }
         inventory = new InventoryLittleMaid(this);
+        swingController = new SwingController(this);
         modeController = new ModeController(this);
-        this.tasks.taskEntries.clear();
-        this.targetTasks.taskEntries.clear();
+        tiles = new TileContainer(this);
+        mstatWorkingCount = new Counter(11, 10, -10);
         //		multiModel = MultiModelManager.instance.getMultiModel("MMM_SR2");
         //		setModel("MMM_Aug");
 
@@ -199,8 +209,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
 
     @Override
     public ItemStack getHeldItem() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.inventory.getStackInSlot(0);
     }
 
     @Override
@@ -211,7 +220,6 @@ public class EntityLittleMaidBase extends EntityTameable implements
 
     @Override
     public void setCurrentItemOrArmor(int var1, ItemStack var2) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -257,9 +265,16 @@ public class EntityLittleMaidBase extends EntityTameable implements
         super.setTamed(flag);
     }
 
+    @Override
+    public void onUpdate() {
+        super.onUpdate();
+        this.swingController.onUpdate(this);
+    }
+
     public void onLivingUpdate() {
         super.onLivingUpdate();
         this.updateRemainsContract();
+        this.swingController.onEntityUpdate(this);
     }
 
     /**
@@ -347,7 +362,6 @@ public class EntityLittleMaidBase extends EntityTameable implements
 
     @Override
     protected boolean isAIEnabled() {
-        // TODO 設定変えること
         return true;
     }
 
@@ -539,7 +553,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
      * GUIを閉めた時にサーバー側で呼ばれる。
      */
     public void onGuiClosed() {
-        setMaidWaitCount(modeController.getActiveMode().getWaitDelayTime());
+        setMaidWaitCount(modeController.getActiveModeClass().getWaitDelayTime());
     }
 
     // 自由行動
@@ -627,7 +641,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
     }
 
     public void setMaidMode(String string) {
-        modeController.addModeFromName(string);
+        modeController.setModeFromName(string);
     }
 
     public InventoryPlayer getInventory() {
@@ -656,11 +670,114 @@ public class EntityLittleMaidBase extends EntityTameable implements
         return this.getDistanceSqToEntity(this.mstatMasterEntity);
     }
 
-    public void playSound(EnumSound enumSound, boolean b) {
-    }
-
     public boolean isMaskedMaid() {
         return false;
     }
 
+    /**
+     * 血にうえているがたんとか
+     */
+    public void setBloodsuck(boolean b) {
+    }
+
+    public boolean isPlaying() {
+        return false;
+    }
+
+    public Random getRand() {
+        return rand;
+    }
+
+    public int getMaximumHomeDistance() {
+        return 20;
+    }
+
+    //Tile絡み
+    public TileContainer getTileContainer() {
+        return tiles;
+    }
+
+    //装備とかアイテム
+    public void setEquipItem(int li, int i) {
+    }
+
+    //音
+    public void playSound(String string) {
+    }
+
+    public void playSound(EnumSound enumSound, boolean b) {
+    }
+
+    public SwingController getSwingStatus() {
+        return this.swingController;
+    }
+
+    // お仕事チュ
+    /**
+     * 仕事中かどうかの設定
+     */
+    public void setWorking(boolean pFlag) {
+        mstatWorkingCount.setEnable(pFlag);
+    }
+
+    /**
+     * 仕事中かどうかを返す
+     */
+    public boolean isWorking() {
+        return mstatWorkingCount.isEnable();
+    }
+
+    /**
+     * 仕事が終了しても余韻を含めて返す
+     */
+    public boolean isWorkingDelay() {
+        return mstatWorkingCount.isDelay();
+    }
+
+    //よくわからないけど可視化
+    @Override
+    public void updateWanderPath() {
+        super.updateWanderPath();
+    }
+
+    /**
+     * 音声再生用。
+     * 通常の再生ではネットワーク越しになるのでその対策。
+     */
+    public void playLittleMaidSound(EnumSound enumsound, boolean force) {
+        /*
+        // 音声の再生
+        if ((maidSoundInterval > 0 && !force) || enumsound == EnumSound.Null)
+            return;
+        maidSoundInterval = 20;
+        if (worldObj.isRemote) {
+            // Client
+            String s = SoundManager.instance.getSoundResource(this,enumsound);
+            float lpitch = 0;//littleMaidMob.cfg_VoiceDistortion ? (rand.nextFloat() * 0.2F) + 0.95F : 1.0F;
+            FMLClientHandler.instance().
+            this.worldObj.playSoundAtEntity(s, getSoundVolume(), lpitch, false);
+        }*/
+    }
+
+    @Override
+    public String toString() {
+        return "Owner" + getOwner();
+    }
+
+    //あいてむ
+    public boolean getNextEquipItem() {
+        if (worldObj.isRemote) {
+            // クライアント側は処理しない
+            return false;
+        }
+
+        int li;
+        if (modeController.isActiveModeClass()) {
+            li = modeController.getActiveModeClass().getNextEquipItem(maidMode);
+        } else {
+            li = -1;
+        }
+        setEquipItem(swingController.getDominantArm(), li);
+        return li > -1;
+    }
 }

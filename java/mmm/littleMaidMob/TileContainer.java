@@ -1,86 +1,200 @@
 package mmm.littleMaidMob;
 
-import java.util.ArrayList;
-import java.util.List;
+import mmm.littleMaidMob.entity.EntityLittleMaidBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 
-import net.minecraft.world.World;
-
-/**
- * ターゲットにしているタイルのコンテナ
- *
- */
 public class TileContainer {
+    private EntityLittleMaidBase maid;
+    private int[] maidTile = new int[3];
+    private int maidTiles[][] = new int[9][3];
+    private TileEntity maidTileEntity;
 
-	public List<int[]> tiles;
+    public TileContainer(EntityLittleMaidBase entity) {
+        this.maid = entity;
+    }
 
+    public int getX() {
+        return this.maidTile[0];
+    }
 
-	public TileContainer() {
-		tiles = new ArrayList<int[]>();
-	}
+    public int getY() {
+        return this.maidTile[0];
+    }
 
-	/**
-	 * ブロックの登録
-	 * @param pPosX
-	 * @param pPosY
-	 * @param pPosZ
-	 * @return
-	 */
-	public int[] addTile(int pPosX, int pPosY, int pPosZ) {
-		int[] lib = new int[] {pPosX, pPosY, pPosZ};
-		tiles.add(lib);
-		return lib;
-	}
-	public int[] addTile(int[] pPos) {
-		return addTile(pPos[0], pPos[1], pPos[2]);
-	}
+    public int getZ() {
+        return this.maidTile[0];
+    }
 
-	public int[] remove(int pPosX, int pPosY, int pPosZ) {
-		int li = indexOf(pPosX, pPosY, pPosZ);
-		return tiles.remove(li);
-	}
+    public void readNBT(NBTTagCompound nbt) {
+        if (nbt.hasKey("Tiles")) {
+            NBTTagCompound lnbt = nbt.getCompoundTag("Tiles");
+            for (int li = 0; li < maidTiles.length; li++) {
+                int ltile[] = lnbt.getIntArray(String.valueOf(li));
+                maidTiles[li] = ltile.length > 0 ? ltile : null;
+            }
+        }
+    }
 
-	public boolean contain(int pPosX, int pPosY, int pPosZ) {
-		for (int[] li : tiles) {
-			if (li[0] == pPosX && li[1] == pPosY && li[2] == pPosZ) {
-				return true;
-			}
-		}
-		return false;
-	}
-	public boolean contain(int[] pPos) {
-		return contain(pPos[0], pPos[1], pPos[2]);
-	}
+    public void writeNBT(NBTTagCompound nbt) {
+        NBTTagCompound lnbt = new NBTTagCompound();
+        for (int li = 0; li < maidTiles.length; li++) {
+            if (maidTiles[li] != null) {
+                lnbt.setIntArray(String.valueOf(li), maidTiles[li]);
+            }
+        }
+        nbt.setTag("Tiles", lnbt);
+    }
 
-	public int indexOf(int pPosX, int pPosY, int pPosZ) {
-		for (int[] li : tiles) {
-			if (li[0] == pPosX && li[1] == pPosY && li[2] == pPosZ) {
-				return tiles.indexOf(li);
-			}
-		}
-		return -1;
-	}
+    public boolean isUsingTile(TileEntity pTile) {
+        if (this.maid.modeController.isActiveModeClass()) {
+            return this.maid.modeController.getActiveModeClass().isUsingTile(pTile);
+        }
+        for (int li = 0; li < maidTiles.length; li++) {
+            if (maidTiles[li] != null && pTile.xCoord == maidTiles[li][0] && pTile.yCoord == maidTiles[li][1] && pTile.zCoord == maidTiles[li][2]) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public int[] get(int pIndex) {
-		return tiles.get(pIndex);
-	}
+    public boolean isEqualTile() {
+        return this.maid.worldObj.getTileEntity(maidTile[0], maidTile[1], maidTile[2]) == maidTileEntity;
+    }
 
-	public void clear() {
-		tiles.clear();
-	}
+    public boolean isTilePos() {
+        return maidTileEntity != null;
+    }
 
-	public int size() {
-		return tiles.size();
-	}
+    public boolean isTilePos(int pIndex) {
+        if (pIndex < maidTiles.length) {
+            return maidTiles[pIndex] != null;
+        }
+        return false;
+    }
 
-	public void onUpdate(World pWorld) {
-		// TIleEntityの生存チェック
-		for (int[] li : tiles) {
-			if (pWorld.getTileEntity(li[0], li[1], li[2]).isInvalid()) {
-				// 対象は破壊されたので削除
-				// TODO これいけるのか？
-				tiles.remove(li);
-			}
-		}
-	}
+    /**
+     * ローカル変数にTileの位置を入れる。
+     */
+    public boolean getTilePos(int pIndex) {
+        if (pIndex < maidTiles.length && maidTiles[pIndex] != null) {
+            maidTile[0] = maidTiles[pIndex][0];
+            maidTile[1] = maidTiles[pIndex][1];
+            maidTile[2] = maidTiles[pIndex][2];
+            return true;
+        }
+        return false;
+    }
 
+    public void setTilePos(int pX, int pY, int pZ) {
+        maidTile[0] = pX;
+        maidTile[1] = pY;
+        maidTile[2] = pZ;
+    }
+
+    public void setTilePos(TileEntity pEntity) {
+        maidTile[0] = pEntity.xCoord;
+        maidTile[1] = pEntity.yCoord;
+        maidTile[2] = pEntity.zCoord;
+        maidTileEntity = pEntity;
+    }
+
+    public void setTilePos(int pIndex) {
+        if (pIndex < maidTiles.length) {
+            if (maidTiles[pIndex] == null) {
+                maidTiles[pIndex] = new int[3];
+            }
+            maidTiles[pIndex][0] = maidTile[0];
+            maidTiles[pIndex][1] = maidTile[1];
+            maidTiles[pIndex][2] = maidTile[2];
+        }
+    }
+
+    public void setTilePos(int pIndex, int pX, int pY, int pZ) {
+        if (pIndex < maidTiles.length) {
+            if (maidTiles[pIndex] == null) {
+                maidTiles[pIndex] = new int[3];
+            }
+            maidTiles[pIndex][0] = pX;
+            maidTiles[pIndex][1] = pY;
+            maidTiles[pIndex][2] = pZ;
+        }
+    }
+
+    public TileEntity getTileEntity() {
+        return maidTileEntity = this.maid.worldObj.getTileEntity(maidTile[0], maidTile[1], maidTile[2]);
+    }
+
+    public TileEntity getTileEntity(int pIndex) {
+        if (pIndex < maidTiles.length && maidTiles[pIndex] != null) {
+            TileEntity ltile = this.maid.worldObj.getTileEntity(maidTiles[pIndex][0], maidTiles[pIndex][1], maidTiles[pIndex][2]);
+            if (ltile == null) {
+                clearTilePos(pIndex);
+            }
+            return ltile;
+        }
+        return null;
+    }
+
+    public void clearTilePos() {
+        maidTileEntity = null;
+    }
+
+    public void clearTilePos(int pIndex) {
+        if (pIndex < maidTiles.length) {
+            maidTiles[pIndex] = null;
+        }
+    }
+
+    public void clearTilePosAll() {
+        for (int li = 0; li < maidTiles.length; li++) {
+            maidTiles[li] = null;
+        }
+    }
+
+    public double getDistanceTilePos() {
+        return this.maid.getDistance((double) maidTile[0] + 0.5D, (double) maidTile[1] + 0.5D, (double) maidTile[2] + 0.5D);
+    }
+
+    public double getDistanceTilePosSq() {
+        return this.maid.getDistanceSq((double) maidTile[0] + 0.5D, (double) maidTile[1] + 0.5D, (double) maidTile[2] + 0.5D);
+    }
+
+    public double getDistanceTilePos(int pIndex) {
+        if (maidTiles.length > pIndex && maidTiles[pIndex] != null) {
+            return this.maid.getDistance((double) maidTiles[pIndex][0] + 0.5D, (double) maidTiles[pIndex][1] + 0.5D, (double) maidTiles[pIndex][2] + 0.5D);
+        }
+        return -1D;
+    }
+
+    public double getDistanceTilePosSq(int pIndex) {
+        if (maidTiles.length > pIndex && maidTiles[pIndex] != null) {
+            return this.maid.getDistanceSq((double) maidTiles[pIndex][0] + 0.5D, (double) maidTiles[pIndex][1] + 0.5D, (double) maidTiles[pIndex][2] + 0.5D);
+        }
+        return -1D;
+    }
+
+    public double getDistanceTilePos(TileEntity pTile) {
+        if (pTile != null) {
+            return this.maid.getDistance((double) pTile.xCoord + 0.5D, (double) pTile.yCoord + 0.5D, (double) pTile.zCoord + 0.5D);
+        }
+        return -1D;
+    }
+
+    public double getDistanceTilePosSq(TileEntity pTile) {
+        if (pTile != null) {
+            return this.maid.getDistanceSq((double) pTile.xCoord + 0.5D, (double) pTile.yCoord + 0.5D, (double) pTile.zCoord + 0.5D);
+        }
+        return -1D;
+    }
+
+    public void looksTilePos() {
+        this.maid.getLookHelper().setLookPosition(maidTile[0] + 0.5D, maidTile[1] + 0.5D, maidTile[2] + 0.5D, 10F, this.maid.getVerticalFaceSpeed());
+    }
+
+    public void looksTilePos(int pIndex) {
+        if (maidTiles.length > pIndex && maidTiles[pIndex] != null) {
+            this.maid.getLookHelper().setLookPosition(maidTiles[pIndex][0] + 0.5D, maidTiles[pIndex][1] + 0.5D, maidTiles[pIndex][2] + 0.5D, 10F, this.maid.getVerticalFaceSpeed());
+        }
+    }
 }

@@ -72,15 +72,14 @@ public class LMM_EntityAIHurtByTarget extends EntityAIHurtByTarget {
             return false;
         }
 
-        for (EntityModeBase lailm : theMaid.modeController.getActiveModeList()) {
-            if (lailm != null && lailm.isSearchEntity()) {
-                if (!lailm.checkEntity(par1EntityLiving)) {
-                    return false;
-                }
-            } else {
-                if (theMaid.getIFF(par1EntityLiving)) {
-                    return false;
-                }
+        EntityModeBase lailm = theMaid.modeController.getActiveModeClass();
+        if (lailm != null && lailm.isSearchEntity()) {
+            if (!lailm.checkEntity(par1EntityLiving)) {
+                return false;
+            }
+        } else {
+            if (theMaid.getIFF(par1EntityLiving)) {
+                return false;
             }
         }
 

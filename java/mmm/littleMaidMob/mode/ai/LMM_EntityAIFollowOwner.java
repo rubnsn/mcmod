@@ -15,8 +15,8 @@ public class LMM_EntityAIFollowOwner extends EntityAIBase implements
     private float moveSpeed;
     private PathNavigate petPathfinder;
     private int field_48310_h;
-    protected double maxDist;
-    protected double minDist;
+    public double maxDist;
+    public double minDist;
     protected double sprintDist;
     protected double toDistance;
     private boolean lastAvoidWater;

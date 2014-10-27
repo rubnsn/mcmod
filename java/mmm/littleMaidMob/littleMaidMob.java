@@ -9,6 +9,7 @@ import mmm.littleMaidMob.entity.EntityLittleMaidBase;
 import mmm.littleMaidMob.gui.GuiHandler;
 import mmm.littleMaidMob.item.ItemLMMSpawnEgg;
 import mmm.littleMaidMob.mode.ModeManager;
+import mmm.littleMaidMob.net.NetworkHandler;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -58,6 +59,8 @@ public class littleMaidMob {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent pEvent) {
+        NetworkHandler.init();
+        NetworkRegistry.INSTANCE.newSimpleChannel("littleMaid");
         // コンフィグの解析・設定
         String ls = "littleMaidMob";
         File configFile = pEvent.getSuggestedConfigurationFile();
@@ -127,5 +130,4 @@ public class littleMaidMob {
             }
         }
     }
-
 }

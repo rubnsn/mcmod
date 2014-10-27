@@ -97,17 +97,17 @@ public class LMM_EntityAINearestAttackableTarget extends EntityAINearestAttackab
             return false;
         }
 
-        for (EntityModeBase lailm : theMaid.modeController.getActiveModeList()) {
-            if (lailm != null && lailm.isSearchEntity()) {
-                if (!lailm.checkEntity(pTarget)) {
-                    return false;
-                }
-            } else {
-                if (theMaid.getIFF(pTarget)) {
-                    return false;
-                }
+        EntityModeBase lailm = theMaid.modeController.getActiveModeClass();
+        if (lailm != null && lailm.isSearchEntity()) {
+            if (!lailm.checkEntity(pTarget)) {
+                return false;
+            }
+        } else {
+            if (theMaid.getIFF(pTarget)) {
+                return false;
             }
         }
+
         /*		
         		if (!taskOwner.func_110176_b(MathHelper.floor_double(pTarget.posX), MathHelper.floor_double(pTarget.posY), MathHelper.floor_double(pTarget.posZ))) {
         //		if (!taskOwner.isWithinHomeDistance(MathHelper.floor_double(par1EntityLiving.posX), MathHelper.floor_double(par1EntityLiving.posY), MathHelper.floor_double(par1EntityLiving.posZ))) {

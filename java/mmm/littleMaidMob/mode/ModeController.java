@@ -1,27 +1,27 @@
 package mmm.littleMaidMob.mode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import mmm.littleMaidMob.Statics;
 import mmm.littleMaidMob.entity.EntityLittleMaidBase;
 import mmm.littleMaidMob.mode.ai.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.*;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.profiler.Profiler;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 
 /**
  * モード管理用クラス
  * 
  */
 public class ModeController {
-    public ModeController(EntityLittleMaidBase owner) {
-        this.owner = owner;
-        activeMode = new ArrayList<EntityModeBase>();
-    }
-
     public final EntityLittleMaidBase owner;
     // default AIs
     public EntityAIBase aiSit;
@@ -46,13 +46,35 @@ public class ModeController {
     public EntityAISwimming aiSwiming;
     public EntityAIPanic aiPanic;
     public Profiler aiProfiler;
-
+    /** 全モードリスト */
     private List<EntityModeBase> modeList;
     /** 現在実行中のモード */
-    private List<EntityModeBase> activeMode;
+    private EntityModeBase activeMode;
+
+    public Map<Integer, EntityAITasks[]> maidModeList;
+    public Map<String, Integer> maidModeIndexList;
+    public int maidMode; // 2Byte
+    String modeName;
+    private boolean velocityChanged;
+    private int mstatWorkingInt;
+    private Object mstatModeName;
+
+    public ModeController(EntityLittleMaidBase owner) {
+        this.owner = owner;
+        modeList = ModeManager.instance.getModeList(this);
+        activeMode = null;
+        maidModeList = new HashMap<Integer, EntityAITasks[]>();
+        maidModeIndexList = new HashMap<String, Integer>();
+        initModeList();
+        modeName = "";
+        maidMode = 65535;
+        //モードイニシャライズ
+        for (EntityModeBase lem : modeList) {
+            lem.initEntity();
+        }
+    }
 
     public void initModeList() {
-        modeList = ModeManager.instance.getModeList(this);
         // AI
         aiBeg = new LMM_EntityAIBeg(this.owner, 8F);
         aiBegMove = new LMM_EntityAIBegMove(this.owner, 1.0F);
@@ -106,42 +128,17 @@ public class ModeController {
         // 首の動き単独
         ltasks[0].addTask(51, new EntityAIWatchClosest(this.owner, EntityLivingBase.class, 10F));
         ltasks[0].addTask(52, new EntityAILookIdle(this.owner));
-        for (EntityModeBase ieml : activeMode) {
+        for (EntityModeBase ieml : modeList) {
             ieml.addEntityMode(ltasks[0], ltasks[1]);
         }
     }
 
     /**
-     * アクティブモードの変更を試す
-     */
-    public boolean tryChangeMode(EntityPlayer master) {
-        activeMode.clear();
-        for (EntityModeBase mode : modeList) {
-            if (mode.changeMode(master)) {
-                addMode(mode);
-                return true;
-            }
-        }
-        //何もなかった
-        return false;
-    }
-
-    /**
      * メインとなるアクティブモード
      */
-    public EntityModeBase getActiveMode() {
-        if (this.activeMode.isEmpty()) {
-            this.addModeFromName("default");
-        }
-        return this.activeMode.get(0);
-    }
-
-    /**
-     * 現在有効なモード一覧
-     */
-    public List<EntityModeBase> getActiveModeList() {
-        if (this.activeMode.isEmpty()) {
-            this.addModeFromName("default");
+    public EntityModeBase getActiveModeClass() {
+        if (this.activeMode == null) {
+            this.setModeFromName("basic");
         }
         return this.activeMode;
     }
@@ -149,55 +146,149 @@ public class ModeController {
     /**
      * モード名から追加する
      */
-    public EntityModeBase addModeFromName(String pName) {
+    public EntityModeBase setModeFromName(String pName) {
         EntityModeBase base = ModeManager.instance.createModeInstance(this, pName);
-        return addMode(base);
+        return setMode(base);
     }
 
     /**
      * モードインスタンスから追加する
      */
-    public EntityModeBase addMode(EntityModeBase mode) {
-        this.activeMode.add(mode);
-        EntityModeBase subMode = mode.getSubMode();
-        //サブモードの追加
-        while (subMode != null) {
-            this.activeMode.add(mode.getSubMode());
-            subMode = subMode.getSubMode();
-        }
+    public EntityModeBase setMode(EntityModeBase mode) {
+        this.activeMode = mode;
         return mode;
     }
 
     public void readModeNBT(NBTTagCompound nbt) {
         if (nbt.hasKey("maidmode")) {
-            NBTTagList list = nbt.getTagList("maidmodeList", 10);
-            for (int i = 0; i < list.tagCount(); i++) {
-                NBTTagCompound inner = list.getCompoundTagAt(i);
-                EntityModeBase base = this.addModeFromName(inner.getString("maidmode"));
-                if (inner.hasKey("modeNBT")) {
-                    base.readEntityFromNBT((NBTTagCompound) inner.getTag("modeNBT"));
-                }
+            EntityModeBase base = this.setModeFromName(nbt.getString("maidmode"));
+            if (nbt.hasKey("modeNBT")) {
+                base.readEntityFromNBT((NBTTagCompound) nbt.getTag("modeNBT"));
             }
         } else {
-            this.addModeFromName("default");
+            this.setModeFromName("default");
         }
     }
 
     public void writeModeNBT(NBTTagCompound nbt) {
         NBTTagList list = new NBTTagList();
-        for (EntityModeBase base : activeMode) {
-            NBTTagCompound inner = new NBTTagCompound();
-            inner.setString("maidmode", base.getName());
-            NBTTagCompound modeNbt = new NBTTagCompound();
-            base.writeEntityToNBT(modeNbt);
-            inner.setTag("modeNBT", modeNbt);
-            list.appendTag(inner);
-        }
-        nbt.setTag("maidmodeList", list);
+        nbt.setString("maidmode", activeMode.getName());
+        NBTTagCompound modeNbt = new NBTTagCompound();
+        activeMode.writeEntityToNBT(modeNbt);
+        nbt.setTag("modeNBT", modeNbt);
+        list.appendTag(nbt);
     }
 
-    public void addMaidMode(EntityAITasks[] ltasks) {
-        initModeList();
+    public void addMaidMode(EntityAITasks[] peaiTasks, String pmodeName, int pmodeIndex) {
+        maidModeList.put(pmodeIndex, peaiTasks);
+        maidModeIndexList.put(pmodeName, pmodeIndex);
+    }
+
+    public int getMaidModeInt() {
+        return this.maidMode;
+    }
+
+    public boolean isActiveModeClass() {
+        return activeMode != null;
+    }
+
+    public boolean setMaidMode(int pindex, boolean pplaying) {
+        // モードに応じてAIを切り替える
+        velocityChanged = true;
+        if (!maidModeList.containsKey(pindex))
+            return false;
+        if (maidMode == pindex)
+            return true;
+
+        if (pplaying) {
+
+        } else {
+            mstatWorkingInt = pindex;
+        }
+        mstatModeName = getMaidModeString(pindex);
+        maidMode = pindex;
+        owner.getDataWatcher().updateObject(Statics.dataWatch_Mode, (short) maidMode);
+        EntityAITasks[] ltasks = maidModeList.get(pindex);
+
+        // AIを根底から書き換える
+        if (ltasks.length > 0 && ltasks[0] != null) {
+            setMaidModeAITasks(ltasks[0], owner.tasks);
+        } else {
+            setMaidModeAITasks(null, owner.tasks);
+        }
+        if (ltasks.length > 1 && ltasks[1] != null) {
+            setMaidModeAITasks(ltasks[1], owner.targetTasks);
+        } else {
+            setMaidModeAITasks(null, owner.targetTasks);
+        }
+
+        // モード切替に応じた処理系を確保
+        owner.avatar.stopUsingItem();
+        owner.setSitting(false);
+        owner.setSneaking(false);
+        aiJumpTo.setEnable(true);
+        //      aiFollow.setEnable(true);
+        aiAttack.setEnable(true);
+        aiShooting.setEnable(false);
+        aiAvoidPlayer.setEnable(true);
+        //      aiWander.setEnable(maidFreedom);
+        owner.setBloodsuck(false);
+        owner.getTileContainer().clearTilePosAll();
+        for (EntityModeBase iem : modeList) {
+            if (iem.setMode(maidMode)) {
+                setActiveModeClass(iem);
+                aiFollow.minDist = iem.getRangeToMaster(0);
+                aiFollow.maxDist = iem.getRangeToMaster(1);
+                break;
+            }
+        }
+        getNextEquipItem();
+
+        return true;
+    }
+
+    public void setActiveModeClass(EntityModeBase pEntityMode) {
+        activeMode = pEntityMode;
+    }
+
+    private Object getMaidModeString(int pindex) {
+        return null;
+    }
+
+    protected void setMaidModeAITasks(EntityAITasks pTasksSRC, EntityAITasks pTasksDEST) {
+        // 既存のAIを削除して置き換える。
+        // 動作をクリア
+        try {
+            ArrayList<EntityAITaskEntry> ltasksDoDEST = (ArrayList<EntityAITaskEntry>) ReflectionHelper.getPrivateValue(EntityAITasks.class, pTasksDEST, 0);
+            ArrayList<EntityAITaskEntry> ltasksExeDEST = (ArrayList<EntityAITaskEntry>) ReflectionHelper.getPrivateValue(EntityAITasks.class, pTasksDEST, 1);
+
+            if (pTasksSRC == null) {
+                ltasksDoDEST.clear();
+                ltasksExeDEST.clear();
+            } else {
+                ArrayList<EntityAITaskEntry> ltasksDoSRC = (ArrayList<EntityAITaskEntry>) ReflectionHelper.getPrivateValue(EntityAITasks.class, pTasksSRC, 0);
+                ArrayList<EntityAITaskEntry> ltasksExeSRC = (ArrayList<EntityAITaskEntry>) ReflectionHelper.getPrivateValue(EntityAITasks.class, pTasksSRC, 1);
+
+                Iterator iterator;
+                iterator = ltasksExeDEST.iterator();
+                while (iterator.hasNext()) {
+                    EntityAITaskEntry ltaskentory = (EntityAITaskEntry) iterator.next();
+                    ltaskentory.action.resetTask();
+                }
+                ltasksExeDEST.clear();
+
+                ltasksDoDEST.clear();
+                ltasksDoDEST.addAll(ltasksDoSRC);
+                // TODO: 未実装の機能、モードチェンジ時の初期化を行う。
+                for (EntityAITaskEntry ltask : ltasksDoSRC) {
+                    if (ltask instanceof LMM_IEntityAI) {
+                        //                      ((LMM_IEntityAI)ltask).setDefaultEnable();
+                    }
+                }
+            }
+        } catch (Exception s) {
+        }
+
     }
 
 }

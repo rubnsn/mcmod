@@ -1,4 +1,4 @@
-package net.minecraft.src;
+package mmm.littleMaidMob.mode.ai;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLiving;
@@ -6,19 +6,16 @@ import net.minecraft.entity.ai.EntityAISwimming;
 
 public class LMM_EntityAISwimming extends EntityAISwimming {
 
-	protected EntityLiving theEntity;
-	
-	public LMM_EntityAISwimming(EntityLiving par1EntityLiving) {
-		super(par1EntityLiving);
-		theEntity = par1EntityLiving;
-	}
+    protected EntityLiving theEntity;
 
-	@Override
-	public boolean shouldExecute() {
-		// �������Ȃ�j���Ȃ�
-		return (theEntity.getNavigator().noPath() ?
-				(!theEntity.onGround || theEntity.isInsideOfMaterial(Material.water)) : theEntity.isInWater())
-				|| theEntity.handleLavaMovement();
-	}
+    public LMM_EntityAISwimming(EntityLiving par1EntityLiving) {
+        super(par1EntityLiving);
+        theEntity = par1EntityLiving;
+    }
+
+    @Override
+    public boolean shouldExecute() {
+        return (theEntity.getNavigator().noPath() ? (!theEntity.onGround || theEntity.isInsideOfMaterial(Material.water)) : theEntity.isInWater()) || theEntity.handleLavaMovement();
+    }
 
 }

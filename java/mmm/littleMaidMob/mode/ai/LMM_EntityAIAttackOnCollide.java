@@ -170,10 +170,8 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements
                 return;
             }
 
-            // �U��
             theMaid.attackEntityAsMob(entityTarget);
-            if (theMaid.getActiveModeClass().isChangeTartget(entityTarget)) {
-                // �Ώۂ��Đݒ肳����
+            if (theMaid.modeController.getActiveModeClass().isChangeTartget(entityTarget)) {
                 theMaid.setAttackTarget(null);
                 theMaid.setTarget(null);
                 theMaid.getNavigator().clearPathEntity();

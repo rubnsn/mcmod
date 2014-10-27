@@ -21,7 +21,7 @@ public class ModeManager {
     };
 
     public void init() {
-        this.addModes(ModeDefault.class, "default");
+        this.addModes(ModeBasic.class, "basic");
     }
 
     /**
@@ -41,7 +41,7 @@ public class ModeManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ModeDefault(controller);
+        return new ModeBasic(controller);
     }
 
     public List<EntityModeBase> getModeList(ModeController controller) {
@@ -54,7 +54,7 @@ public class ModeManager {
                 return o1.priority() < o2.priority() ? 1 : -1;
             }
         };
-        ArrayList<EntityModeBase> list = new ArrayList<EntityModeBase>();
+        List<EntityModeBase> list = new ArrayList<EntityModeBase>();
         for (Class<? extends EntityModeBase> clazz : nameToModeMap.values()) {
             try {
                 list.add(clazz.getConstructor(ModeController.class).newInstance(controller));
