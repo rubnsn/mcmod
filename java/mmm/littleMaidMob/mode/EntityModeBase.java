@@ -208,8 +208,8 @@ public abstract class EntityModeBase {
     }
 
     public boolean outrangeBlock(int pMode) {
-        if (this.getOwner().tiles.size() > 0) {
-            int[] li = this.getOwner().tiles.get(0);
+        if (this.getOwner().getTileContainer().isTilePos()) {
+            int[] li = this.getOwner().getTileContainer().getPositon();
             return outrangeBlock(pMode, li[0], li[1], li[2]);
         }
         return false;
@@ -224,8 +224,8 @@ public abstract class EntityModeBase {
     }
 
     public boolean executeBlock(int pMode) {
-        if (this.getOwner().tiles.size() > 0) {
-            int[] li = this.getOwner().tiles.get(0);
+        if (this.getOwner().getTileContainer().isTilePos()) {
+            int[] li = this.getOwner().getTileContainer().getPositon();
             return executeBlock(pMode, li[0], li[1], li[2]);
         }
         return false;

@@ -26,6 +26,10 @@ public class TileContainer {
         return this.maidTile[0];
     }
 
+    public int getSize() {
+        return maidTiles.length;
+    }
+
     public void readNBT(NBTTagCompound nbt) {
         if (nbt.hasKey("Tiles")) {
             NBTTagCompound lnbt = nbt.getCompoundTag("Tiles");
@@ -196,5 +200,9 @@ public class TileContainer {
         if (maidTiles.length > pIndex && maidTiles[pIndex] != null) {
             this.maid.getLookHelper().setLookPosition(maidTiles[pIndex][0] + 0.5D, maidTiles[pIndex][1] + 0.5D, maidTiles[pIndex][2] + 0.5D, 10F, this.maid.getVerticalFaceSpeed());
         }
+    }
+
+    public int[] getPositon() {
+        return this.maidTile;
     }
 }

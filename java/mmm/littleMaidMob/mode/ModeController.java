@@ -12,6 +12,8 @@ import mmm.littleMaidMob.mode.ai.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.profiler.Profiler;
@@ -242,7 +244,7 @@ public class ModeController {
                 break;
             }
         }
-        getNextEquipItem();
+        owner.getNextEquipItem();
 
         return true;
     }
@@ -289,6 +291,33 @@ public class ModeController {
         } catch (Exception s) {
         }
 
+    }
+
+    public boolean callPreInteract(EntityPlayer par1EntityPlayer, ItemStack is) {
+        for (EntityModeBase iem : modeList) {
+            if (iem.preInteract(par1EntityPlayer, is)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean callInteract(EntityPlayer par1EntityPlayer, ItemStack is) {
+        for (EntityModeBase iem : modeList) {
+            if (iem.interact(par1EntityPlayer, is)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public EntityModeBase callChangeMode(EntityPlayer par1EntityPlayer) {
+        for (EntityModeBase iem : modeList) {
+            if (iem.changeMode(par1EntityPlayer)) {
+                return iem;
+            }
+        }
+        return null;
     }
 
 }
