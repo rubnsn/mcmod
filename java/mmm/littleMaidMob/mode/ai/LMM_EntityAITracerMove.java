@@ -1,5 +1,6 @@
 package mmm.littleMaidMob.mode.ai;
 
+import mmm.lib.EntityDummy;
 import mmm.littleMaidMob.entity.EntityLittleMaidBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -58,8 +59,9 @@ public class LMM_EntityAITracerMove extends EntityAIBase implements
         double lrange = Double.MAX_VALUE;
 
         // TODO:Dummy
-        //MMM_EntityDummy.clearDummyEntity(theMaid);
+        EntityDummy.clearDummyEntity(theMaid);
         boolean flagdammy = false;
+
         // CW方向に検索領域を広げる 
         for (int d = 0; d < 4; d++) {
             for (int a = 2; a < 14; a += 2) {
@@ -79,15 +81,15 @@ public class LMM_EntityAITracerMove extends EntityAIBase implements
                 }
                 // TODO:Dummay
                 if (!flagdammy) {
-                    //MMM_EntityDummy.setDummyEntity(theMaid, 0x00ff4f4f, xx, oy, zz);
+                    EntityDummy.setDummyEntity(theMaid, 0x00ff4f4f, xx, oy, zz);
                     flagdammy = true;
                 }
                 int b = 0;
                 do {
                     for (int c = 0; c < 3; c++) {
                         yy = oy + (c == 2 ? -1 : c);
-                        // 最も近いポイントの判定
                         if (checkBlock(xx, yy, zz)) {
+                            // 最も近いポイントの判定
                             double lr = theMaid.getDistanceSq(xx, yy, zz);
                             if (lr < lrange) {
                                 if (doFindBlock(xx, yy, zz)) {
@@ -95,21 +97,22 @@ public class LMM_EntityAITracerMove extends EntityAIBase implements
                                     tileX = xx;
                                     tileY = yy;
                                     tileZ = zz;
+                                    //theMaid.func_110171_b(xx, yy, zz, 16);
                                     theMaid.setHomeArea(xx, yy, zz, 16);
                                     // TODO:Dummay
-                                    //MMM_EntityDummy.setDummyEntity(theMaid, 0x004f4fff, xx, yy, zz);
+                                    EntityDummy.setDummyEntity(theMaid, 0x004f4fff, xx, yy, zz);
                                     flagdammy = true;
                                     return;
                                 }
                             }
                             // TODO:Dummay
-                            //MMM_EntityDummy.setDummyEntity(theMaid, 0x004fff4f, xx, yy, zz);
+                            EntityDummy.setDummyEntity(theMaid, 0x004fff4f, xx, yy, zz);
                             flagdammy = true;
                         }
                     }
                     // TODO:Dummay
                     if (!flagdammy) {
-                        //MMM_EntityDummy.setDummyEntity(theMaid, 0x00ffffcf, xx, oy, zz);
+                        EntityDummy.setDummyEntity(theMaid, 0x00ffffcf, xx, oy, zz);
                         flagdammy = true;
                     }
                     // TODO:dammy
@@ -144,7 +147,7 @@ public class LMM_EntityAITracerMove extends EntityAIBase implements
      */
     protected boolean doFindBlock(int px, int py, int pz) {
         return theMaid.getNavigator().tryMoveToXYZ(px, py, pz, 1.0F);
-        //		return theMaid.getNavigator().tryMoveToXYZ(px, py, pz, theMaid.getAIMoveSpeed());
+        //      return theMaid.getNavigator().tryMoveToXYZ(px, py, pz, theMaid.getAIMoveSpeed());
     }
 
 }

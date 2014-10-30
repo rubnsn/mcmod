@@ -42,16 +42,20 @@ public class LMM_EntityAIAvoidPlayer extends EntityAIBase implements
 
         theMaster = theMaid.mstatMasterEntity;
 
+        // 対象は見えるか？てかこれいらなくね？
         if (!theMaid.getEntitySenses().canSee(theMaster)) {
             return false;
         }
 
+        // 移動先を策定
         Vec3 vec3d = RandomPositionGenerator.findRandomTargetBlockAwayFrom(theMaid, minDist, 7, Vec3.createVectorHelper(theMaster.posX, theMaster.posY, theMaster.posZ));
 
+        // 移動先が無い
         if (vec3d == null) {
             return false;
         }
-        if (theMaster.getDistanceSq(vec3d.xCoord, vec3d.yCoord, vec3d.zCoord) < theMaid.mstatMasterDistanceSq()) {
+        // 移動先の距離が近い
+        if (theMaster.getDistanceSq(vec3d.xCoord, vec3d.yCoord, vec3d.zCoord) < theMaid.mstatMasterDistanceSq) {
             return false;
         }
 
@@ -80,11 +84,11 @@ public class LMM_EntityAIAvoidPlayer extends EntityAIBase implements
     }
 
     public void setActive() {
-        // ����J�n
+        // 動作開始
         isActive = true;
     }
 
-    // ���s�\�t���O
+    // 実行可能フラグ
     @Override
     public void setEnable(boolean pFlag) {
         isEnable = pFlag;

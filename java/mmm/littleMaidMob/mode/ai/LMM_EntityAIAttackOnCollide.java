@@ -157,7 +157,7 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements
             theMaid.avatar.stopUsingItem();
         }
 
-        if (!theMaid.getSwingStatusDominant().canAttack()) {
+        if (!theMaid.swingController.getSwingStatusDominant().canAttack()) {
             return;
         } else {
             double tdx = entityTarget.posX - theMaid.posX;

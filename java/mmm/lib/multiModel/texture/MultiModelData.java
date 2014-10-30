@@ -348,6 +348,7 @@ public class MultiModelData implements IExtendedEntityProperties {
             // modelName
             ll = pBuf.readByte();
             modelName = new String(pBuf.readBytes(ll).array(), Charsets.UTF_8);
+            model = MultiModelManager.instance.getMultiModel(modelName);
         }
         if ((lmode & 0x0080) > 0) {
             // armorName

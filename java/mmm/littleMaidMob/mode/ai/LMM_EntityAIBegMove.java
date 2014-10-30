@@ -39,6 +39,7 @@ public class LMM_EntityAIBegMove extends EntityAIBase {
 
     @Override
     public void updateTask() {
+        // 這い寄れ！
         if (theMaid.modeController.aiBeg.getDistanceSq() < 3.5D) {
             theMaid.getNavigator().clearPathEntity();
         } else {

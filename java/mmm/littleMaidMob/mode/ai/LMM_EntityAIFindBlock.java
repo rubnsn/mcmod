@@ -1,5 +1,6 @@
 package mmm.littleMaidMob.mode.ai;
 
+import mmm.lib.EntityDummy;
 import mmm.littleMaidMob.entity.EntityLittleMaidBase;
 import mmm.littleMaidMob.mode.EntityModeBase;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -39,6 +40,7 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements
             return fmodeBase.shouldBlock(theMaid.maidMode);
         }
 
+        // ターゲットをサーチ
         int lx = MathHelper.floor_double(theMaid.posX);
         int ly = MathHelper.floor_double(theMaid.posY);
         int lz = MathHelper.floor_double(theMaid.posZ);
@@ -48,9 +50,10 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements
         int zz = lz;
 
         // TODO:Dummy
-        //MMM_EntityDummy.clearDummyEntity(theMaid);
+        EntityDummy.clearDummyEntity(theMaid);
         boolean flagdammy = false;
 
+        // CW方向に検索領域を広げる 
         for (int d = 0; d < 4; d++) {
             for (int a = 0; a < 18; a += 2) {
                 int del = a / 2;
@@ -69,7 +72,7 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements
                 }
                 // TODO:Dummay
                 if (!flagdammy) {
-                    //MMM_EntityDummy.setDummyEntity(theMaid, 0x00ff4f4f, xx, ly, zz);
+                    EntityDummy.setDummyEntity(theMaid, 0x00ff4f4f, xx, ly, zz);
                     flagdammy = true;
                 }
                 int b = 0;
@@ -80,7 +83,7 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements
                             if (fmodeBase.outrangeBlock(theMaid.maidMode, xx, yy, zz)) {
                                 theMaid.getTileContainer().setTilePos(xx, yy, zz);
                                 // TODO:Dummay
-                                //MMM_EntityDummy.setDummyEntity(theMaid, 0x004fff4f, xx, yy, zz);
+                                EntityDummy.setDummyEntity(theMaid, 0x004fff4f, xx, yy, zz);
                                 flagdammy = true;
                                 return true;
                             }
@@ -88,7 +91,7 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements
                     }
                     // TODO:Dummay
                     if (!flagdammy) {
-                        //MMM_EntityDummy.setDummyEntity(theMaid, 0x00ffffcf, xx, ly, zz);
+                        EntityDummy.setDummyEntity(theMaid, 0x00ffffcf, xx, ly, zz);
                         flagdammy = true;
                     }
                     // TODO:dammy
@@ -115,7 +118,7 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements
                 ly = ltile.yCoord;
                 lz = ltile.zCoord;
                 // TODO:Dummay
-                //MMM_EntityDummy.setDummyEntity(theMaid, 0x004fff4f, lx, ly, lz);
+                EntityDummy.setDummyEntity(theMaid, 0x004fff4f, lx, ly, lz);
                 flagdammy = true;
             }
             return true;
@@ -127,16 +130,20 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements
     @Override
     public boolean continueExecuting() {
         fmodeBase.updateBlock();
+        // 移動中は継続
         if (!theMaid.getNavigator().noPath())
             return true;
 
         double ld = theMaid.getTileContainer().getDistanceTilePos();
         if (ld > 100.0D) {
+            // 索敵範囲外
             theMaid.modeController.getActiveModeClass().farrangeBlock();
             return false;
         } else if (ld > 5.0D) {
+            // 射程距離外
             return theMaid.modeController.getActiveModeClass().outrangeBlock(theMaid.maidMode);
         } else {
+            // 射程距離
             return theMaid.modeController.getActiveModeClass().executeBlock(theMaid.maidMode);
         }
     }
@@ -153,7 +160,8 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements
 
     @Override
     public void updateTask() {
-        //theMaid.looksTilePos();
+        // ターゲットを見つけている
+        theMaid.getTileContainer().looksTilePos();
     }
 
     @Override

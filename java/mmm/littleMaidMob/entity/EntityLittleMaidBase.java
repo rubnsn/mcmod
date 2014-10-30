@@ -25,7 +25,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -58,9 +57,9 @@ public class EntityLittleMaidBase extends EntityTameable implements
     protected static final UUID maidUUID = UUID.fromString("e2361272-644a-3028-8416-8536667f0efb");
     //	protected static final UUID maidUUIDSneak = UUID.nameUUIDFromBytes("net.minecraft.src.littleMaidMob.sneak".getBytes());
     protected static final UUID maidUUIDSneak = UUID.fromString("5649cf91-29bb-3a0c-8c31-b170a1045560");
-    protected static AttributeModifier attCombatSpeed = (new AttributeModifier(maidUUID, "Combat speed boost", 0.07D, 0)).setSaved(false);
-    protected static AttributeModifier attAxeAmp = (new AttributeModifier(maidUUID, "Axe Attack boost", 0.5D, 1)).setSaved(false);
-    protected static AttributeModifier attSneakingSpeed = (new AttributeModifier(maidUUIDSneak, "Sneking speed ampd", -0.4D, 2)).setSaved(false);
+    //protected static AttributeModifier attCombatSpeed = (new AttributeModifier(maidUUID, "Combat speed boost", 0.07D, 0)).setSaved(false);
+    //protected static AttributeModifier attAxeAmp = (new AttributeModifier(maidUUID, "Axe Attack boost", 0.5D, 1)).setSaved(false);
+    //protected static AttributeModifier attSneakingSpeed = (new AttributeModifier(maidUUIDSneak, "Sneking speed ampd", -0.4D, 2)).setSaved(false);
 
     public EntityLittleMaidAvatar avatar;
     public InventoryLittleMaid inventory;
@@ -72,6 +71,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
     public int maidContractLimit;
     /** 主の識別 */
     public EntityPlayer mstatMasterEntity;
+    public double mstatMasterDistanceSq;//計算量減らすためのうんたん 
     /** 上司の識別 */
     public EntityLivingBase keeperEntity;
     /** 待機状態 */
@@ -218,6 +218,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
     }
 
     private void setColor(int i) {
+        multiModel.setColor(i);
     }
 
     @Override
@@ -293,9 +294,14 @@ public class EntityLittleMaidBase extends EntityTameable implements
                 numTicksToChaseTarget--;
         }
 
+        if (mstatMasterEntity != null) {
+            mstatMasterDistanceSq = getDistanceSqToEntity(mstatMasterEntity);
+        }
+
         if (getAttackTarget() != null || getEntityToAttack() != null) {
             setWorking(true);
         }
+        //getMultiModel().onUpdate();
     }
 
     public void onLivingUpdate() {
@@ -461,6 +467,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
                             } else if (itemstack1.getItem() == Items.dye) {
                                 // カラーメイド
                                 if (!worldObj.isRemote) {
+                                    System.out.println(itemstack1.getItemDamage());
                                     setColor(15 - itemstack1.getItemDamage());
                                 }
                                 MMM_Helper.decPlayerInventory(par1EntityPlayer, -1, 1);
@@ -585,6 +592,8 @@ public class EntityLittleMaidBase extends EntityTameable implements
                             setMaidMode("Escorter");
                             setMaidWait(false);
                             setFreedom(false);
+                            setModel("default");
+                            setColor(0x0c);
                             playSound(EnumSound.getCake, true);
                             //                          playLittleMaidSound(LMM_EnumSound.getCake, true);
                             //                          playTameEffect(true);
@@ -838,6 +847,8 @@ public class EntityLittleMaidBase extends EntityTameable implements
     public void readEntityFromNBT(NBTTagCompound par1nbtTagCompound) {
         // TODO Auto-generated method stub
         super.readEntityFromNBT(par1nbtTagCompound);
+        maidContractLimit = par1nbtTagCompound.getInteger("ContractLimit");
+        multiModel.loadNBTData(par1nbtTagCompound);
         multiModel.setChange();
         modeController.readModeNBT(par1nbtTagCompound);
     }
@@ -846,6 +857,8 @@ public class EntityLittleMaidBase extends EntityTameable implements
     public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound) {
         // TODO Auto-generated method stub
         super.writeEntityToNBT(par1nbtTagCompound);
+        par1nbtTagCompound.setInteger("ContractLimit", maidContractLimit);
+        multiModel.saveNBTData(par1nbtTagCompound);
         modeController.writeModeNBT(par1nbtTagCompound);
     }
 
@@ -877,7 +890,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
     }
 
     public void setMaidMode(String string) {
-        modeController.setModeFromName(string);
+        modeController.setMaidMode(string);
     }
 
     public InventoryPlayer getInventory() {
@@ -893,7 +906,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
     }
 
     public double mstatMasterDistanceSq() {
-        return this.getDistanceSqToEntity(this.mstatMasterEntity);
+        return this.getDistanceSqToEntity(this.getMaidMasterEntity());
     }
 
     public boolean isMaskedMaid() {
@@ -1040,6 +1053,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
      * recontract : 契約延長効果アリ？
      */
     public void eatSugar(boolean motion, boolean recontract) {
+        littleMaidMob.Debug("now mode", modeController.getActiveModeClass());
         if (motion) {
             swingController.setSwing(2, (getMaxHealth() - getHealth() <= 1F) ? EnumSound.eatSugar_MaxPower : EnumSound.eatSugar);
         }

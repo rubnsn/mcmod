@@ -52,7 +52,7 @@ public class littleMaidMob {
 
     public static void Debug(String pText, Object... pData) {
         // デバッグメッセージ
-        if (isDebugMessage) {
+        if (isDebugMessage || true) {
             System.out.println(String.format("littleMaidMob-" + pText, pData));
         }
     }
@@ -107,8 +107,8 @@ public class littleMaidMob {
 
     @Mod.EventHandler
     public void loaded(FMLPostInitializationEvent pEvent) {
-
-        addSpawns();
+        //デバッグの邪魔
+        //addSpawns();
     }
 
     private void addSpawns() {

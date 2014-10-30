@@ -4,6 +4,7 @@ import mmm.littleMaidMob.littleMaidMob;
 import mmm.littleMaidMob.entity.EntityLittleMaidBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.item.Item;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -30,18 +31,24 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements
     @Override
     public boolean shouldExecute() {
         if (!isEnable || !theMaid.isContractEX() || theMaid.isMaidWaitEx()) {
+            // 契約個体のみが跳ぶ
             return false;
         }
-        if (theMaid.isInWater()) {
+        Item a;
+        if (theMaid.getLeashed()) {
+            // 括られているなら跳ばない
             return false;
         }
         if (theMaid.isFreedom()) {
+            // 自由行動の子は基点へジャンプ
             if (theMaid.homeWorld != theMaid.dimension) {
                 littleMaidMob.Debug(String.format("ID:%d, %d -> %d, Change HomeWorld. reset HomePosition.", theMaid, theMaid.homeWorld, theMaid.worldObj.provider.dimensionId));
+                //theMaid.func_110171_b(
                 theMaid.setHomeArea(MathHelper.floor_double(theMaid.posX), MathHelper.floor_double(theMaid.posY), MathHelper.floor_double(theMaid.posZ), 16);
                 return false;
             }
 
+            //if (theMaid.func_110172_bL().getDistanceSquared(
             if (theMaid.getHomePosition().getDistanceSquared(MathHelper.floor_double(theMaid.posX), MathHelper.floor_double(theMaid.posY), MathHelper.floor_double(theMaid.posZ)) > 400D) {
                 jumpTarget = false;
                 littleMaidMob.Debug(String.format("ID:%d(%s) Jump To Home.", theMaid, theMaid.worldObj.isRemote ? "C" : "W"));
@@ -51,11 +58,12 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements
             jumpTarget = true;
             theOwner = theMaid.getMaidMasterEntity();
             if (theMaid.getAttackTarget() == null) {
-                if (theMaid.mstatMasterDistanceSq() < 144D) {
+                if (theMaid.mstatMasterDistanceSq < 144D) {
                     return false;
                 }
             } else {
-                if (theMaid.mstatMasterDistanceSq() < (theMaid.isBloodsuck() ? 1024D : 256D)) {
+                // ターゲティング中は距離が伸びる
+                if (theMaid.mstatMasterDistanceSq < (theMaid.isBloodsuck() ? 1024D : 256D)) {
                     return false;
                 }
             }
@@ -75,28 +83,35 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements
             for (int l = 0; l <= 4; l++) {
                 for (int i1 = 0; i1 <= 4; i1++) {
                     if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && theWorld.isBlockNormalCubeDefault(i + l, k - 1, j + i1, false) && !theWorld.isBlockNormalCubeDefault(i + l, k, j + i1, false) && !theWorld.isBlockNormalCubeDefault(i + l, k + 1, j + i1, false)) {
-                        double dd = theOwner.getDistanceSq(i + l + 0.5D + MathHelper.sin(theOwner.rotationYaw * 0.01745329252F) * 2.0D, (double) k, (double) (j + i1) - MathHelper.cos(theOwner.rotationYaw * 0.01745329252F) * 2.0D);
+                        // 主の前に跳ばない
+                        double dd = theOwner.getDistanceSq((double) (i + l) + 0.5D + MathHelper.sin(theOwner.rotationYaw * 0.01745329252F) * 2.0D, (double) k, (double) (j + i1) - MathHelper.cos(theOwner.rotationYaw * 0.01745329252F) * 2.0D);
                         if (dd > 8D) {
                             //							theMaid.setTarget(null);
                             //							theMaid.setRevengeTarget(null);
                             //							theMaid.setAttackTarget(null);
                             //							theMaid.getNavigator().clearPathEntity();
-                            theMaid.setLocationAndAngles(i + l + 0.5F, k, j + i1 + 0.5F, theMaid.rotationYaw, theMaid.rotationPitch);
+                            theMaid.setLocationAndAngles((float) (i + l) + 0.5F, k, (float) (j + i1) + 0.5F, theMaid.rotationYaw, theMaid.rotationPitch);
                             return;
                         }
                     }
                 }
             }
         } else {
+            // ホームポジションエリア外で転移
+            //int lx = theMaid.func_110172_bL().posX;
+            //int ly = theMaid.func_110172_bL().posY;
+            //int lz = theMaid.func_110172_bL().posZ;
             int lx = theMaid.getHomePosition().posX;
             int ly = theMaid.getHomePosition().posY;
             int lz = theMaid.getHomePosition().posZ;
             if (!(isCanJump(lx, ly, lz))) {
+                // ホームポジション消失
                 littleMaidMob.Debug(String.format("ID:%d(%s) home lost.", theMaid, theMaid.worldObj.isRemote ? "C" : "W"));
                 int a;
                 int b;
                 // int c;
                 boolean f = false;
+                // ｙ座標で地面を検出
                 for (a = 1; a < 6 && !f; a++) {
                     if (isCanJump(lx, ly + a, lz)) {
                         f = true;
@@ -112,6 +127,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements
                     }
                 }
 
+                // CW方向に検索領域を広げる
                 loop_search: for (a = 2; a < 18 && !f; a += 2) {
                     lx--;
                     lz--;
@@ -134,6 +150,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements
                     }
                 }
                 if (f) {
+                    //theMaid.func_110171_b(lx, ly, lz, (int) theMaid.func_110174_bM());
                     theMaid.setHomeArea(lx, ly, lz, (int) theMaid.getMaximumHomeDistance());
                     littleMaidMob.Debug(String.format("Find new position:%d, %d, %d.", lx, ly, lz));
                 } else {
@@ -149,7 +166,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements
             //			theMaid.setTarget(null);
             //			theMaid.setAttackTarget(null);
             //			theMaid.getNavigator().clearPathEntity();
-            theMaid.setLocationAndAngles(lx + 05D, (double) ly, lz + 0.5D, theMaid.rotationYaw, theMaid.rotationPitch);
+            theMaid.setLocationAndAngles((double) lx + 05D, (double) ly, (double) lz + 0.5D, theMaid.rotationYaw, theMaid.rotationPitch);
 
         }
 
@@ -160,10 +177,13 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements
         littleMaidMob.Debug(String.format("ID:%d(%s) Jump Fail.", theMaid, theMaid.worldObj.isRemote ? "C" : "W"));
     }
 
+    /**
+     * 転移先のチェック
+     */
     protected boolean isCanJump(int px, int py, int pz) {
         double lw = (double) theMaid.width / 2D;
-        double ly = py - (double) (theMaid.yOffset + theMaid.ySize);
-        boundingBox.setBounds(px - lw, ly, pz - lw, px + lw, ly + (double) theMaid.height, pz + lw);
+        double ly = (double) py - (double) (theMaid.yOffset + theMaid.ySize);
+        boundingBox.setBounds((double) px - lw, ly, (double) pz - lw, (double) px + lw, ly + (double) theMaid.height, (double) pz + lw);
 
         return theWorld.getBlock(px, py - 1, pz).getMaterial().isSolid() && theWorld.getCollidingBoundingBoxes(theMaid, boundingBox).isEmpty();
     }
