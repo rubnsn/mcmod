@@ -39,7 +39,6 @@ import net.minecraft.network.play.server.S1DPacketEntityEffect;
 import net.minecraft.network.play.server.S1EPacketRemoveEntityEffect;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
@@ -80,7 +79,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
     /** 動作状態 */
     public short maidMode;
     /** 待機判定 */
-    protected boolean maidFreedom;
+    public boolean maidFreedom;
 
     /** 文字しているモードの管理用クラス */
     public ModeController modeController;
@@ -99,6 +98,8 @@ public class EntityLittleMaidBase extends EntityTameable implements
     private boolean looksWithInterestAXIS;
     private float rotateAngleHead; // Angle
     private float prevRotateAngleHead; // prevAngle
+    /** あれは砂糖 */
+    protected boolean mstatLookSuger;
 
     public EntityLittleMaidBase(World par1World) {
         super(par1World);
@@ -109,7 +110,9 @@ public class EntityLittleMaidBase extends EntityTameable implements
         }
         inventory = new InventoryLittleMaid(this);
         swingController = new SwingController(this);
+        registerExtendedProperties("swingController", swingController);
         modeController = new ModeController(this);
+        registerExtendedProperties("modeController", modeController);
         tiles = new TileContainer(this);
         mstatWorkingCount = new Counter(11, 10, -10);
         //		multiModel = MultiModelManager.instance.getMultiModel("MMM_SR2");
@@ -221,28 +224,6 @@ public class EntityLittleMaidBase extends EntityTameable implements
         multiModel.setColor(i);
     }
 
-    @Override
-    public ItemStack getHeldItem() {
-        return this.inventory.getStackInSlot(0);
-    }
-
-    @Override
-    public ItemStack getEquipmentInSlot(int var1) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void setCurrentItemOrArmor(int var1, ItemStack var2) {
-
-    }
-
-    @Override
-    public ItemStack[] getLastActiveItems() {
-        // 被ダメ時に此処を参照するのでNULL以外を返すこと。
-        return new ItemStack[0];
-    }
-
     // 契約関係
 
     @Override
@@ -293,7 +274,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
             if (numTicksToChaseTarget > 0)
                 numTicksToChaseTarget--;
         }
-
+        //ますたーきょり
         if (mstatMasterEntity != null) {
             mstatMasterDistanceSq = getDistanceSqToEntity(mstatMasterEntity);
         }
@@ -301,7 +282,26 @@ public class EntityLittleMaidBase extends EntityTameable implements
         if (getAttackTarget() != null || getEntityToAttack() != null) {
             setWorking(true);
         }
-        //getMultiModel().onUpdate();
+
+        if (worldObj.isRemote) {
+            // クライアント側
+            updateMaidFlagsClient();
+        } else {
+            boolean lf;
+            // サーバー側
+
+            // Working!
+            lf = mstatWorkingCount.isEnable();
+            if (getMaidFlags(dataWatch_Flags_Working) != lf) {
+                setMaidFlags(lf, dataWatch_Flags_Working);
+            }
+            // 拗ねる
+            if (!isContractEX() && !isFreedom()) {
+                modeController.setFreedom(true);
+                setMaidWait(false);
+            }
+        }
+
     }
 
     public void onLivingUpdate() {
@@ -441,7 +441,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
 
                                 littleMaidMob.Debug("give suger." + worldObj.isRemote);
                                 if (!worldObj.isRemote) {
-                                    setFreedom(isFreedom());
+                                    modeController.setFreedom(isFreedom());
                                     if (isMaidWait()) {
                                         // 動作モードの切替
                                         boolean lflag = false;
@@ -467,7 +467,6 @@ public class EntityLittleMaidBase extends EntityTameable implements
                             } else if (itemstack1.getItem() == Items.dye) {
                                 // カラーメイド
                                 if (!worldObj.isRemote) {
-                                    System.out.println(itemstack1.getItemDamage());
                                     setColor(15 - itemstack1.getItemDamage());
                                 }
                                 MMM_Helper.decPlayerInventory(par1EntityPlayer, -1, 1);
@@ -475,7 +474,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
                             } else if (itemstack1.getItem() == Items.feather) {
                                 // 自由行動
                                 MMM_Helper.decPlayerInventory(par1EntityPlayer, -1, 1);
-                                setFreedom(!isFreedom());
+                                modeController.setFreedom(!isFreedom());
                                 worldObj.setEntityState(this, isFreedom() ? (byte) 12 : (byte) 13);
                                 return true;
                             } else if (itemstack1.getItem() == Items.saddle) {
@@ -553,7 +552,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
                                 // 再契約
                                 MMM_Helper.decPlayerInventory(par1EntityPlayer, -1, 1);
                                 maidContractLimit = (24000 * 7);
-                                setFreedom(false);
+                                modeController.setFreedom(false);
                                 //setTracer(false);
                                 setMaidWait(false);
                                 setMaidMode("Escorter");
@@ -591,7 +590,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
                             setHealth(20);
                             setMaidMode("Escorter");
                             setMaidWait(false);
-                            setFreedom(false);
+                            modeController.setFreedom(false);
                             setModel("default");
                             setColor(0x0c);
                             playSound(EnumSound.getCake, true);
@@ -637,7 +636,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
      * @return
      */
     public boolean isWait() {
-        return false;
+        return maidWait;
     }
 
     // 首周り
@@ -801,32 +800,6 @@ public class EntityLittleMaidBase extends EntityTameable implements
         setMaidWaitCount(modeController.getActiveModeClass().getWaitDelayTime());
     }
 
-    // 自由行動
-    public void setFreedom(boolean pFlag) {
-        // AI関連のリセットもここで。
-        maidFreedom = pFlag;
-        //		aiRestrictRain.setEnable(pFlag);
-        //		aiFreeRain.setEnable(pFlag);
-        //		aiWander.setEnable(pFlag);
-        //		aiJumpTo.setEnable(!pFlag);
-        //		aiAvoidPlayer.setEnable(!pFlag);
-        //		aiFollow.setEnable(!pFlag);
-        //		aiTracer.setEnable(false);
-        //		setAIMoveSpeed(pFlag ? moveSpeed_Nomal : moveSpeed_Max);
-        //		setMoveForward(0.0F);
-
-        if (maidFreedom && isContract()) {
-            //			func_110171_b(
-            setHomeArea(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ), 16);
-        } else {
-            //			func_110177_bN();
-            detachHome();
-            //			setPlayingRole(0);
-        }
-
-        setMaidFlags(maidFreedom, dataWatch_Flags_Freedom);
-    }
-
     public boolean isFreedom() {
         return maidFreedom;
     }
@@ -848,9 +821,6 @@ public class EntityLittleMaidBase extends EntityTameable implements
         // TODO Auto-generated method stub
         super.readEntityFromNBT(par1nbtTagCompound);
         maidContractLimit = par1nbtTagCompound.getInteger("ContractLimit");
-        multiModel.loadNBTData(par1nbtTagCompound);
-        multiModel.setChange();
-        modeController.readModeNBT(par1nbtTagCompound);
     }
 
     @Override
@@ -858,8 +828,6 @@ public class EntityLittleMaidBase extends EntityTameable implements
         // TODO Auto-generated method stub
         super.writeEntityToNBT(par1nbtTagCompound);
         par1nbtTagCompound.setInteger("ContractLimit", maidContractLimit);
-        multiModel.saveNBTData(par1nbtTagCompound);
-        modeController.writeModeNBT(par1nbtTagCompound);
     }
 
     // MultiModel関連
@@ -1040,11 +1008,12 @@ public class EntityLittleMaidBase extends EntityTameable implements
 
     // 砂糖関連
     public void setLookSuger(boolean pFlag) {
+        mstatLookSuger = pFlag;
         setMaidFlags(pFlag, dataWatch_Flags_LooksSugar);
     }
 
     public boolean isLookSuger() {
-        return getMaidFlags(dataWatch_Flags_LooksSugar);
+        return mstatLookSuger;
     }
 
     /**
@@ -1076,4 +1045,98 @@ public class EntityLittleMaidBase extends EntityTameable implements
             avatar.getFoodStats().addStats(20, 20F);
         }
     }
+
+    /** クライアント用各種フラグアップデート */
+    public void updateMaidFlagsClient() {
+        int li = dataWatcher.getWatchableObjectInt(dataWatch_Flags);
+        maidFreedom = (li & dataWatch_Flags_Freedom) > 0;
+        //maidTracer = (li & dataWatch_Flags_Tracer) > 0;
+        maidWait = (li & dataWatch_Flags_Wait) > 0;
+        //mstatAimeBow = (li & dataWatch_Flags_Aimebow) > 0;
+        mstatLookSuger = (li & dataWatch_Flags_LooksSugar) > 0;
+        //mstatBloodsuck = (li & dataWatch_Flags_Bloodsuck) > 0;
+        looksWithInterest = (li & dataWatch_Flags_looksWithInterest) > 0;
+        looksWithInterestAXIS = (li & dataWatch_Flags_looksWithInterestAXIS) > 0;
+        //maidOverDriveTime.updateClient((li & dataWatch_Flags_OverDrive) > 0);
+        mstatWorkingCount.updateClient((li & dataWatch_Flags_Working) > 0);
+    }
+
+    // 保持アイテム関連
+
+    /**
+     * 現在の装備品
+     */
+    public ItemStack getCurrentEquippedItem() {
+        return inventory.getCurrentItem();
+    }
+
+    @Override
+    public ItemStack getHeldItem() {
+        return inventory.getCurrentItem();
+    }
+
+    @Override
+    public ItemStack getEquipmentInSlot(int par1) {
+        if (par1 == 0) {
+            return getHeldItem();
+        } else if (par1 < 5) {
+            return inventory.armorItemInSlot(par1 - 1);
+        } else {
+            return inventory.getStackInSlot(par1 - 5);
+        }
+    }
+
+    @Override
+    public void setCurrentItemOrArmor(int par1, ItemStack par2ItemStack) {
+        /*TODO:そのうち
+        par1 &= 0x0000ffff;
+        if (par1 == 0) {
+            inventory.setInventorySlotContents(par1,par2ItemStack);
+        } else if (par1 > 0 && par1 < 4) {
+            inventory.armorInventory[par1 - 1] = par2ItemStack;
+            setTextureNames();
+        } else if (par1 == 4) {
+        //          maidInventory.mainInventory[mstatMaskSelect] = mstatMaskSelect > -1 ? par2ItemStack : null;
+            if (mstatMaskSelect > -1) {
+                inventory.mainInventory[mstatMaskSelect] = par2ItemStack;
+            }
+            setTextureNames();
+        } else {
+            par1 -= 5;
+            // 持ち物のアップデート
+            // 独自拡張:普通にスロット番号の通り、上位８ビットは装備スロット
+            // par1はShortで渡されるのでそのように。
+            int lslotindex = par1 & 0x7f;
+            int lequip = (par1 >>> 8) & 0xff;
+            inventory.setInventorySlotContents(lslotindex, par2ItemStack);
+            inventory.resetChanged(lslotindex); // これは意味ないけどな。
+            inventory.inventoryChanged = true;
+        //          if (par1 >= maidInventory.mainInventory.length) {
+        //              LMM_Client.setArmorTextureValue(this);
+        //          }
+
+            for (SwingStatus lss: getSwingStatus().mstatSwingStatus) {
+                if (lslotindex == lss.index) {
+                    lss.index = -1;
+                }
+            }
+            if (lequip != 0xff) {
+                setEquipItem(lequip, lslotindex);
+        //              mstatSwingStatus[lequip].index = lslotindex;
+            }
+            if (lslotindex >= inventory.getSizeInventory()) {
+                setTextureNames();
+            }
+            String s = par2ItemStack == null ? null : par2ItemStack.getItemName();
+            littleMaidMob.Debug(String.format("Slot(%2d:%d):%s", lslotindex, lequip, s == null ? "NoItem" : s));
+        }
+        */
+    }
+
+    @Override
+    public ItemStack[] getLastActiveItems() {
+        // 被ダメ時に此処を参照するのでNULL以外を返すこと。
+        return new ItemStack[0];
+    }
+
 }

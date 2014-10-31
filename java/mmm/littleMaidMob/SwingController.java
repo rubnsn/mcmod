@@ -14,9 +14,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
+import net.minecraftforge.common.IExtendedEntityProperties;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 
-public class SwingController {
+public class SwingController implements IExtendedEntityProperties {
     public SwingStatus mstatSwingStatus[];
     public boolean mstatAimeBow;
     private EntityLittleMaidBase maid;
@@ -104,19 +106,48 @@ public class SwingController {
     }
 
     public void writeNBT(NBTTagCompound nbt) {
-        nbt.setInteger("DominantArm", maidDominantArm);
     }
 
     public void readNBT(NBTTagCompound nbt) {
-        if (nbt.hasKey("DominantArm")) {
-            setDominantArm(nbt.getInteger("DominantArm"));
-            if (mstatSwingStatus.length <= maidDominantArm) {
-                maidDominantArm = 0;
-            }
-        }
+
     }
 
-    public void onUpdate(EntityLittleMaidBase entityLittleMaidBase) {
+    public void onUpdate(EntityLittleMaidBase pEntity) {
+        /*  TODO:対応必要そう
+        prevSwingProgress = swingProgress;
+        if (attackTime > 0) {
+            attackTime--;
+        }
+        
+        // 腕振り
+        int li = pEntity.getSwingSpeedModifier();
+        if (isSwingInProgress) {
+            swingProgressInt++;
+            if(swingProgressInt >= li) {
+                swingProgressInt = 0;
+                isSwingInProgress = false;
+            }
+        } else {
+            swingProgressInt = 0;
+        }
+        swingProgress = (float)swingProgressInt / (float)li;
+        
+        if (isUsingItem()) {
+            ItemStack itemstack = pEntity.maidInventory.getStackInSlot(index);
+            Entity lrentity = pEntity.worldObj.isRemote ? null : pEntity;
+            
+            if (itemstack != itemInUse) {
+                clearItemInUse(lrentity);
+            } else {
+                if (itemInUseCount <= 25 && itemInUseCount % 4 == 0) {
+                    // 食べかすとか
+                    updateItemUse(pEntity, 5);
+                }
+                if (--itemInUseCount <= 0 && lrentity != null) {
+                    onItemUseFinish(pEntity.maidAvatar);
+                }
+            }
+        }*/
     }
 
     public void onEntityUpdate(EntityLittleMaidBase entityLittleMaidBase) {
@@ -375,6 +406,26 @@ public class SwingController {
                 clearItemInUse(pEntityPlayer);
             }
         }
+    }
+
+    @Override
+    public void saveNBTData(NBTTagCompound compound) {
+
+        compound.setInteger("DominantArm", maidDominantArm);
+    }
+
+    @Override
+    public void loadNBTData(NBTTagCompound compound) {
+        if (compound.hasKey("DominantArm")) {
+            setDominantArm(compound.getInteger("DominantArm"));
+            if (mstatSwingStatus.length <= maidDominantArm) {
+                maidDominantArm = 0;
+            }
+        }
+    }
+
+    @Override
+    public void init(Entity entity, World world) {
     }
 
 }

@@ -84,7 +84,7 @@ public class littleMaidMob {
         //EntityRegistry.registerGlobalEntityID(EntityLittleMaidBase.class, ls, gueid, 0xefffef, 0x9f5f5f);
         Item egg = new ItemLMMSpawnEgg().setUnlocalizedName("monsterPlacer").setTextureName("spawn_egg");
         GameRegistry.registerItem(egg, "lmmegg", MOD_ID);
-        EntityRegistry.registerModEntity(EntityLittleMaidBase.class, ls, gueid, this, 80, 3, true);
+        EntityRegistry.registerModEntity(EntityLittleMaidBase.class, ls, gueid, this, 80, 1, true);
         ModeManager.instance.init();
     }
 

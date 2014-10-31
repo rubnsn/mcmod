@@ -114,15 +114,15 @@ public class ModeBasic extends EntityModeBlockBase {
     public boolean setMode(int pMode) {
         switch (pMode) {
         case mmode_Wild:
-            getOwner().setFreedom(true);
+            controller.setFreedom(true);
             //              getOwner().aiWander.setEnable(true);
             return true;
         case mmode_Escorter:
             controller.aiAvoidPlayer.setEnable(false);
-            /*
-            for (int li = 0; li < getOwner().mstatSwingStatus.length; li++) {
+
+            for (int li = 0; li < getOwner().swingController.mstatSwingStatus.length; li++) {
                 getOwner().setEquipItem(li, -1);
-            }*/
+            }
             return true;
         }
         //          getOwner().getNavigator().clearPathEntity()

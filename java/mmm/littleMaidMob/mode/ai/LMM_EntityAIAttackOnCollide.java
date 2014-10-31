@@ -100,6 +100,7 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements
         }
 
         return theMaid.isWithinHomeDistance(MathHelper.floor_double(entityTarget.posX), MathHelper.floor_double(entityTarget.posY), MathHelper.floor_double(entityTarget.posZ));
+        //return theMaid.func_110176_b(MathHelper.floor_double(entityTarget.posX), MathHelper.floor_double(entityTarget.posY), MathHelper.floor_double(entityTarget.posZ));
     }
 
     @Override
@@ -114,18 +115,18 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements
         theMaid.getLookHelper().setLookPositionWithEntity(entityTarget, 30F, 30F);
 
         //		if ((isReroute || theMaid.getEntitySenses().canSee(entityTarget)) && --rerouteTimer <= 0) {
-        //			// �����[�g
+        //			// リルート
         //			rerouteTimer = 4 + theMaid.getRNG().nextInt(7);
         //			theMaid.getNavigator().tryMoveToXYZ(entityTarget.posX, entityTarget.posY, entityTarget.posZ, moveSpeed);
         //		}
         if (--rerouteTimer <= 0) {
             if (isReroute) {
-                // �����[�g
+                // リルート
                 rerouteTimer = 4 + theMaid.getRNG().nextInt(7);
                 theMaid.getNavigator().tryMoveToXYZ(entityTarget.posX, entityTarget.posY, entityTarget.posZ, moveSpeed);
             }
             if (theMaid.getEntitySenses().canSee(entityTarget)) {
-                // �����[�g
+                // リルート
                 rerouteTimer = 4 + theMaid.getRNG().nextInt(7);
                 theMaid.getNavigator().tryMoveToXYZ(entityTarget.posX, entityTarget.posY, entityTarget.posZ, moveSpeed);
             } else {
@@ -144,7 +145,7 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements
                     lel = ((EntityLivingBase) entityTarget).getAITarget();
                 }
                 if (lel == theMaid) {
-                    ItemStack li = theMaid.getEquipmentInSlot(0);
+                    ItemStack li = theMaid.getCurrentEquippedItem();
                     if (li != null && li.getItemUseAction() == EnumAction.block) {
                         li.useItemRightClick(worldObj, theMaid.avatar);
                         lguard = true;
@@ -157,9 +158,10 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements
             theMaid.avatar.stopUsingItem();
         }
 
-        if (!theMaid.swingController.getSwingStatusDominant().canAttack()) {
+        if (!theMaid.getSwingStatus().getSwingStatusDominant().canAttack()) {
             return;
         } else {
+            // 正面から110度方向が攻撃範囲
             double tdx = entityTarget.posX - theMaid.posX;
             double tdz = entityTarget.posZ - theMaid.posZ;
             double vdx = -Math.sin(theMaid.renderYawOffset * 3.1415926535897932384626433832795F / 180F);
@@ -170,8 +172,10 @@ public class LMM_EntityAIAttackOnCollide extends EntityAIBase implements
                 return;
             }
 
+            // 攻撃
             theMaid.attackEntityAsMob(entityTarget);
             if (theMaid.modeController.getActiveModeClass().isChangeTartget(entityTarget)) {
+                // 対象を再設定させる
                 theMaid.setAttackTarget(null);
                 theMaid.setTarget(null);
                 theMaid.getNavigator().clearPathEntity();

@@ -1,15 +1,20 @@
 package mmm.littleMaidMob.mode;
 
+import static mmm.littleMaidMob.Statics.dataWatch_Flags_Freedom;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import mmm.littleMaidMob.RenderLittleMaid;
 import mmm.littleMaidMob.Statics;
 import mmm.littleMaidMob.littleMaidMob;
 import mmm.littleMaidMob.entity.EntityLittleMaidBase;
 import mmm.littleMaidMob.mode.ai.*;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
@@ -17,14 +22,17 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.profiler.Profiler;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
+import net.minecraftforge.common.IExtendedEntityProperties;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 
 /**
  * モード管理用クラス
  * 
  */
-public class ModeController {
-    public final EntityLittleMaidBase owner;
+public class ModeController implements IExtendedEntityProperties {
+    private EntityLittleMaidBase owner;
     // default AIs
     public EntityAIBase aiSit;
     // AI
@@ -56,19 +64,18 @@ public class ModeController {
     public Map<Integer, EntityAITasks[]> maidModeList;
     public Map<String, Integer> maidModeIndexList;
     public int maidMode; // 2Byte
-    String modeName;
     private boolean velocityChanged;
     private int mstatWorkingInt;
-    private Object mstatModeName;
+    private String mstatModeName;
 
-    public ModeController(EntityLittleMaidBase owner) {
-        this.owner = owner;
+    public ModeController(EntityLittleMaidBase entity) {
+        this.owner = (EntityLittleMaidBase) entity;
         modeList = ModeManager.instance.getModeList(this);
         activeMode = null;
         maidModeList = new HashMap<Integer, EntityAITasks[]>();
         maidModeIndexList = new HashMap<String, Integer>();
         initModeList();
-        modeName = "";
+        mstatModeName = "";
         maidMode = 65535;
         //モードイニシャライズ
         for (EntityModeBase lem : modeList) {
@@ -84,7 +91,7 @@ public class ModeController {
         aiCloseDoor = new EntityAIRestrictOpenDoor(this.owner);
         aiAvoidPlayer = new LMM_EntityAIAvoidPlayer(this.owner, 1.0F, 3);//完コピ
         aiFollow = new LMM_EntityAIFollowOwner(this.owner, 1.0F, 36D, 25D, 81D);//完コピ
-        aiAttack = new LMM_EntityAIAttackOnCollide(this.owner, 1.0F, true);
+        aiAttack = new LMM_EntityAIAttackOnCollide(this.owner, 1.0F, true);//完コピ
         aiShooting = new LMM_EntityAIAttackArrow(this.owner);
         aiCollectItem = new LMM_EntityAICollectItem(this.owner, 1.0F);
         aiRestrictRain = new LMM_EntityAIRestrictRain(this.owner);
@@ -145,14 +152,6 @@ public class ModeController {
         return this.activeMode;
     }
 
-    public void readModeNBT(NBTTagCompound nbt) {
-
-    }
-
-    public void writeModeNBT(NBTTagCompound nbt) {
-
-    }
-
     public void addMaidMode(EntityAITasks[] peaiTasks, String pmodeName, int pmodeIndex) {
         maidModeList.put(pmodeIndex, peaiTasks);
         maidModeIndexList.put(pmodeName, pmodeIndex);
@@ -170,8 +169,13 @@ public class ModeController {
         activeMode = pEntityMode;
     }
 
-    private Object getMaidModeString(int pindex) {
-        return null;
+    private String getMaidModeString(int pindex) {
+        for (Entry<String, Integer> entry : maidModeIndexList.entrySet()) {
+            if (entry.getValue() == pindex) {
+                return entry.getKey();
+            }
+        }
+        return "";
     }
 
     public boolean callPreInteract(EntityPlayer par1EntityPlayer, ItemStack is) {
@@ -199,6 +203,10 @@ public class ModeController {
             }
         }
         return null;
+    }
+
+    public String getModeName() {
+        return mstatModeName;
     }
 
     public boolean setMaidMode(String pname) {
@@ -307,6 +315,61 @@ public class ModeController {
             }
         } catch (Exception s) {
         }
+
+    }
+
+    // 自由行動
+    public void setFreedom(boolean pFlag) {
+        // AI関連のリセットもここで。
+        owner.maidFreedom = pFlag;
+        aiRestrictRain.setEnable(pFlag);
+        aiFreeRain.setEnable(pFlag);
+        aiWander.setEnable(pFlag);
+        //      aiJumpTo.setEnable(!pFlag);
+        aiAvoidPlayer.setEnable(!pFlag);
+        aiFollow.setEnable(!pFlag);
+        aiTracer.setEnable(false);
+        //      setAIMoveSpeed(pFlag ? moveSpeed_Nomal : moveSpeed_Max);
+        //      setMoveForward(0.0F);
+
+        if (owner.maidFreedom && owner.isContract()) {
+            //          func_110171_b(
+            owner.setHomeArea(MathHelper.floor_double(owner.posX), MathHelper.floor_double(owner.posY), MathHelper.floor_double(owner.posZ), 16);
+        } else {
+            //          func_110177_bN();
+            owner.detachHome();
+            //          setPlayingRole(0);
+        }
+
+        owner.setMaidFlags(owner.maidFreedom, dataWatch_Flags_Freedom);
+    }
+
+    public void showSpecial(RenderLittleMaid renderLittleMaid, double par2, double par4, double par6) {
+        for (EntityModeBase iem : modeList) {
+            iem.showSpecial(renderLittleMaid, par2, par4, par6);
+        }
+    }
+
+    public EntityLittleMaidBase getOwner() {
+        return owner;
+    }
+
+    @Override
+    public void saveNBTData(NBTTagCompound compound) {
+        for (EntityModeBase iem : modeList) {
+            iem.writeEntityToNBT(compound);
+        }
+    }
+
+    @Override
+    public void loadNBTData(NBTTagCompound compound) {
+        for (EntityModeBase iem : modeList) {
+            iem.readEntityFromNBT(compound);
+        }
+    }
+
+    @Override
+    public void init(Entity entity, World world) {
 
     }
 

@@ -42,7 +42,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements
         if (theMaid.isFreedom()) {
             // 自由行動の子は基点へジャンプ
             if (theMaid.homeWorld != theMaid.dimension) {
-                littleMaidMob.Debug(String.format("ID:%d, %d -> %d, Change HomeWorld. reset HomePosition.", theMaid, theMaid.homeWorld, theMaid.worldObj.provider.dimensionId));
+                littleMaidMob.Debug(String.format("ID:%s, %d -> %d, Change HomeWorld. reset HomePosition.", theMaid, theMaid.homeWorld, theMaid.worldObj.provider.dimensionId));
                 //theMaid.func_110171_b(
                 theMaid.setHomeArea(MathHelper.floor_double(theMaid.posX), MathHelper.floor_double(theMaid.posY), MathHelper.floor_double(theMaid.posZ), 16);
                 return false;
@@ -51,7 +51,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements
             //if (theMaid.func_110172_bL().getDistanceSquared(
             if (theMaid.getHomePosition().getDistanceSquared(MathHelper.floor_double(theMaid.posX), MathHelper.floor_double(theMaid.posY), MathHelper.floor_double(theMaid.posZ)) > 400D) {
                 jumpTarget = false;
-                littleMaidMob.Debug(String.format("ID:%d(%s) Jump To Home.", theMaid, theMaid.worldObj.isRemote ? "C" : "W"));
+                littleMaidMob.Debug(String.format("ID:%s(%s) Jump To Home.", theMaid, theMaid.worldObj.isRemote ? "C" : "W"));
                 return true;
             }
         } else {
@@ -67,7 +67,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements
                     return false;
                 }
             }
-            littleMaidMob.Debug("ID:%d(%s) Jump To Master.", theMaid, theMaid.worldObj.isRemote ? "C" : "W");
+            littleMaidMob.Debug("ID:%s(%s) Jump To Master.", theMaid, theMaid.worldObj.isRemote ? "C" : "W");
             return true;
         }
         return false;
@@ -106,7 +106,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements
             int lz = theMaid.getHomePosition().posZ;
             if (!(isCanJump(lx, ly, lz))) {
                 // ホームポジション消失
-                littleMaidMob.Debug(String.format("ID:%d(%s) home lost.", theMaid, theMaid.worldObj.isRemote ? "C" : "W"));
+                littleMaidMob.Debug(String.format("ID:%s(%s) home lost.", theMaid, theMaid.worldObj.isRemote ? "C" : "W"));
                 int a;
                 int b;
                 // int c;
@@ -160,7 +160,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements
                     littleMaidMob.Debug(String.format("loss new position:%d, %d, %d.", lx, ly, lz));
                 }
             } else {
-                littleMaidMob.Debug(String.format("ID:%d(%s) home solid.", theMaid, theMaid.worldObj.isRemote ? "C" : "W"));
+                littleMaidMob.Debug(String.format("ID:%s(%s) home solid.", theMaid, theMaid.worldObj.isRemote ? "C" : "W"));
             }
 
             //			theMaid.setTarget(null);
@@ -174,7 +174,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements
         theMaid.setAttackTarget(null);
         theMaid.setRevengeTarget(null);
         theMaid.getNavigator().clearPathEntity();
-        littleMaidMob.Debug(String.format("ID:%d(%s) Jump Fail.", theMaid, theMaid.worldObj.isRemote ? "C" : "W"));
+        littleMaidMob.Debug(String.format("ID:%s(%s) Jump Fail.", theMaid, theMaid.worldObj.isRemote ? "C" : "W"));
     }
 
     /**
