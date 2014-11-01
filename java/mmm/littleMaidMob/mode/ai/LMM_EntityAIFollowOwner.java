@@ -107,7 +107,6 @@ public class LMM_EntityAIFollowOwner extends EntityAIBase implements
         }
 
         field_48310_h = 10;
-
         petPathfinder.tryMoveToEntityLiving(theOwner, moveSpeed);
     }
 

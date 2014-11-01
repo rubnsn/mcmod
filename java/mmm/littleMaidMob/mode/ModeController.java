@@ -397,7 +397,7 @@ public class ModeController implements IExtendedEntityProperties {
         maidFreedom = bool;
     }
 
-    public void callOnupdate() {
+    public void callOnUpdate() {
         for (EntityModeBase iem : modeList) {
             iem.onUpdate(maidMode);
         }

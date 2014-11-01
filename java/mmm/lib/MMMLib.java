@@ -27,7 +27,7 @@ public class MMMLib {
 
     public static void Debug(String pText, Object... pData) {
         // デバッグメッセージ
-        if (isDebugMessage) {
+        if (isDebugMessage || true) {
             System.out.println(String.format("MMMLib-" + pText, pData));
         }
     }

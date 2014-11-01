@@ -52,6 +52,11 @@ public class GuiLittleMaidInventory extends GuiEffectRenderer {
         buttonList.add(txbutton[2] = new GuiButtonNextPage(110, guiLeft + 25, guiTop + 47, false));
         buttonList.add(txbutton[3] = new GuiButtonNextPage(111, guiLeft + 55, guiTop + 47, true));
         buttonList.add(selectbutton = new GuiButton(200, guiLeft + 25, guiTop + 25, 53, 17, "select"));
+        txbutton[0].visible = false;
+        txbutton[1].visible = false;
+        txbutton[2].visible = false;
+        txbutton[3].visible = false;
+        selectbutton.visible = false;
     }
 
     @Override
@@ -126,6 +131,48 @@ public class GuiLittleMaidInventory extends GuiEffectRenderer {
             selectbutton.visible = false;
         }
 
+    }
+
+    /** ボタンの操作 */
+    @Override
+    protected void actionPerformed(GuiButton par1GuiButton) {
+        switch (par1GuiButton.id) {
+        case 100:
+            System.out.println("next!");
+            maid.getMultiModel().setNextTexturePackege();
+            //maid.getMultiModel().setNextTexturePackege(0);
+            //maid.getMultiModel().setTextureNames();
+            break;
+        case 101:
+            System.out.println("prev!");
+            maid.getMultiModel().setPrevTexturePackege();
+            //maid.getMultiModel().setPrevTexturePackege(0);
+            //maid.getMultiModel().setTextureNames();
+            break;
+        case 110:
+            //maid.getMultiModel().setNextTexturePackege(1);
+            //maid.getMultiModel().setTextureNames();
+            break;
+        case 111:
+            //maid.getMultiModel().setPrevTexturePackege(1);
+            //maid.getMultiModel().setTextureNames();
+            break;
+        case 200:
+            /*
+            int ldye = 0;
+            if (mc.thePlayer.capabilities.isCreativeMode) {
+                ldye = 0xffff;
+            } else {
+                for (ItemStack lis : mc.thePlayer.inventory.mainInventory) {
+                    if (lis != null && lis.itemID == Item.dyePowder.itemID) {
+                        ldye |= (1 << (15 - lis.getItemDamage()));
+                    }
+                }
+            }
+            isChangeTexture = false;
+            mc.displayGuiScreen(new LMM_GuiTextureSelect(this, maid.getMultiModel(), ldye, true));
+            */
+        }
     }
 
     /** HPとアーマーゲージと酸素 */

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,7 +48,7 @@ public class MultiModelManager extends FileLoaderBase {
     protected AbstractModelBase[] defaultModel;
     protected Map<String, AbstractModelBase[]> models;
     protected Map<String, String> modelNames;
-    protected Map<String, MultiModelContainer> textures;
+    protected TreeMap<String, MultiModelContainer> textures;
     protected List<String> preFixs;
 
     public MultiModelManager() {
@@ -58,7 +59,7 @@ public class MultiModelManager extends FileLoaderBase {
         preFixs.add("/mob/littleMaid/");
         preFixs.add("/textures/entity/littleMaid/");
         preFixs.add("/multimodel/");
-        textures = new HashMap<String, MultiModelContainer>();
+        textures = new TreeMap<String, MultiModelContainer>();
     }
 
     @Override
@@ -83,7 +84,7 @@ public class MultiModelManager extends FileLoaderBase {
     @Override
     public boolean load(File pFile, String pFileName, InputStream pInputStream) {
         //		MMMLib.Debug("loadTexture:%s, %s", pFile.toString(), pFileName);
-        return addModelClass(pFileName) || addTexture(pFile, pFileName);
+        return addModelClass(pFileName, pInputStream) || addTexture(pFile, pFileName);
     }
 
     /**
@@ -93,7 +94,7 @@ public class MultiModelManager extends FileLoaderBase {
      * @return
      */
     @SuppressWarnings("unchecked")
-    protected boolean addModelClass(String pFileName) {
+    protected boolean addModelClass(String pFileName, InputStream stream) {
         if (pFileName.endsWith(".class") && pFileName.indexOf("$") == -1) {
             // TODO この辺調整
             if (pFileName.indexOf("ModelMulti") == -1 && pFileName.indexOf("ModelLittleMaid") == -1) {
@@ -108,6 +109,8 @@ public class MultiModelManager extends FileLoaderBase {
             try {
                 ClassLoader lcl = getClass().getClassLoader();
                 Class<?> lc = lcl.loadClass(lcname);
+                //ClassReader p = new ClassReader(stream);
+                //Class<?> lc = Class.forName(p.getClassName().replace('/', '.'));
                 if (AbstractModelBase.class.isAssignableFrom(lc) && !Modifier.isAbstract(lc.getModifiers())) {
                     Class<? extends AbstractModelBase> lca = (Class<? extends AbstractModelBase>) lc;
                     int lindex = lcname.lastIndexOf('_');
@@ -120,7 +123,7 @@ public class MultiModelManager extends FileLoaderBase {
                     }
                 }
             } catch (Exception e) {
-                //				e.printStackTrace();
+                //e.printStackTrace();
             }
         }
         return false;
@@ -229,6 +232,17 @@ public class MultiModelManager extends FileLoaderBase {
             lcont = textures.get("textures/entity/default");
         }
         return lcont;
+    }
+
+    public MultiModelContainer getNextMultiModel(String pName) {
+        Entry<String, MultiModelContainer> entry = textures.higherEntry(pName);
+        System.out.println(pName);
+        return entry != null ? entry.getValue() : textures.firstEntry().getValue();
+    }
+
+    public MultiModelContainer getPrevMultiModel(String pName) {
+        Entry<String, MultiModelContainer> entry = textures.lowerEntry(pName);
+        return entry != null ? entry.getValue() : textures.lastEntry().getValue();
     }
 
     public boolean isMultiModel(String pName) {

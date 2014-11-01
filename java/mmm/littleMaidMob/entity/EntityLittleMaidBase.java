@@ -24,6 +24,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -33,6 +34,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S1DPacketEntityEffect;
 import net.minecraft.network.play.server.S1EPacketRemoveEntityEffect;
@@ -97,6 +99,8 @@ public class EntityLittleMaidBase extends EntityTameable implements
     private float prevRotateAngleHead; // prevAngle
     /** あれは砂糖 */
     protected boolean mstatLookSuger;
+    /** ベース移動速度 */
+    double baseMoveSpeed = 0.3D;
 
     public EntityLittleMaidBase(World par1World) {
         super(par1World);
@@ -121,6 +125,14 @@ public class EntityLittleMaidBase extends EntityTameable implements
         //		setSize(width, height);
         //		setScale(1.0F);	// ダメ
         //		moveEntity(posX, posY, posZ);	// ダメ
+    }
+
+    /** HPや速度みたいなデータみたいな？ */
+    @Override
+    public void applyEntityAttributes() {
+        super.applyEntityAttributes();
+        //ここで設定しても勝手に上書きされて機能してない、糞仕様死ね
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(baseMoveSpeed);
     }
 
     // 初期化関数群
@@ -264,6 +276,10 @@ public class EntityLittleMaidBase extends EntityTameable implements
 
     @Override
     public void onUpdate() {
+        //ここでベース速度を変えると問題なく動作する、糞仕様死ね
+        if (this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getBaseValue() != baseMoveSpeed) {
+            this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(baseMoveSpeed);
+        }
         //首
         prevRotateAngleHead = rotateAngleHead;
         if (getLooksWithInterest()) {
@@ -314,7 +330,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
                 setMaidWait(false);
             }
         }
-        modeController.callOnupdate();
+        modeController.callOnUpdate();
         super.onUpdate();
         // カウンタ系
         if (mstatWaitCount > 0) {
@@ -335,7 +351,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
             if (numTicksToChaseTarget > 0)
                 numTicksToChaseTarget--;
         }
-        //System.out.println(mstatMasterEntity + ":" + (worldObj.isRemote ? "C" : "S"));
+        //System.out.println(getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed).getBaseValue() + ":" + (worldObj.isRemote ? "C" : "S"));
 
     }
 
@@ -837,6 +853,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
     public void readEntityFromNBT(NBTTagCompound par1nbtTagCompound) {
         // TODO Auto-generated method stub
         super.readEntityFromNBT(par1nbtTagCompound);
+        inventory.readFromNBT(par1nbtTagCompound.getTagList("Inventory", 10));
         maidContractLimit = par1nbtTagCompound.getInteger("ContractLimit");
         setMaidWait(par1nbtTagCompound.getBoolean("Wait"));
     }
@@ -845,6 +862,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
     public void writeEntityToNBT(NBTTagCompound par1nbtTagCompound) {
         // TODO Auto-generated method stub
         super.writeEntityToNBT(par1nbtTagCompound);
+        par1nbtTagCompound.setTag("Inventory", inventory.writeToNBT(new NBTTagList()));
         par1nbtTagCompound.setInteger("ContractLimit", maidContractLimit);
         par1nbtTagCompound.setBoolean("Wait", isMaidWait());
     }

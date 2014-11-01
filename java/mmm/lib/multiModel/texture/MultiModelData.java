@@ -107,6 +107,19 @@ public class MultiModelData implements IExtendedEntityProperties {
         return model != null;
     }
 
+    public void setNextTexturePackege() {
+        model = MultiModelManager.instance.getNextMultiModel(modelName);
+        modelName = model.name;
+        color = model.getColor(color);
+        setChange();
+    }
+
+    public void setPrevTexturePackege() {
+        model = MultiModelManager.instance.getPrevMultiModel(modelName);
+        modelName = model.name;
+        setChange();
+    }
+
     /**
      * 選択中のマルチモデル名称
      * 

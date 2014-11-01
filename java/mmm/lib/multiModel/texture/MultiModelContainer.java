@@ -3,6 +3,7 @@ package mmm.lib.multiModel.texture;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import mmm.lib.multiModel.MultiModelManager;
 import mmm.lib.multiModel.model.AbstractModelBase;
@@ -24,7 +25,7 @@ public class MultiModelContainer {
     protected AbstractModelBase[] defaultModel;
     protected Map<Integer, AbstractModelBase[]> models;
     /** バインドされているテクスチャ */
-    protected Map<Integer, ResourceLocation> textures;
+    protected TreeMap<Integer, ResourceLocation> textures;
     /** バインドされているアーマーテクスチャ */
     protected Map<String, Map<Integer, ResourceLocation>> armors;
     protected boolean isDecodeJSON;
@@ -34,7 +35,7 @@ public class MultiModelContainer {
     public MultiModelContainer(String pName) {
         name = pName;
         models = new HashMap<Integer, AbstractModelBase[]>();
-        textures = new HashMap<Integer, ResourceLocation>();
+        textures = new TreeMap<Integer, ResourceLocation>();
         armors = new HashMap<String, Map<Integer, ResourceLocation>>();
         isDecodeJSON = false;
         colorContracts = colorWilds = 0;
@@ -203,7 +204,7 @@ public class MultiModelContainer {
     }
 
     public String getTextureName(int pIndex) {
-        return getTexture(pIndex).getResourcePath();
+        return getTexture(pIndex) != null ? getTexture(pIndex).getResourcePath() : "none";
     }
 
     /**
@@ -244,6 +245,12 @@ public class MultiModelContainer {
 
     public boolean hasColor(int pIndex, boolean pContract) {
         return textures.containsKey(pIndex + (pContract ? 0 : MultiModelManager.tx_wild));
+    }
+
+    /** カラーを取得する、無い場合は最小値、もしくは次に大きい値 */
+    public int getColor(int i) {
+        Integer key = textures.ceilingKey(i);
+        return key != null ? key.intValue() : textures.firstKey().intValue();
     }
 
     public boolean hasArmor() {

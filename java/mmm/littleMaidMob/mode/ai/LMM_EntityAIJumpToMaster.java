@@ -82,7 +82,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements
 
             for (int l = 0; l <= 4; l++) {
                 for (int i1 = 0; i1 <= 4; i1++) {
-                    if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && theWorld.isBlockNormalCubeDefault(i + l, k - 1, j + i1, false) && !theWorld.isBlockNormalCubeDefault(i + l, k, j + i1, false) && !theWorld.isBlockNormalCubeDefault(i + l, k + 1, j + i1, false)) {
+                    if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && theWorld.getBlock(i + l, k - 1, j + i1).isNormalCube() && !theWorld.getBlock(i + l, k, j + i1).isNormalCube() && !theWorld.getBlock(i + l, k + 1, j + i1).isNormalCube()) {
                         // 主の前に跳ばない
                         double dd = theOwner.getDistanceSq((double) (i + l) + 0.5D + MathHelper.sin(theOwner.rotationYaw * 0.01745329252F) * 2.0D, (double) k, (double) (j + i1) - MathHelper.cos(theOwner.rotationYaw * 0.01745329252F) * 2.0D);
                         if (dd > 8D) {
