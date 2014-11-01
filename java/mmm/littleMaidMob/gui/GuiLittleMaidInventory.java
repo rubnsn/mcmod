@@ -99,7 +99,7 @@ public class GuiLittleMaidInventory extends GuiEffectRenderer {
             GL11.glDisable(GL11.GL_DEPTH_TEST);
 
             if (maid.getMultiModel().model.getModelClass()[0] != null) {
-                String ls1 = maid.getMultiModel().model.getTextureName(0);
+                String ls1 = maid.getMultiModel().model.name;
                 String ls2 = maid.getMultiModel().model.getTextureName(1);
                 int ltw1 = fontRendererObj.getStringWidth(ls1);
                 int ltw2 = fontRendererObj.getStringWidth(ls2);
@@ -267,7 +267,7 @@ public class GuiLittleMaidInventory extends GuiEffectRenderer {
         //	              "littleMaidMob.text.AP"), 86, 32, 0x404040);
         fontRendererObj.drawString(StatCollector.translateToLocal("littleMaidMob.text.STATUS"), 86, 8, 0x404040);
 
-        fontRendererObj.drawString(StatCollector.translateToLocal("littleMaidMob.mode.".concat(maid.modeController.getModeName())), 86, 61, 0x404040);
+        fontRendererObj.drawString(StatCollector.translateToLocal("littleMaidMob.mode.".concat(maid.modeController.getDisplayModeName())), 86, 61, 0x404040);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         // キャラ

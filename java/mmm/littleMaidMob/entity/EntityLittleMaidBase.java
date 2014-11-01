@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-import mmm.lib.Client;
 import mmm.lib.multiModel.MultiModelManager;
 import mmm.lib.multiModel.model.IModelCaps;
 import mmm.lib.multiModel.texture.IMultiModelEntity;
@@ -78,8 +77,6 @@ public class EntityLittleMaidBase extends EntityTameable implements
     protected int mstatWaitCount;
     /** 動作状態 */
     public short maidMode;
-    /** 待機判定 */
-    public boolean maidFreedom;
 
     /** 文字しているモードの管理用クラス */
     public ModeController modeController;
@@ -114,6 +111,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
         modeController = new ModeController(this);
         registerExtendedProperties("modeController", modeController);
         tiles = new TileContainer(this);
+        registerExtendedProperties("maidTiles", tiles);
         mstatWorkingCount = new Counter(11, 10, -10);
         //		multiModel = MultiModelManager.instance.getMultiModel("MMM_SR2");
         //		setModel("MMM_Aug");
@@ -228,8 +226,12 @@ public class EntityLittleMaidBase extends EntityTameable implements
 
     @Override
     public String getOwnerName() {
-        // TODO Auto-generated method stub
-        return super.getOwner().getCommandSenderName();
+        return getOwner() != null ? getOwner().getCommandSenderName() : null;
+    }
+
+    /** ますたーの設定 */
+    public void setOwner(String uuid) {
+        super.func_152115_b(uuid);
     }
 
     @Override
@@ -262,8 +264,6 @@ public class EntityLittleMaidBase extends EntityTameable implements
 
     @Override
     public void onUpdate() {
-        super.onUpdate();
-        this.swingController.onUpdate(this);
         //首
         prevRotateAngleHead = rotateAngleHead;
         if (getLooksWithInterest()) {
@@ -275,6 +275,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
                 numTicksToChaseTarget--;
         }
         //ますたーきょり
+        mstatMasterEntity = getMaidMasterEntity();
         if (mstatMasterEntity != null) {
             mstatMasterDistanceSq = getDistanceSqToEntity(mstatMasterEntity);
         }
@@ -285,10 +286,22 @@ public class EntityLittleMaidBase extends EntityTameable implements
 
         if (worldObj.isRemote) {
             // クライアント側
+            /*            boolean lupd = false;
+                        lupd |= updateMaidContract();
+                        lupd |= updateMaidColor();
+            //          lupd |= updateTexturePack();
+                        updateTexturePack();
+                        if (lupd) {
+                            setTextureNames();
+                        }*/
+            modeController.setMaidMode(dataWatcher.getWatchableObjectShort(dataWatch_Mode));
+            swingController.setDominantArm(dataWatcher.getWatchableObjectByte(dataWatch_DominamtArm));
+
             updateMaidFlagsClient();
         } else {
             boolean lf;
             // サーバー側
+            this.updateRemainsContract();
 
             // Working!
             lf = mstatWorkingCount.isEnable();
@@ -296,17 +309,38 @@ public class EntityLittleMaidBase extends EntityTameable implements
                 setMaidFlags(lf, dataWatch_Flags_Working);
             }
             // 拗ねる
-            if (!isContractEX() && !isFreedom()) {
+            if (!isContractEX() && !modeController.isFreedom()) {
                 modeController.setFreedom(true);
                 setMaidWait(false);
             }
         }
+        modeController.callOnupdate();
+        super.onUpdate();
+        // カウンタ系
+        if (mstatWaitCount > 0) {
+            if (hasPath()) {
+                mstatWaitCount = 0;
+            } else {
+                mstatWaitCount--;
+            }
+        }
+
+        // くびかしげ    
+        prevRotateAngleHead = rotateAngleHead;
+        if (getLooksWithInterest()) {
+            rotateAngleHead = rotateAngleHead + (1.0F - rotateAngleHead) * 0.4F;
+            numTicksToChaseTarget = 10;
+        } else {
+            rotateAngleHead = rotateAngleHead + (0.0F - rotateAngleHead) * 0.4F;
+            if (numTicksToChaseTarget > 0)
+                numTicksToChaseTarget--;
+        }
+        //System.out.println(mstatMasterEntity + ":" + (worldObj.isRemote ? "C" : "S"));
 
     }
 
     public void onLivingUpdate() {
         super.onLivingUpdate();
-        this.updateRemainsContract();
         this.swingController.onEntityUpdate(this);
     }
 
@@ -352,23 +386,12 @@ public class EntityLittleMaidBase extends EntityTameable implements
         return getMaidMasterEntity();
     }
 
-    public String getMaidMaster() {
-        return getOwnerName();
-    }
-
     public EntityPlayer getMaidMasterEntity() {
         // 主を獲得
         if (isContract()) {
             EntityPlayer entityplayer = mstatMasterEntity;
             if (mstatMasterEntity == null || mstatMasterEntity.isDead) {
-                String lname;
-                // インターナルサーバーならオーナ判定しない、オフライン対策
-                if (!Client.isIntegratedServerRunning()) {
-                    lname = getMaidMaster();
-                } else {
-                    lname = ((EntityPlayer) worldObj.playerEntities.get(0)).getCommandSenderName();
-                }
-                entityplayer = worldObj.getPlayerEntityByName(lname);
+                entityplayer = (EntityPlayer) super.getOwner();
 
                 // クリエイティブモードの状態を主とあわせる
                 if (entityplayer != null && avatar != null) {
@@ -381,10 +404,11 @@ public class EntityLittleMaidBase extends EntityTameable implements
         }
     }
 
+    /*
     public boolean isMaidContractOwner(String pname) {
-        return pname.equalsIgnoreCase(getMaidMaster());
+        return pname.equalsIgnoreCase(getOwnerName());
     }
-
+    */
     public boolean isMaidContractOwner(EntityPlayer pentity) {
         return pentity == getMaidMasterEntity();
 
@@ -441,7 +465,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
 
                                 littleMaidMob.Debug("give suger." + worldObj.isRemote);
                                 if (!worldObj.isRemote) {
-                                    modeController.setFreedom(isFreedom());
+                                    modeController.setFreedom(modeController.isFreedom());
                                     if (isMaidWait()) {
                                         // 動作モードの切替
                                         boolean lflag = false;
@@ -452,7 +476,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
                                             modeController.setActiveModeClass(emb);
                                         }
                                         if (!lflag) {
-                                            setMaidMode("Escorter");
+                                            modeController.setMaidMode("Escorter");
                                             setEquipItem(-1);
                                             //                                          maidInventory.currentItem = -1;
                                         }
@@ -462,6 +486,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
                                         // 待機
                                         setMaidWait(true);
                                     }
+                                    littleMaidMob.Debug("now mode:%s", modeController.getDisplayModeName());
                                 }
                                 return true;
                             } else if (itemstack1.getItem() == Items.dye) {
@@ -474,8 +499,8 @@ public class EntityLittleMaidBase extends EntityTameable implements
                             } else if (itemstack1.getItem() == Items.feather) {
                                 // 自由行動
                                 MMM_Helper.decPlayerInventory(par1EntityPlayer, -1, 1);
-                                modeController.setFreedom(!isFreedom());
-                                worldObj.setEntityState(this, isFreedom() ? (byte) 12 : (byte) 13);
+                                modeController.setFreedom(!modeController.isFreedom());
+                                worldObj.setEntityState(this, modeController.isFreedom() ? (byte) 12 : (byte) 13);
                                 return true;
                             } else if (itemstack1.getItem() == Items.saddle) {
                                 // 肩車
@@ -527,7 +552,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
                                 }
                                 MMM_Helper.decPlayerInventory(par1EntityPlayer, -1, 1);
                                 return true;
-                            } else if (isFreedom() && itemstack1.getItem() == Items.redstone) {
+                            } else if (modeController.isFreedom() && itemstack1.getItem() == Items.redstone) {
                                 // Tracer
                                 /*TODO:そのうち
                                 MMM_Helper.decPlayerInventory(par1EntityPlayer, -1, 1);
@@ -555,7 +580,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
                                 modeController.setFreedom(false);
                                 //setTracer(false);
                                 setMaidWait(false);
-                                setMaidMode("Escorter");
+                                modeController.setMaidMode("Escorter");
                                 worldObj.setEntityState(this, (byte) 11);
                                 playSound(EnumSound.Recontract, true);
                                 return true;
@@ -563,7 +588,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
                         }
                     }
                     // メイドインベントリ
-                    setOwner(par1EntityPlayer.getCommandSenderName());
+                    setOwner(par1EntityPlayer.getUniqueID().toString());
                     getNavigator().clearPathEntity();
                     isJumping = false;
                     displayGUIInventory(par1EntityPlayer);
@@ -586,9 +611,9 @@ public class EntityLittleMaidBase extends EntityTameable implements
                             }
                             */
                             setContract(true);
-                            setOwner(par1EntityPlayer.getCommandSenderName());
+                            setOwner(par1EntityPlayer.getUniqueID().toString());
                             setHealth(20);
-                            setMaidMode("Escorter");
+                            modeController.setMaidMode("Escorter");
                             setMaidWait(false);
                             modeController.setFreedom(false);
                             setModel("default");
@@ -616,10 +641,6 @@ public class EntityLittleMaidBase extends EntityTameable implements
     }
 
     // 状態識別変数郡
-
-    public void setOwner(String string) {
-        super.func_152115_b(string);
-    }
 
     /**
      * 血に飢えているか？
@@ -800,10 +821,6 @@ public class EntityLittleMaidBase extends EntityTameable implements
         setMaidWaitCount(modeController.getActiveModeClass().getWaitDelayTime());
     }
 
-    public boolean isFreedom() {
-        return maidFreedom;
-    }
-
     public void setAbsorptionAmount(float par1) {
         if (par1 < 0.0F) {
             par1 = 0.0F;
@@ -821,6 +838,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
         // TODO Auto-generated method stub
         super.readEntityFromNBT(par1nbtTagCompound);
         maidContractLimit = par1nbtTagCompound.getInteger("ContractLimit");
+        setMaidWait(par1nbtTagCompound.getBoolean("Wait"));
     }
 
     @Override
@@ -828,6 +846,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
         // TODO Auto-generated method stub
         super.writeEntityToNBT(par1nbtTagCompound);
         par1nbtTagCompound.setInteger("ContractLimit", maidContractLimit);
+        par1nbtTagCompound.setBoolean("Wait", isMaidWait());
     }
 
     // MultiModel関連
@@ -857,10 +876,6 @@ public class EntityLittleMaidBase extends EntityTameable implements
 
     }
 
-    public void setMaidMode(String string) {
-        modeController.setMaidMode(string);
-    }
-
     public InventoryPlayer getInventory() {
         return avatar.inventory;
     }
@@ -871,10 +886,6 @@ public class EntityLittleMaidBase extends EntityTameable implements
 
     public boolean getIFF(Entity pTarget) {
         return false;
-    }
-
-    public double mstatMasterDistanceSq() {
-        return this.getDistanceSqToEntity(this.getMaidMasterEntity());
     }
 
     public boolean isMaskedMaid() {
@@ -1022,7 +1033,6 @@ public class EntityLittleMaidBase extends EntityTameable implements
      * recontract : 契約延長効果アリ？
      */
     public void eatSugar(boolean motion, boolean recontract) {
-        littleMaidMob.Debug("now mode", modeController.getActiveModeClass());
         if (motion) {
             swingController.setSwing(2, (getMaxHealth() - getHealth() <= 1F) ? EnumSound.eatSugar_MaxPower : EnumSound.eatSugar);
         }
@@ -1049,7 +1059,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
     /** クライアント用各種フラグアップデート */
     public void updateMaidFlagsClient() {
         int li = dataWatcher.getWatchableObjectInt(dataWatch_Flags);
-        maidFreedom = (li & dataWatch_Flags_Freedom) > 0;
+        modeController.setMaidFreedom((li & dataWatch_Flags_Freedom) > 0);
         //maidTracer = (li & dataWatch_Flags_Tracer) > 0;
         maidWait = (li & dataWatch_Flags_Wait) > 0;
         //mstatAimeBow = (li & dataWatch_Flags_Aimebow) > 0;

@@ -39,7 +39,7 @@ public class LMM_EntityAIJumpToMaster extends EntityAIBase implements
             // 括られているなら跳ばない
             return false;
         }
-        if (theMaid.isFreedom()) {
+        if (theMaid.modeController.isFreedom()) {
             // 自由行動の子は基点へジャンプ
             if (theMaid.homeWorld != theMaid.dimension) {
                 littleMaidMob.Debug(String.format("ID:%s, %d -> %d, Change HomeWorld. reset HomePosition.", theMaid, theMaid.homeWorld, theMaid.worldObj.provider.dimensionId));

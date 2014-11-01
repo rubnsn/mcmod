@@ -26,6 +26,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * モード管理用クラス
@@ -60,6 +62,9 @@ public class ModeController implements IExtendedEntityProperties {
     private List<EntityModeBase> modeList;
     /** 現在実行中のモード */
     private EntityModeBase activeMode;
+
+    /** 待機判定 */
+    private boolean maidFreedom;
 
     public Map<Integer, EntityAITasks[]> maidModeList;
     public Map<String, Integer> maidModeIndexList;
@@ -205,6 +210,10 @@ public class ModeController implements IExtendedEntityProperties {
         return null;
     }
 
+    public String getDisplayModeName() {
+        return owner.isWait() ? "WAIT" : isFreedom() ? "FREEDOM" : mstatModeName;
+    }
+
     public String getModeName() {
         return mstatModeName;
     }
@@ -314,6 +323,7 @@ public class ModeController implements IExtendedEntityProperties {
                 }
             }
         } catch (Exception s) {
+            littleMaidMob.Debug("tasks replace rxception");
         }
 
     }
@@ -321,7 +331,7 @@ public class ModeController implements IExtendedEntityProperties {
     // 自由行動
     public void setFreedom(boolean pFlag) {
         // AI関連のリセットもここで。
-        owner.maidFreedom = pFlag;
+        maidFreedom = pFlag;
         aiRestrictRain.setEnable(pFlag);
         aiFreeRain.setEnable(pFlag);
         aiWander.setEnable(pFlag);
@@ -332,7 +342,7 @@ public class ModeController implements IExtendedEntityProperties {
         //      setAIMoveSpeed(pFlag ? moveSpeed_Nomal : moveSpeed_Max);
         //      setMoveForward(0.0F);
 
-        if (owner.maidFreedom && owner.isContract()) {
+        if (maidFreedom && owner.isContract()) {
             //          func_110171_b(
             owner.setHomeArea(MathHelper.floor_double(owner.posX), MathHelper.floor_double(owner.posY), MathHelper.floor_double(owner.posZ), 16);
         } else {
@@ -341,7 +351,11 @@ public class ModeController implements IExtendedEntityProperties {
             //          setPlayingRole(0);
         }
 
-        owner.setMaidFlags(owner.maidFreedom, dataWatch_Flags_Freedom);
+        owner.setMaidFlags(maidFreedom, dataWatch_Flags_Freedom);
+    }
+
+    public boolean isFreedom() {
+        return maidFreedom;
     }
 
     public void showSpecial(RenderLittleMaid renderLittleMaid, double par2, double par4, double par6) {
@@ -359,6 +373,8 @@ public class ModeController implements IExtendedEntityProperties {
         for (EntityModeBase iem : modeList) {
             iem.writeEntityToNBT(compound);
         }
+        compound.setBoolean("Freedom", maidFreedom);
+        compound.setString("Mode", mstatModeName);
     }
 
     @Override
@@ -366,11 +382,25 @@ public class ModeController implements IExtendedEntityProperties {
         for (EntityModeBase iem : modeList) {
             iem.readEntityFromNBT(compound);
         }
+        setFreedom(compound.getBoolean("Freedom"));
+        setMaidMode(compound.getString("Mode"));
     }
 
     @Override
     public void init(Entity entity, World world) {
 
+    }
+
+    /** クライアント同期用、サーバーではsetFreedomを使用すること */
+    @SideOnly(Side.CLIENT)
+    public void setMaidFreedom(boolean bool) {
+        maidFreedom = bool;
+    }
+
+    public void callOnupdate() {
+        for (EntityModeBase iem : modeList) {
+            iem.onUpdate(maidMode);
+        }
     }
 
 }

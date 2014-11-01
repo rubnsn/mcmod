@@ -1,10 +1,13 @@
 package mmm.littleMaidMob;
 
 import mmm.littleMaidMob.entity.EntityLittleMaidBase;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+import net.minecraftforge.common.IExtendedEntityProperties;
 
-public class TileContainer {
+public class TileContainer implements IExtendedEntityProperties {
     private EntityLittleMaidBase maid;
     private int[] maidTile = new int[3];
     private int maidTiles[][] = new int[9][3];
@@ -28,26 +31,6 @@ public class TileContainer {
 
     public int getSize() {
         return maidTiles.length;
-    }
-
-    public void readNBT(NBTTagCompound nbt) {
-        if (nbt.hasKey("Tiles")) {
-            NBTTagCompound lnbt = nbt.getCompoundTag("Tiles");
-            for (int li = 0; li < maidTiles.length; li++) {
-                int ltile[] = lnbt.getIntArray(String.valueOf(li));
-                maidTiles[li] = ltile.length > 0 ? ltile : null;
-            }
-        }
-    }
-
-    public void writeNBT(NBTTagCompound nbt) {
-        NBTTagCompound lnbt = new NBTTagCompound();
-        for (int li = 0; li < maidTiles.length; li++) {
-            if (maidTiles[li] != null) {
-                lnbt.setIntArray(String.valueOf(li), maidTiles[li]);
-            }
-        }
-        nbt.setTag("Tiles", lnbt);
     }
 
     public boolean isUsingTile(TileEntity pTile) {
@@ -204,5 +187,31 @@ public class TileContainer {
 
     public int[] getPositon() {
         return this.maidTile;
+    }
+
+    @Override
+    public void saveNBTData(NBTTagCompound compound) {
+        NBTTagCompound lnbt = new NBTTagCompound();
+        for (int li = 0; li < maidTiles.length; li++) {
+            if (maidTiles[li] != null) {
+                lnbt.setIntArray(String.valueOf(li), maidTiles[li]);
+            }
+        }
+        compound.setTag("Tiles", lnbt);
+    }
+
+    @Override
+    public void loadNBTData(NBTTagCompound compound) {
+        if (compound.hasKey("Tiles")) {
+            NBTTagCompound lnbt = compound.getCompoundTag("Tiles");
+            for (int li = 0; li < maidTiles.length; li++) {
+                int ltile[] = lnbt.getIntArray(String.valueOf(li));
+                maidTiles[li] = ltile.length > 0 ? ltile : null;
+            }
+        }
+    }
+
+    @Override
+    public void init(Entity entity, World world) {
     }
 }

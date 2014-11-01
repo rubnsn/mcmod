@@ -20,7 +20,7 @@ public class LMM_EntityAIFollowOwner extends EntityAIBase implements
     protected double sprintDist;
     protected double toDistance;
     private boolean lastAvoidWater;
-    protected boolean isEnable;
+    private boolean isEnable;
 
     public LMM_EntityAIFollowOwner(EntityLittleMaidBase par1EntityLittleMaid, float pSpeed, double pMin, double pMax, double pSprintDistSQ) {
         theMaid = par1EntityLittleMaid;
@@ -37,6 +37,7 @@ public class LMM_EntityAIFollowOwner extends EntityAIBase implements
     /**
      * Returns whether the EntityAIBase should begin execution.
      */
+    @Override
     public boolean shouldExecute() {
         if (!isEnable)
             return false;
@@ -62,6 +63,7 @@ public class LMM_EntityAIFollowOwner extends EntityAIBase implements
     /**
      * Returns whether an in-progress EntityAIBase should continue executing
      */
+    @Override
     public boolean continueExecuting() {
         toDistance = theMaid.getDistanceSqToEntity(theOwner);
         return !petPathfinder.noPath() && toDistance > maxDist && !theMaid.isSitting();
@@ -70,6 +72,7 @@ public class LMM_EntityAIFollowOwner extends EntityAIBase implements
     /**
      * Execute a one shot task or start executing a continuous task
      */
+    @Override
     public void startExecuting() {
         field_48310_h = 0;
         lastAvoidWater = petPathfinder.getAvoidsWater();
@@ -79,6 +82,7 @@ public class LMM_EntityAIFollowOwner extends EntityAIBase implements
     /**
      * Resets the task
      */
+    @Override
     public void resetTask() {
         theMaid.setSprinting(false);
         theOwner = null;
@@ -89,6 +93,7 @@ public class LMM_EntityAIFollowOwner extends EntityAIBase implements
     /**
      * Updates the task
      */
+    @Override
     public void updateTask() {
         theMaid.getLookHelper().setLookPositionWithEntity(theOwner, 10F, theMaid.getVerticalFaceSpeed());
 

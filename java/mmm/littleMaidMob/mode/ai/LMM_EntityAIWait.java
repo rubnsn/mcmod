@@ -16,7 +16,7 @@ public class LMM_EntityAIWait extends EntityAISit {
 
     @Override
     public boolean shouldExecute() {
-        return theMaid.isMaidWaitEx() || (!theMaid.isFreedom() && theMaid.mstatMasterEntity == null);
+        return theMaid.isMaidWaitEx() || (!theMaid.modeController.isFreedom() && theMaid.mstatMasterEntity == null);
     }
 
 }

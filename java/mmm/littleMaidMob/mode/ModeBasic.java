@@ -106,7 +106,7 @@ public class ModeBasic extends EntityModeBlockBase {
     @Override
     public boolean changeMode(EntityPlayer pentityplayer) {
         // 強制的に割り当てる
-        getOwner().setMaidMode("Escorter");
+        getOwner().modeController.setMaidMode("Escorter");
         return true;
     }
 
@@ -141,7 +141,7 @@ public class ModeBasic extends EntityModeBlockBase {
 
     @Override
     public boolean isSearchBlock() {
-        if (controller.getMaidModeInt() == mmode_Escorter && getOwner().isFreedom() && getOwner().inventory.getFirstEmptyStack() == -1) {
+        if (controller.getMaidModeInt() == mmode_Escorter && getOwner().modeController.isFreedom() && getOwner().inventory.getFirstEmptyStack() == -1) {
             // 対象をまだ見つけていないときは検索を行う。
             fDistance = 100F;
             return myInventory == null;
