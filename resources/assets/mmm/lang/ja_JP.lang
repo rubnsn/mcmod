@@ -1,1 +1,6 @@
+#ja_JP
 tile.MultiBench.name=マルチプルクラフティングテーブル
+littleMaidMob.text.STATUS=メイド状態
+littleMaidMob.mode.Escorter=従者
+littleMaidMob.mode.Wild=野生種
+container.insideSkirt=秘密のポケット

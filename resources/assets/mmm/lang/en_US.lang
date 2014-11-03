@@ -1,1 +1,8 @@
+#en_US
 tile.MultiBench.name=Multiple Crafting Table
+littleMaidMob.text.STATUS=Status
+littleMaidMob.mode.Escorter=Escorter
+littleMaidMob.mode.Wait=Wait
+littleMaidMob.mode.Wild=Wild
+littleMaidMob.mode.Archer
+container.insideSkirt=Skirt

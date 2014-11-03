@@ -6,6 +6,7 @@ import net.minecraft.block.BlockTNT;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -26,12 +27,17 @@ public class InventoryLittleMaid extends InventoryPlayer {
         isOpen = false;
     }
 
+    /***/
+    public ItemStack armorItemInSlot(int p_70440_1_) {
+        return this.armorInventory[p_70440_1_];
+    }
+
     /**
      * 初期化時のインベントリサイズ
      * 
      * @return
      */
-    protected int getInitInvSize() {
+    public int getInitInvSize() {
         // メイドインベントリはプレーヤの半分
         return 18;
     }
@@ -66,8 +72,11 @@ public class InventoryLittleMaid extends InventoryPlayer {
         // EntityPlayerにしか対応してねぇ・・・
         for (int i = 0; i < armorInventory.length; i++) {
             try {
-                if (armorInventory[i] != null)
+                if (armorInventory[i] != null) {
+                    //同期しておく
+                    player.inventory.armorInventory = this.armorInventory;
                     armorInventory[i].getItem().onArmorTick(maid.worldObj, player, armorInventory[i]);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -229,6 +238,27 @@ public class InventoryLittleMaid extends InventoryPlayer {
         super.closeInventory();
         isOpen = false;
         maid.onGuiClosed();
+    }
+
+    public void setInventoryCurrentSlotContents(ItemStack itemstack) {
+        if (currentItem > -1) {
+            setInventorySlotContents(currentItem, itemstack);
+        }
+    }
+
+    public int getInventorySlotContainItem(Item item) {
+        // 指定されたアイテムIDの物を持っていれば返す
+        for (int j = 0; j < mainInventory.length; j++) {
+            if (mainInventory[j] != null && mainInventory[j].getItem() == item) {
+                return j;
+            }
+        }
+
+        return -1;
+    }
+
+    public ItemStack getHeadMount() {
+        return mainInventory[mainInventory.length - 1];
     }
 
     //TODO:つくる

@@ -14,6 +14,7 @@ import mmm.lib.multiModel.texture.MultiModelData;
 import mmm.littleMaidMob.Counter;
 import mmm.littleMaidMob.MaidCaps;
 import mmm.littleMaidMob.SwingController;
+import mmm.littleMaidMob.SwingController.SwingStatus;
 import mmm.littleMaidMob.TileContainer;
 import mmm.littleMaidMob.littleMaidMob;
 import mmm.littleMaidMob.inventory.InventoryLittleMaid;
@@ -21,6 +22,10 @@ import mmm.littleMaidMob.mode.EntityModeBase;
 import mmm.littleMaidMob.mode.ModeController;
 import mmm.littleMaidMob.sound.EnumSound;
 import mmm.util.MMM_Helper;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockFlower;
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockPumpkin;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
@@ -32,7 +37,10 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemPotion;
+import net.minecraft.item.ItemSkull;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -70,9 +78,6 @@ public class EntityLittleMaidBase extends EntityTameable implements
 
     /** 契約限界時間 */
     public int maidContractLimit;
-    /** 主の識別 */
-    public EntityPlayer mstatMasterEntity;
-    public double mstatMasterDistanceSq;//計算量減らすためのうんたん 
     /** 上司の識別 */
     public EntityLivingBase keeperEntity;
     /** 待機状態 */
@@ -102,6 +107,16 @@ public class EntityLittleMaidBase extends EntityTameable implements
     protected boolean mstatLookSuger;
     /** ベース移動速度 */
     double baseMoveSpeed = 0.3D;
+    /** 動的なもの */
+    public EntityPlayer mstatMasterEntity; // 主
+    public double mstatMasterDistanceSq; // 主との距離、計算軽量化用
+    protected boolean mstatBloodsuck;
+    protected boolean mstatClockMaid;
+    // マスク判定
+    protected int mstatMaskSelect;
+    // 追加の頭部装備
+    protected boolean mstatCamouflage;
+    protected boolean mstatPlanter;
 
     public EntityLittleMaidBase(World par1World) {
         super(par1World);
@@ -912,10 +927,6 @@ public class EntityLittleMaidBase extends EntityTameable implements
         return false;
     }
 
-    public boolean isMaskedMaid() {
-        return false;
-    }
-
     /**
      * 血にうえているがたんとか
      */
@@ -941,7 +952,20 @@ public class EntityLittleMaidBase extends EntityTameable implements
 
     //装備とかアイテム
 
-    private void setEquipItem(int i) {
+    public boolean getNextEquipItem() {
+        if (worldObj.isRemote) {
+            // クライアント側は処理しない
+            return false;
+        }
+
+        int li;
+        if (modeController.isActiveModeClass()) {
+            li = modeController.getActiveModeClass().getNextEquipItem(maidMode);
+        } else {
+            li = -1;
+        }
+        setEquipItem(swingController.getDominantArm(), li);
+        return li > -1;
     }
 
     public void setEquipItem(int pArm, int pIndex) {
@@ -958,6 +982,10 @@ public class EntityLittleMaidBase extends EntityTameable implements
             }
             swingController.mstatSwingStatus[pArm].setSlotIndex(pIndex);
         }
+    }
+
+    public void setEquipItem(int pIndex) {
+        setEquipItem(swingController.getDominantArm(), pIndex);
     }
 
     //音
@@ -1022,23 +1050,6 @@ public class EntityLittleMaidBase extends EntityTameable implements
     @Override
     public String toString() {
         return "Owner:" + getOwner();
-    }
-
-    //あいてむ
-    public boolean getNextEquipItem() {
-        if (worldObj.isRemote) {
-            // クライアント側は処理しない
-            return false;
-        }
-
-        int li;
-        if (modeController.isActiveModeClass()) {
-            li = modeController.getActiveModeClass().getNextEquipItem(maidMode);
-        } else {
-            li = -1;
-        }
-        setEquipItem(swingController.getDominantArm(), li);
-        return li > -1;
     }
 
     // 砂糖関連
@@ -1121,20 +1132,24 @@ public class EntityLittleMaidBase extends EntityTameable implements
     }
 
     @Override
+    public ItemStack func_130225_q(int par1) {
+        return inventory.armorItemInSlot(par1);
+    }
+
+    @Override
     public void setCurrentItemOrArmor(int par1, ItemStack par2ItemStack) {
-        /*TODO:そのうち
         par1 &= 0x0000ffff;
         if (par1 == 0) {
-            inventory.setInventorySlotContents(par1,par2ItemStack);
+            inventory.setInventoryCurrentSlotContents(par2ItemStack);
         } else if (par1 > 0 && par1 < 4) {
             inventory.armorInventory[par1 - 1] = par2ItemStack;
-            setTextureNames();
+            //setTextureNames();
         } else if (par1 == 4) {
-        //          maidInventory.mainInventory[mstatMaskSelect] = mstatMaskSelect > -1 ? par2ItemStack : null;
+            //          maidInventory.mainInventory[mstatMaskSelect] = mstatMaskSelect > -1 ? par2ItemStack : null;
             if (mstatMaskSelect > -1) {
                 inventory.mainInventory[mstatMaskSelect] = par2ItemStack;
             }
-            setTextureNames();
+            //setTextureNames();
         } else {
             par1 -= 5;
             // 持ち物のアップデート
@@ -1143,34 +1158,100 @@ public class EntityLittleMaidBase extends EntityTameable implements
             int lslotindex = par1 & 0x7f;
             int lequip = (par1 >>> 8) & 0xff;
             inventory.setInventorySlotContents(lslotindex, par2ItemStack);
-            inventory.resetChanged(lslotindex); // これは意味ないけどな。
             inventory.inventoryChanged = true;
-        //          if (par1 >= maidInventory.mainInventory.length) {
-        //              LMM_Client.setArmorTextureValue(this);
-        //          }
+            //          if (par1 >= maidInventory.mainInventory.length) {
+            //              LMM_Client.setArmorTextureValue(this);
+            //          }
 
-            for (SwingStatus lss: getSwingStatus().mstatSwingStatus) {
+            for (SwingStatus lss : swingController.mstatSwingStatus) {
                 if (lslotindex == lss.index) {
                     lss.index = -1;
                 }
             }
             if (lequip != 0xff) {
                 setEquipItem(lequip, lslotindex);
-        //              mstatSwingStatus[lequip].index = lslotindex;
+                //              mstatSwingStatus[lequip].index = lslotindex;
             }
-            if (lslotindex >= inventory.getSizeInventory()) {
-                setTextureNames();
+            if (lslotindex >= inventory.getInitInvSize()) {
+                //setTextureNames();
             }
-            String s = par2ItemStack == null ? null : par2ItemStack.getItemName();
-            littleMaidMob.Debug(String.format("Slot(%2d:%d):%s", lslotindex, lequip, s == null ? "NoItem" : s));
+            String s = par2ItemStack == null ? null : par2ItemStack.getItem().getUnlocalizedName();
+            littleMaidMob.Debug(String.format("ID:%s Slot(%2d:%d):%s", this, lslotindex, lequip, s == null ? "NoItem" : s));
         }
-        */
     }
 
     @Override
     public ItemStack[] getLastActiveItems() {
-        // 被ダメ時に此処を参照するのでNULL以外を返すこと。
-        return new ItemStack[0];
+        return inventory.armorInventory;
+    }
+
+    protected void checkClockMaid() {
+        // 時計を持っているか？
+        mstatClockMaid = inventory.getInventorySlotContainItem(Items.clock) > -1;
+    }
+
+    /**
+     * 時計を持っているか?
+     */
+    public boolean isClockMaid() {
+        return mstatClockMaid;
+    }
+
+    protected void checkMaskedMaid() {
+        // インベントリにヘルムがあるか？
+        for (int i = inventory.mainInventory.length - 1; i >= 0; i--) {
+            ItemStack is = inventory.getStackInSlot(i);
+            if (is != null && is.getItem() instanceof ItemArmor && ((ItemArmor) is.getItem()).armorType == 0) {
+                // ヘルムを持ってる
+                mstatMaskSelect = i;
+                inventory.armorInventory[3] = is;
+                if (worldObj.isRemote) {
+                    //setTextureNames();
+                }
+                return;
+            }
+        }
+
+        mstatMaskSelect = -1;
+        inventory.armorInventory[3] = null;
+        return;
+    }
+
+    /**
+     * メットを被ってるか
+     */
+    public boolean isMaskedMaid() {
+        return mstatMaskSelect > -1;
+    }
+
+    protected void checkHeadMount() {
+        // 追加の頭部装備の判定
+        ItemStack lis = inventory.getHeadMount();
+        mstatPlanter = false;
+        mstatCamouflage = false;
+        if (lis != null) {
+            if (lis.getItem() instanceof ItemBlock) {
+                Block lblock = Block.getBlockFromItem(lis.getItem());
+                mstatPlanter = (lblock instanceof BlockFlower) && lblock.getRenderType() == 1;
+                mstatCamouflage = (lblock instanceof BlockLeaves) || (lblock instanceof BlockPumpkin);
+            } else if (lis.getItem() instanceof ItemSkull) {
+                mstatCamouflage = true;
+            }
+        }
+    }
+
+    /**
+     * カモフラージュ！
+     */
+    public boolean isCamouflage() {
+        return mstatCamouflage;
+    }
+
+    /**
+     * 鉢植え状態
+     */
+    public boolean isPlanter() {
+        return mstatPlanter;
     }
 
 }

@@ -31,10 +31,10 @@ public class MaidCaps extends EntityCapsBase {
         caps.put("isContractEX", caps_isContractEX);
         caps.put("isRemainsC", caps_isRemainsC);
         caps.put("isMasked", caps_isMasked);
-        /*caps.put("isClock", caps_isClock);
+        //caps.put("isClock", caps_isClock);
         caps.put("isCamouflage", caps_isCamouflage);
         caps.put("isPlanter", caps_isPlanter);
-        caps.put("isOverdrive", caps_isOverdrive);
+        /*caps.put("isOverdrive", caps_isOverdrive);
         caps.put("isOverdriveDelay", caps_isOverdriveDelay);
         caps.put("entityIdFactor", caps_entityIdFactor);*/
         caps.put("height", caps_height);
@@ -50,8 +50,8 @@ public class MaidCaps extends EntityCapsBase {
         caps.put("Ground", caps_Ground);
         caps.put("Inventory", caps_Inventory);
         caps.put("interestedAngle", caps_interestedAngle);
-        //caps.put("currentArmor", caps_currentArmor);
-        //caps.put("currentEquippedItem", caps_currentEquippedItem);
+        caps.put("currentArmor", caps_currentArmor);
+        caps.put("currentEquippedItem", caps_currentEquippedItem);
     }
 
     public MaidCaps(EntityLittleMaidBase pOwner) {
@@ -105,13 +105,13 @@ public class MaidCaps extends EntityCapsBase {
             return owner.isRemainsContract();
         case caps_isMasked:
             return owner.isMaskedMaid();
-            /*case caps_isClock:
-                return owner.isClockMaid();
-            case caps_isCamouflage:
-                return owner.isCamouflage();
-            case caps_isPlanter:
-                return owner.isPlanter();
-            case caps_isOverdrive:
+            //case caps_isClock:
+            //    return owner.isClockMaid();
+        case caps_isCamouflage:
+            return owner.isCamouflage();
+        case caps_isPlanter:
+            return owner.isPlanter();
+            /*case caps_isOverdrive:
                 return owner.maidOverDriveTime.isEnable();
             case caps_isOverdriveDelay:
                 return owner.maidOverDriveTime.isDelay();
@@ -164,10 +164,10 @@ public class MaidCaps extends EntityCapsBase {
             return owner.inventory;
         case caps_interestedAngle:
             return owner.getInterestedAngle((Float) pArg[0]);
-            //      case caps_currentArmor:
-            //          return owner.getCurrentItemOrArmor((Integer)pArg[0] + 1);
-            //      case caps_currentEquippedItem:
-            //          return owner.getCurrentEquippedItem();
+        case caps_currentArmor:
+            return owner.getEquipmentInSlot((Integer) pArg[0] + 1);
+        case caps_currentEquippedItem:
+            return owner.getCurrentEquippedItem();
             /*case caps_PartsVisible:
                 return owner.getMultiModel().model.textureData.selectValue;
             case caps_textureData:
