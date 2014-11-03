@@ -73,6 +73,7 @@ public class MultiModelData implements IExtendedEntityProperties {
             modelPartsVisible = lnbt.getInteger("modelPartsVisible");
             armorName = lnbt.getString("armorName");
             armorPartsVisible = lnbt.getInteger("armorPartsVisible");
+            setChange();
         }
     }
 
@@ -117,6 +118,7 @@ public class MultiModelData implements IExtendedEntityProperties {
     public void setPrevTexturePackege() {
         model = MultiModelManager.instance.getPrevMultiModel(modelName);
         modelName = model.name;
+        color = model.getColor(color);
         setChange();
     }
 

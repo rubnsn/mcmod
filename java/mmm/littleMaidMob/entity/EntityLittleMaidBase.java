@@ -12,6 +12,7 @@ import mmm.lib.multiModel.model.IModelCaps;
 import mmm.lib.multiModel.texture.IMultiModelEntity;
 import mmm.lib.multiModel.texture.MultiModelData;
 import mmm.littleMaidMob.Counter;
+import mmm.littleMaidMob.MaidCaps;
 import mmm.littleMaidMob.SwingController;
 import mmm.littleMaidMob.TileContainer;
 import mmm.littleMaidMob.littleMaidMob;
@@ -280,16 +281,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
         if (this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getBaseValue() != baseMoveSpeed) {
             this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(baseMoveSpeed);
         }
-        //首
-        prevRotateAngleHead = rotateAngleHead;
-        if (getLooksWithInterest()) {
-            rotateAngleHead = rotateAngleHead + (1.0F - rotateAngleHead) * 0.4F;
-            numTicksToChaseTarget = 10;
-        } else {
-            rotateAngleHead = rotateAngleHead + (0.0F - rotateAngleHead) * 0.4F;
-            if (numTicksToChaseTarget > 0)
-                numTicksToChaseTarget--;
-        }
+
         //ますたーきょり
         mstatMasterEntity = getMaidMasterEntity();
         if (mstatMasterEntity != null) {
@@ -351,7 +343,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
             if (numTicksToChaseTarget > 0)
                 numTicksToChaseTarget--;
         }
-        //System.out.println(getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed).getBaseValue() + ":" + (worldObj.isRemote ? "C" : "S"));
+        //System.out.println(height + ":" + (worldObj.isRemote ? "C" : "S"));
 
     }
 
@@ -701,6 +693,19 @@ public class EntityLittleMaidBase extends EntityTameable implements
         return (prevRotateAngleHead + (rotateAngleHead - prevRotateAngleHead) * f) * ((looksWithInterestAXIS ? 0.08F : -0.08F) * (float) Math.PI);
     }
 
+    @Override
+    public boolean isBreedingItem(ItemStack par1ItemStack) {
+        // お好みは何？
+        if (par1ItemStack != null) {
+            if (isContractEX()) {
+                return par1ItemStack.getItem() == Items.sugar;
+            } else {
+                return par1ItemStack.getItem() == Items.cake;
+            }
+        }
+        return false;
+    }
+
     // GUI関連
 
     /**
@@ -882,6 +887,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
     @Override
     public void initMultiModel() {
         // 値の初期化
+        multiModel.modelCaps = new MaidCaps(this);
         multiModel.setColor(0x0c);
         setModel("MMM_Aug");
         //		multiModel.setModelFromName("MMM_Aug");
