@@ -83,17 +83,6 @@ public class RenderLittleMaid extends RenderMultiModel {
 
         }
       */
-    @Override
-    protected void renderModel(EntityLivingBase par1EntityLiving, float par2, float par3, float par4, float par5, float par6, float par7) {
-        if (!par1EntityLiving.isInvisible()) {
-            modelMain.setArmorRendering(true);
-        } else {
-            modelMain.setArmorRendering(false);
-        }
-        // アイテムのレンダリング位置を獲得するためrenderを呼ぶ必要がある
-        //mainModel.render(par1EntityLiving, par2, par3, par4, par5, par6, par7);
-        super.renderModel(par1EntityLiving, par2, par3, par4, par5, par6, par7);
-    }
 
     @Override
     protected void passSpecialRender(EntityLivingBase par1EntityLiving, double par2, double par4, double par6) {

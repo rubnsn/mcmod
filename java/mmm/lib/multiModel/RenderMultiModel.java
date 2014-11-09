@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -26,12 +27,38 @@ public class RenderMultiModel extends RenderLiving {
         super(null, pShadowSize);
         modelFATT = new ModelBaseDuo(this);
         modelFATT.isModelAlphablend = MMMLib.isModelAlphaBlend;
-        //		modelFATT.isRendering = true;
+        modelFATT.isRendering = true;
         modelMain = new ModelBaseSolo(this);
         modelMain.isModelAlphablend = MMMLib.isModelAlphaBlend;
         modelMain.capsLink = modelFATT;
         mainModel = modelMain;
         setRenderPassModel(modelFATT);
+    }
+
+    protected int showArmorParts(EntityLivingBase par1EntityLiving, int par2, float par3) {
+        // アーマーの表示設定
+        modelFATT.renderParts = par2;
+        modelFATT.renderCount = 0;
+        ItemStack is = par1EntityLiving.getEquipmentInSlot(par2 + 1);
+        if (is != null && is.stackSize > 0) {
+            modelFATT.showArmorParts(par2);
+            return is.isItemEnchanted() ? 15 : 1;
+        }
+
+        return -1;
+    }
+
+    @Override
+    protected int shouldRenderPass(EntityLivingBase par1EntityLiving, int par2, float par3) {
+        return showArmorParts((EntityLivingBase) par1EntityLiving, par2, par3);
+    }
+
+    @Override
+    protected void preRenderCallback(EntityLivingBase entityliving, float f) {
+        Float lscale = (Float) modelMain.getCapsValue(IModelCaps.caps_ScaleFactor);
+        if (lscale != null) {
+            GL11.glScalef(lscale, lscale, lscale);
+        }
     }
 
     public void setModelValues(EntityLivingBase par1EntityLiving, double par2, double par4, double par6, float par8, float par9, IModelCaps pEntityCaps) {
@@ -42,15 +69,21 @@ public class RenderMultiModel extends RenderLiving {
             modelFATT.modelInner = (ModelMultiBase) modelContainer.getModelClass()[1];
             modelFATT.modelOuter = (ModelMultiBase) modelContainer.getModelClass()[2];
             //          modelMain.model = ((MMM_TextureBox)ltentity.getTextureBox()[0]).models[0];
-            //modelMain.textures = ltentity.getMultiModel().model.getTexture(0);
+            modelMain.textures = new ResourceLocation[] { getEntityTexture(par1EntityLiving) };
             //          modelFATT.modelInner = ((MMM_TextureBox)ltentity.getTextureBox()[1]).models[1];
             //          modelFATT.modelOuter = ((MMM_TextureBox)ltentity.getTextureBox()[1]).models[2];
             //テクスチャは拾える？
-            //modelFATT.textureInner = ltentity.getTextures(1);
-            //modelFATT.textureOuter = ltentity.getTextures(2);
-            //modelFATT.textureInnerLight = ltentity.getTextures(3);
-            //modelFATT.textureOuterLight = ltentity.getTextures(4);
+            ItemStack is = par1EntityLiving.getEquipmentInSlot(2);
+            if (is != null) {
+                //TODO:効率よく…
+                ResourceLocation[] loc = new ResourceLocation[] { modelContainer.getArmorTexture(MultiModelManager.tx_armor1, is), modelContainer.getArmorTexture(MultiModelManager.tx_armor1, is), modelContainer.getArmorTexture(MultiModelManager.tx_armor2, is), modelContainer.getArmorTexture(MultiModelManager.tx_armor2, is) };
+                modelFATT.textureInner = loc;
+                modelFATT.textureOuter = loc;
+                //modelFATT.textureInnerLight = ltentity.getTextures(3);
+                //modelFATT.textureOuterLight = ltentity.getTextures(4);
+            }
             modelFATT.textureLightColor = (float[]) modelFATT.getCapsValue(IModelCaps.caps_textureLightColor, pEntityCaps);
+
         }
         modelMain.setEntityCaps(pEntityCaps);
         modelFATT.setEntityCaps(pEntityCaps);
@@ -96,11 +129,34 @@ public class RenderMultiModel extends RenderLiving {
     }
 
     @Override
-    protected void preRenderCallback(EntityLivingBase entityliving, float f) {
-        Float lscale = (Float) modelMain.getCapsValue(IModelCaps.caps_ScaleFactor);
-        if (lscale != null) {
-            GL11.glScalef(lscale, lscale, lscale);
+    protected void renderModel(EntityLivingBase par1EntityLiving, float par2, float par3, float par4, float par5, float par6, float par7) {
+        if (!par1EntityLiving.isInvisible()) {
+            modelMain.setArmorRendering(true);
+        } else {
+            modelMain.setArmorRendering(false);
         }
+        // アイテムのレンダリング位置を獲得するためrenderを呼ぶ必要がある
+        mainModel.render(par1EntityLiving, par2, par3, par4, par5, par6, par7);
+    }
+
+    @Override
+    protected void renderEquippedItems(EntityLivingBase par1EntityLiving, float par2) {
+        // ハードポイントの描画
+        modelMain.renderItems(par1EntityLiving, this);
+        renderArrowsStuckInEntity(par1EntityLiving, par2);
+    }
+
+    @Override
+    protected int getColorMultiplier(EntityLivingBase par1EntityLivingBase, float par2, float par3) {
+        modelMain.renderCount = 16;
+        return super.getColorMultiplier(par1EntityLivingBase, par2, par3);
+    }
+
+    @Override
+    protected int inheritRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3) {
+        int li = super.inheritRenderPass(par1EntityLivingBase, par2, par3);
+        modelFATT.renderCount = 16;
+        return li;
     }
 
 }

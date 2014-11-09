@@ -7,6 +7,7 @@ import java.util.TreeMap;
 
 import mmm.lib.multiModel.MultiModelManager;
 import mmm.lib.multiModel.model.AbstractModelBase;
+import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -157,8 +158,8 @@ public class MultiModelContainer {
             l = (10 * itemstack.getItemDamage() / itemstack.getMaxDamage());
         }
         //		String ls = itemstack.getItem().getArmorTexture(stack, entity, slot, type)
-        //		return getArmorTextureName(pIndex, MMM_TextureManager.armorFilenamePrefix[((ItemArmor)itemstack.getItem()).renderIndex], l);
-        return null;
+        return getArmorTexture(pIndex, RenderBiped.bipedArmorFilenamePrefix[((ItemArmor) itemstack.getItem()).renderIndex], l);
+        //return null;
     }
 
     public ResourceLocation getArmorTexture(int pIndex, String pArmorPrefix, int pDamage) {
