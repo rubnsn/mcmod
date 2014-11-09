@@ -146,7 +146,6 @@ public class SwingController implements IExtendedEntityProperties {
             if (attackTime > 0) {
                 attackTime--;
             }
-
             // 腕振り
             //      int li = pEntity.getSwingSpeedModifier();
             //      int li = pEntity.getArmSwingAnimationEnd();
@@ -167,7 +166,6 @@ public class SwingController implements IExtendedEntityProperties {
                 swingProgressInt = 0;
             }
             swingProgress = (float) swingProgressInt / (float) li;
-
             if (isUsingItem()) {
                 ItemStack itemstack = pEntity.inventory.getStackInSlot(index);
                 Entity lrentity = pEntity.worldObj.isRemote ? null : pEntity;
@@ -190,7 +188,6 @@ public class SwingController implements IExtendedEntityProperties {
          * 選択中のスロット番号を設定
          */
         public void setSlotIndex(int pIndex) {
-            index = pIndex;
             lastIndex = -2;
         }
 
@@ -362,8 +359,10 @@ public class SwingController implements IExtendedEntityProperties {
 
     @Override
     public void saveNBTData(NBTTagCompound compound) {
-
         compound.setInteger("DominantArm", maidDominantArm);
+        for (int i = 0; i < mstatSwingStatus.length; i++) {
+            compound.setByte("armindex" + i, maid.getDataWatcher().getWatchableObjectByte(28 + i));
+        }
     }
 
     @Override
@@ -374,6 +373,11 @@ public class SwingController implements IExtendedEntityProperties {
                 maidDominantArm = 0;
             }
         }
+
+        for (int i = 0; i < mstatSwingStatus.length; i++) {
+            maid.getDataWatcher().updateObject(28 + i, compound.getByte("armindex" + i));
+        }
+        maid.inventory.markDirty();
     }
 
     @Override

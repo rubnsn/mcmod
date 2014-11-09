@@ -18,6 +18,7 @@ public class ModeManager {
 
     public void init() {
         this.addModes(ModeBasic.class);
+        this.addModes(ModeFencer.class);
     }
 
     /**
@@ -34,7 +35,7 @@ public class ModeManager {
                 if (o1.priority() == o2.priority()) {
                     return 0;
                 }
-                return o1.priority() < o2.priority() ? 1 : -1;
+                return o1.priority() < o2.priority() ? -1 : 1;
             }
         };
         List<EntityModeBase> list = new ArrayList<EntityModeBase>();

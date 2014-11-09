@@ -37,7 +37,7 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements
             return false;
         }
         if (!fmodeBase.isSearchBlock()) {
-            return fmodeBase.shouldBlock(theMaid.maidMode);
+            return fmodeBase.shouldBlock(theMaid.modeController.maidMode);
         }
 
         // ターゲットをサーチ
@@ -79,8 +79,8 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements
                 do {
                     for (int c = 0; c < 3; c++) {
                         yy = ly + (c == 2 ? -1 : c);
-                        if (fmodeBase.checkBlock(theMaid.maidMode, xx, yy, zz)) {
-                            if (fmodeBase.outrangeBlock(theMaid.maidMode, xx, yy, zz)) {
+                        if (fmodeBase.checkBlock(theMaid.modeController.maidMode, xx, yy, zz)) {
+                            if (fmodeBase.outrangeBlock(theMaid.modeController.maidMode, xx, yy, zz)) {
                                 theMaid.getTileContainer().setTilePos(xx, yy, zz);
                                 // TODO:Dummay
                                 EntityDummy.setDummyEntity(theMaid, 0x004fff4f, xx, yy, zz);
@@ -111,7 +111,7 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements
             }
             vt = (vt + 1) & 3;
         }
-        if (fmodeBase.overlooksBlock(theMaid.maidMode)) {
+        if (fmodeBase.overlooksBlock(theMaid.modeController.maidMode)) {
             TileEntity ltile = theMaid.getTileContainer().getTileEntity();
             if (ltile != null) {
                 lx = ltile.xCoord;
@@ -141,21 +141,21 @@ public class LMM_EntityAIFindBlock extends EntityAIBase implements
             return false;
         } else if (ld > 5.0D) {
             // 射程距離外
-            return theMaid.modeController.getActiveModeClass().outrangeBlock(theMaid.maidMode);
+            return theMaid.modeController.getActiveModeClass().outrangeBlock(theMaid.modeController.maidMode);
         } else {
             // 射程距離
-            return theMaid.modeController.getActiveModeClass().executeBlock(theMaid.maidMode);
+            return theMaid.modeController.getActiveModeClass().executeBlock(theMaid.modeController.maidMode);
         }
     }
 
     @Override
     public void startExecuting() {
-        fmodeBase.startBlock(theMaid.maidMode);
+        fmodeBase.startBlock(theMaid.modeController.maidMode);
     }
 
     @Override
     public void resetTask() {
-        fmodeBase.resetBlock(theMaid.maidMode);
+        fmodeBase.resetBlock(theMaid.modeController.maidMode);
     }
 
     @Override

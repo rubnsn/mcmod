@@ -6,6 +6,7 @@ import net.minecraft.block.BlockTNT;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -19,12 +20,14 @@ public class InventoryLittleMaid extends InventoryPlayer {
 
     public EntityLittleMaidBase maid;
     public boolean isOpen;
+    ItemStack[] prevItems;
 
     public InventoryLittleMaid(EntityLittleMaidBase pMaid) {
         super(pMaid.avatar);
         mainInventory = new ItemStack[getInitInvSize()];
         maid = pMaid;
         isOpen = false;
+        prevItems = new ItemStack[mainInventory.length + armorInventory.length];
     }
 
     /***/
@@ -261,8 +264,33 @@ public class InventoryLittleMaid extends InventoryPlayer {
         return mainInventory[mainInventory.length - 1];
     }
 
-    //TODO:つくる
-    public void setChanged(int li) {
+    // インベントリの転送関連
+    public boolean isChanged(int pIndex) {
+        // 変化があったかの判定
+        ItemStack lis = getStackInSlot(pIndex);
+        return !ItemStack.areItemStacksEqual(lis, prevItems[pIndex]);
+        // return (lis == null || prevItems[pIndex] == null) ?
+        // (prevItems[pIndex] != lis) : !ItemStack.areItemStacksEqual(lis,
+        // prevItems[pIndex]);
+        // return prevItems[pIndex] != getStackInSlot(pIndex);
+    }
+
+    public void setChanged(int pIndex) {
+        prevItems[pIndex] = new ItemStack(Items.sugar);
+    }
+
+    public void resetChanged(int pIndex) {
+        // 処理済みのチェック
+        ItemStack lis = getStackInSlot(pIndex);
+        prevItems[pIndex] = (lis == null ? null : lis.copy());
+    }
+
+    public void clearChanged() {
+        // 強制リロード用、ダミーを登録して強制的に一周させる
+        ItemStack lis = new ItemStack(Items.sugar);
+        for (int li = 0; li < prevItems.length; li++) {
+            prevItems[li] = lis;
+        }
     }
 
 }

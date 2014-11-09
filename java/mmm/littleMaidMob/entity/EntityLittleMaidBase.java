@@ -86,8 +86,6 @@ public class EntityLittleMaidBase extends EntityTameable implements
     /** 待機状態 */
     protected boolean maidWait;
     protected int mstatWaitCount;
-    /** 動作状態 */
-    public short maidMode;
 
     /** 文字しているモードの管理用クラス */
     public ModeController modeController;
@@ -202,6 +200,9 @@ public class EntityLittleMaidBase extends EntityTameable implements
         dataWatcher.addObject(dataWatch_ItemUse, Integer.valueOf(0));
         // 27:保持経験値
         dataWatcher.addObject(dataWatch_ExpValue, Integer.valueOf(0));
+        // 28:swingインデックス同期
+        dataWatcher.addObject(28, Byte.valueOf((byte) -1));
+        dataWatcher.addObject(29, Byte.valueOf((byte) -1));
 
         // TODO:test
         // 31:自由変数、EntityMode等で使用可能な変数。
@@ -331,6 +332,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
             // 腕の挙動関連
             litemuse = dataWatcher.getWatchableObjectInt(dataWatch_ItemUse);
             for (int li = 0; li < swingController.mstatSwingStatus.length; li++) {
+                swingController.mstatSwingStatus[li].index = dataWatcher.getWatchableObjectByte(28 + li);
                 ItemStack lis = swingController.mstatSwingStatus[li].getItemStack(this);
                 if ((litemuse & (1 << li)) > 0 && lis != null) {
                     swingController.mstatSwingStatus[li].setItemInUse(lis, lis.getMaxItemUseDuration(), this);
@@ -390,8 +392,88 @@ public class EntityLittleMaidBase extends EntityTameable implements
                 litemuse |= (1 << li);
             }
         }
+        // 持ち物の確認
+        if (inventory.inventoryChanged) {
+            onInventoryChanged();
+            inventory.inventoryChanged = false;
+        }
+
+        if (!worldObj.isRemote) {
+            // サーバー側処理
+            // アイテム使用状態の更新
+            dataWatcher.updateObject(dataWatch_ItemUse, litemuse);
+            // インベントリの更新
+            //          if (!mstatOpenInventory) {
+            for (int li = 0; li < inventory.getSizeInventory(); li++) {
+                boolean lchange = false;
+                int lselect = 0xff;
+                // 選択装備が変わった
+                for (int lj = 0; lj < swingController.mstatSwingStatus.length; lj++) {
+                    lchange = swingController.mstatSwingStatus[lj].checkChanged();
+                    if (swingController.mstatSwingStatus[lj].index == li) {
+                        lselect = lj;
+                    }
+                }
+                // インベントリの中身が変わった
+                if (lchange || inventory.isChanged(li)) {
+                    //不要そう
+                    //((WorldServer) worldObj).getEntityTracker().sendPacketToAllPlayersTrackingEntity(this, new S09PacketHeldItemChange( (li | lselect << 8) + 5));
+                    //((WorldServer) worldObj).getEntityTracker().func_151248_b(this, new S09PacketHeldItemChange((li | lselect << 8) + 5));
+                    inventory.resetChanged(li);
+                    littleMaidMob.Debug(String.format("Me:%s-%s - Slot(%x:%d-%d,%d) Update.", this, worldObj.isRemote ? "Client" : "Server", lselect, li, swingController.mstatSwingStatus[0].index, swingController.mstatSwingStatus[1].index));
+                }
+                //              }
+            }
+            /*
+            // 弓構え
+            mstatAimeBow &= !getSwingStatusDominant().canAttack();
+            // 構えの更新
+            updateAimebow();
+            
+            // TODO:test
+            if (dataWatcher.getWatchableObjectInt(dataWatch_ExpValue) != experienceValue) {
+                dataWatcher.updateObject(dataWatch_ExpValue, Integer.valueOf(experienceValue));
+            }
+            
+            // 自分より大きなものは乗っけない（イカ除く）
+            if (riddenByEntity != null && !(riddenByEntity instanceof EntitySquid)) {
+                if (height * width < riddenByEntity.height * riddenByEntity.width) {
+                    if (riddenByEntity instanceof EntityLivingBase) {
+                        attackEntityFrom(DamageSource.causeMobDamage((EntityLivingBase)riddenByEntity), 0);
+                    }
+                    riddenByEntity.mountEntity(null);
+                    return;
+                }
+            }
+            
+            // 斧装備時は攻撃力が上がる
+            AttributeInstance latt = this.func_110148_a(SharedMonsterAttributes.field_111264_e);
+            // 属性を解除
+            latt.func_111124_b(attAxeAmp);
+            ItemStack lis = getCurrentEquippedItem();
+            if (lis != null && lis.getItem() instanceof ItemAxe) {
+                // 属性を設定
+                latt.func_111121_a(attAxeAmp);
+            }
+            */
+        } else {
+            // Client
+            // TODO:test
+            experienceValue = dataWatcher.getWatchableObjectInt(dataWatch_ExpValue);
+        }
         //System.out.println(height + ":" + (worldObj.isRemote ? "C" : "S"));
 
+    }
+
+    /**
+     * インベントリが変更されました。
+     */
+    public void onInventoryChanged() {
+        checkClockMaid();
+        checkMaskedMaid();
+        checkHeadMount();
+        getNextEquipItem();
+        //      setArmorTextureValue();
     }
 
     /**
@@ -610,15 +692,8 @@ public class EntityLittleMaidBase extends EntityTameable implements
         }
     }
 
-    /*
-    public boolean isMaidContractOwner(String pname) {
-        return pname.equalsIgnoreCase(getOwnerName());
-    }
-    */
     public boolean isMaidContractOwner(EntityPlayer pentity) {
         return pentity == getMaidMasterEntity();
-
-        //		return pentity == mstatMasterEntity;
     }
 
     // AI関連
@@ -1143,7 +1218,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
 
         int li;
         if (modeController.isActiveModeClass()) {
-            li = modeController.getActiveModeClass().getNextEquipItem(maidMode);
+            li = modeController.getActiveModeClass().getNextEquipItem(modeController.maidMode);
         } else {
             li = -1;
         }
@@ -1163,6 +1238,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
             if (pIndex > -1) {
                 inventory.setChanged(pIndex);
             }
+            dataWatcher.updateObject(28 + pArm, (byte) pIndex);
             swingController.mstatSwingStatus[pArm].setSlotIndex(pIndex);
         }
     }

@@ -8,6 +8,7 @@ import mmm.lib.multiModel.texture.MultiModelData;
 import mmm.littleMaidMob.entity.EntityLittleMaidBase;
 import mmm.littleMaidMob.gui.GuiHandler;
 import mmm.littleMaidMob.item.ItemLMMSpawnEgg;
+import mmm.littleMaidMob.mode.IFF;
 import mmm.littleMaidMob.mode.ModeManager;
 import mmm.littleMaidMob.net.NetworkHandler;
 import net.minecraft.entity.EnumCreatureType;
@@ -48,6 +49,7 @@ public class littleMaidMob {
     public static boolean isNetherLand = false;
 
     private static int gueid = 0;
+    public static boolean cfg_Aggressive;
     public static final String MMULTI_MODEL_DOMAIN = "multimodel:";
 
     public static void Debug(String pText, Object... pData) {
@@ -107,6 +109,8 @@ public class littleMaidMob {
 
     @Mod.EventHandler
     public void loaded(FMLPostInitializationEvent pEvent) {
+        // IFFのロード
+        IFF.loadIFFs();
         //デバッグの邪魔
         //addSpawns();
     }
