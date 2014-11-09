@@ -58,6 +58,7 @@ public class InventoryLittleMaid extends InventoryPlayer {
         }
     }
 
+    @Override
     public void decrementAnimations() {
         // 落ちないようにtryで括る
         // アニメーション処理ってか毎時処理
@@ -73,8 +74,6 @@ public class InventoryLittleMaid extends InventoryPlayer {
         for (int i = 0; i < armorInventory.length; i++) {
             try {
                 if (armorInventory[i] != null) {
-                    //同期しておく
-                    player.inventory.armorInventory = this.armorInventory;
                     armorInventory[i].getItem().onArmorTick(maid.worldObj, player, armorInventory[i]);
                 }
             } catch (Exception e) {
@@ -83,6 +82,7 @@ public class InventoryLittleMaid extends InventoryPlayer {
         }
     }
 
+    @Override
     public int getTotalArmorValue() {
         int i = 0;
         for (int j = 0; j < armorInventory.length; j++)

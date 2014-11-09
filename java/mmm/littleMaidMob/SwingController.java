@@ -105,54 +105,6 @@ public class SwingController implements IExtendedEntityProperties {
         return mstatSwingStatus[pindex];
     }
 
-    public void writeNBT(NBTTagCompound nbt) {
-    }
-
-    public void readNBT(NBTTagCompound nbt) {
-
-    }
-
-    public void onUpdate(EntityLittleMaidBase pEntity) {
-        /*  TODO:対応必要そう
-        prevSwingProgress = swingProgress;
-        if (attackTime > 0) {
-            attackTime--;
-        }
-        
-        // 腕振り
-        int li = pEntity.getSwingSpeedModifier();
-        if (isSwingInProgress) {
-            swingProgressInt++;
-            if(swingProgressInt >= li) {
-                swingProgressInt = 0;
-                isSwingInProgress = false;
-            }
-        } else {
-            swingProgressInt = 0;
-        }
-        swingProgress = (float)swingProgressInt / (float)li;
-        
-        if (isUsingItem()) {
-            ItemStack itemstack = pEntity.maidInventory.getStackInSlot(index);
-            Entity lrentity = pEntity.worldObj.isRemote ? null : pEntity;
-            
-            if (itemstack != itemInUse) {
-                clearItemInUse(lrentity);
-            } else {
-                if (itemInUseCount <= 25 && itemInUseCount % 4 == 0) {
-                    // 食べかすとか
-                    updateItemUse(pEntity, 5);
-                }
-                if (--itemInUseCount <= 0 && lrentity != null) {
-                    onItemUseFinish(pEntity.maidAvatar);
-                }
-            }
-        }*/
-    }
-
-    public void onEntityUpdate(EntityLittleMaidBase entityLittleMaidBase) {
-    }
-
     public class SwingStatus {
         /** 使用中のアイテムスロット */
         public int index;

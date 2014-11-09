@@ -31,10 +31,12 @@ import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -49,6 +51,7 @@ import net.minecraft.network.play.server.S1DPacketEntityEffect;
 import net.minecraft.network.play.server.S1EPacketRemoveEntityEffect;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
@@ -122,10 +125,12 @@ public class EntityLittleMaidBase extends EntityTameable implements
         super(par1World);
         this.setSize(0.6F, 2.8F);
 
+        inventory = new InventoryLittleMaid(this);
         if (par1World instanceof WorldServer) {
             avatar = new EntityLittleMaidAvatar((WorldServer) par1World, new GameProfile(null, "littleMaidMob"));
+            avatar.setOwner(this);
+            avatar.inventory = inventory;
         }
-        inventory = new InventoryLittleMaid(this);
         swingController = new SwingController(this);
         registerExtendedProperties("swingController", swingController);
         modeController = new ModeController(this);
@@ -292,6 +297,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
 
     @Override
     public void onUpdate() {
+        int litemuse = 0;
         //ここでベース速度を変えると問題なく動作する、糞仕様死ね
         if (this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getBaseValue() != baseMoveSpeed) {
             this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(baseMoveSpeed);
@@ -321,6 +327,17 @@ public class EntityLittleMaidBase extends EntityTameable implements
             swingController.setDominantArm(dataWatcher.getWatchableObjectByte(dataWatch_DominamtArm));
 
             updateMaidFlagsClient();
+
+            // 腕の挙動関連
+            litemuse = dataWatcher.getWatchableObjectInt(dataWatch_ItemUse);
+            for (int li = 0; li < swingController.mstatSwingStatus.length; li++) {
+                ItemStack lis = swingController.mstatSwingStatus[li].getItemStack(this);
+                if ((litemuse & (1 << li)) > 0 && lis != null) {
+                    swingController.mstatSwingStatus[li].setItemInUse(lis, lis.getMaxItemUseDuration(), this);
+                } else {
+                    swingController.mstatSwingStatus[li].stopUsingItem(this);
+                }
+            }
         } else {
             boolean lf;
             // サーバー側
@@ -358,13 +375,179 @@ public class EntityLittleMaidBase extends EntityTameable implements
             if (numTicksToChaseTarget > 0)
                 numTicksToChaseTarget--;
         }
+        // SwingUpdate
+        SwingStatus lmss1 = swingController.getSwingStatusDominant();
+        prevSwingProgress = lmss1.prevSwingProgress;
+        swingProgress = lmss1.swingProgress;
+        //field_110158_av = avatar.field_110158_av = lmss1.swingProgressInt;
+        swingProgressInt = lmss1.swingProgressInt;
+        isSwingInProgress = lmss1.isSwingInProgress;
+        // 腕の挙動に関する処理
+        litemuse = 0;
+        for (int li = 0; li < swingController.mstatSwingStatus.length; li++) {
+            swingController.mstatSwingStatus[li].onUpdate(this);
+            if (swingController.mstatSwingStatus[li].isUsingItem()) {
+                litemuse |= (1 << li);
+            }
+        }
         //System.out.println(height + ":" + (worldObj.isRemote ? "C" : "S"));
 
     }
 
+    /**
+     * 埋葬対策コピー
+     */
+    private boolean isBlockTranslucent(int par1, int par2, int par3) {
+        return this.worldObj.getBlock(par1, par2, par3).isNormalCube();
+    }
+
+    /**
+     * 埋葬対策コピー
+     */
+    private boolean isHeadspaceFree(int x, int y, int z, int height) {
+        for (int i1 = 0; i1 < height; i1++) {
+            if (isBlockTranslucent(x, y + i1, z + 1))
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * 埋葬対策コピー
+     */
+    @Override
+    //protected boolean pushOutOfBlocks(double par1, double par3, double par5) {
+    protected boolean func_145771_j(double p_145771_1_, double p_145771_3_, double p_145771_5_) {
+        // EntityPlayerSPのを引っ張ってきた
+        if (this.noClip) {
+            return false;
+        }
+        int i = MathHelper.floor_double(p_145771_1_);
+        int j = MathHelper.floor_double(p_145771_3_);
+        int k = MathHelper.floor_double(p_145771_5_);
+        double d3 = p_145771_1_ - (double) i;
+        double d4 = p_145771_5_ - (double) k;
+        int entHeight = Math.max(Math.round(this.height), 1);
+        boolean inTranslucentBlock = true;
+        for (int i1 = 0; i1 < entHeight; i1++) {
+            if (!this.isBlockTranslucent(i, j + i1, k)) {
+                inTranslucentBlock = false;
+            }
+        }
+        if (inTranslucentBlock) {
+            boolean flag = !isHeadspaceFree(i - 1, j, k, entHeight);
+            boolean flag1 = !isHeadspaceFree(i + 1, j, k, entHeight);
+            boolean flag2 = !isHeadspaceFree(i, j, k - 1, entHeight);
+            boolean flag3 = !isHeadspaceFree(i, j, k + 1, entHeight);
+            byte b0 = -1;
+            double d5 = 9999.0D;
+            if (flag && d3 < d5) {
+                d5 = d3;
+                b0 = 0;
+            }
+            if (flag1 && 1.0D - d3 < d5) {
+                d5 = 1.0D - d3;
+                b0 = 1;
+            }
+            if (flag2 && d4 < d5) {
+                d5 = d4;
+                b0 = 4;
+            }
+            if (flag3 && 1.0D - d4 < d5) {
+                d5 = 1.0D - d4;
+                b0 = 5;
+            }
+            float f = 0.1F;
+            if (b0 == 0) {
+                this.motionX = (double) (-f);
+            }
+            if (b0 == 1) {
+                this.motionX = (double) f;
+            }
+            if (b0 == 4) {
+                this.motionZ = (double) (-f);
+            }
+            if (b0 == 5) {
+                this.motionZ = (double) f;
+            }
+        }
+        return false;
+    }
+
     public void onLivingUpdate() {
+        float lhealth = getHealth();
+        if (lhealth > 0) {
+            if (!worldObj.isRemote) {
+                if (swingController.getSwingStatusDominant().canAttack()) {
+                    if (!isBloodsuck()) {
+                        // 通常時は回復優先
+                        if (lhealth < getMaxHealth()) {
+                            if (inventory.consumeInventoryItem(Items.sugar)) {
+                                eatSugar(true, false);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         super.onLivingUpdate();
-        this.swingController.onEntityUpdate(this);
+        inventory.decrementAnimations();
+        // 埋葬対策
+        boolean grave = true;
+        grave &= func_145771_j(posX - (double) width * 0.34999999999999998D, boundingBox.minY, posZ + (double) width * 0.34999999999999998D);
+        grave &= func_145771_j(posX - (double) width * 0.34999999999999998D, boundingBox.minY, posZ - (double) width * 0.34999999999999998D);
+        grave &= func_145771_j(posX + (double) width * 0.34999999999999998D, boundingBox.minY, posZ - (double) width * 0.34999999999999998D);
+        grave &= func_145771_j(posX + (double) width * 0.34999999999999998D, boundingBox.minY, posZ + (double) width * 0.34999999999999998D);
+        if (grave && onGround) {
+            jump();
+        }
+        if (lhealth > 0) {
+            // 近接監視の追加はここ
+            // アイテムの回収
+            if (!worldObj.isRemote) {
+                List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(1.0D, 0.0D, 1.0D));
+                if (list != null) {
+                    for (int i = 0; i < list.size(); i++) {
+                        Entity entity = (Entity) list.get(i);
+                        if (!entity.isDead) {
+                            if (entity instanceof EntityArrow) {
+                                // 特殊回収
+                                ((EntityArrow) entity).canBePickedUp = 1;
+                            }
+                            entity.onCollideWithPlayer(avatar);
+                        }
+                    }
+                    // アイテムが一杯になっていてアイテムにタゲをとっている場合はタゲをクリア
+                    if (entityToAttack instanceof EntityItem && inventory.getFirstEmptyStack() == -1) {
+                        setTarget(null);
+                    }
+                }
+            }
+        }
+        if (!worldObj.isRemote) {
+            if (swingController.getSwingStatusDominant().canAttack()) {
+                //              mod_LMM_littleMaidMob.Debug("isRemort:" + worldObj.isRemote);
+                // 回復
+                if (getHealth() < getMaxHealth()) {
+                    if (inventory.consumeInventoryItem(Items.sugar)) {
+                        eatSugar(true, false);
+                    }
+                }
+                // つまみ食い
+                if (rand.nextInt(50000) == 0 && inventory.consumeInventoryItem(Items.sugar)) {
+                    eatSugar(true, false);
+                }
+                // 契約更新
+                if (isContractEX()) {
+                    float f = getContractLimitDays();
+                    if (f <= 6 && inventory.consumeInventoryItem(Items.sugar)) {
+                        // 契約更新
+                        eatSugar(true, true);
+                    }
+                }
+            }
+        }
     }
 
     /**
