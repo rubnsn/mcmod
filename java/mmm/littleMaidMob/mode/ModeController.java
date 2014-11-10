@@ -59,7 +59,7 @@ public class ModeController implements IExtendedEntityProperties {
     public EntityAIPanic aiPanic;
     public Profiler aiProfiler;
     /** 全モードリスト */
-    private List<EntityModeBase> modeList;
+    public final List<EntityModeBase> modeList;
     /** 現在実行中のモード */
     private EntityModeBase activeMode;
 

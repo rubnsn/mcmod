@@ -19,6 +19,7 @@ import mmm.littleMaidMob.TileContainer;
 import mmm.littleMaidMob.littleMaidMob;
 import mmm.littleMaidMob.inventory.InventoryLittleMaid;
 import mmm.littleMaidMob.mode.EntityModeBase;
+import mmm.littleMaidMob.mode.IFF;
 import mmm.littleMaidMob.mode.ModeController;
 import mmm.littleMaidMob.sound.EnumSound;
 import mmm.util.MMM_Helper;
@@ -28,6 +29,7 @@ import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockPumpkin;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -51,7 +53,9 @@ import net.minecraft.network.play.server.S1DPacketEntityEffect;
 import net.minecraft.network.play.server.S1EPacketRemoveEntityEffect;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
@@ -118,6 +122,10 @@ public class EntityLittleMaidBase extends EntityTameable implements
     // 追加の頭部装備
     protected boolean mstatCamouflage;
     protected boolean mstatPlanter;
+    //音声
+    protected EnumSound maidDamegeSound;
+    protected int maidSoundInterval;
+    protected float maidSoundRate;
 
     public EntityLittleMaidBase(World par1World) {
         super(par1World);
@@ -136,6 +144,8 @@ public class EntityLittleMaidBase extends EntityTameable implements
         tiles = new TileContainer(this);
         registerExtendedProperties("maidTiles", tiles);
         mstatWorkingCount = new Counter(11, 10, -10);
+        maidDamegeSound = EnumSound.hurt;
+        maidSoundInterval = 0;
         //		multiModel = MultiModelManager.instance.getMultiModel("MMM_SR2");
         //		setModel("MMM_Aug");
 
@@ -344,6 +354,7 @@ public class EntityLittleMaidBase extends EntityTameable implements
             boolean lf;
             // サーバー側
             this.updateRemainsContract();
+            this.avatar.onUpdate();
 
             // Working!
             lf = mstatWorkingCount.isEnable();
@@ -463,6 +474,19 @@ public class EntityLittleMaidBase extends EntityTameable implements
         }
         //System.out.println(height + ":" + (worldObj.isRemote ? "C" : "S"));
 
+    }
+
+    //ターゲット解除
+    @Override
+    public void onKillEntity(EntityLivingBase par1EntityLiving) {
+        super.onKillEntity(par1EntityLiving);
+        if (isBloodsuck()) {
+            //          mod_LMM_littleMaidMob.Debug("nice Kill.");
+            playSound(EnumSound.laughter, true);
+        } else {
+            setTarget(null);
+            setAttackTarget(null);
+        }
     }
 
     /**
@@ -1181,8 +1205,198 @@ public class EntityLittleMaidBase extends EntityTameable implements
         return false;
     }
 
-    public boolean getIFF(Entity pTarget) {
-        return false;
+    //戦闘関係
+    public boolean getIFF(Entity pEntity) {
+        // 敵味方識別(敵=false)
+        if (pEntity == null || pEntity == mstatMasterEntity) {
+            return true;
+        }
+
+        int tt = IFF.getIFF(this.func_152113_b(), pEntity);
+        switch (tt) {
+        case IFF.iff_Enemy:
+            return false;
+        case IFF.iff_Friendry:
+            return true;
+        case IFF.iff_Unknown:
+            if (isBloodsuck()) {
+                // 血に餓えている時は敵
+                return false;
+            }
+            if (pEntity instanceof EntityLittleMaidBase) {
+                // お遊びモードのメイドには敵対しない
+                //if (((EntityLittleMaidBase)pEntity).mstatPlayingRole > ModePlaying.mpr_NULL) {
+                return true;
+                //}
+            }
+            if (pEntity instanceof EntityCreature) {
+                // 相手が何をターゲットにしているかで決まる
+                Entity et = ((EntityCreature) pEntity).getEntityToAttack();
+                if (et != null && et == mstatMasterEntity) {
+                    return false;
+                }
+                if (et == this) {
+                    return false;
+                }
+                if (et instanceof EntityLittleMaidBase) {
+                    // 同じマスターのメイドを攻撃対象としている
+                    if (((EntityLittleMaidBase) et).getMaidMasterEntity() == mstatMasterEntity) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+
+        default:
+            return false;
+        }
+    }
+
+    @Override
+    public boolean canAttackClass(Class par1Class) {
+        // IFFの設定、クラス毎の判定しかできないので使わない。
+        return true;
+    }
+
+    @Override
+    public boolean attackEntityAsMob(Entity par1Entity) {
+
+        // 正常時は回復優先処理
+        if (getHealth() < getMaxHealth() && !isBloodsuck() && inventory.hasItem(Items.sugar)) {
+            return true;
+        }
+
+        // 特殊な攻撃処理
+        if (modeController.isActiveModeClass() && modeController.getActiveModeClass().attackEntityAsMob(modeController.maidMode, par1Entity)) {
+            return true;
+        }
+
+        // 標準処理
+        swingController.setSwing(20, isBloodsuck() ? EnumSound.attack_bloodsuck : EnumSound.attack);
+        avatar.attackTargetEntityWithCurrentItem(par1Entity);
+        return true;
+    }
+
+    @Override
+    public boolean canAttackWithItem() {
+        if (ridingEntity != null && ridingEntity == mstatMasterEntity) {
+            return false;
+        } else {
+            return super.canAttackWithItem();
+        }
+    }
+
+    @Override
+    protected void damageEntity(DamageSource par1DamageSource, float par2) {
+        // ダメージソースに応じて音声変更
+        if (par1DamageSource == DamageSource.fall) {
+            maidDamegeSound = EnumSound.hurt_fall;
+        }
+        if (!par1DamageSource.isUnblockable() && isBlocking()) {
+            // ブロッキング
+            //          par2 = (1.0F + par2) * 0.5F;
+            littleMaidMob.Debug(String.format("Blocking success ID:%s, %f -> %f", this, par2, (par2 = (1.0F + par2) * 0.5F)));
+            maidDamegeSound = EnumSound.hurt_guard;
+        }
+
+        // 被ダメ
+        float llasthealth = getHealth();
+        if (par2 > 0 && modeController.getActiveModeClass() != null && !modeController.getActiveModeClass().damageEntity(modeController.maidMode, par1DamageSource, par2)) {
+            avatar.damageEntity(par1DamageSource, par2);
+
+            // ダメージを受けると待機を解除
+            setMaidWait(false);
+        }
+
+        if (llasthealth == getHealth() && maidDamegeSound == EnumSound.hurt) {
+            maidDamegeSound = EnumSound.hurt_nodamege;
+        }
+        littleMaidMob.Debug(String.format("GetDamage ID:%s, %s, %f/ %f", this, par1DamageSource.damageType, llasthealth - getHealth(), par2));
+        //      super.damageEntity(par1DamageSource, par2);
+    }
+
+    @Override
+    public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
+        Entity entity = par1DamageSource.getEntity();
+
+        // ダメージソースを特定して音声の設定
+        maidDamegeSound = EnumSound.hurt;
+        if (par1DamageSource == DamageSource.inFire || par1DamageSource == DamageSource.onFire || par1DamageSource == DamageSource.lava) {
+            maidDamegeSound = EnumSound.hurt_fire;
+        }
+        for (EntityModeBase lm : modeController.modeList) {
+            float li = lm.attackEntityFrom(par1DamageSource, par2);
+            if (li > 0)
+                return li == 1 ? false : true;
+        }
+
+        setMaidWait(false);
+        setMaidWaitCount(0);
+        if (par2 > 0) {
+            // 遊びは終わりだ！
+            setPlayingRole(0);
+            getNextEquipItem();
+        }
+        // ゲーム難易度によるダメージの補正
+        if (isContract() && (entity instanceof EntityLivingBase) || (entity instanceof EntityArrow)) {
+            if (worldObj.difficultySetting == EnumDifficulty.PEACEFUL) {
+                par2 = 0;
+            }
+            if (worldObj.difficultySetting == EnumDifficulty.EASY && par2 > 0) {
+                par2 = par2 / 2 + 1;
+            }
+            if (worldObj.difficultySetting == EnumDifficulty.HARD) {
+                par2 = (par2 * 3) / 2;
+            }
+        }
+
+        //      if (par2 == 0 && maidMode != mmode_Detonator) {
+        if (par2 == 0) {
+            // ノーダメージ
+            if (maidDamegeSound == EnumSound.hurt) {
+                maidDamegeSound = EnumSound.hurt_nodamege;
+            }
+            playSound(maidDamegeSound, true);
+            return false;
+        }
+
+        if (super.attackEntityFrom(par1DamageSource, par2)) {
+            //契約者の名前チェックはマルチ用
+            if (isContract() && entity != null) {
+                if (getIFF(entity) && !isPlaying()) {
+                    fleeingTick = 0;
+                    return true;
+                }
+            } else if (inventory.getCurrentItem() == null) {
+                return true;
+            }
+            fleeingTick = 0;
+            //            entityToAttack = entity;
+            /*
+            if (entity != null) {
+                setPathToEntity(worldObj.getPathEntityToEntity(this, entityToAttack, 16F, true, false, false, true));
+            }
+            if (maidMode == mmode_Healer && entity instanceof EntityLiving) {
+                // ヒーラーは薬剤で攻撃
+                maidInventory.currentItem = maidInventory.getInventorySlotContainItemPotion(true, 0, ((EntityLiving)entity).isEntityUndead() & isMaskedMaid);
+            }
+            */
+            return true;
+        } else {
+            return false;
+        }
+
+        //      return maidAvatar.attackEntityFrom(par1DamageSource, par2);
+    }
+
+    private void setPlayingRole(int i) {
+    }
+
+    // 効果音の設定
+    @Override
+    protected String getHurtSound() {
+        playSound(maidDamegeSound, true);
+        return null;
     }
 
     /**

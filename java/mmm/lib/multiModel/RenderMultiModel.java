@@ -143,7 +143,7 @@ public class RenderMultiModel extends RenderLiving {
     protected void renderEquippedItems(EntityLivingBase par1EntityLiving, float par2) {
         // ハードポイントの描画
         modelMain.renderItems(par1EntityLiving, this);
-        renderArrowsStuckInEntity(par1EntityLiving, par2);
+        //renderArrowsStuckInEntity(par1EntityLiving, par2);
     }
 
     @Override

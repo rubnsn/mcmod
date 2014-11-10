@@ -81,8 +81,6 @@ public class SwingController implements IExtendedEntityProperties {
     public void setSwinging(int pArm, EnumSound pSound) {
         if (mstatSwingStatus[pArm].setSwinging()) {
             maid.playLittleMaidSound(pSound, true);
-            maid.avatar.swingProgressInt = -1;
-            maid.avatar.isSwingInProgress = true;
         }
     }
 
