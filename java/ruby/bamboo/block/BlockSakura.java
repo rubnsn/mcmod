@@ -48,17 +48,13 @@ public class BlockSakura extends BlockSapling implements IGrowable {
 
     @Override
     public void updateTick(World world, int i, int j, int k, Random random) {
-        if (!world.isRemote) {
-            if (world.getBlockLightValue(i, j + 1, k) >= 9 && random.nextInt(30) == 0) {
-                growTree(world, i, j, k, random, 0x0f);
-            }
-        }
+        super.updateTick(world, i, j, k, random);
     }
 
     public void growTree(World world, int i, int j, int k, Random random, int dmg) {
         int l = world.getBlockMetadata(i, j, k) & 3;
         world.setBlockToAir(i, j, k);
-        Object obj = null;
+        WorldGenerator obj = null;
 
         if (random.nextInt(10) == 0) {
             obj = new WorldGenBigSakura(true, dmg);
@@ -66,7 +62,7 @@ public class BlockSakura extends BlockSapling implements IGrowable {
             obj = new WorldGenSakura(true, dmg);
         }
 
-        if (!((WorldGenerator) (obj)).generate(world, random, i, j, k)) {
+        if (!obj.generate(world, random, i, j, k)) {
             world.setBlock(i, j, k, this, dmg, 0);
         }
     }
@@ -87,6 +83,12 @@ public class BlockSakura extends BlockSapling implements IGrowable {
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int p_149691_1_, int p_149691_2_) {
         return this.blockIcon;
+    }
+
+    //成長
+    @Override
+    public void func_149878_d(World world, int posX, int posY, int posZ, Random rand) {
+        growTree(world, posX, posY, posZ, rand, 0x0F);
     }
 
     @Override

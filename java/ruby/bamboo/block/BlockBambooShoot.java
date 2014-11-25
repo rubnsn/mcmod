@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.IGrowable;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -15,17 +16,14 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.BonemealEvent;
 import ruby.bamboo.BambooCore;
 import ruby.bamboo.CustomRenderHandler;
 import ruby.bamboo.render.block.RenderCoordinateBlock.ICoordinateRenderType;
-import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockBambooShoot extends Block implements ICoordinateRenderType {
+public class BlockBambooShoot extends Block implements ICoordinateRenderType,
+        IGrowable {
     protected static final ArrayList<Block> bambooList = new ArrayList<Block>();
 
     public BlockBambooShoot() {
@@ -34,41 +32,32 @@ public class BlockBambooShoot extends Block implements ICoordinateRenderType {
         setBlockBounds(0.3F, 0.0F, 0.3F, 0.7F, 0.5F, 0.7F);
         setHardness(0F);
         setResistance(0F);
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    @SubscribeEvent
-    public void onBonemealEvent(BonemealEvent event) {
-        if (event.block == this) {
-            if (event.entityPlayer.capabilities.isCreativeMode) {
-                event.setCanceled(true);
-            }
-            if (!event.world.isRemote) {
-                event.world.playAuxSFX(2005, event.x, event.y, event.z, 0);
-            }
-            tryBambooGrowth(event.world, event.x, event.y, event.z, 0.75F);
-            event.setResult(Result.ALLOW);
-        }
     }
 
     @Override
-    public void updateTick(World world, int i, int j, int k, Random random) {
-        tryBambooGrowth(world, i, j, k, world.isRaining() ? 0.25F : 0.125F);
+    public void updateTick(World world, int x, int y, int z, Random random) {
+        tryBambooGrowth(world, x, y, z, random, world.isRaining() ? 0.25F : 0.125F);
     }
 
-    private void tryBambooGrowth(World world, int x, int y, int z, float probability) {
+    private void tryBambooGrowth(World world, int x, int y, int z, Random random, float probability) {
         if (!world.isRemote) {
-            if (canChildGrow(world, x, y, z)) {
+            if (random.nextFloat() < probability && canChildGrow(world, x, y, z)) {
                 world.setBlock(x, y, z, bambooList.get(world.rand.nextInt(bambooList.size())), 0, 3);
             }
         }
     }
 
-    public static boolean canChildGrow(World world, int i, int j, int k) {
-        Chunk chunk = world.getChunkFromChunkCoords(i >> 4, k >> 4);
-        i &= 0xf;
-        k &= 0xf;
-        return chunk.getBlockLightValue(i, j, k, 15) > 7;
+    public boolean canChildGrow(World world, int i, int j, int k) {
+        //頭上が空気以外だったら成長させない置物処理
+        boolean flg = world.getBlock(i, j + 1, k) == Blocks.air;
+
+        if (flg) {
+            Chunk chunk = world.getChunkFromChunkCoords(i >> 4, k >> 4);
+            i &= 0xf;
+            k &= 0xf;
+            flg = chunk.getBlockLightValue(i, j, k, 15) > 7;
+        }
+        return flg;
     }
 
     @Override
@@ -155,5 +144,23 @@ public class BlockBambooShoot extends Block implements ICoordinateRenderType {
     @SideOnly(Side.CLIENT)
     public String getItemIconName() {
         return BambooCore.resourceDomain + "bambooshoot";
+    }
+
+    //最大成長状態？
+    @Override
+    public boolean func_149851_a(World world, int x, int y, int z, boolean var5) {
+        return true;
+    }
+
+    //骨粉は有効か
+    @Override
+    public boolean func_149852_a(World world, Random rand, int x, int y, int z) {
+        return true;
+    }
+
+    //骨粉を使用された時に呼ばれる
+    @Override
+    public void func_149853_b(World world, Random rand, int x, int y, int z) {
+        tryBambooGrowth(world, x, y, z, rand, 0.75F);
     }
 }

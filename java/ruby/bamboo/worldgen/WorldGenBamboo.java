@@ -21,7 +21,7 @@ public class WorldGenBamboo extends WorldGenerator {
             posZ = par5 + par2Random.nextInt(8) - par2Random.nextInt(8);
             Block blockid = par1World.getBlock(posX, posY - 1, posZ);
 
-            if (par1World.isAirBlock(posX, posY, posZ) && !BlockBambooShoot.canChildGrow(par1World, posX, posY, posZ)) {
+            if (par1World.isAirBlock(posX, posY, posZ) && !((BlockBambooShoot) BambooInit.bambooShoot).canChildGrow(par1World, posX, posY, posZ)) {
                 if (blockid == Blocks.grass || blockid == Blocks.dirt) {
                     par1World.setBlock(posX, posY, posZ, BambooInit.bambooShoot, 0, 0);
                 }

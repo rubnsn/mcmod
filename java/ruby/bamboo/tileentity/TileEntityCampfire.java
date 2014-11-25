@@ -20,7 +20,7 @@ public class TileEntityCampfire extends TileEntityEnergyUser implements
         ISidedInventory {
     private int meatroll;
     private static final int[] slotsTop = new int[] { 0 };
-    private static final int[] slotsBottom = new int[] { 9, 10 };
+    private static final int[] slotsBottom = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
     private static final int[] slotsSides = new int[] { 9 };
     private ItemStack[] slots = new ItemStack[11];
     private ItemStack[] copyMatrix = new ItemStack[9];
@@ -143,7 +143,7 @@ public class TileEntityCampfire extends TileEntityEnergyUser implements
         for (int i = 0; i < 9; i++) {
             if (slots[i] != null) {
                 if (--slots[i].stackSize == 0) {
-                    slots[i] = null;
+                    slots[i] = slots[i].getItem().getContainerItem(slots[i]);
                 }
             }
         }
@@ -273,25 +273,21 @@ public class TileEntityCampfire extends TileEntityEnergyUser implements
 
     @Override
     public ItemStack decrStackSize(int var1, int var2) {
+        ItemStack itemstack = null;
         if (this.slots[var1] != null) {
-            ItemStack itemstack;
-
             if (this.slots[var1].stackSize <= var2) {
                 itemstack = this.slots[var1];
                 this.slots[var1] = null;
-                return itemstack;
             } else {
                 itemstack = this.slots[var1].splitStack(var2);
 
                 if (this.slots[var1].stackSize == 0) {
                     this.slots[var1] = null;
                 }
-
-                return itemstack;
             }
-        } else {
-            return null;
         }
+
+        return itemstack;
     }
 
     @Override
@@ -358,8 +354,8 @@ public class TileEntityCampfire extends TileEntityEnergyUser implements
     }
 
     @Override
-    public boolean canExtractItem(int var1, ItemStack var2, int var3) {
-        return var3 != 0 || var1 != 9 || var2.getItem() == Items.bucket;
+    public boolean canExtractItem(int slot, ItemStack item, int side) {
+        return item.getItem() == Items.bucket || slot == 10;
     }
 
     public int getCookAmount() {

@@ -4,11 +4,9 @@ import java.io.File;
 import java.util.Map;
 
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin.MCVersion;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
 
 @TransformerExclusions({ "ruby.bamboo.asm" })
-@MCVersion("1.7.2")
 public class CorePlugin implements IFMLLoadingPlugin {
     static File location;
 
