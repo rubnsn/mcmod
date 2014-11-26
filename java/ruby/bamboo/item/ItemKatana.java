@@ -14,6 +14,7 @@ import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -55,19 +56,25 @@ public class ItemKatana extends ItemSword {
 
     @Override
     public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase) {
-        par2EntityLivingBase.attackEntityFrom(DamageSource.causeMobDamage(par3EntityLivingBase), getDamageVsEntity(par2EntityLivingBase));
-        if (!par2EntityLivingBase.worldObj.isRemote) {
-            if (par2EntityLivingBase.hurtResistantTime == par2EntityLivingBase.maxHurtResistantTime) {
-                if (par2EntityLivingBase.getHealth() <= 0) {
-                    ItemStack drop = KatanaDropManager.getRandomDrop(EntityList.getClassFromID(EntityList.getEntityID(par2EntityLivingBase)));
-                    if (drop != null) {
-                        par2EntityLivingBase.entityDropItem(drop, 0.0F);
+        return super.hitEntity(par1ItemStack, par2EntityLivingBase, par3EntityLivingBase);
+    }
+
+    @Override
+    public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
+        entity.attackEntityFrom(DamageSource.causePlayerDamage(player), getDamageVsEntity(entity));
+        if (!entity.worldObj.isRemote) {
+            if (entity instanceof EntityLivingBase) {
+                if (entity.hurtResistantTime == ((EntityLivingBase) entity).maxHurtResistantTime) {
+                    if (((EntityLivingBase) entity).getHealth() <= 0) {
+                        ItemStack drop = KatanaDropManager.getRandomDrop(EntityList.getClassFromID(EntityList.getEntityID(entity)));
+                        if (drop != null) {
+                            entity.entityDropItem(drop, 0.0F);
+                        }
                     }
                 }
             }
         }
-
-        return super.hitEntity(par1ItemStack, par2EntityLivingBase, par3EntityLivingBase);
+        return true;
     }
 
     @Override

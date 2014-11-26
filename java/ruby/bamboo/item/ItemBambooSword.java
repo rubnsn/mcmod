@@ -14,6 +14,7 @@ import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -52,8 +53,13 @@ public class ItemBambooSword extends ItemSword {
 
     @Override
     public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase) {
-        par2EntityLivingBase.attackEntityFrom(DamageSource.causeMobDamage(par2EntityLivingBase), this.getDamageVsEntity(par2EntityLivingBase));
         return super.hitEntity(par1ItemStack, par2EntityLivingBase, par3EntityLivingBase);
+    }
+
+    @Override
+    public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
+        entity.attackEntityFrom(DamageSource.causePlayerDamage(player), this.getDamageVsEntity(entity));
+        return true;
     }
 
     public float getDamageVsEntity(Entity par1Entity) {
