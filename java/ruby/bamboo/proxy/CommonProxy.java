@@ -22,6 +22,7 @@ import ruby.bamboo.entity.magatama.EntityShield;
 import ruby.bamboo.entity.magatama.EntityThunderStorm;
 import ruby.bamboo.entity.villager.EntityTrueVillager;
 import ruby.bamboo.entity.villager.EntityVillagerHead;
+import ruby.bamboo.item.ItemKatana;
 import ruby.bamboo.tileentity.TileEntityAndon;
 import ruby.bamboo.tileentity.TileEntityCampfire;
 import ruby.bamboo.tileentity.TileEntityHuton;
@@ -72,6 +73,8 @@ public class CommonProxy {
         GeneraterHandler.init();
         // くらふとはんどら
         FMLCommonHandler.instance().bus().register(new CraftingHandler());
+        // Katanaのクラスを追加
+        FMLCommonHandler.instance().bus().register(new ItemKatana());
         // block & item init 分割1
         new BambooInit();
         // name init 分割2

@@ -14,6 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.StatCollector;
 import ruby.bamboo.item.ItemBambooPickaxe;
+import ruby.bamboo.item.ItemKatana;
 import ruby.bamboo.item.ItemSack;
 import ruby.bamboo.item.enchant.BambooEnchantment;
 import ruby.bamboo.item.enchant.EnchantBase;

@@ -24,18 +24,38 @@ import ruby.bamboo.BambooCore;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemKatana extends ItemSword {
     private final float weaponDamage;
     private final short tick = 0;
+    
+    //crafting event用
+    private static boolean repair;
 
     public ItemKatana() {
         super(Item.ToolMaterial.IRON);
         this.setMaxDamage(150);
         weaponDamage = 0;
         this.setContainerItem(this);
+    }
+    
+    /**
+     * 刀の無限増殖対策をここに追加
+     * @author defeatedcrow 2015.4.12
+     */
+    @SubscribeEvent
+	public void onCraftingEvent(PlayerEvent.ItemCraftedEvent event) {
+        repair = (event.crafting != null && event.crafting.getItem() instanceof ItemKatana);
+    }
+    
+    @Override
+    public boolean hasContainerItem()
+    {
+    	return !repair;
     }
 
     @Override
@@ -46,7 +66,7 @@ public class ItemKatana extends ItemSword {
     @Override
     public ItemStack getContainerItem(ItemStack itemStack) {
         itemStack.setItemDamage(itemStack.getItemDamage() + 1);
-        return itemStack;
+        return !repair ? itemStack : (ItemStack)null;
     }
 
     @Override
@@ -72,6 +92,11 @@ public class ItemKatana extends ItemSword {
                         }
                     }
                 }
+                /**
+                 * hitEntityメソッドが呼ばれなくなっていそうなのでここで呼ぶことにした
+                 * @author defeatedcrow 2015.4.12
+                 */
+                this.hitEntity(stack, player, (EntityLivingBase)entity);
             }
         }
         return true;
