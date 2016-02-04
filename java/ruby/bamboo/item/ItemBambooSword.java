@@ -59,6 +59,13 @@ public class ItemBambooSword extends ItemSword {
     @Override
     public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
         entity.attackEntityFrom(DamageSource.causePlayerDamage(player), this.getDamageVsEntity(entity));
+        if (entity != null && entity instanceof EntityLivingBase) {
+        	/**
+             * hitEntityメソッドが呼ばれなくなっていそうなのでここで呼ぶことにした
+             * @author defeatedcrow 2015.4.12
+             */
+            this.hitEntity(stack, player, (EntityLivingBase)entity);
+        }
         return true;
     }
 
@@ -137,7 +144,11 @@ public class ItemBambooSword extends ItemSword {
                 }
             }
 
-            dmg += ((EntityLiving) par1Entity).getTotalArmorValue() / 2;
+            /**
+             * EntityPlayerMPからのキャストエラーが出ていたのでEntityLiving -> EntityLivingBaseに変更
+             * @author defeatedcrow 2015.4.12
+             */
+            dmg += ((EntityLivingBase) par1Entity).getTotalArmorValue() / 2;
         }
 
         return dmg;

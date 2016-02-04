@@ -46,7 +46,12 @@ public class ItemCookBook extends Item {
                         stb.append(getLocalizedName((ItemStack) obj));
                     } else if (obj instanceof List) {
                         stb.append("[");
-                        stb.append(getLocalizedName(((List<ItemStack>) obj).get(0)) + ",");
+                        if (!((List)obj).isEmpty()){
+                        	stb.append(getLocalizedName(((List<ItemStack>) obj).get(0)) + ",");
+                        }
+                        else {
+                        	stb.append("Null");
+                        }
                         stb.deleteCharAt(stb.length() - 1);
                         stb.append("]");
                     }
